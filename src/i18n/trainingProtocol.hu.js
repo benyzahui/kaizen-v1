@@ -1,0 +1,266 @@
+/**
+ * Dragon Training OS — protocol copy (HU).
+ */
+
+module.exports = {
+  tMorningHeader: "Reggeli mantra:",
+  tMorningFooter: "Aztán: /energy → egy küldetés-lépés → /evening",
+
+  tProgramTitle: "Dragon Training — napi szerkezet",
+  tProgramBody: [
+    "Dragon Training — napi szerkezet",
+    "",
+    "1. Reggeli mantra — /morning",
+    "2. Energia ellenőrzés — /energy",
+    "3. Egy küldetés-lépés — /mission",
+    "4. Test fegyelem — /body vagy /breath",
+    "5. Esti tükör — /evening",
+    "",
+    "Ma nem arról szól, hogy mindent megcsinálsz.",
+    "Hanem arról, hogy benn maradsz a folyamatban.",
+    "",
+    "Rajta: /morning"
+  ].join("\n"),
+
+  tTodayBody: [
+    "Ma (training keret):",
+    "",
+    "• Mantra: /morning",
+    "• Energia: /energy",
+    "• Küldetés sor: /mission",
+    "• Egy testi horgony: /breath vagy /walk",
+    "• Zárás: /evening",
+    "",
+    "Egy sáv. Egy nap. Nem alkuszol a szétfolyással."
+  ].join("\n"),
+
+  tMissionEmpty: [
+    "Küldetés (training):",
+    "Még nincs egy soros küldetés tárolva.",
+    "",
+    "Írj egyet:",
+    "/mission a te egy soros küldetésed",
+    "",
+    "Vagy előbb rögzíts 30 napos célt: /setup"
+  ].join("\n"),
+
+  tMissionStored: (line) =>
+    [
+      "Küldetés rögzítve:",
+      line,
+      "",
+      "Szabály: egy látható lépés ebbe az irányba, mielőtt új szálat nyitsz.",
+      "Zárás: /done"
+    ].join("\n"),
+
+  tMissionUpdateHint: "Frissítés: /mission az új egy soros küldetés",
+
+  tDoneBody: [
+    "Kész (training):",
+    "Nevezd meg, mit zártál le — akár kicsit is.",
+    "Elismerés produkció nélkül.",
+    "",
+    "Ha ma az ellenállás nyert: /procrastination",
+    "Ha holnap előtt el kell engedni valamit: /lettinggo",
+    "",
+    "Következő: /evening vagy /mirror"
+  ].join("\n"),
+
+  tEveningMirror: [
+    "Esti tükör:",
+    "",
+    "1) Mit fejeztél be — egy sorban?",
+    "2) Hol jött elő ellenállás — egy szóban?",
+    "3) Mit tanultál — egy mondatban?",
+    "4) Mit kell elengedni holnap előtt — egy lélegzet, egy név?",
+    "",
+    "Nincs ítélet. Csak őszinte zárás.",
+    "Holnap: /morning"
+  ].join("\n"),
+
+  tProcrastinationProtocol: [
+    "Halogatás protokoll:",
+    "",
+    "A halogatás nem lustaság.",
+    "Ellenállás, félelem, vagy irány nélküli energia.",
+    "",
+    "1. Nevezd meg a kerülendő feladatot.",
+    "2. Tedd kisebbé.",
+    "3. Kezdj el 5 percet.",
+    "4. Jelents vissza: /done"
+  ].join("\n"),
+
+  tLettingGoProtocol: [
+    "Elengedés protokoll:",
+    "",
+    "1. Lélegezz — kilégzés hosszabb, három kör.",
+    "2. Nevezd meg, mit engedsz el — egy mondat.",
+    "3. Érezni a testben — öt másodperc, történet nélkül.",
+    "4. Ne túlgondold — egy szimbolikus tett (lap bezár, telefon másik szobába).",
+    "5. Vissza a jelenbe — láb, légzés, egy fizikai lépés.",
+    "",
+    "Aztán: /mission vagy /focus"
+  ].join("\n"),
+
+  tFocusLaneNudge: [
+    "Sávot váltasz.",
+    "Ez nem tisztánlátás. Menekülés.",
+    "",
+    "Térj vissza a választott küldetéshez.",
+    "Használd: /focus vagy /clear."
+  ].join("\n"),
+
+  tResistanceProtocol: [
+    "Ellenállás (training olvasat):",
+    "Az ellenállás információ — nem jellembíró ítélet.",
+    "",
+    "Nevezd meg a kerülendő lépést egy sorban.",
+    "Aprítsd öt percre.",
+    "Kezdj csúnyán. Zárj láthatóan.",
+    "",
+    "Ha a test zajos: /breath",
+    "Ha a történet hangos: /mirror"
+  ].join("\n"),
+
+  tBusinessMenu: [
+    "Business aréna — melyik sáv ma?",
+    "",
+    "1. Adminisztráció",
+    "2. Értékesítés",
+    "3. Analitika",
+    "4. Trading (üzleti fegyelem, nem felhajtás)",
+    "",
+    "Parancs: /business admin | /business sales | /business analytics | /business trading",
+    "Vagy: /admin /sales /analytics — végrehajtás: /trade /check /risk"
+  ].join("\n"),
+
+  tBusinessAdmin: [
+    "Admin sáv:",
+    "Rendezés, dokumentálás, jövőbeli énednek át nem hagyott adósság.",
+    "Egy lezárt ciklus: fájl, címke, archívum.",
+    "",
+    "Kész: /done"
+  ].join("\n"),
+
+  tBusinessSales: [
+    "Sales sáv:",
+    "Outreach, ajánlat tisztaság, követés — ha az érték valódi.",
+    "Egy beszéd vagy egy üzenet — kiküldve.",
+    "",
+    "Kész: /done"
+  ].join("\n"),
+
+  tBusinessAnalytics: [
+    "Analitika sáv:",
+    "Adat és viselkedés — minták, nem hangulat.",
+    "Egy grafikon, egy hipotézis, egy döntés.",
+    "",
+    "Következő: /focus — egy mérték ma."
+  ].join("\n"),
+
+  tBusinessTrading: [
+    "Trading (üzleti fegyelem) sáv:",
+    "Kockázat először. Nincs hős trade. Folyamat a narratíva helyett.",
+    "",
+    "Lánc: /check → /risk → /trade (csak ha mindkettő ok)",
+    "Ha fáradt: /notrade"
+  ].join("\n"),
+
+  tMoonPortal: [
+    "Hold (training):",
+    "Nem találunk ki pontos holdfázist élő adat nélkül.",
+    "Őszinte napi keret + cselekvés: /energy",
+    "",
+    "Rövid horgony: lassítsd a bemeneteket; a test vezessen döntés előtt."
+  ].join("\n"),
+
+  tNumerologyPortal: [
+    "Numerológia (training):",
+    "A nap rezgése kontextus — nem sors.",
+    "Teljes szerkezetes olvasat: /energy",
+    "",
+    "Egy tett: zárj le egy nyitott kört új előtt."
+  ].join("\n"),
+
+  tAstroPortal: [
+    "Asztrológia (training):",
+    "Évszak minőség — nincs chart-színház, nincs jóslás.",
+    "Földelt napi keret: /energy",
+    "",
+    "Egy tett: munkaterhelés az évszak kéréséhez igazítva."
+  ].join("\n"),
+
+  tMantraSameAsMorning:
+    "A mantra a /morning része — rövid, kimondható, ismételhető. Futtasd: /morning.",
+
+  tMorningMantras: {
+    trading: [
+      "Ma nem alkuszom az impulzussal.\nElőbb a kockázat.\nNincs trade, amihez történet kell igazolásnak.",
+      "Ma a piac nem tartozik nekem tisztánlátással.\nA setupomra várok — vagy kiszállok.",
+      "Ma a tőkét oxigénként védem.\nA türelem is végrehajtás."
+    ],
+    business: [
+      "Ma nem alkuszom a káosszal.\nEgy utat választok.\nEgy tiszta tettet befejezek.",
+      "Ma a mélység veri a láthatóságot.\nEgy szállított darab tíz piszkozat helyett.",
+      "Ma szerkezettel vezetek — két órára törvény a naptár."
+    ],
+    physical: [
+      "Ma a test vezet.\nAlvás, üzemanyag, mozgás — ebben a sorrendben.\nNincs hősies üres tankkal.",
+      "Ma az erő unalmas ismétlés.\nEgy őszinte szett.",
+      "Ma a regeneráció része az edzésnek.\nMegállok, mielőt hazudnék magamnak."
+    ],
+    emotional: [
+      "Ma elnevezem az érzést anélkül, hogy parancsolna.\nA nyugalom nem zsibbadtság — irányított.",
+      "Ma nem spirálozom szórakozásból.\nEgy igazság, egy határ, egy lélegzet.",
+      "Ma az együttérzés határt is jelent — magamnak először."
+    ],
+    spiritual: [
+      "Ma az energia irányt kap.\nÉrzékelés cselekvés nélkül csúszka — egy földelt lépést veszek.",
+      "Ma ciklust olvasok determinizmus nélkül.\nEgyszerűsítem a bemenetet; figyelek a testre.",
+      "Ma a szellem a kis dolgok fegyelme.\nA szent: következetes."
+    ],
+    selfdev: [
+      "Ma a növekedés egy ismétlés.\nVitánincs a szabály után.",
+      "Ma drámát cserélek ismétlésre.\nTíz perc, egy képesség, egy bizonyíték.",
+      "Ma a cselekvés formál identitást — nem fordítva."
+    ],
+    mixed: [
+      "Ma nem alkuszom a káosszal.\nEgy utat választok.\nEgy tiszta tettet befejezek.",
+      "Ma egy sáv egyszerre.\nA mélység a fegyver.",
+      "Ma a fegyelem szeretet fogakkal — megtartom a szavam magammal."
+    ],
+    default: [
+      "Ma nem alkuszom a káosszal.\nEgy utat választok.\nEgy tiszta tettet befejezek.",
+      "Ma a folyamathoz térek vissza — nem a hangulathoz.",
+      "Ma egy tiszta lépés veri a tökéletes tervet."
+    ]
+  },
+
+  tHelpTrainingMap: [
+    "KaiZen Training térkép",
+    "",
+    "Napi:",
+    "/program /morning /pulse /focus /mirror /evening /today",
+    "",
+    "Átalakulás:",
+    "/discipline /resistance /procrastination /shadow /lettinggo /identity /lockin",
+    "",
+    "Test:",
+    "/body /breath /walk /train /sleep /recovery",
+    "",
+    "Energia:",
+    "/energy /moon /numerology /astro /ground /recenter",
+    "",
+    "Business:",
+    "/business /admin /sales /analytics",
+    "",
+    "Trading:",
+    "/trade /check /risk /cooldown /notrade",
+    "",
+    "Profil:",
+    "/setup /profile /mission /clear /status /language"
+  ].join("\n"),
+
+  tProfileMissionLine: "Küldetés (training):",
+  tProfileTrainingStyle: "Training stílus:"
+};

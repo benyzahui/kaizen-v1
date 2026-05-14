@@ -166,7 +166,7 @@ module.exports = {
     "/plan /clarity /path /question",
     "",
     "Profile:",
-    "/setup /profile /guide /status /language /clear",
+    "/setup /profile /guide /status /language /clear /program /mission /today",
     "",
     "You can also speak naturally.",
     "I will steer you back to structure when the chat drifts."

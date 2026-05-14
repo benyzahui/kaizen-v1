@@ -1,9 +1,10 @@
 const rituals = require("./rituals.en");
 const onboardingStrings = require("./onboardingCopy.en");
+const trainingProtocol = require("./trainingProtocol.en");
 
 module.exports = {
   start:
-    "KaiZen online. Small daily alignment creates massive long-term transformation.",
+    "KaiZen online. A structured training companion — daily alignment, discipline, long-term transformation.",
 
   help: [
     "KaiZen system map:",
@@ -417,5 +418,6 @@ module.exports = {
     ].join("\n\n")
   },
 
+  ...trainingProtocol,
   ...onboardingStrings
 };

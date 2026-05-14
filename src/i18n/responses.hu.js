@@ -1,9 +1,10 @@
 const rituals = require("./rituals.hu");
 const onboardingStrings = require("./onboardingCopy.hu");
+const trainingProtocol = require("./trainingProtocol.hu");
 
 module.exports = {
   start:
-    "KaiZen elérhető. A napi kis igazítás hosszú távon mély változást hoz.",
+    "KaiZen elérhető. Strukturált training társ — napi igazítás, fegyelem, hosszú távú változás.",
 
   help: [
     "KaiZen térkép:",
@@ -416,5 +417,6 @@ module.exports = {
     ].join("\n\n")
   },
 
+  ...trainingProtocol,
   ...onboardingStrings
 };

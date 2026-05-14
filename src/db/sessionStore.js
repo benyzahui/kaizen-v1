@@ -16,7 +16,12 @@ const EPHEMERAL_KEYS = [
   "smallStepAskUses",
   "recentCoachSnippets",
   "recentCommands",
-  "lastEmotion"
+  "lastEmotion",
+  "dailyTask",
+  "programMode",
+  "lastMantraDate",
+  "lastMirrorDate",
+  "focusLocked"
 ];
 
 /**

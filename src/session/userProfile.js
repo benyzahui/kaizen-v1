@@ -4,6 +4,8 @@
  */
 
 const DEFAULT_USER_PROFILE = {
+  currentMission: null,
+  preferredTrainingStyle: null,
   userPrimaryPath: null,
   userPrimaryPathNote: null,
   userGoal30Days: null,

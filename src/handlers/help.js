@@ -72,7 +72,7 @@ function buildHelpReply(lang, session = {}) {
     tip = r.helpTipLight || r.helpTipDefault;
   }
 
-  const grouped = r.helpGrouped || r.help;
+  const grouped = r.tHelpTrainingMap || r.helpGrouped || r.help;
   const suggest = buildSuggestedNextLine(session, r);
 
   return lines(

@@ -25,6 +25,7 @@ const {
 } = require("./onboarding");
 const { updateSession } = require("../session/sessionStore");
 const { clearRemoteSession } = require("../db/syncState");
+const { handleTrainingCommand } = require("./dragonTraining");
 
 function uid(message) {
   return String(message.from?.id ?? message.chat?.id ?? "");
@@ -138,6 +139,12 @@ async function routeCommandMessage(message, session) {
       break;
     }
     default: {
+      const trainReply = handleTrainingCommand(command, message, session, lang);
+      if (trainReply !== null) {
+        handler = `training:${command}`;
+        reply = trainReply;
+        break;
+      }
       const ritual = ritualFromResponses(r, command);
       if (ritual) {
         handler = `ritual:${command}`;

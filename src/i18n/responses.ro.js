@@ -1,9 +1,10 @@
 const rituals = require("./rituals.ro");
 const onboardingStrings = require("./onboardingCopy.ro");
+const trainingProtocol = require("./trainingProtocol.ro");
 
 module.exports = {
   start:
-    "KaiZen online. Alinierea zilnică mică aduce transformare mare în timp.",
+    "KaiZen online. Companion de training structurat — aliniere zilnică, disciplină, transformare pe termen lung.",
 
   help: [
     "Harta sistemului KaiZen:",
@@ -416,5 +417,6 @@ module.exports = {
     ].join("\n\n")
   },
 
+  ...trainingProtocol,
   ...onboardingStrings
 };

@@ -58,7 +58,31 @@ function nextStepHint(cat, lastCmd, r) {
       "/setup",
       "/skip",
       "/language",
-      "/clear"
+      "/clear",
+      "/program",
+      "/today",
+      "/mission",
+      "/done",
+      "/morning",
+      "/mantra",
+      "/evening",
+      "/procrastination",
+      "/lettinggo",
+      "/resistance",
+      "/business",
+      "/admin",
+      "/sales",
+      "/analytics",
+      "/moon",
+      "/numerology",
+      "/astro",
+      "/pulse",
+      "/mirror",
+      "/energy",
+      "/focus",
+      "/trade",
+      "/plan",
+      "/reset"
     ].includes(lastCmd)
   )
     return r.statusNextLastCommand;
@@ -88,7 +112,8 @@ function profileBlock(session, lang) {
     session.onboardingActive ||
     session.userPrimaryPath ||
     (session.userGoal30Days && String(session.userGoal30Days).trim()) ||
-    session.userMainObstacle;
+    session.userMainObstacle ||
+    session.currentMission?.trim();
   if (!show) return null;
   const pref =
     session.preferredLanguage === "auto"
@@ -115,7 +140,10 @@ function profileBlock(session, lang) {
       r.profileNotSet
     }`,
     `${r.profileLangPref}: ${pref}`,
-    `${r.profileOnboarding}: ${setup}`
+    `${r.profileOnboarding}: ${setup}`,
+    ...(session.currentMission?.trim()
+      ? [`${r.tProfileMissionLine} ${session.currentMission.trim()}`]
+      : [])
   );
 }
 
@@ -140,7 +168,31 @@ function buildStatusReply(message, session, lang) {
     "/setup",
     "/skip",
     "/language",
-    "/clear"
+    "/clear",
+    "/program",
+    "/today",
+    "/mission",
+    "/done",
+    "/morning",
+    "/mantra",
+    "/evening",
+    "/procrastination",
+    "/lettinggo",
+    "/resistance",
+    "/business",
+    "/admin",
+    "/sales",
+    "/analytics",
+    "/moon",
+    "/numerology",
+    "/astro",
+    "/pulse",
+    "/mirror",
+    "/energy",
+    "/focus",
+    "/trade",
+    "/plan",
+    "/reset"
   ]);
   const mode =
     lastCmdRaw && !metaCmds.has(lastCmdRaw)

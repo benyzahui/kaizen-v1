@@ -23,7 +23,9 @@ const PROFILE_AND_LOCK_KEYS = [
   "onboardingActive",
   "onboardingSkipped",
   "onboardingStep",
-  "programLane"
+  "programLane",
+  "currentMission",
+  "preferredTrainingStyle"
 ];
 const { replyFingerprint } = require("../conversation/replyFingerprint");
 const { countBannedPhraseHits } = require("../conversation/bannedPhrases");
@@ -77,6 +79,11 @@ function emptySession() {
     recentCommands: [],
     conversationState: null,
     lastTopic: null,
+    dailyTask: null,
+    programMode: null,
+    lastMantraDate: null,
+    lastMirrorDate: null,
+    focusLocked: false,
     lastAt: Date.now()
   };
 }

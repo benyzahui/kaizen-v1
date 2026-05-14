@@ -20,11 +20,13 @@ const {
 } = require("./balanceProtocol");
 const {
   isSessionCategoryLoop,
-  isTripleSameEmotionalText
+  isTripleSameEmotionalText,
+  updateSession
 } = require("../session/sessionStore");
 const { appendAdaptiveLine } = require("../companion/adaptive");
 const { buildEnergyFromOpenText } = require("./energyHandler");
 const { pickUnseenVariant } = require("../conversation/responseVariation");
+const { detectLaneWandering } = require("../conversation/focusLane");
 
 const COACH_HEAVY = new Set([
   "emotional_reflection",
@@ -49,7 +51,7 @@ function wrapAdaptive(session, lang, text, category, replyBody) {
 }
 
 /**
- * Shape-variation + banned comfort phrases + adaptive suffix.
+ * @param {string|number} userId
  * @param {object} session
  * @param {'en'|'hu'|'ro'} lang
  * @param {string} text
@@ -57,15 +59,25 @@ function wrapAdaptive(session, lang, text, category, replyBody) {
  * @param {string} body
  * @param {object} r
  */
-function finalizeCoaching(session, lang, text, category, body, r) {
-  let b = variateIfSameShape(session, body, r);
+function finalizeCoaching(userId, session, lang, text, category, body, r) {
+  let b = body;
+  if (detectLaneWandering(session, category)) {
+    updateSession(userId, { focusLocked: true });
+    b = lines(r.tFocusLaneNudge, "", b);
+  }
+  b = variateIfSameShape(session, b, r);
   b = applyBannedPhraseRotation(session, b, r);
   return wrapAdaptive(session, lang, text, category, b);
 }
 
 /** Shorter open replies — no adaptive coaching suffix. */
-function finalizeLite(session, lang, text, category, body, r) {
-  let b = variateIfSameShape(session, body, r);
+function finalizeLite(userId, session, lang, text, category, body, r) {
+  let b = body;
+  if (detectLaneWandering(session, category)) {
+    updateSession(userId, { focusLocked: true });
+    b = lines(r.tFocusLaneNudge, "", b);
+  }
+  b = variateIfSameShape(session, b, r);
   b = applyBannedPhraseRotation(session, b, r);
   return b;
 }
@@ -194,7 +206,7 @@ function handleOpenConversation(message, lang, session) {
         : r.casualGreetingLines;
     const body = pickUnseenVariant(session, userId, pool);
     return {
-      reply: finalizeLite(session, lang, text, category, body, r),
+      reply: finalizeLite(userId, session, lang, text, category, body, r),
       category: "casual_greeting",
       suggestedAction: "/pulse"
     };
@@ -209,7 +221,7 @@ function handleOpenConversation(message, lang, session) {
     });
     const body = pickUnseenVariant(session, userId, r.lightConversationLines);
     return {
-      reply: finalizeLite(session, lang, text, category, body, r),
+      reply: finalizeLite(userId, session, lang, text, category, body, r),
       category: "light_conversation",
       suggestedAction: "/guide"
     };
@@ -223,7 +235,7 @@ function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     return {
-      reply: finalizeCoaching(session, lang, text, category, r.creatorEasterReply, r),
+      reply: finalizeCoaching(userId, session, lang, text, category, r.creatorEasterReply, r),
       category: "easter_creator",
       suggestedAction: "/guide"
     };
@@ -237,7 +249,7 @@ function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     return {
-      reply: finalizeCoaching(session, lang, text, category, r.helpIntentReply, r),
+      reply: finalizeCoaching(userId, session, lang, text, category, r.helpIntentReply, r),
       category: "help_intent",
       suggestedAction: "/guide"
     };
@@ -252,7 +264,7 @@ function handleOpenConversation(message, lang, session) {
     });
     const body = buildEnergyFromOpenText(text, lang);
     return {
-      reply: finalizeLite(session, lang, text, category, body, r),
+      reply: finalizeLite(userId, session, lang, text, category, body, r),
       category: "energy_question",
       suggestedAction: "/energy"
     };
@@ -266,7 +278,7 @@ function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     return {
-      reply: finalizeCoaching(session, lang, text, category, r.clarityIntentReply, r),
+      reply: finalizeCoaching(userId, session, lang, text, category, r.clarityIntentReply, r),
       category: "clarity_protocol",
       suggestedAction: "/clarity"
     };
@@ -281,6 +293,7 @@ function handleOpenConversation(message, lang, session) {
     });
     return {
       reply: finalizeCoaching(
+        userId,
         session,
         lang,
         text,
@@ -302,6 +315,7 @@ function handleOpenConversation(message, lang, session) {
     });
     return {
       reply: finalizeCoaching(
+        userId,
         session,
         lang,
         text,
@@ -323,7 +337,7 @@ function handleOpenConversation(message, lang, session) {
     });
     const body = pickUnseenVariant(session, userId, r.tradingContextBodies);
     return {
-      reply: finalizeCoaching(session, lang, text, category, body, r),
+      reply: finalizeCoaching(userId, session, lang, text, category, body, r),
       category: "trading_context",
       suggestedAction: "/trade"
     };
@@ -348,7 +362,7 @@ function handleOpenConversation(message, lang, session) {
       r
     );
     return {
-      reply: finalizeCoaching(session, lang, text, category, body, r),
+      reply: finalizeCoaching(userId, session, lang, text, category, body, r),
       category: "focus_drift",
       suggestedAction: "/focus"
     };
@@ -368,7 +382,7 @@ function handleOpenConversation(message, lang, session) {
       r
     );
     return {
-      reply: finalizeCoaching(session, lang, text, category, body, r),
+      reply: finalizeCoaching(userId, session, lang, text, category, body, r),
       category: "body_energy",
       suggestedAction: "/body"
     };
@@ -385,14 +399,14 @@ function handleOpenConversation(message, lang, session) {
     if (lastTwoCoachHeavy(session) && r.pacingReflectiveShortlines?.length) {
       body = pickUnseenVariant(session, userId, r.pacingReflectiveShortlines);
       return {
-        reply: finalizeLite(session, lang, text, category, body, r),
+        reply: finalizeLite(userId, session, lang, text, category, body, r),
         category: "reflective_open",
         suggestedAction: "/focus"
       };
     }
     body = pickUnseenVariant(session, userId, r.reflectivePrompts);
     return {
-      reply: finalizeCoaching(session, lang, text, category, body, r),
+      reply: finalizeCoaching(userId, session, lang, text, category, body, r),
       category: "reflective_open",
       suggestedAction: "/clarity"
     };
@@ -444,7 +458,7 @@ function handleOpenConversation(message, lang, session) {
   };
 
   return {
-    reply: finalizeCoaching(session, lang, text, category, body, r),
+    reply: finalizeCoaching(userId, session, lang, text, category, body, r),
     category,
     suggestedAction: suggestedByCat[category] || "/help"
   };

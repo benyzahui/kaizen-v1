@@ -169,7 +169,8 @@ function buildProfileReply(session, lang) {
     (session.userGoal30Days && String(session.userGoal30Days).trim()) ||
     session.userMainObstacle ||
     session.userIntensityPreference ||
-    session.preferredLanguage;
+    session.preferredLanguage ||
+    session.currentMission;
   if (!hasAny) return r.profileEmpty;
   const setup =
     session.onboardingCompleted
@@ -197,7 +198,10 @@ function buildProfileReply(session, lang) {
         ? r.obLangLabels.auto
         : r.obLangLabels[session.preferredLanguage] || r.profileNotSet
     }`,
-    `${r.profileOnboarding}: ${setup}`
+    `${r.profileOnboarding}: ${setup}`,
+    ...(session.currentMission?.trim()
+      ? ["", `${r.tProfileMissionLine} ${session.currentMission.trim()}`]
+      : [])
   );
 }
 

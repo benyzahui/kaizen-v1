@@ -39,7 +39,9 @@ function userRowToSessionPatch(row) {
     onboardingActive: Boolean(row.onboarding_active),
     onboardingSkipped: Boolean(row.onboarding_skipped),
     onboardingStep: Number(row.onboarding_step) || 0,
-    programLane: row.program_lane ?? "free"
+    programLane: row.program_lane ?? "free",
+    currentMission: row.current_mission ?? null,
+    preferredTrainingStyle: row.preferred_training_style ?? null
   };
 }
 
@@ -69,6 +71,8 @@ function sessionToUserUpsert(telegramId, message, session) {
     onboarding_skipped: Boolean(session.onboardingSkipped),
     onboarding_step: Number(session.onboardingStep) || 0,
     program_lane: lane,
+    current_mission: session.currentMission ?? null,
+    preferred_training_style: session.preferredTrainingStyle ?? null,
     updated_at: new Date().toISOString()
   };
 }
