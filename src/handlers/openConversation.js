@@ -23,7 +23,7 @@ const {
   isTripleSameEmotionalText
 } = require("../session/sessionStore");
 const { appendAdaptiveLine } = require("../companion/adaptive");
-const { buildEnergyReply } = require("./energy");
+const { buildEnergyFromOpenText } = require("./energyHandler");
 const { pickUnseenVariant } = require("../conversation/responseVariation");
 
 const COACH_HEAVY = new Set([
@@ -247,26 +247,12 @@ function handleOpenConversation(message, lang, session) {
     logOpen({
       lang,
       category,
-      handler: "responses.energyFramed+buildEnergyReply",
+      handler: "energyHandler.buildEnergyFromOpenText",
       textPreview: text.slice(0, 80)
     });
-    const teaser = buildEnergyReply(new Date(), lang)
-      .split(/\n\n+/)
-      .filter(Boolean)
-      .slice(0, 1)
-      .join("\n\n");
-    const intro = pickUnseenVariant(session, userId, r.energyFramedIntros);
-    const body = lines(
-      intro,
-      "",
-      r.energyFramedGoodBad,
-      "",
-      teaser,
-      "",
-      r.energyFramedAngles
-    );
+    const body = buildEnergyFromOpenText(text, lang);
     return {
-      reply: finalizeCoaching(session, lang, text, category, body, r),
+      reply: finalizeLite(session, lang, text, category, body, r),
       category: "energy_question",
       suggestedAction: "/energy"
     };

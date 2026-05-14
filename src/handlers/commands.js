@@ -8,7 +8,7 @@
 const { resolveLang, fromTelegramCode } = require("../i18n/languageDetect");
 const { command: logCommand } = require("../logging/log");
 const { getResponses } = require("../i18n/getResponses");
-const { handleEnergy } = require("./energy");
+const { handleEnergy } = require("./energyHandler");
 const {
   handlePlanCommand,
   handleFocusCommand,

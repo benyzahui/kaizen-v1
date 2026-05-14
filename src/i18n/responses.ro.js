@@ -49,7 +49,7 @@ module.exports = {
     "/plan /clarity /path /question /lockin /review",
     "",
     "Energie (ancorată, practică):",
-    "/energy",
+    "/energy · /energy trading · /energy body · /energy emotion · /energy work",
     "",
     "Profil & hartă:",
     "/setup /profile /guide /status /skip /language /clear",

@@ -49,7 +49,7 @@ module.exports = {
     "/plan /clarity /path /question /lockin /review",
     "",
     "Energia (gyakorlati):",
-    "/energy",
+    "/energy · /energy trading · /energy body · /energy emotion · /energy work",
     "",
     "Profil & térkép:",
     "/setup /profile /guide /status /skip /language /clear",
