@@ -33,6 +33,10 @@ const {
 const { shouldInterceptOpenText } = require("../../src/session/userProfile");
 const { processOnboardingReply } = require("../../src/handlers/onboarding");
 const log = require("../../src/logging/log");
+const {
+  hydrateFromSupabase,
+  persistToSupabase
+} = require("../../src/db/syncState");
 
 require("../../src/handlers/balanceProtocol");
 require("../../src/personality/kaizenVoice");
@@ -69,109 +73,114 @@ async function buildTelegramReply(message) {
   const text = message.text || "";
   const trimmed = String(text).trim();
 
-  clearExpiredSessions();
-  const session = getSession(userId);
+  try {
+    log.kaizen("incoming_text", {
+      text: trimmed.slice(0, 240),
+      length: trimmed.length
+    });
 
-  log.kaizen("incoming_text", {
-    text: trimmed.slice(0, 240),
-    length: trimmed.length
-  });
+    if (!trimmed) {
+      log.kaizen("routing", { branch: "fallback", reason: "empty_text" });
+      return "Send a message when you are ready.";
+    }
 
-  if (!trimmed) {
-    log.kaizen("routing", { branch: "fallback", reason: "empty_text" });
-    return "Send a message when you are ready.";
-  }
+    const session = getSession(userId);
 
-  if (isCommandText(text)) {
-    log.command("routing", { branch: "command", command: extractCommand(text) });
-    const lang = resolveLang(message, text, session);
-    log.kaizen("session_lang", { lang, command: extractCommand(text) });
-    const reply = await routeCommandMessage(message, session);
-    log.kaizen("chosen_handler", { handler: "commands.routeCommandMessage" });
-    recordInteraction(userId, {
+    if (isCommandText(text)) {
+      log.command("routing", { branch: "command", command: extractCommand(text) });
+      const lang = resolveLang(message, text, session);
+      log.kaizen("session_lang", { lang, command: extractCommand(text) });
+      const reply = await routeCommandMessage(message, session);
+      log.kaizen("chosen_handler", { handler: "commands.routeCommandMessage" });
+      recordInteraction(userId, {
+        text: trimmed,
+        reply,
+        lang,
+        category: null,
+        command: extractCommand(text)
+      });
+      return reply;
+    }
+
+    let sessionOpen = getSession(userId);
+    const langOnb = resolveLanguageWithSession(trimmed, sessionOpen);
+    if (shouldInterceptOpenText(sessionOpen)) {
+      const ob = processOnboardingReply(
+        userId,
+        trimmed,
+        sessionOpen,
+        langOnb
+      );
+      if (ob && ob.reply) {
+        log.kaizen("routing", { branch: "onboarding", handler: "onboarding.process" });
+        recordInteraction(userId, {
+          text: trimmed,
+          reply: ob.reply,
+          lang: langOnb,
+          category: "onboarding",
+          command: null
+        });
+        return ob.reply;
+      }
+    }
+
+    sessionOpen = getSession(userId);
+    const lang = resolveLanguageWithSession(trimmed, sessionOpen);
+    const category = classifyMessage(text);
+    log.kaizen("routing", {
+      branch: "open",
+      lang,
+      category,
+      handler: "openConversation"
+    });
+
+    const focused = tryConsumeFocusReply(message, lang);
+    if (focused) {
+      log.kaizen("chosen_handler", {
+        handler: "planTracking.tryConsumeFocusReply",
+        lang
+      });
+      recordInteraction(userId, {
+        text: trimmed,
+        reply: focused,
+        lang,
+        category: "focus_reply",
+        command: null
+      });
+      return focused;
+    }
+
+    const { reply, category: outCat, suggestedAction } = handleOpenConversation(
+      message,
+      lang,
+      sessionOpen
+    );
+    log.kaizen("chosen_handler", {
+      handler: "openConversation.handleOpenConversation",
+      lang,
+      category: outCat
+    });
+    const payload = {
       text: trimmed,
       reply,
       lang,
-      category: null,
-      command: extractCommand(text)
-    });
-    return reply;
-  }
-
-  let sessionOpen = getSession(userId);
-  const langOnb = resolveLanguageWithSession(trimmed, sessionOpen);
-  if (shouldInterceptOpenText(sessionOpen)) {
-    const ob = processOnboardingReply(
-      userId,
-      trimmed,
-      sessionOpen,
-      langOnb
-    );
-    if (ob && ob.reply) {
-      log.kaizen("routing", { branch: "onboarding", handler: "onboarding.process" });
-      recordInteraction(userId, {
-        text: trimmed,
-        reply: ob.reply,
-        lang: langOnb,
-        category: "onboarding",
-        command: null
-      });
-      return ob.reply;
-    }
-  }
-
-  sessionOpen = getSession(userId);
-  const lang = resolveLanguageWithSession(trimmed, sessionOpen);
-  const category = classifyMessage(text);
-  log.kaizen("routing", {
-    branch: "open",
-    lang,
-    category,
-    handler: "openConversation"
-  });
-
-  const focused = tryConsumeFocusReply(message, lang);
-  if (focused) {
-    log.kaizen("chosen_handler", {
-      handler: "planTracking.tryConsumeFocusReply",
-      lang
-    });
-    recordInteraction(userId, {
-      text: trimmed,
-      reply: focused,
-      lang,
-      category: "focus_reply",
+      category: outCat,
       command: null
-    });
-    return focused;
+    };
+    if (suggestedAction != null && suggestedAction !== "") {
+      payload.suggestedAction = suggestedAction;
+    }
+    recordInteraction(userId, payload);
+    return reply;
+  } finally {
+    await persistToSupabase(userId, message);
   }
-
-  const { reply, category: outCat, suggestedAction } = handleOpenConversation(
-    message,
-    lang,
-    sessionOpen
-  );
-  log.kaizen("chosen_handler", {
-    handler: "openConversation.handleOpenConversation",
-    lang,
-    category: outCat
-  });
-  const payload = {
-    text: trimmed,
-    reply,
-    lang,
-    category: outCat,
-    command: null
-  };
-  if (suggestedAction != null && suggestedAction !== "") {
-    payload.suggestedAction = suggestedAction;
-  }
-  recordInteraction(userId, payload);
-  return reply;
 }
 
 async function buildTelegramReplyWithBudget(message) {
   const userId = message.from?.id ?? message.chat.id;
+  clearExpiredSessions();
+  await hydrateFromSupabase(userId, message);
   const session = getSession(userId);
   const langHint = resolveLanguageWithSession(
     String(message.text || "").trim(),

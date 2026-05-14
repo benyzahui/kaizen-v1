@@ -59,8 +59,8 @@ function hasStrongNonEnglishSignal(text) {
 }
 
 /**
- * Prefer session / onboarding language unless the message clearly switches.
- * Onboarding `preferredLanguage` (when not auto) acts as a session lock.
+ * Open text language: profile lock wins when preferred_language is en|hu|ro.
+ * `auto` or unset → detect + light session continuity.
  */
 function resolveLanguageWithSession(text, session) {
   const t = String(text || "").trim();
@@ -70,26 +70,14 @@ function resolveLanguageWithSession(text, session) {
   const dom = Math.max(hu, ro);
 
   const pref = session?.preferredLanguage;
-  if (
-    (pref === "hu" || pref === "ro" || pref === "en") &&
-    pref !== "auto" &&
-    pref !== null &&
-    pref !== undefined
-  ) {
-    if (pref === "en") {
-      if (detected !== "en" && dom >= 5) return detected;
-      return "en";
-    }
-    if (pref === "hu") {
-      if (detected === "ro" && ro >= 5) return "ro";
-      if (detected === "en" && hu < 2 && ro < 2 && t.length >= 36) return "en";
-      return "hu";
-    }
-    if (pref === "ro") {
-      if (detected === "hu" && hu >= 5) return "hu";
-      if (detected === "en" && hu < 2 && ro < 2 && t.length >= 36) return "en";
-      return "ro";
-    }
+  if (pref === "hu" || pref === "ro" || pref === "en") {
+    return pref;
+  }
+
+  if (pref === "auto") {
+    const sess = session?.lang;
+    if (sess === "hu" || sess === "ro" || sess === "en") return sess;
+    return detected;
   }
 
   const sess = session?.lang;
@@ -108,6 +96,12 @@ function resolveLang(message, text, session) {
   const t = String(text || "").trim();
   const isBareCommand = /^\s*\/\w+(@\w+)?$/i.test(t);
   if (isBareCommand) {
+    const pref = session?.preferredLanguage;
+    if (pref === "hu" || pref === "ro" || pref === "en") return pref;
+    if (pref === "auto") {
+      const fromCode = fromTelegramCode(message?.from?.language_code);
+      if (fromCode) return fromCode;
+    }
     if (session?.lang === "hu" || session?.lang === "ro" || session?.lang === "en") {
       return session.lang;
     }

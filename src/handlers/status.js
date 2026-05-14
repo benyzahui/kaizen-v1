@@ -49,7 +49,17 @@ function nextStepHint(cat, lastCmd, r) {
   if (cat === "self_development") return r.statusNextPlan;
   if (
     lastCmd &&
-    !["/status", "/help", "/guide", "/start", "/profile", "/setup"].includes(lastCmd)
+    ![
+      "/status",
+      "/help",
+      "/guide",
+      "/start",
+      "/profile",
+      "/setup",
+      "/skip",
+      "/language",
+      "/clear"
+    ].includes(lastCmd)
   )
     return r.statusNextLastCommand;
   return r.statusNextDefault;
@@ -128,7 +138,9 @@ function buildStatusReply(message, session, lang) {
     "/start",
     "/profile",
     "/setup",
-    "/skip"
+    "/skip",
+    "/language",
+    "/clear"
   ]);
   const mode =
     lastCmdRaw && !metaCmds.has(lastCmdRaw)

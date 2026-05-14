@@ -24,7 +24,7 @@ module.exports = {
     "/plan /clarity /path /question",
     "",
     "Profil:",
-    "/setup /profile /guide /status",
+    "/setup /profile /guide /status /language /clear",
     "",
     "Természetesen is írhatsz.",
     "Szükség esetén visszavezetlek a struktúrához."
@@ -52,7 +52,7 @@ module.exports = {
     "/energy",
     "",
     "Profil & térkép:",
-    "/setup /profile /guide /status /skip",
+    "/setup /profile /guide /status /skip /language /clear",
     "",
     "Írhatsz természetesen is. Én tartom a keretet."
   ].join("\n"),
@@ -157,6 +157,36 @@ module.exports = {
 
   energyFramedAngles:
     "Élesebb szög? Írj egy szót: trading · érzelmi · gyakorlati",
+
+  cmdClearReply: [
+    "Session törölve.",
+    "A profilod megmarad.",
+    "Innen tiszta lappal folytatjuk."
+  ].join("\n"),
+
+  cmdLanguageMenu: [
+    "/language — válasznyelv",
+    "1 — angol",
+    "2 — magyar",
+    "3 — román",
+    "4 — auto (üzenetekből)",
+    "",
+    "Példa: /language 2"
+  ].join("\n"),
+
+  cmdLanguageInvalid: "Írd: /language majd 1–4 (példa: /language 2).",
+
+  cmdLanguageConfirm: (code) => {
+    const label =
+      code === "en"
+        ? "angol"
+        : code === "hu"
+          ? "magyar"
+          : code === "ro"
+            ? "román"
+            : "auto";
+    return `Mentve: ${label}. Ezután ehhez igazítom a válaszokat.`;
+  },
 
   unknown: "Nem értettem a parancsot. Nyugodtan: /help",
 

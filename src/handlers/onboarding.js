@@ -13,6 +13,7 @@ function resetProfileFields(userId) {
 }
 
 function startOnboarding(userId) {
+  const prevLane = getSession(userId).programLane || "free";
   resetProfileFields(userId);
   updateSession(userId, {
     onboardingActive: true,
@@ -24,7 +25,8 @@ function startOnboarding(userId) {
     smallStepAskUses: 0,
     recentCoachSnippets: [],
     recentCommands: [],
-    conversationState: null
+    conversationState: null,
+    programLane: prevLane
   });
 }
 

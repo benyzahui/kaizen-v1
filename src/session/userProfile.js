@@ -14,7 +14,9 @@ const DEFAULT_USER_PROFILE = {
   onboardingCompleted: false,
   onboardingActive: false,
   onboardingSkipped: false,
-  onboardingStep: 0
+  onboardingStep: 0,
+  /** @type {'free'|'elite'|'dragon_path'|'trading'|'physical'|'emotional'|'business'|'mixed'|string|null} */
+  programLane: "free"
 };
 
 /**

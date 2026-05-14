@@ -9,6 +9,22 @@
 const TTL_MS = 24 * 60 * 60 * 1000;
 
 const { profileDefaults } = require("./userProfile");
+
+/** Profile + durable prefs preserved on /clear */
+const PROFILE_AND_LOCK_KEYS = [
+  "userPrimaryPath",
+  "userPrimaryPathNote",
+  "userGoal30Days",
+  "userMainObstacle",
+  "userMainObstacleNote",
+  "userIntensityPreference",
+  "preferredLanguage",
+  "onboardingCompleted",
+  "onboardingActive",
+  "onboardingSkipped",
+  "onboardingStep",
+  "programLane"
+];
 const { replyFingerprint } = require("../conversation/replyFingerprint");
 const { countBannedPhraseHits } = require("../conversation/bannedPhrases");
 const { snippetKey } = require("../conversation/responseVariation");
@@ -41,6 +57,7 @@ const store = new Map();
  * @property {string[]} recentCoachSnippets
  * @property {string[]} recentCommands
  * @property {string|null} conversationState
+ * @property {string|null} lastTopic
  */
 
 function emptySession() {
@@ -59,6 +76,7 @@ function emptySession() {
     recentCoachSnippets: [],
     recentCommands: [],
     conversationState: null,
+    lastTopic: null,
     lastAt: Date.now()
   };
 }
@@ -96,6 +114,33 @@ function updateSession(userId, data) {
  */
 function clearSession(userId) {
   store.delete(String(userId));
+}
+
+/**
+ * Clear transient coaching memory; keep permanent profile fields and language lock.
+ * @param {string|number} userId
+ */
+function resetEphemeralKeepProfile(userId) {
+  const id = String(userId);
+  const cur = getSession(userId);
+  const keep = {};
+  for (const k of PROFILE_AND_LOCK_KEYS) {
+    keep[k] = cur[k];
+  }
+  store.delete(id);
+  const base = emptySession();
+  const merged = {
+    ...base,
+    ...keep,
+    programLane: keep.programLane || "free",
+    lastAt: Date.now()
+  };
+  const pref = merged.preferredLanguage;
+  if (pref === "hu" || pref === "ro" || pref === "en") {
+    merged.lang = pref;
+  }
+  store.set(id, merged);
+  return merged;
 }
 
 const HEAVY = [
@@ -191,6 +236,7 @@ function recordInteraction(userId, ev) {
       ev.suggestedAction !== undefined
         ? ev.suggestedAction
         : s.lastSuggestedAction,
+    lastTopic: String(ev.text || "").trim().slice(0, 240) || s.lastTopic || null,
     messages,
     lastReplyByCategory,
     lastAssistantPrints,
@@ -209,6 +255,7 @@ module.exports = {
   getSession,
   updateSession,
   clearSession,
+  resetEphemeralKeepProfile,
   recordInteraction,
   isSessionCategoryLoop,
   isTripleSameEmotionalText,

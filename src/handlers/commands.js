@@ -5,7 +5,7 @@
  * Add new slash flows here; keep long prose in i18n responses, not in routing.
  */
 
-const { resolveLang } = require("../i18n/languageDetect");
+const { resolveLang, fromTelegramCode } = require("../i18n/languageDetect");
 const { command: logCommand } = require("../logging/log");
 const { getResponses } = require("../i18n/getResponses");
 const { handleEnergy } = require("./energy");
@@ -23,6 +23,8 @@ const {
   skipOnboarding,
   buildProfileReply
 } = require("./onboarding");
+const { updateSession } = require("../session/sessionStore");
+const { clearRemoteSession } = require("../db/syncState");
 
 function uid(message) {
   return String(message.from?.id ?? message.chat?.id ?? "");
@@ -106,6 +108,35 @@ async function routeCommandMessage(message, session) {
     case "/status":
       reply = buildStatusReply(message, session, lang);
       break;
+    case "/clear":
+      await clearRemoteSession(uid(message));
+      reply = r.cmdClearReply;
+      break;
+    case "/language": {
+      const parts = String(text).trim().split(/\s+/);
+      const arg = parts[1];
+      if (!arg) {
+        reply = r.cmdLanguageMenu;
+        break;
+      }
+      const n = parseInt(arg, 10);
+      const map = { 1: "en", 2: "hu", 3: "ro", 4: "auto" };
+      const sel = map[n];
+      if (!sel) {
+        reply = r.cmdLanguageInvalid;
+        break;
+      }
+      const patch = { preferredLanguage: sel };
+      if (sel !== "auto") {
+        patch.lang = sel;
+      } else {
+        patch.lang = fromTelegramCode(message.from?.language_code) || "en";
+      }
+      updateSession(uid(message), patch);
+      const r2 = getResponses(sel === "auto" ? "en" : sel);
+      reply = r2.cmdLanguageConfirm(sel);
+      break;
+    }
     default: {
       const ritual = ritualFromResponses(r, command);
       if (ritual) {

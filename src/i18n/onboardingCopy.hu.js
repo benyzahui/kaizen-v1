@@ -166,7 +166,7 @@ module.exports = {
     "/plan /clarity /path /question",
     "",
     "Profil:",
-    "/setup /profile /guide /status",
+    "/setup /profile /guide /status /language /clear",
     "",
     "Természetesen is írhatsz.",
     "Ha elkalandozunk, visszavezetlek a struktúrához."

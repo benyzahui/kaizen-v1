@@ -24,7 +24,7 @@ module.exports = {
     "/plan /clarity /path /question",
     "",
     "Profil:",
-    "/setup /profile /guide /status",
+    "/setup /profile /guide /status /language /clear",
     "",
     "Poți vorbi și natural.",
     "Te aduc la structură când e nevoie."
@@ -52,7 +52,7 @@ module.exports = {
     "/energy",
     "",
     "Profil & hartă:",
-    "/setup /profile /guide /status /skip",
+    "/setup /profile /guide /status /skip /language /clear",
     "",
     "Poți vorbi natural. Eu țin cadrul."
   ].join("\n"),
@@ -157,6 +157,36 @@ module.exports = {
 
   energyFramedAngles:
     "Vrei unghi mai clar? Scrie un cuvânt: trading · emoțional · practic",
+
+  cmdClearReply: [
+    "Sesiunea a fost ștearsă.",
+    "Profilul rămâne activ.",
+    "Continuăm de la zero."
+  ].join("\n"),
+
+  cmdLanguageMenu: [
+    "/language — limba răspunsurilor",
+    "1 — engleză",
+    "2 — maghiară",
+    "3 — română",
+    "4 — auto (detectare din mesaje)",
+    "",
+    "Exemplu: /language 3"
+  ].join("\n"),
+
+  cmdLanguageInvalid: "Scrie /language apoi 1–4 (exemplu: /language 3).",
+
+  cmdLanguageConfirm: (code) => {
+    const label =
+      code === "en"
+        ? "engleză"
+        : code === "hu"
+          ? "maghiară"
+          : code === "ro"
+            ? "română"
+            : "auto";
+    return `Salvat: ${label}. Răspunsurile urmează această setare.`;
+  },
 
   unknown: "Nu am înțeles comanda. Scrie /help, fără grabă.",
 

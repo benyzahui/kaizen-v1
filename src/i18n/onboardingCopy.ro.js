@@ -166,7 +166,7 @@ module.exports = {
     "/plan /clarity /path /question",
     "",
     "Profil:",
-    "/setup /profile /guide /status",
+    "/setup /profile /guide /status /language /clear",
     "",
     "Poți vorbi și natural.",
     "Te aduc înapoi la structură când e nevoie."

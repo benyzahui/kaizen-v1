@@ -24,7 +24,7 @@ module.exports = {
     "/plan /clarity /path /question",
     "",
     "Profile:",
-    "/setup /profile /guide /status",
+    "/setup /profile /guide /status /language /clear",
     "",
     "You can also speak naturally.",
     "I will guide you back to structure when needed."
@@ -52,7 +52,7 @@ module.exports = {
     "/energy",
     "",
     "Profile & map:",
-    "/setup /profile /guide /status /skip",
+    "/setup /profile /guide /status /skip /language /clear",
     "",
     "You can speak naturally. I keep the frame."
   ].join("\n"),
@@ -157,6 +157,36 @@ module.exports = {
 
   energyFramedAngles:
     "Want a sharper angle? Reply with one word: trading · emotional · practical",
+
+  cmdClearReply: [
+    "Session cleared.",
+    "Your profile stays active.",
+    "We start clean from here."
+  ].join("\n"),
+
+  cmdLanguageMenu: [
+    "/language — set reply language",
+    "1 — English",
+    "2 — Hungarian",
+    "3 — Romanian",
+    "4 — Auto (detect from your messages)",
+    "",
+    "Example: /language 2"
+  ].join("\n"),
+
+  cmdLanguageInvalid: "Send /language then 1–4 (example: /language 2).",
+
+  cmdLanguageConfirm: (code) => {
+    const label =
+      code === "en"
+        ? "English"
+        : code === "hu"
+          ? "Hungarian"
+          : code === "ro"
+            ? "Romanian"
+            : "Auto-detect";
+    return `Saved: ${label}. Replies follow this setting.`;
+  },
 
   unknown:
     "I did not catch that command. Use /help and continue calmly.",
