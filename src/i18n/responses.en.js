@@ -30,6 +30,134 @@ module.exports = {
     "I will guide you back to structure when needed."
   ].join("\n"),
 
+  helpGrouped: [
+    "KaiZen — grouped commands",
+    "",
+    "Daily rhythm:",
+    "/pulse /focus /mirror",
+    "",
+    "When overloaded:",
+    "/reset /ground /breathe /recovery",
+    "",
+    "Trading:",
+    "/trade /check /risk /cooldown /notrade",
+    "",
+    "Body & movement:",
+    "/body /walk /train /sleep",
+    "",
+    "Direction & mind:",
+    "/plan /clarity /path /question /lockin /review",
+    "",
+    "Energy (grounded, practical):",
+    "/energy",
+    "",
+    "Profile & map:",
+    "/setup /profile /guide /status /skip",
+    "",
+    "You can speak naturally. I keep the frame."
+  ].join("\n"),
+
+  helpSuggestedLabel: "Suggested next (from your last turn):",
+  helpSuggestedOverload: "/reset or /ground — then reduce input for one hour.",
+  helpSuggestedTrading: "/trade or /risk — wait for clarity before size.",
+  helpSuggestedFocus: "/focus — one line, one 25-minute block.",
+  helpSuggestedEnergy: "/energy for the full structured read.",
+  helpSuggestedDefault: "/pulse or /guide — anchor before widening the lens.",
+
+  casualGreetingLines: [
+    "Good morning.\nProtect your focus early today.",
+    "Morning.\nOne small win before noon is enough.",
+    "Hey.\nKeep the first hour quiet if you can."
+  ],
+
+  casualThanksLines: [
+    "Noted.\nStay with your structure when you return.",
+    "Received.\nNo performance needed — just consistency.",
+    "Thanks for the signal.\nBack to your lane when ready."
+  ],
+
+  lightConversationLines: [
+    "Discipline gets lighter when identity is clear — willpower alone burns out.",
+    "Habits stick when the environment removes friction, not when motivation spikes.",
+    "Focus is mostly subtraction: fewer inputs, same standard.",
+    "Identity first, intensity second — otherwise you negotiate forever."
+  ],
+
+  pacingReflectiveShortlines: [
+    "Too many open loops at once.",
+    "Not a decision moment — reduce inputs for one hour.",
+    "Water. Movement. Then reassess.",
+    "Shrink the field: one tab, one outcome."
+  ],
+
+  tradingContextBodies: [
+    "Waiting is part of the job — boredom is not a signal to force a trade.\nIf you enter: /check first.",
+    "Pre-open is rehearsal, not proof.\nRisk defined? If not, stand down.\nWhen the bell matters: /trade",
+    "Session transitions reward patience.\nJournal one line: what would invalidate your idea?",
+    "Charts before narratives.\nIf the story is louder than the plan, pause.\n/risk before size."
+  ],
+
+  focusDriftVariants: [
+    [
+      "Too many open loops at once.",
+      "Close one loop before you open another.",
+      "Next 25 minutes: one tab, one finish line."
+    ].join("\n\n"),
+    [
+      "Scatter is load management, not a character flaw.",
+      "Pick one visible output for the next block.",
+      "/focus one line if you want it locked."
+    ].join("\n\n"),
+    [
+      "Noise rises when the body is under-fueled or over-stimulated.",
+      "Water, five minutes of movement, then one task.",
+      "Smallest finish line you can cross next?"
+    ].join("\n\n"),
+    [
+      "Not a depth problem — a scope problem.",
+      "Cut scope by half for the next hour.",
+      "What is the one block that would make the day honest?"
+    ].join("\n\n")
+  ],
+
+  emotionalReflectionVariants: [
+    [
+      "That sounds like a heavy load.",
+      "One grounded sentence is enough — no perfect explanation needed.",
+      "What is the next stabilizing action (tiny is fine)?"
+    ].join("\n\n"),
+    [
+      "Acknowledged.",
+      "Keep language simple: name the situation, not the verdict.",
+      "If you want structure later: /reset is optional."
+    ].join("\n\n"),
+    [
+      "Intensity without a container turns into noise.",
+      "Small container: ten minutes, one room, no scroll.",
+      "Then one honest line about what you need."
+    ].join("\n\n")
+  ],
+
+  energyFramedIntros: [
+    "Today favors simplification over expansion.",
+    "Today's read: tighten before you stretch."
+  ],
+
+  energyFramedGoodBad: [
+    "Good for:",
+    "• organizing",
+    "• planning",
+    "• refining existing systems",
+    "",
+    "Bad for:",
+    "• emotional decisions",
+    "• impulsive trades",
+    "• overstimulation"
+  ].join("\n"),
+
+  energyFramedAngles:
+    "Want a sharper angle? Reply with one word: trading · emotional · practical",
+
   unknown:
     "I did not catch that command. Use /help and continue calmly.",
 
@@ -63,7 +191,10 @@ module.exports = {
   helpTipBody:
     "Tip: body off → /body or /walk before big decisions.",
 
-  continuityLine: "Same thread — going a little deeper:",
+  helpTipLight:
+    "Tip: light chat is fine — use /guide when you want the full map.",
+
+  continuityLine: "Same thread — next beat only:",
 
   variationNudge: "Add one new fact you have not said yet (even tiny).",
 
@@ -144,17 +275,17 @@ module.exports = {
   planFieldFocus: "Current 60-minute focus",
 
   chaosSoftReply: [
-    "Overload, not failure — your system is asking for less input, not more judgment.",
-    "One small downgrade: water, dimmer screen, or ten quiet minutes.",
-    "What is the next gentle physical action you can take in the next two minutes?"
+    "Overload is a bandwidth signal — not a verdict.",
+    "Downgrade input: water, dimmer screen, ten quiet minutes.",
+    "Next: one physical move you can do without thinking."
   ].join("\n\n"),
 
-  openHintEmotional: "\n\nOptional structure if you want it: /reset",
+  openHintEmotional: "\n\nOptional: /reset",
 
   reflectivePrompts: [
-    "Name the tension in one line — no fixing yet.\nWhat would clarity cost you honestly?",
-    "What decision are you circling because it would make the next step obvious?",
-    "If you trusted yourself for sixty seconds, what would you stop negotiating?"
+    "Name the tension in one line — no fixing yet.",
+    "What decision would make the next step obvious?",
+    "If you stopped negotiating for sixty seconds, what would you choose?"
   ],
 
   emotionalTripleGrounding: [
@@ -214,9 +345,9 @@ module.exports = {
     ].join("\n\n"),
 
     emotional_reflection: [
-      "That sounds heavy, and it matters.",
-      "No need to explain perfectly — one true sentence is enough.",
-      "What is the feeling under the words (one word)?"
+      "That sounds like a heavy load.",
+      "One grounded sentence is enough.",
+      "What is the next stabilizing action (tiny is fine)?"
     ].join("\n\n"),
 
     work_focus: [
@@ -239,14 +370,14 @@ module.exports = {
 
     general_curiosity: [
       "Say the weight in one honest line.",
-      "What would a steady friend name without drama?",
-      "What is one small move that would not make things worse?"
+      "What would a steady read of this situation be?",
+      "One small move that would not make things worse?"
     ].join("\n\n"),
 
     unknown: [
-      "I am with you — say it plainly, even messy.",
-      "One stabilizing move you can do in two minutes?",
-      "What would help most: clarity, rest, or a single task lock?"
+      "Short signal received.",
+      "One fact, one intent — or pick a ritual: /pulse",
+      "If you want the map: /guide"
     ].join("\n\n"),
 
     unknown_alt: [

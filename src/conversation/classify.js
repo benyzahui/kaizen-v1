@@ -2,17 +2,20 @@
  * Open-text classification (no slash commands — those never reach here).
  *
  * Priority (highest first):
- * 0 creator easter / bare help / energy question / clarity keyword
+ * 0 creator / bare help / energy question / clarity keyword
  * 1 chaos / overload
- * 2 focus drift / mental scatter
- * 3 trading impulse
- * 4 planning language
- * 5 work context
- * 6 growth / habits
- * 7 body / sleep / fuel
- * 8 emotional / personal state
- * 9 reflective questions & open coaching
- * 10 unknown — short low-signal noise only; natural language defaults to reflective_open
+ * 2 casual greeting (short, non-crisis)
+ * 3 focus drift / mental scatter
+ * 4 trading impulse
+ * 5 trading context (session / wait / charts — not therapy)
+ * 6 planning language
+ * 7 work context
+ * 8 growth / habits
+ * 9 body / sleep / fuel
+ * 10 light curiosity (discipline / identity questions without crisis)
+ * 11 emotional / personal state (narrowed cues)
+ * 12 reflective questions & open coaching
+ * 13 unknown — short low-signal noise only; natural language defaults to reflective_open
  */
 
 /**
@@ -63,6 +66,19 @@ function classifyMessage(text) {
   }
 
   if (
+    t.length <= 120 &&
+    !/(panic|overwhelmed|hopeless|can't cope|cant cope|dying|spiral|meltdown|hurt myself|self harm)/i.test(
+      t
+    ) &&
+    (/^(gm\b|good morning|good afternoon|good evening|good night|hey\b|hi\b|hello\b|yo\b|jó reggelt|szia\b|szi\b|bună|salut|servus)\b/i.test(
+      t
+    ) ||
+      /^(thanks|thank you|thx|köszönöm|mulțumesc)\b/i.test(low))
+  ) {
+    return "casual_greeting";
+  }
+
+  if (
     /\b(scattered|distracted|can't focus|cant focus|brain fog|foggy|jumping between|switching tabs|tab hoard|unfocused|attention split|mind racing|szétszórt|nem tudok koncentrálni|dispers|fragmentat|nu mă pot concentra)\b/i.test(
       t
     )
@@ -76,6 +92,19 @@ function classifyMessage(text) {
     )
   ) {
     return "trading_impulse";
+  }
+
+  if (
+    /\b(ny|new york)\s+open\b/i.test(low) ||
+    /\b(london|asia)\s+(open|session)\b/i.test(low) ||
+    /\b(waiting|wait for|waiting for)\b[\s\S]{0,48}\b(market|open|session|bell|candles?|premarket)\b/i.test(
+      low
+    ) ||
+    (/\b(chart|candles?|orderflow|liquidity|btc|eth|nq|es|spx)\b/i.test(low) &&
+      t.length < 160 &&
+      !/\b(i feel|i'm feeling|feeling (so|really)|anxious|panic|hopeless)\b/i.test(low))
+  ) {
+    return "trading_context";
   }
 
   if (
@@ -109,7 +138,19 @@ function classifyMessage(text) {
   }
 
   if (
-    /\b(i feel|i'm |i am |feeling |honestly |today |drained|anxious|sad |stressed|lonely|confused|don't know|dont know|unsure|lost|empty|afraid|worried|scared|burned out|burnt out|overthinking|mentally tired)\b/i.test(
+    (/\b(what do you think (about|of)|what's your take on|what is your take on)\b/i.test(
+      low
+    ) &&
+      !/\b(anxiety|panic|depression|trauma|suicid|self harm)\b/i.test(low)) ||
+    /\b(why|how)\s+(does|is|do)\s+\w+\s+(discipline|habit|focus|routine|identity)\b/i.test(
+      low
+    )
+  ) {
+    return "light_conversation";
+  }
+
+  if (
+    /\b(i feel|i'm feeling|i am feeling|feeling (really|so|quite)|honestly i|i'm drained|i am drained|i'm anxious|i am anxious|i'm stressed|i am stressed|i'm lonely|i am lonely|i'm lost|i am lost|i'm empty|i am empty|burned out|burnt out|overthinking|mentally tired)\b/i.test(
       low
     ) ||
     /(érz|érzem|fáradt|bizonytalan|magány|nem bírom|tristețe|trist|obosit|obosită|epuizat|stresat|nu am chef|fără chef|fară chef|szétesett|remény)/i.test(

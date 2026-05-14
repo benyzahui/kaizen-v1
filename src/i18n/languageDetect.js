@@ -59,9 +59,8 @@ function hasStrongNonEnglishSignal(text) {
 }
 
 /**
- * Prefer session language unless the new message clearly switches language.
- * @param {string} text
- * @param {{ lang?: 'en'|'hu'|'ro'|null }} [session]
+ * Prefer session / onboarding language unless the message clearly switches.
+ * Onboarding `preferredLanguage` (when not auto) acts as a session lock.
  */
 function resolveLanguageWithSession(text, session) {
   const t = String(text || "").trim();
@@ -69,12 +68,33 @@ function resolveLanguageWithSession(text, session) {
   const hu = scoreHungarian(t);
   const ro = scoreRomanian(t);
   const dom = Math.max(hu, ro);
-  const sess = session?.lang;
 
-  if (sess === "hu" || sess === "ro" || sess === "en") {
-    if (dom >= 5 && detected !== sess) {
-      return detected;
+  const pref = session?.preferredLanguage;
+  if (
+    (pref === "hu" || pref === "ro" || pref === "en") &&
+    pref !== "auto" &&
+    pref !== null &&
+    pref !== undefined
+  ) {
+    if (pref === "en") {
+      if (detected !== "en" && dom >= 5) return detected;
+      return "en";
     }
+    if (pref === "hu") {
+      if (detected === "ro" && ro >= 5) return "ro";
+      if (detected === "en" && hu < 2 && ro < 2 && t.length >= 36) return "en";
+      return "hu";
+    }
+    if (pref === "ro") {
+      if (detected === "hu" && hu >= 5) return "hu";
+      if (detected === "en" && hu < 2 && ro < 2 && t.length >= 36) return "en";
+      return "ro";
+    }
+  }
+
+  const sess = session?.lang;
+  if (sess === "hu" || sess === "ro" || sess === "en") {
+    if (dom >= 7 && detected !== sess) return detected;
     return sess;
   }
   return detected;

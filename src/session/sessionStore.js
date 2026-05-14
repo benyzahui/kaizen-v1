@@ -11,6 +11,8 @@ const TTL_MS = 24 * 60 * 60 * 1000;
 const { profileDefaults } = require("./userProfile");
 const { replyFingerprint } = require("../conversation/replyFingerprint");
 const { countBannedPhraseHits } = require("../conversation/bannedPhrases");
+const { snippetKey } = require("../conversation/responseVariation");
+const { mapCategoryToConversationState } = require("../conversation/conversationState");
 
 /** @type {Map<string, any>} */
 const store = new Map();
@@ -36,6 +38,9 @@ const store = new Map();
  * @property {string[]} lastAssistantPrints
  * @property {number} comfortOpenerUses
  * @property {number} smallStepAskUses
+ * @property {string[]} recentCoachSnippets
+ * @property {string[]} recentCommands
+ * @property {string|null} conversationState
  */
 
 function emptySession() {
@@ -51,6 +56,9 @@ function emptySession() {
     lastAssistantPrints: [],
     comfortOpenerUses: 0,
     smallStepAskUses: 0,
+    recentCoachSnippets: [],
+    recentCommands: [],
+    conversationState: null,
     lastAt: Date.now()
   };
 }
@@ -159,6 +167,15 @@ function recordInteraction(userId, ev) {
   const fp = replyFingerprint(String(ev.reply || ""));
   const lastAssistantPrints = [...(s.lastAssistantPrints || []), fp].slice(-2);
   const hits = countBannedPhraseHits(ev.reply);
+  const snippet = snippetKey(ev.reply);
+  const recentCoachSnippets = [...(s.recentCoachSnippets || []), snippet].slice(-12);
+  const convState = mapCategoryToConversationState(ev.category, {
+    command: ev.command || null
+  });
+  const recentCommands =
+    ev.command != null && String(ev.command).trim()
+      ? [...(s.recentCommands || []), String(ev.command).trim()].slice(-8)
+      : s.recentCommands || [];
   store.set(id, {
     ...s,
     lang: ev.lang || s.lang,
@@ -179,6 +196,9 @@ function recordInteraction(userId, ev) {
     lastAssistantPrints,
     comfortOpenerUses: (s.comfortOpenerUses || 0) + hits.comfort,
     smallStepAskUses: (s.smallStepAskUses || 0) + hits.smallStep,
+    recentCoachSnippets,
+    recentCommands,
+    conversationState: convState,
     lastAt: Date.now()
   });
 }

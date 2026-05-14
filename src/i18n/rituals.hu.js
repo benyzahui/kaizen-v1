@@ -196,5 +196,21 @@ module.exports = {
     "Egy lélegzetnyi elismerés, produkció nélkül.",
     "",
     "Aztán: /next vagy /mirror"
+  ].join("\n"),
+
+  lockin: [
+    "Lock-in:",
+    "Egy felület a következő 45 percre.",
+    "Telefon lefelé. Egy lap, ha lehet.",
+    "Egy látható darab — aztán /done",
+    "",
+    "Ha ma trade: előbb /check."
+  ].join("\n"),
+
+  review: [
+    "Mikro-értékelés:",
+    "Mi működött az előző blokkban — egy sor?",
+    "Mi lopta az időt — egy szó?",
+    "Következő blokk kisebb: /focus"
   ].join("\n")
 };

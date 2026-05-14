@@ -27,7 +27,8 @@ function appendAdaptiveLine(session, lang, userText, category) {
     category === "focus_drift" ||
     category === "trading_impulse" ||
     category === "reflective_open" ||
-    category === "unknown";
+    category === "unknown" ||
+    category === "trading_context";
   if (!relevant) return "";
 
   const r = getResponses(lang);

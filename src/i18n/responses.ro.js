@@ -30,6 +30,134 @@ module.exports = {
     "Te aduc la structură când e nevoie."
   ].join("\n"),
 
+  helpGrouped: [
+    "KaiZen — comenzi pe grupe",
+    "",
+    "Ritm zilnic:",
+    "/pulse /focus /mirror",
+    "",
+    "Supraîncărcare:",
+    "/reset /ground /breathe /recovery",
+    "",
+    "Trading:",
+    "/trade /check /risk /cooldown /notrade",
+    "",
+    "Corp & mișcare:",
+    "/body /walk /train /sleep",
+    "",
+    "Direcție & minte:",
+    "/plan /clarity /path /question /lockin /review",
+    "",
+    "Energie (ancorată, practică):",
+    "/energy",
+    "",
+    "Profil & hartă:",
+    "/setup /profile /guide /status /skip",
+    "",
+    "Poți vorbi natural. Eu țin cadrul."
+  ].join("\n"),
+
+  helpSuggestedLabel: "Pas recomandat (după ultima tură):",
+  helpSuggestedOverload: "/reset sau /ground — apoi mai puțin input o oră.",
+  helpSuggestedTrading: "/trade sau /risk — mărime doar când e clar.",
+  helpSuggestedFocus: "/focus — o linie, un bloc de 25 de minute.",
+  helpSuggestedEnergy: "/energy pentru citirea structurată completă.",
+  helpSuggestedDefault: "/pulse sau /guide — ancoră înainte să lărgești.",
+
+  casualGreetingLines: [
+    "Bună dimineața.\nProtejează devreme focusul azi.",
+    "Dimineață.\nO mică victorie până la prânz e suficientă.",
+    "Salut.\nPrima oră liniștită, dacă poți."
+  ],
+
+  casualThanksLines: [
+    "Am înțeles.\nRămâi pe structura ta când revii.",
+    "Ok.\nFără spectacol — doar consecvență.",
+    "Mulțumesc pentru semnal.\nÎnapoi pe banda ta când ești gata."
+  ],
+
+  lightConversationLines: [
+    "Disciplina devine mai ușoară când identitatea e clară — voința pură se consumă repede.",
+    "Obiceiurile prind când mediul scoate fricțiunea, nu când crește motivația.",
+    "Focusul e mai mult scădere: mai puține intrări, același standard.",
+    "Identitatea înaintea intensității — altfel negociezi la infinit."
+  ],
+
+  pacingReflectiveShortlines: [
+    "Prea multe bucle deschise deodată.",
+    "Nu e moment de decizie — mai puțin input o oră.",
+    "Apă. Mișcare. Apoi reevaluare.",
+    "Micșorează: un tab, un rezultat."
+  ],
+
+  tradingContextBodies: [
+    "Așteptarea face parte din job — plictiseala nu e semnal să forțezi un trade.\nDacă intri: /check mai întâi.",
+    "Pre-open e repetiție, nu dovadă.\nRisc definit? Dacă nu, stai pe margine.\nLa deschidere: /trade",
+    "Tranzițiile de sesiune plătesc răbdarea.\nScrie o linie: ce ar invalida ideea?",
+    "Întâi chart, apoi narațiune.\nDacă povestea e mai tare decât planul: pauză.\nÎnainte de mărime: /risk"
+  ],
+
+  focusDriftVariants: [
+    [
+      "Prea multe bucle deschise deodată.",
+      "Închide una înainte să deschizi alta.",
+      "Următoarele 25 min: un tab, o linie de finish."
+    ].join("\n\n"),
+    [
+      "Dispersia e despre sarcină, nu despre caracter.",
+      "Alege un output vizibil pentru următorul bloc.",
+      "Dacă vrei fixat într-o linie: /focus"
+    ].join("\n\n"),
+    [
+      "Zgomotul vine adesea din corp sub-alimentat sau supra-stimulat.",
+      "Apă, cinci minute mișcare, apoi o sarcină.",
+      "Care e cea mai mică linie de finish acum?"
+    ].join("\n\n"),
+    [
+      "Nu e problemă de adâncime — e de scop.",
+      "Taie scopul la jumătate pentru următoarea oră.",
+      "Care bloc face ziua onestă?"
+    ].join("\n\n")
+  ],
+
+  emotionalReflectionVariants: [
+    [
+      "Sună greu.",
+      "O propoziție ancorată e suficientă — fără explicație perfectă.",
+      "Care e următorul pas de stabilizare (mic e ok)?"
+    ].join("\n\n"),
+    [
+      "Am înțeles.",
+      "Limba simplă: situația, nu verdictul.",
+      "Structură mai târziu: /reset e opțional."
+    ].join("\n\n"),
+    [
+      "Intensitate fără container devine zgomot.",
+      "Container mic: zece minute, o cameră, fără scroll.",
+      "Apoi o linie onestă despre ce ai nevoie."
+    ].join("\n\n")
+  ],
+
+  energyFramedIntros: [
+    "Azi simplificarea bate expansiunea.",
+    "Citirea zilei: strânge înainte să întinzi."
+  ],
+
+  energyFramedGoodBad: [
+    "Bine pentru:",
+    "• organizare",
+    "• planificare",
+    "• rafinarea sistemelor existente",
+    "",
+    "Evită:",
+    "• decizii emoționale",
+    "• trade-uri impulsive",
+    "• supra-stimulare"
+  ].join("\n"),
+
+  energyFramedAngles:
+    "Vrei unghi mai clar? Scrie un cuvânt: trading · emoțional · practic",
+
   unknown: "Nu am înțeles comanda. Scrie /help, fără grabă.",
 
   recoveryTimeoutReply:
@@ -61,6 +189,9 @@ module.exports = {
 
   helpTipBody:
     "Sfat: corp jos → /body sau /walk înainte de decizii mari.",
+
+  helpTipLight:
+    "Sfat: conversație ușoară e ok — harta completă: /guide.",
 
   continuityLine: "Același fir — mergem puțin mai adânc:",
 
@@ -143,17 +274,17 @@ module.exports = {
   planFieldFocus: "Focus curent 60 minute",
 
   chaosSoftReply: [
-    "Suprasolicitare, nu eșec — ai nevoie de mai puțin input, nu de mai multă judecată.",
-    "Un downgrade mic: apă, lumină mai joasă la ecran, sau zece minute liniște.",
-    "Care e următoarea mișcare fizică blândă în două minute?"
+    "Supraîncărcarea e semnal de lățime de bandă — nu verdict.",
+    "Reduce input: apă, lumină mai joasă, zece minute liniște.",
+    "Următorul pas: o mișcare fizică fără gândire."
   ].join("\n\n"),
 
-  openHintEmotional: "\n\nDacă vrei structură: /reset",
+  openHintEmotional: "\n\nOpțional: /reset",
 
   reflectivePrompts: [
-    "Numeste tensiunea într-o linie — fără reparat încă.\nCe te-ar costa claritatea, onest?",
-    "Ce decizie ocolești pentru că următorul pas ar deveni evident?",
-    "Dacă te-ai crede 60 de secunde, ce ai lăsa să nu mai negociezi?"
+    "Numeste tensiunea într-o linie — fără reparat încă.",
+    "Ce decizie ar face următorul pas evident?",
+    "Dacă ai opri negocierile 60 de secunde, ce ai alege?"
   ],
 
   emotionalTripleGrounding: [
@@ -213,9 +344,9 @@ module.exports = {
     ].join("\n\n"),
 
     emotional_reflection: [
-      "Sună greu — contează.",
-      "Nu trebuie explicat perfect — o propoziție adevărată e suficientă.",
-      "Care e sentimentul din spatele cuvintelor (un cuvânt)?"
+      "Sună greu.",
+      "O propoziție ancorată e suficientă.",
+      "Care e următorul pas de stabilizare (mic e ok)?"
     ].join("\n\n"),
 
     work_focus: [
@@ -238,14 +369,14 @@ module.exports = {
 
     general_curiosity: [
       "Spune greutatea într-o linie onestă.",
-      "Ce ar spune un prieten stabil, fără dramă?",
+      "Care ar fi o citire calmă a situației?",
       "Care e un mic pas care nu înrăutățește?"
     ].join("\n\n"),
 
     unknown: [
-      "Sunt aici — spune direct, chiar dezordonat.",
-      "Ce mic gest de stabilizare poți face în două minute?",
-      "Ce te-ar ajuta acum: claritate, odihnă sau un singur task blocat?"
+      "Semnal scurt primit.",
+      "Un fapt, un intent — sau ritual: /pulse",
+      "Pentru hartă: /guide"
     ].join("\n\n"),
 
     unknown_alt: [

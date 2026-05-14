@@ -11,7 +11,7 @@ const { variateIfSameShape } = require("../conversation/antiTemplate");
 const { applyBannedPhraseRotation } = require("../conversation/bannedPhrases");
 const { getResponses } = require("../i18n/getResponses");
 const { conversation: logConversation } = require("../logging/log");
-const { lines, pickSeeded, disclaimerLight } = require("../personality/kaizenVoice");
+const { lines, disclaimerLight } = require("../personality/kaizenVoice");
 const { detectPatternKind } = require("../conversation/boundaries");
 const { recordPattern, isInCooldown } = require("../conversation/patternMemory");
 const {
@@ -24,6 +24,25 @@ const {
 } = require("../session/sessionStore");
 const { appendAdaptiveLine } = require("../companion/adaptive");
 const { buildEnergyReply } = require("./energy");
+const { pickUnseenVariant } = require("../conversation/responseVariation");
+
+const COACH_HEAVY = new Set([
+  "emotional_reflection",
+  "reflective_open",
+  "chaos_loop",
+  "plan_tracking",
+  "self_development",
+  "work_focus"
+]);
+
+function lastTwoCoachHeavy(session) {
+  const m = session.messages || [];
+  if (m.length < 2) return false;
+  return (
+    COACH_HEAVY.has(m[m.length - 1].category) &&
+    COACH_HEAVY.has(m[m.length - 2].category)
+  );
+}
 
 function wrapAdaptive(session, lang, text, category, replyBody) {
   return replyBody + appendAdaptiveLine(session, lang, text, category);
@@ -42,6 +61,13 @@ function finalizeCoaching(session, lang, text, category, body, r) {
   let b = variateIfSameShape(session, body, r);
   b = applyBannedPhraseRotation(session, b, r);
   return wrapAdaptive(session, lang, text, category, b);
+}
+
+/** Shorter open replies — no adaptive coaching suffix. */
+function finalizeLite(session, lang, text, category, body, r) {
+  let b = variateIfSameShape(session, body, r);
+  b = applyBannedPhraseRotation(session, b, r);
+  return b;
 }
 
 function maybeVaryReply(session, category, body, r) {
@@ -155,6 +181,40 @@ function handleOpenConversation(message, lang, session) {
     };
   }
 
+  if (category === "casual_greeting") {
+    logOpen({
+      lang,
+      category,
+      handler: "responses.casualGreetingLines",
+      textPreview: text.slice(0, 80)
+    });
+    const pool =
+      /thanks|thank you|thx|köszön|mulțumesc/i.test(text) && text.length < 80
+        ? r.casualThanksLines
+        : r.casualGreetingLines;
+    const body = pickUnseenVariant(session, userId, pool);
+    return {
+      reply: finalizeLite(session, lang, text, category, body, r),
+      category: "casual_greeting",
+      suggestedAction: "/pulse"
+    };
+  }
+
+  if (category === "light_conversation") {
+    logOpen({
+      lang,
+      category,
+      handler: "responses.lightConversationLines",
+      textPreview: text.slice(0, 80)
+    });
+    const body = pickUnseenVariant(session, userId, r.lightConversationLines);
+    return {
+      reply: finalizeLite(session, lang, text, category, body, r),
+      category: "light_conversation",
+      suggestedAction: "/guide"
+    };
+  }
+
   if (category === "easter_creator") {
     logOpen({
       lang,
@@ -187,7 +247,7 @@ function handleOpenConversation(message, lang, session) {
     logOpen({
       lang,
       category,
-      handler: "responses.energyIntentReply+buildEnergyReply",
+      handler: "responses.energyFramed+buildEnergyReply",
       textPreview: text.slice(0, 80)
     });
     const teaser = buildEnergyReply(new Date(), lang)
@@ -195,7 +255,16 @@ function handleOpenConversation(message, lang, session) {
       .filter(Boolean)
       .slice(0, 1)
       .join("\n\n");
-    const body = lines(r.energyIntentReply, "", teaser);
+    const intro = pickUnseenVariant(session, userId, r.energyFramedIntros);
+    const body = lines(
+      intro,
+      "",
+      r.energyFramedGoodBad,
+      "",
+      teaser,
+      "",
+      r.energyFramedAngles
+    );
     return {
       reply: finalizeCoaching(session, lang, text, category, body, r),
       category: "energy_question",
@@ -259,6 +328,21 @@ function handleOpenConversation(message, lang, session) {
     };
   }
 
+  if (category === "trading_context") {
+    logOpen({
+      lang,
+      category,
+      handler: "responses.tradingContextBodies",
+      textPreview: text.slice(0, 80)
+    });
+    const body = pickUnseenVariant(session, userId, r.tradingContextBodies);
+    return {
+      reply: finalizeCoaching(session, lang, text, category, body, r),
+      category: "trading_context",
+      suggestedAction: "/trade"
+    };
+  }
+
   if (category === "focus_drift") {
     logOpen({
       lang,
@@ -266,10 +350,15 @@ function handleOpenConversation(message, lang, session) {
       handler: "responses.categories.focus_drift",
       textPreview: text.slice(0, 80)
     });
+    const base = pickUnseenVariant(
+      session,
+      userId,
+      r.focusDriftVariants || [r.categories.focus_drift]
+    );
     const body = maybeVaryReply(
       session,
       category,
-      withContinuity(session, category, r.categories.focus_drift, r),
+      withContinuity(session, category, base, r),
       r
     );
     return {
@@ -306,7 +395,16 @@ function handleOpenConversation(message, lang, session) {
       handler: "responses.reflectivePrompts",
       textPreview: text.slice(0, 80)
     });
-    const body = pickSeeded(r.reflectivePrompts, String(userId));
+    let body;
+    if (lastTwoCoachHeavy(session) && r.pacingReflectiveShortlines?.length) {
+      body = pickUnseenVariant(session, userId, r.pacingReflectiveShortlines);
+      return {
+        reply: finalizeLite(session, lang, text, category, body, r),
+        category: "reflective_open",
+        suggestedAction: "/focus"
+      };
+    }
+    body = pickUnseenVariant(session, userId, r.reflectivePrompts);
     return {
       reply: finalizeCoaching(session, lang, text, category, body, r),
       category: "reflective_open",
@@ -325,9 +423,16 @@ function handleOpenConversation(message, lang, session) {
   ) {
     body = r.categories.unknown_alt;
   }
-  body = maybeVaryReply(session, category, withContinuity(session, category, body, r), r);
-  if (category === "emotional_reflection" && r.openHintEmotional) {
-    body = body + r.openHintEmotional;
+  if (category === "emotional_reflection") {
+    body = pickUnseenVariant(
+      session,
+      userId,
+      r.emotionalReflectionVariants || [r.categories.emotional_reflection]
+    );
+    body = maybeVaryReply(session, category, withContinuity(session, category, body, r), r);
+    if (r.openHintEmotional) body = body + r.openHintEmotional;
+  } else {
+    body = maybeVaryReply(session, category, withContinuity(session, category, body, r), r);
   }
 
   logOpen({
@@ -346,7 +451,10 @@ function handleOpenConversation(message, lang, session) {
     help_intent: "/guide",
     energy_question: "/energy",
     clarity_protocol: "/clarity",
-    easter_creator: "/guide"
+    easter_creator: "/guide",
+    casual_greeting: "/pulse",
+    light_conversation: "/guide",
+    trading_context: "/trade"
   };
 
   return {

@@ -196,5 +196,21 @@ module.exports = {
     "Un respir de credit, fără spectacol.",
     "",
     "Apoi: /next sau /mirror"
+  ].join("\n"),
+
+  lockin: [
+    "Lock-in:",
+    "O singură suprafață pentru următoarele 45 de minute.",
+    "Telefonul cu fața în jos. Un tab dacă poți.",
+    "Livrează o bucată vizibilă — apoi /done",
+    "",
+    "Dacă tranzacționezi azi: /check înainte de mărime."
+  ].join("\n"),
+
+  review: [
+    "Micro-review:",
+    "Ce a mers în ultimul bloc — o linie?",
+    "Ce ți-a furat timpul — un cuvânt?",
+    "Blocul următor mai mic: /focus"
   ].join("\n")
 };

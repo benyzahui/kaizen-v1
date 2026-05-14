@@ -17,6 +17,7 @@ const HIGH_INTENSITY = [
 ];
 const MID_INTENSITY = [
   "trading_impulse",
+  "trading_context",
   "emotional_reflection",
   "focus_drift",
   "work_focus"
@@ -32,6 +33,7 @@ function nextStepHint(cat, lastCmd, r) {
   if (["chaos_loop", "immediate_recovery", "pattern_blocked", "session_loop"].includes(cat))
     return r.statusNextRecovery;
   if (cat === "trading_impulse") return r.statusNextTrade;
+  if (cat === "trading_context") return r.statusNextTrade;
   if (cat === "emotional_reflection" || cat === "emotional_repeat_triple")
     return r.statusNextEmotional;
   if (cat === "focus_drift") return r.statusNextDrift;

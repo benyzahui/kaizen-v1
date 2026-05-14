@@ -21,7 +21,10 @@ function startOnboarding(userId) {
     onboardingStep: 1,
     lastAssistantPrints: [],
     comfortOpenerUses: 0,
-    smallStepAskUses: 0
+    smallStepAskUses: 0,
+    recentCoachSnippets: [],
+    recentCommands: [],
+    conversationState: null
   });
 }
 

@@ -30,6 +30,134 @@ module.exports = {
     "Szükség esetén visszavezetlek a struktúrához."
   ].join("\n"),
 
+  helpGrouped: [
+    "KaiZen — parancsok csoportosítva",
+    "",
+    "Napi ritmus:",
+    "/pulse /focus /mirror",
+    "",
+    "Túlterhelés:",
+    "/reset /ground /breathe /recovery",
+    "",
+    "Trading:",
+    "/trade /check /risk /cooldown /notrade",
+    "",
+    "Test & mozgás:",
+    "/body /walk /train /sleep",
+    "",
+    "Irány & elme:",
+    "/plan /clarity /path /question /lockin /review",
+    "",
+    "Energia (gyakorlati):",
+    "/energy",
+    "",
+    "Profil & térkép:",
+    "/setup /profile /guide /status /skip",
+    "",
+    "Írhatsz természetesen is. Én tartom a keretet."
+  ].join("\n"),
+
+  helpSuggestedLabel: "Javasolt következő (utolsó forduló alapján):",
+  helpSuggestedOverload: "/reset vagy /ground — aztán egy órára kevesebb bemenet.",
+  helpSuggestedTrading: "/trade vagy /risk — méret csak tiszta állapotban.",
+  helpSuggestedFocus: "/focus — egy sor, egy 25 perces blokk.",
+  helpSuggestedEnergy: "/energy a teljes strukturált olvasathoz.",
+  helpSuggestedDefault: "/pulse vagy /guide — előbb horgony, aztán bővítés.",
+
+  casualGreetingLines: [
+    "Jó reggelt.\nVédd korán a fókuszt ma.",
+    "Reggel.\nEgy kis győzelem délig elég.",
+    "Szia.\nHa lehet, csendes első óra."
+  ],
+
+  casualThanksLines: [
+    "Értem.\nMaradj a struktúrádnál, ha visszajössz.",
+    "Oké.\nNincs produkció — csak következetesség.",
+    "Köszi a jelet.\nVissza a sávodhoz, ha kész vagy."
+  ],
+
+  lightConversationLines: [
+    "A fegyelem könnyebb, ha az identitás tiszta — puszta akaraterő hamar ég el.",
+    "A szokás akkor marad, ha a környezet súrlódást vesz le, nem amikor felpörög a motiváció.",
+    "A fókusz főleg kivonás: kevesebb bemenet, ugyanaz a standard.",
+    "Előbb identitás, aztán intenzitás — különben örök az alkudozás."
+  ],
+
+  pacingReflectiveShortlines: [
+    "Túl sok nyitott ciklus egyszerre.",
+    "Nem döntési pillanat — egy órára kevesebb bemenet.",
+    "Víz. Mozgás. Aztán újraértékelés.",
+    "Szűkíts: egy lap, egy eredmény."
+  ],
+
+  tradingContextBodies: [
+    "A várakozás is munka — az unalom nem jel, hogy kényszeríts trade-et.\nHa mégis: előbb /check.",
+    "Pre-open gyakorlás, nem bizonyíték.\nKockázat leírva? Ha nem, állj félre.\nA csengőnél: /trade",
+    "Átmenetekben a türelem fizet.\nÍrj egy sort: mi érvénytelenítené az ötletet?",
+    "Előbb chart, aztán narratíva.\nHa a történet hangosabb a tervnél: szünet.\nMéret előtt: /risk"
+  ],
+
+  focusDriftVariants: [
+    [
+      "Túl sok nyitott ciklus egyszerre.",
+      "Zárj egyet, mielőtt újat nyitsz.",
+      "Következő 25 perc: egy lap, egy célvonal."
+    ].join("\n\n"),
+    [
+      "Szétszórtság terhelés-kérdés, nem jellemhiba.",
+      "Válassz egy látható kimenetet a következő blokkra.",
+      "Ha zárod egy sorba: /focus"
+    ].join("\n\n"),
+    [
+      "Zaj gyakran alul-táplált testből vagy túl ingerből jön.",
+      "Víz, öt perc mozgás, aztán egy feladat.",
+      "Mi a legkisebb célvonal, amit most átlépsz?"
+    ].join("\n\n"),
+    [
+      "Nem mélység — hatókör.",
+      "Vágd félbe az óra hatókörét.",
+      "Mi az egy blokk, ami őszintévé teszi a napot?"
+    ].join("\n\n")
+  ],
+
+  emotionalReflectionVariants: [
+    [
+      "Nehéznek hangzik.",
+      "Egy földelt mondat elég — nem kell tökéletes magyarázat.",
+      "Mi a következő stabilizáló lépés (apró is jó)?"
+    ].join("\n\n"),
+    [
+      "Értem.",
+      "Egyszerű szavak: helyzet, nem ítélet.",
+      "Ha később struktúra: /reset opcionális."
+    ].join("\n\n"),
+    [
+      "Intenzitás konténer nélkül zaj lesz.",
+      "Kis konténer: tíz perc, egy szoba, nincs scroll.",
+      "Aztán egy őszinte sor arról, mire van szükség."
+    ].join("\n\n")
+  ],
+
+  energyFramedIntros: [
+    "Ma az egyszerűsítés kap több teret, mint a bővítés.",
+    "Mai olvasat: előbb szűkíts, aztán nyújtasz."
+  ],
+
+  energyFramedGoodBad: [
+    "Jó ehhez:",
+    "• rendezés",
+    "• tervezés",
+    "• meglévő rendszerek finomítása",
+    "",
+    "Kerülendő:",
+    "• érzelmi döntés",
+    "• impulzív trade",
+    "• túlingerelés"
+  ].join("\n"),
+
+  energyFramedAngles:
+    "Élesebb szög? Írj egy szót: trading · érzelmi · gyakorlati",
+
   unknown: "Nem értettem a parancsot. Nyugodtan: /help",
 
   recoveryTimeoutReply:
@@ -61,6 +189,9 @@ module.exports = {
 
   helpTipBody:
     "Tipp: test le → /body vagy /walk nagy döntés előtt.",
+
+  helpTipLight:
+    "Tipp: könnyű beszélgetés oké — teljes térképhez /guide.",
 
   continuityLine: "Ugyanaz a szál — egy kicsit mélyebben:",
 
@@ -143,17 +274,17 @@ module.exports = {
   planFieldFocus: "Aktuális 60 perces fókusz",
 
   chaosSoftReply: [
-    "Túlterhelés, nem kudarc — kevesebb bemenet kell, nem több ítélet.",
-    "Apró downgrade: víz, halványabb kép, vagy tíz csendes perc.",
-    "Mi a legközelebbi gyengéd fizikai lépés két percen belül?"
+    "Túlterhelés sávszélesség kérdés — nem ítélet.",
+    "Csökkents bemenetet: víz, halványabb kép, tíz csendes perc.",
+    "Következő: egy fizikai mozdulat gondolkodás nélkül."
   ].join("\n\n"),
 
-  openHintEmotional: "\n\nHa struktúrát kérsz: /reset",
+  openHintEmotional: "\n\nOpcionális: /reset",
 
   reflectivePrompts: [
-    "Nevezd meg a feszültséget egy sorban — még ne javítás.\nMit keresnél a tisztánlátással őszintén?",
-    "Melyik döntés körül mész, mert attól lenne egyértelmű a következő lépés?",
-    "Ha hatvan másodpercre megbízhatnál magadban, mit hagynál abba alkudozni?"
+    "Nevezd meg a feszültséget egy sorban — még ne javítás.",
+    "Melyik döntés tenné egyértelművé a következő lépést?",
+    "Ha hatvan másodpercre abbahagynád az alkudozást, mit választanál?"
   ],
 
   emotionalTripleGrounding: [
@@ -213,9 +344,9 @@ module.exports = {
     ].join("\n\n"),
 
     emotional_reflection: [
-      "Nehéznek hangzik, és számít.",
-      "Nem kell tökéletesen magyarázni — egy igaz mondat elég.",
-      "Mi az érzés a szavak alatt (egy szó)?"
+      "Nehéznek hangzik.",
+      "Egy földelt mondat elég.",
+      "Mi a következő stabilizáló lépés (apró is jó)?"
     ].join("\n\n"),
 
     work_focus: [
@@ -238,14 +369,14 @@ module.exports = {
 
     general_curiosity: [
       "Mondd egy őszinte sorban a súlyt.",
-      "Mit mondana egy stabil barát dráma nélkül?",
+      "Mi lenne egy nyugodt olvasata ennek a helyzetnek?",
       "Mi egy kis lépés, ami nem ront?"
     ].join("\n\n"),
 
     unknown: [
-      "Itt vagyok — mondd ki nyíltan, akár rendetlenül.",
-      "Mi egy stabilizáló mozdulat két perc alatt?",
-      "Mi segítene most: tisztánlátás, pihenés, vagy egy zárt feladat?"
+      "Rövid jel érkezett.",
+      "Egy tény, egy szándék — vagy rituálé: /pulse",
+      "Térképhez: /guide"
     ].join("\n\n"),
 
     unknown_alt: [

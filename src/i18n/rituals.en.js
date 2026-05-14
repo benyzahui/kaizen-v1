@@ -196,5 +196,21 @@ module.exports = {
     "One breath of credit, no performance.",
     "",
     "Then: /next or /mirror"
+  ].join("\n"),
+
+  lockin: [
+    "Lock-in:",
+    "One surface only for the next 45 minutes.",
+    "Phone face-down. One tab if you can.",
+    "Ship one visible piece — then /done",
+    "",
+    "If you trade today: /check before size."
+  ].join("\n"),
+
+  review: [
+    "Micro-review:",
+    "What worked in the last block — one line?",
+    "What stole time — one word?",
+    "Next block stays smaller: /focus"
   ].join("\n")
 };
