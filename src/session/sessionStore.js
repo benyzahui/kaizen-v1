@@ -25,7 +25,8 @@ const PROFILE_AND_LOCK_KEYS = [
   "onboardingStep",
   "programLane",
   "currentMission",
-  "preferredTrainingStyle"
+  "preferredTrainingStyle",
+  "meetKaiZenCompleted"
 ];
 const { replyFingerprint } = require("../conversation/replyFingerprint");
 const { countBannedPhraseHits } = require("../conversation/bannedPhrases");
@@ -81,6 +82,7 @@ function emptySession() {
     lastTopic: null,
     dailyTask: null,
     programMode: null,
+    currentProgramStep: null,
     lastMantraDate: null,
     lastMirrorDate: null,
     focusLocked: false,

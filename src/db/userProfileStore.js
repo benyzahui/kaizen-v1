@@ -41,7 +41,8 @@ function userRowToSessionPatch(row) {
     onboardingStep: Number(row.onboarding_step) || 0,
     programLane: row.program_lane ?? "free",
     currentMission: row.current_mission ?? null,
-    preferredTrainingStyle: row.preferred_training_style ?? null
+    preferredTrainingStyle: row.preferred_training_style ?? null,
+    meetKaiZenCompleted: Boolean(row.meet_kaizen_completed)
   };
 }
 
@@ -73,6 +74,7 @@ function sessionToUserUpsert(telegramId, message, session) {
     program_lane: lane,
     current_mission: session.currentMission ?? null,
     preferred_training_style: session.preferredTrainingStyle ?? null,
+    meet_kaizen_completed: Boolean(session.meetKaiZenCompleted),
     updated_at: new Date().toISOString()
   };
 }

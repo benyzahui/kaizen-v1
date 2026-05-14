@@ -7,6 +7,7 @@
 
 const { resolveLang, fromTelegramCode } = require("../i18n/languageDetect");
 const { command: logCommand } = require("../logging/log");
+const { lines } = require("../personality/kaizenVoice");
 const { getResponses } = require("../i18n/getResponses");
 const { handleEnergy } = require("./energyHandler");
 const {
@@ -23,9 +24,23 @@ const {
   skipOnboarding,
   buildProfileReply
 } = require("./onboarding");
-const { updateSession } = require("../session/sessionStore");
+const { updateSession, getSession } = require("../session/sessionStore");
 const { clearRemoteSession } = require("../db/syncState");
 const { handleTrainingCommand } = require("./dragonTraining");
+const { appendProgramProgress } = require("./programFlow");
+
+const PROGRAM_WRAP = new Set([
+  "/program",
+  "/morning",
+  "/energy",
+  "/mission",
+  "/body",
+  "/breath",
+  "/walk",
+  "/train",
+  "/evening",
+  "/mirror"
+]);
 
 function uid(message) {
   return String(message.from?.id ?? message.chat?.id ?? "");
@@ -65,13 +80,20 @@ async function routeCommandMessage(message, session) {
   let reply;
 
   switch (command) {
-    case "/start":
-      startOnboarding(uid(message));
-      reply = getStartReply(lang);
+    case "/start": {
+      const id = uid(message);
+      const s0 = getSession(id);
+      if (s0.onboardingCompleted) {
+        reply = r.obStartReturning;
+        break;
+      }
+      startOnboarding(id);
+      reply = getStartReply(lang, getSession(id));
       break;
+    }
     case "/setup":
       startOnboarding(uid(message));
-      reply = getStartReply(lang);
+      reply = getStartReply(lang, getSession(uid(message)));
       break;
     case "/skip":
       reply = skipOnboarding(uid(message), lang);
@@ -81,6 +103,12 @@ async function routeCommandMessage(message, session) {
       break;
     case "/help":
       reply = buildHelpReply(lang, session);
+      break;
+    case "/commands":
+      reply = r.tCommandsCategorized;
+      break;
+    case "/map":
+      reply = lines(r.tCommandsCategorized, "", "", r.tMapFooter);
       break;
     case "/guide":
       reply = buildGuideReply(lang);
@@ -163,6 +191,9 @@ async function routeCommandMessage(message, session) {
     handler,
     textPreview: String(text).slice(0, 80)
   });
+  if (reply && PROGRAM_WRAP.has(command)) {
+    reply = appendProgramProgress(uid(message), command, reply, lang);
+  }
   return reply;
 }
 

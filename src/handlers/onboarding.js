@@ -7,32 +7,43 @@ const { lines } = require("../personality/kaizenVoice");
 const { getResponses } = require("../i18n/getResponses");
 const { updateSession, getSession } = require("../session/sessionStore");
 const { profileDefaults } = require("../session/userProfile");
+const { detectLanguage } = require("../i18n/languageDetect");
 
 function resetProfileFields(userId) {
   updateSession(userId, profileDefaults());
 }
 
 function startOnboarding(userId) {
-  const prevLane = getSession(userId).programLane || "free";
+  const cur = getSession(userId);
+  const prevLane = cur.programLane || "free";
+  const keepMeet = Boolean(cur.meetKaiZenCompleted);
   resetProfileFields(userId);
   updateSession(userId, {
+    meetKaiZenCompleted: keepMeet,
+    programLane: prevLane,
     onboardingActive: true,
     onboardingCompleted: false,
     onboardingSkipped: false,
-    onboardingStep: 1,
+    onboardingStep: keepMeet ? 1 : 0,
     lastAssistantPrints: [],
     comfortOpenerUses: 0,
     smallStepAskUses: 0,
     recentCoachSnippets: [],
     recentCommands: [],
-    conversationState: null,
-    programLane: prevLane
+    conversationState: null
   });
 }
 
-function getStartReply(lang) {
+/**
+ * @param {'en'|'hu'|'ro'} lang
+ * @param {object} session
+ */
+function getStartReply(lang, session) {
   const r = getResponses(lang);
-  return r.obIntro;
+  if (!session.meetKaiZenCompleted && Number(session.onboardingStep) === 0) {
+    return r.obMeetKaiZenIntro;
+  }
+  return r.obQ1;
 }
 
 function parsePathToken(raw) {
@@ -218,7 +229,31 @@ function processOnboardingReply(userId, text, session, lang) {
     return { reply: skipOnboarding(userId, lang) };
   }
 
-  const step = session.onboardingStep || 1;
+  const step = Number(session.onboardingStep) || 0;
+
+  if (step === 0 && !session.meetKaiZenCompleted) {
+    if (raw.length < 3) {
+      return {
+        reply: lines(r.obMeetTooShort, "", r.obMeetKaiZenIntro)
+      };
+    }
+    const detected = detectLanguage(raw);
+    updateSession(userId, {
+      meetKaiZenCompleted: true,
+      preferredLanguage: detected,
+      lang: detected,
+      onboardingStep: 1
+    });
+    const r2 = getResponses(detected);
+    const snippet = raw.slice(0, 200).replace(/\s+/g, " ").trim();
+    const heard = r2.obMeetHeardYou.replace("{snippet}", snippet);
+    return { reply: lines(heard, "", r2.obMeetContinue, "", r2.obQ1) };
+  }
+
+  if (step === 0 && session.meetKaiZenCompleted) {
+    updateSession(userId, { onboardingStep: 1 });
+    return { reply: r.obQ1 };
+  }
 
   const tangential =
     /\?/.test(raw) &&
@@ -300,6 +335,7 @@ function processOnboardingReply(userId, text, session, lang) {
       onboardingCompleted: true,
       onboardingActive: false,
       onboardingSkipped: false,
+      meetKaiZenCompleted: true,
       ...langPatch
     });
     const s = getSession(userId);

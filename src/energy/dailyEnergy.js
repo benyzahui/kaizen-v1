@@ -1,9 +1,10 @@
 /**
  * Daily Energy Intelligence — structured compose (numerology, season, moon, tone, action).
- * No fortune-telling; ENERGY_MODE controls moon honesty (see moonPhase.js).
+ * V1.9: premium readability layout (headers, spacing, restrained emoji).
  */
 
 const { lines } = require("../personality/tone");
+const { getResponses } = require("../i18n/getResponses");
 const { getUniversalDayVibration } = require("./numerology");
 const { getAstrologicalSeason } = require("./astrologySeason");
 const { getMoonPhaseContext } = require("./moonPhase");
@@ -16,6 +17,56 @@ const {
   signLine,
   getLensTail
 } = require("../i18n/dailyEnergyStrings");
+
+/**
+ * @param {'en'|'hu'|'ro'} lang
+ * @param {string} lens
+ */
+function premiumSectionLabels(lang, lens) {
+  const l = lang === "hu" ? "hu" : lang === "ro" ? "ro" : "en";
+  const lensNote =
+    l === "hu"
+      ? ` (${lens === "general" ? "általános" : lens})`
+      : l === "ro"
+        ? ` (${lens === "general" ? "general" : lens})`
+        : lens !== "general"
+          ? ` (${lens})`
+          : "";
+  if (l === "hu") {
+    return {
+      title: `🌙 A nap energiája${lensNote}`,
+      numerology: "🔢 Numerológia",
+      astrology: "♉ Asztrológiai minőség",
+      moon: "🌘 Hold",
+      mind: "🧠 Mentális fókusz",
+      direction: "🔥 Legjobb irány",
+      trading: "📈 Trading",
+      body: "🌿 Test"
+    };
+  }
+  if (l === "ro") {
+    return {
+      title: `🌙 Energia zilei${lensNote}`,
+      numerology: "🔢 Numerologie",
+      astrology: "♉ Calitate astrologică",
+      moon: "🌘 Lună",
+      mind: "🧠 Focus mental",
+      direction: "🔥 Cea mai bună direcție",
+      trading: "📈 Trading",
+      body: "🌿 Corp"
+    };
+  }
+  return {
+    title: `🌙 Today's energy${lensNote}`,
+    numerology: "🔢 Numerology",
+    astrology: "♉ Astrological quality",
+    moon: "🌘 Moon",
+    mind: "🧠 Mental focus",
+    direction: "🔥 Best direction",
+    trading: "📈 Trading",
+    body: "🌿 Body"
+  };
+}
 
 /**
  * @param {Date} [date]
@@ -37,62 +88,53 @@ function buildDailyEnergyMessage(date = new Date(), lang = "en", lens = "general
     moon.mode === "api" && moon.displayKey === "api_pending"
       ? f.moon.apiPending
       : f.moon.staticHonest;
-  const sign = signLine(season.sign, l);
+  const sign = signLine(season.sign, l) || "—";
   const tail = getLensTail(l, lens);
-
   const tradingLine = pickTrading(l, vib);
   const bodyLine = pickBody(l, vib);
+  const r = getResponses(l);
+  const foot = r.tEnergyLensFooter || "";
 
-  const emotionalBlock =
-    lens === "emotion" && tail
-      ? lines(core.emotion, tail)
-      : core.emotion;
-
+  const emotionForMind =
+    lens === "emotion" && tail ? lines(core.emotion, tail) : core.emotion;
   const directionBlock =
     lens === "work" && tail ? lines(action, tail) : action;
-
   const tradingBlock =
-    lens === "trading" && tail
-      ? lines(tradingLine, tail)
-      : tradingLine;
+    lens === "trading" && tail ? lines(tradingLine, tail) : tradingLine;
+  const bodyBlock = lens === "body" && tail ? lines(bodyLine, tail) : bodyLine;
 
-  const bodyBlock =
-    lens === "body" && tail ? lines(bodyLine, tail) : bodyLine;
+  const h = premiumSectionLabels(l, lens);
+  const headNote = f.lensLead[lens] ? lines(f.lensLead[lens]) : null;
 
-  const head = f.lensLead[lens]
-    ? lines(f.title, "", f.lensLead[lens])
-    : f.title;
-
-  const blocks = [
-    head,
+  const parts = [
+    h.title,
+    headNote,
     "",
-    f.labels.numerology,
+    h.numerology,
     core.num,
     core.body,
     "",
-    f.labels.astrology,
-    sign || "—",
+    h.astrology,
+    sign,
     "",
-    f.labels.moon,
+    h.moon,
     moonText,
     "",
-    f.labels.emotionalTone,
-    emotionalBlock,
+    h.mind,
+    lines(emotionForMind, watch),
     "",
-    f.labels.watchToday,
-    watch,
-    "",
-    f.labels.bestDirection,
+    h.direction,
     directionBlock,
     "",
-    f.labels.trading,
+    h.trading,
     tradingBlock,
     "",
-    f.labels.body,
-    bodyBlock
+    h.body,
+    bodyBlock,
+    foot
   ];
 
-  return lines(...blocks.filter((x) => x !== null));
+  return lines(...parts.filter((x) => x !== null && x !== ""));
 }
 
 module.exports = { buildDailyEnergyMessage };

@@ -27,6 +27,7 @@ const { appendAdaptiveLine } = require("../companion/adaptive");
 const { buildEnergyFromOpenText } = require("./energyHandler");
 const { pickUnseenVariant } = require("../conversation/responseVariation");
 const { detectLaneWandering } = require("../conversation/focusLane");
+const { programWanderLine } = require("./programFlow");
 
 const COACH_HEAVY = new Set([
   "emotional_reflection",
@@ -65,6 +66,8 @@ function finalizeCoaching(userId, session, lang, text, category, body, r) {
     updateSession(userId, { focusLocked: true });
     b = lines(r.tFocusLaneNudge, "", b);
   }
+  const wander = programWanderLine(session, lang);
+  if (wander) b = lines(b, "", wander);
   b = variateIfSameShape(session, b, r);
   b = applyBannedPhraseRotation(session, b, r);
   return wrapAdaptive(session, lang, text, category, b);
@@ -77,6 +80,8 @@ function finalizeLite(userId, session, lang, text, category, body, r) {
     updateSession(userId, { focusLocked: true });
     b = lines(r.tFocusLaneNudge, "", b);
   }
+  const wander = programWanderLine(session, lang);
+  if (wander) b = lines(b, "", wander);
   b = variateIfSameShape(session, b, r);
   b = applyBannedPhraseRotation(session, b, r);
   return b;

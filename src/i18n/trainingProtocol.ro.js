@@ -260,6 +260,88 @@ module.exports = {
     "/setup /profile /mission /clear /status /language"
   ].join("\n"),
 
+  tProgramActivated: [
+    "⚔️ Dragon Training — activ.",
+    "",
+    "Structura zilnică e live: mantra → energie → misiune → corp → oglindă.",
+    "",
+    "Pasul 1: /morning",
+    "",
+    "Hartă completă (salveaz-o): /map"
+  ].join("\n"),
+
+  tProgramStep2Energy: "Pasul următor: /energy",
+  tProgramStep3Mission: "Pasul următor: /mission",
+  tProgramStep4Body: "Pasul următor: /body sau /breath",
+  tProgramStep5Evening: "Pasul următor: /evening sau /mirror",
+  tProgramCycleClosed: "Ciclul de azi s-a închis.\n\nSeara: /mirror — mâine: /program",
+
+  tProgramWanderOpenChat: [
+    "Chat liber e ok.",
+    "Dar banda programului e încă activă.",
+    "",
+    "Continuă: următoarea comandă din /program",
+    "Refocus: /focus",
+    "Șterge sesiunea (profilul rămâne): /clear"
+  ].join("\n"),
+
+  tCommandsCategorized: [
+    "KaiZen — hartă comenzi",
+    "",
+    "START",
+    "/start /setup /program /mission /today /focus /done /clear",
+    "",
+    "ZILNIC",
+    "/morning /mantra /pulse /evening /mirror /review",
+    "",
+    "TRANSFORMARE",
+    "/discipline /resistance /procrastination /shadow /lettinggo /identity /lockin",
+    "",
+    "CORP",
+    "/body /breath /walk /train /sleep /recovery",
+    "",
+    "ENERGIE",
+    "/energy /moon /numerology /astro /ground /recenter",
+    "",
+    "BUSINESS",
+    "/business /admin /sales /analytics",
+    "",
+    "TRADING",
+    "/trade /check /risk /cooldown /notrade",
+    "",
+    "PROFIL",
+    "/profile /status /language /help /guide /commands /map"
+  ].join("\n"),
+
+  tMapFooter: "Salvează acest mesaj. E harta ta de training.",
+
+  helpV19Simple: [
+    "KaiZen se folosește în două moduri:",
+    "",
+    "1) Natural — reflecție și claritate.",
+    "2) Comenzi — structură și training.",
+    "",
+    "Începe cadrul zilei:",
+    "/program",
+    "",
+    "Ritm zilnic:",
+    "/morning /energy /mission /body /mirror",
+    "",
+    "Listă completă:",
+    "/commands sau /map"
+  ].join("\n"),
+
+  tStatusProgram: "Program",
+  tStatusProgramStep: "Pasul următor",
+  tStatusProgramIdle: "liber (fără pas activ)",
+  tStatusNextProgram: "Sugest (program)",
+
+  tEnergyLensFooter: [
+    "",
+    "Lentile:",
+    "/energy trading · /energy body · /energy emotion · /energy work"
+  ].join("\n"),
+
   tProfileMissionLine: "Misiune (training):",
   tProfileTrainingStyle: "Stil training:"
 };

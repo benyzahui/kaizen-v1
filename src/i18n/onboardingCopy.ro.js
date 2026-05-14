@@ -1,6 +1,38 @@
 /** Romanian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  obMeetKaiZenIntro: [
+    "⚔️ KaiZen V1 online.",
+    "",
+    "Sunt companionul tău de training zilnic.",
+    "Nu sunt aici pentru divertisment. Nu sunt zgomot.",
+    "",
+    "Te ajut cu:",
+    "• disciplină",
+    "• aliniere energetică",
+    "• echilibru emoțional",
+    "• ritm fizic",
+    "• disciplină în trading",
+    "• execuție în business",
+    "• transformare pe termen lung",
+    "",
+    "Mai întâi, prezintă-te în limba ta.",
+    "Cine ești și ce vrei să întărești?"
+  ].join("\n"),
+
+  obMeetHeardYou: "Am înțeles — am citit asta: {snippet}",
+  obMeetContinue: "Acum trecem la partea structurată — câte o întrebare.",
+  obMeetTooShort: "Puțin mai mult — un paragraf onest e suficient.",
+
+  obStartReturning: [
+    "⚔️ KaiZen",
+    "",
+    "Profilul de training există deja.",
+    "Continuă: /program · /today · /profile",
+    "",
+    "Hartă completă: /commands sau /map"
+  ].join("\n"),
+
   obIntro: [
     "KaiZen V1 online.",
     "",
@@ -166,7 +198,7 @@ module.exports = {
     "/plan /clarity /path /question",
     "",
     "Profil:",
-    "/setup /profile /guide /status /language /clear /program /mission /today",
+    "/setup /profile /guide /status /language /clear /program /mission /today /commands /map",
     "",
     "Poți vorbi și natural.",
     "Te aduc înapoi la structură când e nevoie."

@@ -6,6 +6,7 @@
 const { getResponses } = require("../i18n/getResponses");
 const { lines, disclaimer } = require("../personality/kaizenVoice");
 const { pathLabel, obstacleLabel } = require("./onboarding");
+const { suggestedProgramCommand } = require("./programFlow");
 
 const HIGH_INTENSITY = [
   "chaos_loop",
@@ -82,7 +83,9 @@ function nextStepHint(cat, lastCmd, r) {
       "/focus",
       "/trade",
       "/plan",
-      "/reset"
+      "/reset",
+      "/commands",
+      "/map"
     ].includes(lastCmd)
   )
     return r.statusNextLastCommand;
@@ -192,7 +195,9 @@ function buildStatusReply(message, session, lang) {
     "/focus",
     "/trade",
     "/plan",
-    "/reset"
+    "/reset",
+    "/commands",
+    "/map"
   ]);
   const mode =
     lastCmdRaw && !metaCmds.has(lastCmdRaw)
@@ -201,7 +206,12 @@ function buildStatusReply(message, session, lang) {
   const intensityCat = rawCat || "unknown";
   const intensity = intensityLabel(intensityCat, r);
   const pathHint = pathBasedNext(session, r);
-  const next = pathHint || nextStepHint(intensityCat, lastCmdRaw, r);
+  const coachingNext = pathHint || nextStepHint(intensityCat, lastCmdRaw, r);
+  const progCmd = suggestedProgramCommand(session);
+  const progStep =
+    session.programMode === "dragon_training"
+      ? session.currentProgramStep || r.tStatusProgramIdle
+      : "—";
 
   const suggested = session.lastSuggestedAction;
   const suggestedLine =
@@ -224,7 +234,11 @@ function buildStatusReply(message, session, lang) {
     `${r.statusSessionTurns}: ${turns}`,
     `${r.statusIntensity}: ${intensity}`,
     "",
-    `${r.statusNext}: ${next}`,
+    `${r.statusNext}: ${coachingNext}`,
+    "",
+    `${r.tStatusProgram}: ${session.programMode || "—"}`,
+    `${r.tStatusProgramStep}: ${progStep}`,
+    `${r.tStatusNextProgram}: ${progCmd}`,
     "",
     r.statusCommandsHint,
     "",

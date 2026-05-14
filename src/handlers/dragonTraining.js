@@ -62,8 +62,7 @@ function handleTrainingCommand(command, message, session, lang) {
 
   switch (command) {
     case "/program":
-      updateSession(id, { programMode: "dragon_training" });
-      return r.tProgramBody;
+      return r.tProgramActivated;
     case "/today": {
       const base = r.tTodayBody;
       const m = session.currentMission?.trim();

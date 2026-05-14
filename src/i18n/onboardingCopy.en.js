@@ -1,6 +1,38 @@
 /** English copy — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  obMeetKaiZenIntro: [
+    "⚔️ KaiZen V1 online.",
+    "",
+    "I am your training companion.",
+    "Not entertainment. Not noise.",
+    "",
+    "I help you with:",
+    "• discipline",
+    "• energy alignment",
+    "• emotional balance",
+    "• body rhythm",
+    "• trading discipline",
+    "• business execution",
+    "• long-term transformation",
+    "",
+    "First, introduce yourself in your own language.",
+    "Who are you, and what do you want to strengthen?"
+  ].join("\n"),
+
+  obMeetHeardYou: "Understood — I read you here: {snippet}",
+  obMeetContinue: "Now the structured pass — one question at a time.",
+  obMeetTooShort: "A little more than that — one honest paragraph is enough.",
+
+  obStartReturning: [
+    "⚔️ KaiZen",
+    "",
+    "Your training profile already exists.",
+    "Continue: /program · /today · /profile",
+    "",
+    "Full map: /commands or /map"
+  ].join("\n"),
+
   obIntro: [
     "KaiZen V1 online.",
     "",
@@ -166,7 +198,7 @@ module.exports = {
     "/plan /clarity /path /question",
     "",
     "Profile:",
-    "/setup /profile /guide /status /language /clear /program /mission /today",
+    "/setup /profile /guide /status /language /clear /program /mission /today /commands /map",
     "",
     "You can also speak naturally.",
     "I will steer you back to structure when the chat drifts."

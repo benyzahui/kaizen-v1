@@ -261,6 +261,88 @@ module.exports = {
     "/setup /profile /mission /clear /status /language"
   ].join("\n"),
 
+  tProgramActivated: [
+    "⚔️ Dragon Training — active.",
+    "",
+    "Your daily lane is live: mantra → energy → mission → body → mirror.",
+    "",
+    "Step 1: /morning",
+    "",
+    "Full map (save it): /map"
+  ].join("\n"),
+
+  tProgramStep2Energy: "Next step: /energy",
+  tProgramStep3Mission: "Next step: /mission",
+  tProgramStep4Body: "Next step: /body or /breath",
+  tProgramStep5Evening: "Next step: /evening or /mirror",
+  tProgramCycleClosed: "Cycle closed for today.\n\nReturn tonight with /mirror — or restart tomorrow: /program",
+
+  tProgramWanderOpenChat: [
+    "Open chat is allowed.",
+    "But your current lane is still active in the program.",
+    "",
+    "Continue: next command from /program",
+    "Refocus: /focus",
+    "Reset session memory (profile stays): /clear"
+  ].join("\n"),
+
+  tCommandsCategorized: [
+    "KaiZen — command map",
+    "",
+    "START",
+    "/start /setup /program /mission /today /focus /done /clear",
+    "",
+    "DAILY",
+    "/morning /mantra /pulse /evening /mirror /review",
+    "",
+    "TRANSFORMATION",
+    "/discipline /resistance /procrastination /shadow /lettinggo /identity /lockin",
+    "",
+    "BODY",
+    "/body /breath /walk /train /sleep /recovery",
+    "",
+    "ENERGY",
+    "/energy /moon /numerology /astro /ground /recenter",
+    "",
+    "BUSINESS",
+    "/business /admin /sales /analytics",
+    "",
+    "TRADING",
+    "/trade /check /risk /cooldown /notrade",
+    "",
+    "PROFILE",
+    "/profile /status /language /help /guide /commands /map"
+  ].join("\n"),
+
+  tMapFooter: "Save this message. This is your training map.",
+
+  helpV19Simple: [
+    "KaiZen is used in two ways:",
+    "",
+    "1) Speak naturally — reflection and clarity.",
+    "2) Use commands — structure and training.",
+    "",
+    "Start the day frame:",
+    "/program",
+    "",
+    "Daily rhythm:",
+    "/morning /energy /mission /body /mirror",
+    "",
+    "Full map:",
+    "/commands or /map"
+  ].join("\n"),
+
+  tStatusProgram: "Program",
+  tStatusProgramStep: "Next step",
+  tStatusProgramIdle: "idle (no active step)",
+  tStatusNextProgram: "Suggested (program)",
+
+  tEnergyLensFooter: [
+    "",
+    "Lens options:",
+    "/energy trading · /energy body · /energy emotion · /energy work"
+  ].join("\n"),
+
   tProfileMissionLine: "Mission (training):",
   tProfileTrainingStyle: "Training style:"
 };

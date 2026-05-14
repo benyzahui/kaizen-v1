@@ -261,6 +261,88 @@ module.exports = {
     "/setup /profile /mission /clear /status /language"
   ].join("\n"),
 
+  tProgramActivated: [
+    "⚔️ Dragon Training — aktív.",
+    "",
+    "Napi sáv él: mantra → energia → küldetés → test → tükör.",
+    "",
+    "1. lépés: /morning",
+    "",
+    "Teljes térkép (mentsd el): /map"
+  ].join("\n"),
+
+  tProgramStep2Energy: "Következő lépés: /energy",
+  tProgramStep3Mission: "Következő lépés: /mission",
+  tProgramStep4Body: "Következő lépés: /body vagy /breath",
+  tProgramStep5Evening: "Következő lépés: /evening vagy /mirror",
+  tProgramCycleClosed: "A ciklus ma lezárult.\n\nEste: /mirror — holnap: /program",
+
+  tProgramWanderOpenChat: [
+    "A nyitott chat oké.",
+    "De a program sávja még aktív.",
+    "",
+    "Folytatás: a /program szerinti következő parancs",
+    "Fókusz: /focus",
+    "Session törölve (profil marad): /clear"
+  ].join("\n"),
+
+  tCommandsCategorized: [
+    "KaiZen — parancstérkép",
+    "",
+    "START",
+    "/start /setup /program /mission /today /focus /done /clear",
+    "",
+    "NAPI",
+    "/morning /mantra /pulse /evening /mirror /review",
+    "",
+    "ÁTALAKULÁS",
+    "/discipline /resistance /procrastination /shadow /lettinggo /identity /lockin",
+    "",
+    "TEST",
+    "/body /breath /walk /train /sleep /recovery",
+    "",
+    "ENERGIA",
+    "/energy /moon /numerology /astro /ground /recenter",
+    "",
+    "BUSINESS",
+    "/business /admin /sales /analytics",
+    "",
+    "TRADING",
+    "/trade /check /risk /cooldown /notrade",
+    "",
+    "PROFIL",
+    "/profile /status /language /help /guide /commands /map"
+  ].join("\n"),
+
+  tMapFooter: "Mentsd el ezt az üzenetet. Ez a training térképed.",
+
+  helpV19Simple: [
+    "A KaiZen két módon használható:",
+    "",
+    "1) Természetes beszéd — tükrözés és tisztánlátás.",
+    "2) Parancsok — szerkezet és training.",
+    "",
+    "Napi keret indítása:",
+    "/program",
+    "",
+    "Napi ritmus:",
+    "/morning /energy /mission /body /mirror",
+    "",
+    "Teljes lista:",
+    "/commands vagy /map"
+  ].join("\n"),
+
+  tStatusProgram: "Program",
+  tStatusProgramStep: "Következő lépés",
+  tStatusProgramIdle: "üres (nincs aktív lépés)",
+  tStatusNextProgram: "Javasolt (program)",
+
+  tEnergyLensFooter: [
+    "",
+    "Nézőpont:",
+    "/energy trading · /energy body · /energy emotion · /energy work"
+  ].join("\n"),
+
   tProfileMissionLine: "Küldetés (training):",
   tProfileTrainingStyle: "Training stílus:"
 };

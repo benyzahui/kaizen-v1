@@ -4,6 +4,8 @@
  */
 
 const DEFAULT_USER_PROFILE = {
+  /** After first Meet KaiZen intro + self intro, setup questions begin. */
+  meetKaiZenCompleted: false,
   currentMission: null,
   preferredTrainingStyle: null,
   userPrimaryPath: null,
@@ -42,8 +44,7 @@ function shouldInterceptOpenText(session) {
   return (
     Boolean(session?.onboardingActive) &&
     !session?.onboardingCompleted &&
-    !session?.onboardingSkipped &&
-    Number(session?.onboardingStep || 0) >= 1
+    !session?.onboardingSkipped
   );
 }
 

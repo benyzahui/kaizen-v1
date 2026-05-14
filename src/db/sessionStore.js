@@ -19,6 +19,7 @@ const EPHEMERAL_KEYS = [
   "lastEmotion",
   "dailyTask",
   "programMode",
+  "currentProgramStep",
   "lastMantraDate",
   "lastMirrorDate",
   "focusLocked"

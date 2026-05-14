@@ -1,6 +1,38 @@
 /** Hungarian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  obMeetKaiZenIntro: [
+    "⚔️ KaiZen V1 online.",
+    "",
+    "Én vagyok a napi training társad.",
+    "Nem szórakoztatásra vagyok itt. Nem zajnak.",
+    "",
+    "Ebben segítek:",
+    "• fegyelem",
+    "• energiahangolás",
+    "• érzelmi egyensúly",
+    "• testi ritmus",
+    "• trading fegyelem",
+    "• üzleti végrehajtás",
+    "• hosszú távú átalakulás",
+    "",
+    "Először mutatkozz be a saját nyelveden.",
+    "Ki vagy, és mit akarsz megerősíteni?"
+  ].join("\n"),
+
+  obMeetHeardYou: "Értettem — ezt olvastam ki belőle: {snippet}",
+  obMeetContinue: "Most jön a szerkezetes rész — egy kérdés egyszerre.",
+  obMeetTooShort: "Egy kicsit több kell — egy őszinte bekezdés elég.",
+
+  obStartReturning: [
+    "⚔️ KaiZen",
+    "",
+    "Már van training profilod.",
+    "Folytatás: /program · /today · /profile",
+    "",
+    "Teljes térkép: /commands vagy /map"
+  ].join("\n"),
+
   obIntro: [
     "KaiZen V1 online.",
     "",
@@ -166,7 +198,7 @@ module.exports = {
     "/plan /clarity /path /question",
     "",
     "Profil:",
-    "/setup /profile /guide /status /language /clear /program /mission /today",
+    "/setup /profile /guide /status /language /clear /program /mission /today /commands /map",
     "",
     "Természetesen is írhatsz.",
     "Ha elkalandozunk, visszavezetlek a struktúrához."
