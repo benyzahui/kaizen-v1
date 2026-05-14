@@ -113,11 +113,13 @@ module.exports = {
   ].join("\n"),
 
   body: [
-    "Corp:",
-    "Apă. Proteină dacă n-ai mâncat.",
-    "Două minute de mișcare lentă.",
+    "Check corp rapid:",
+    "Apă în ultima oră?",
+    "Mâncare solidă recent?",
+    "Somn: în linie mare ok sau scurt?",
+    "30–60s mișcare — scări, umeri, orice.",
     "",
-    "Apoi: /walk"
+    "Afară dacă poți: /walk"
   ].join("\n"),
 
   walk: [

@@ -1,14 +1,15 @@
 /**
- * Open conversation: light classification, grounded replies, guardrails.
- * Returns { reply, category } for session recording.
+ * Open conversation: classification → guardrails → concise coaching.
  *
- * Architecture: slash commands never enter here — webhook routes commands first.
- * This layer adds coaching tone; structured rituals stay in commands + responses.
+ * Routing flow: Netlify handler sends only non-slash text here. Commands always win first.
+ * Memory: sessionStore keeps lastCategory / lastSuggestedAction; this layer nudges continuity
+ * when the same category repeats without being a hard loop yet.
  */
 
+const { classifyMessage } = require("../conversation/classify");
 const { getResponses } = require("../i18n/getResponses");
 const { conversation: logConversation } = require("../logging/log");
-const { lines, pickSeeded, disclaimer } = require("../personality/kaizenVoice");
+const { lines, pickSeeded, disclaimerLight } = require("../personality/kaizenVoice");
 const { detectPatternKind } = require("../conversation/boundaries");
 const { recordPattern, isInCooldown } = require("../conversation/patternMemory");
 const {
@@ -24,74 +25,17 @@ function logOpen(payload) {
   logConversation(JSON.stringify(payload), null);
 }
 
-function classifyMessage(text) {
-  const t = String(text || "").trim();
-  if (!t) return "unknown";
-
-  if (
-    /(hopeless|spiral|can't stop|cant stop|meltdown|overstim|overwhelmed|overload|overloaded|mental overload|panic|dying inside|pánik|reménytelen|összeoml|panică|disperat|can't breathe|cant breathe)/i.test(
-      t
-    )
-  ) {
-    return "chaos_loop";
+function maybeVaryReply(session, category, body, r) {
+  const prev = session?.lastReplyByCategory?.[category];
+  if (prev && prev === body && r.variationNudge) {
+    return lines(body, "", r.variationNudge);
   }
-
-  if (
-    /(fomo|yolo|revenge trade|all in|all-in|margin call|chase the loss|overtrad|100x|leveraged|impulsive trade|buying out of|revenge trading)/i.test(
-      t
-    )
-  ) {
-    return "trading_impulse";
-  }
-
-  if (
-    /\b(plan|calendar|schedule|todo|roadmap|quarter|sprint)\b/i.test(t) ||
-    /(menetrend|ütem|terv|napirend)/i.test(t)
-  ) {
-    return "plan_tracking";
-  }
-
-  if (
-    /\b(work|deadline|boss|client|meeting|project|office)\b/i.test(t) ||
-    /(munka|határidő|projekt|főnök|ügyfél)/i.test(t)
-  ) {
-    return "work_focus";
-  }
-
-  if (
-    /\b(habit|learn|journal|course|read|skills)\b/i.test(t) ||
-    /(szokás|tanul|napló|fejlőd|curs)/i.test(t)
-  ) {
-    return "self_development";
-  }
-
-  if (
-    /\b(feel|feeling|sad|anxious|scattered|lost|empty|stressed|tired of)\b/i.test(
-      t
-    ) ||
-    /(érz|szorong|szétszórt|szétesett|kimerült|nem bírom|magány|tristețe|trist|obosit|obosită|epuizat|stresat|nu am chef|fără chef|fară chef|szét vagyok|szétesett)/i.test(
-      t
-    )
-  ) {
-    return "emotional_reflection";
-  }
-
-  const low = t.toLowerCase();
-  if (
-    /\?/.test(t) ||
-    /^(what|why|how|who)\b/i.test(low) ||
-    /^ce\s/i.test(t)
-  ) {
-    return "general_curiosity";
-  }
-
-  return "unknown";
+  return body;
 }
 
-function maybeVaryReply(session, category, body) {
-  const prev = session?.lastReplyByCategory?.[category];
-  if (prev && prev === body) {
-    return `${body}\n\n(Say one new detail you have not repeated yet.)`;
+function withContinuity(session, category, body, r) {
+  if (session?.lastCategory === category && r.continuityLine) {
+    return lines(r.continuityLine, "", body);
   }
   return body;
 }
@@ -100,7 +44,7 @@ function maybeVaryReply(session, category, body) {
  * @param {object} message
  * @param {'en'|'hu'|'ro'} lang
  * @param {object} session
- * @returns {{ reply: string, category: string }}
+ * @returns {{ reply: string, category: string, suggestedAction?: string|null }}
  */
 function handleOpenConversation(message, lang, session) {
   const userId = message.from?.id ?? message.chat?.id;
@@ -128,9 +72,10 @@ function handleOpenConversation(message, lang, session) {
       reply: lines(
         formatFullRecovery(lang, { includeLoopIntro: false }),
         "",
-        disclaimer(lang)
+        disclaimerLight(lang)
       ),
-      category: "immediate_recovery"
+      category: "immediate_recovery",
+      suggestedAction: "/reset"
     };
   }
 
@@ -149,9 +94,10 @@ function handleOpenConversation(message, lang, session) {
         reply: lines(
           formatFullRecovery(lang, { includeLoopIntro: true }),
           "",
-          disclaimer(lang)
+          disclaimerLight(lang)
         ),
-        category: "pattern_blocked"
+        category: "pattern_blocked",
+        suggestedAction: "/reset"
       };
     }
   }
@@ -166,8 +112,9 @@ function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     return {
-      reply: lines(r.emotionalTripleGrounding, "", disclaimer(lang)),
-      category: "emotional_repeat_triple"
+      reply: lines(r.emotionalTripleGrounding, "", disclaimerLight(lang)),
+      category: "emotional_repeat_triple",
+      suggestedAction: "/reset"
     };
   }
 
@@ -178,7 +125,11 @@ function handleOpenConversation(message, lang, session) {
       handler: "sessionStore.loop",
       textPreview: text.slice(0, 80)
     });
-    return { reply: r.sessionLoopBoundary, category: "session_loop" };
+    return {
+      reply: r.sessionLoopBoundary,
+      category: "session_loop",
+      suggestedAction: "/mirror"
+    };
   }
 
   if (category === "chaos_loop") {
@@ -189,8 +140,9 @@ function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     return {
-      reply: lines(r.chaosSoftReply, "", disclaimer(lang)),
-      category: "chaos_loop"
+      reply: withContinuity(session, category, r.chaosSoftReply, r),
+      category: "chaos_loop",
+      suggestedAction: "/reset"
     };
   }
 
@@ -202,26 +154,72 @@ function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     return {
-      reply: lines(r.tradingGuardrail, "", disclaimer(lang)),
-      category: "trading_impulse"
+      reply: withContinuity(session, category, r.tradingGuardrail, r),
+      category: "trading_impulse",
+      suggestedAction: "/trade"
     };
   }
 
-  if (category === "general_curiosity") {
+  if (category === "focus_drift") {
     logOpen({
       lang,
       category,
-      handler: "responses.curiosity",
+      handler: "responses.categories.focus_drift",
       textPreview: text.slice(0, 80)
     });
+    const body = maybeVaryReply(
+      session,
+      category,
+      withContinuity(session, category, r.categories.focus_drift, r),
+      r
+    );
     return {
-      reply: pickSeeded(r.curiosity, String(userId)),
-      category: "general_curiosity"
+      reply: body,
+      category: "focus_drift",
+      suggestedAction: "/focus"
     };
   }
 
-  let body = r.categories[category] || r.categories.unknown;
-  body = maybeVaryReply(session, category, body);
+  if (category === "body_energy") {
+    logOpen({
+      lang,
+      category,
+      handler: "responses.categories.body_energy",
+      textPreview: text.slice(0, 80)
+    });
+    const body = maybeVaryReply(
+      session,
+      category,
+      withContinuity(session, category, r.categories.body_energy, r),
+      r
+    );
+    return {
+      reply: body,
+      category: "body_energy",
+      suggestedAction: "/body"
+    };
+  }
+
+  if (category === "reflective_open") {
+    logOpen({
+      lang,
+      category,
+      handler: "responses.reflectivePrompts",
+      textPreview: text.slice(0, 80)
+    });
+    const body = pickSeeded(r.reflectivePrompts, String(userId));
+    return {
+      reply: body,
+      category: "reflective_open",
+      suggestedAction: "/clarity"
+    };
+  }
+
+  let body =
+    r.categories[category] ||
+    r.categories.reflective_open ||
+    r.categories.unknown;
+  body = maybeVaryReply(session, category, withContinuity(session, category, body, r), r);
   if (category === "emotional_reflection" && r.openHintEmotional) {
     body = body + r.openHintEmotional;
   }
@@ -232,7 +230,20 @@ function handleOpenConversation(message, lang, session) {
     handler: `responses.categories.${category}`,
     textPreview: text.slice(0, 80)
   });
-  return { reply: body, category };
+
+  const suggestedByCat = {
+    emotional_reflection: "/reset",
+    work_focus: "/focus",
+    plan_tracking: "/plan",
+    self_development: "/plan",
+    unknown: "/help"
+  };
+
+  return {
+    reply: body,
+    category,
+    suggestedAction: suggestedByCat[category] || "/help"
+  };
 }
 
 module.exports = { classifyMessage, handleOpenConversation };

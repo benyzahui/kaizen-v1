@@ -44,8 +44,8 @@ function detectLanguage(text) {
   const hu = scoreHungarian(t);
   const ro = scoreRomanian(t);
 
-  if (hu > ro && hu >= 2) return "hu";
-  if (ro > hu && ro >= 2) return "ro";
+  if (hu > ro && hu >= 3) return "hu";
+  if (ro > hu && ro >= 3) return "ro";
   return "en";
 }
 
@@ -64,10 +64,19 @@ function hasStrongNonEnglishSignal(text) {
  * @param {{ lang?: 'en'|'hu'|'ro'|null }} [session]
  */
 function resolveLanguageWithSession(text, session) {
-  const detected = detectLanguage(text);
-  if (hasStrongNonEnglishSignal(text)) return detected;
-  if (session?.lang === "hu" || session?.lang === "ro") return session.lang;
-  if (session?.lang === "en") return "en";
+  const t = String(text || "").trim();
+  const detected = detectLanguage(t);
+  const hu = scoreHungarian(t);
+  const ro = scoreRomanian(t);
+  const dom = Math.max(hu, ro);
+  const sess = session?.lang;
+
+  if (sess === "hu" || sess === "ro" || sess === "en") {
+    if (dom >= 5 && detected !== sess) {
+      return detected;
+    }
+    return sess;
+  }
   return detected;
 }
 
@@ -94,5 +103,7 @@ module.exports = {
   resolveLang,
   fromTelegramCode,
   hasStrongNonEnglishSignal,
-  resolveLanguageWithSession
+  resolveLanguageWithSession,
+  scoreHungarian,
+  scoreRomanian
 };

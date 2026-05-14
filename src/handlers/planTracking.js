@@ -115,7 +115,8 @@ function handleFocusCommand(message, lang) {
   return r.focusPrompt;
 }
 
-function handleResetCommand(lang) {
+function handleResetCommand(message, lang) {
+  clearPending(uid(message));
   return formatFullRecovery(lang, { includeLoopIntro: false });
 }
 

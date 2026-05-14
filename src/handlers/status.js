@@ -14,7 +14,12 @@ const HIGH_INTENSITY = [
   "cooldown",
   "emotional_repeat_triple"
 ];
-const MID_INTENSITY = ["trading_impulse", "emotional_reflection"];
+const MID_INTENSITY = [
+  "trading_impulse",
+  "emotional_reflection",
+  "focus_drift",
+  "work_focus"
+];
 
 function intensityLabel(cat, r) {
   if (HIGH_INTENSITY.includes(cat)) return r.statusIntensityHigh;
@@ -28,7 +33,13 @@ function nextStepHint(cat, lastCmd, r) {
   if (cat === "trading_impulse") return r.statusNextTrade;
   if (cat === "emotional_reflection" || cat === "emotional_repeat_triple")
     return r.statusNextEmotional;
+  if (cat === "focus_drift") return r.statusNextDrift;
+  if (cat === "body_energy") return r.statusNextBody;
+  if (cat === "reflective_open" || cat === "general_curiosity")
+    return r.statusNextReflect;
   if (cat === "plan_tracking") return r.statusNextPlan;
+  if (cat === "work_focus") return r.statusNextDrift;
+  if (cat === "self_development") return r.statusNextPlan;
   if (
     lastCmd &&
     !["/status", "/help", "/start"].includes(lastCmd)
@@ -62,6 +73,12 @@ function buildStatusReply(message, session, lang) {
     r
   );
 
+  const suggested = session.lastSuggestedAction;
+  const suggestedLine =
+    suggested && String(suggested).trim()
+      ? `${r.statusLastSuggested}: ${suggested}`
+      : null;
+
   const body = lines(
     r.statusTitle,
     "",
@@ -69,6 +86,7 @@ function buildStatusReply(message, session, lang) {
     `${r.statusMode}: ${mode}`,
     `${r.statusLastCommand}: ${lastCmdDisplay}`,
     `${r.statusLastCategory}: ${lastCatDisplay}`,
+    ...(suggestedLine ? [suggestedLine] : []),
     `${r.statusSessionTurns}: ${turns}`,
     `${r.statusIntensity}: ${intensity}`,
     "",

@@ -121,7 +121,7 @@ async function buildTelegramReply(message) {
     return focused;
   }
 
-  const { reply, category: outCat } = handleOpenConversation(
+  const { reply, category: outCat, suggestedAction } = handleOpenConversation(
     message,
     lang,
     session
@@ -131,13 +131,17 @@ async function buildTelegramReply(message) {
     lang,
     category: outCat
   });
-  recordInteraction(userId, {
+  const payload = {
     text: trimmed,
     reply,
     lang,
     category: outCat,
     command: null
-  });
+  };
+  if (suggestedAction != null && suggestedAction !== "") {
+    payload.suggestedAction = suggestedAction;
+  }
+  recordInteraction(userId, payload);
   return reply;
 }
 
@@ -229,13 +233,34 @@ exports.handler = async (event) => {
     isCommandText: isCommandText(message.text)
   });
 
+  const uid = message.from?.id ?? message.chat.id;
+  const langForErrors = resolveLanguageWithSession(
+    String(message.text || "").trim(),
+    getSession(uid)
+  );
+
   try {
     const reply = await buildTelegramReplyWithBudget(message);
     log.kaizen("reply", {
       length: reply?.length,
       preview: String(reply || "").slice(0, 100)
     });
-    await sendMessage(message.chat.id, reply);
+    try {
+      await sendMessage(
+        message.chat.id,
+        String(reply || "").trim() || "Send a short line when you can."
+      );
+    } catch (sendErr) {
+      log.recovery("sendMessage failed", { message: sendErr.message });
+      try {
+        await sendMessage(
+          message.chat.id,
+          getResponses(langForErrors).recoverySendFailed
+        );
+      } catch (sendErr2) {
+        log.recovery("retry send failed", { message: sendErr2.message });
+      }
+    }
     log.webhook("sendMessage ok", { chat_id: message.chat.id });
     return { statusCode: 200, body: "OK" };
   } catch (err) {
@@ -244,12 +269,7 @@ exports.handler = async (event) => {
       stack: err.stack && String(err.stack).slice(0, 400)
     });
     try {
-      const session = getSession(message.from?.id ?? message.chat.id);
-      const lang = resolveLanguageWithSession(
-        String(message.text || "").trim(),
-        session
-      );
-      const fallback = getResponses(lang).recoveryGenericReply;
+      const fallback = getResponses(langForErrors).recoveryGenericReply;
       await sendMessage(message.chat.id, fallback);
     } catch (sendErr) {
       log.recovery("fallback send failed", sendErr.message);

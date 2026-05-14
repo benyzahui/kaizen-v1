@@ -12,10 +12,10 @@ const { handleEnergy } = require("./energy");
 const {
   handlePlanCommand,
   handleFocusCommand,
-  handleResetCommand,
-  clearAllPendingForUser
+  handleResetCommand
 } = require("./planTracking");
 const { buildStatusReply } = require("./status");
+const { buildHelpReply } = require("./help");
 
 function extractCommand(text = "") {
   const first = String(text).trim().split(/\s+/)[0];
@@ -42,7 +42,6 @@ function ritualFromResponses(r, command) {
  * @param {object} [session]
  */
 async function routeCommandMessage(message, session) {
-  clearAllPendingForUser(message);
   const text = message.text || "";
   const lang = resolveLang(message, text, session);
   const r = getResponses(lang);
@@ -56,7 +55,7 @@ async function routeCommandMessage(message, session) {
       reply = r.start;
       break;
     case "/help":
-      reply = r.help;
+      reply = buildHelpReply(lang, session);
       break;
     case "/energy":
       reply = await handleEnergy(message, lang);
@@ -77,7 +76,7 @@ async function routeCommandMessage(message, session) {
       reply = handleFocusCommand(message, lang);
       break;
     case "/reset":
-      reply = handleResetCommand(lang);
+      reply = handleResetCommand(message, lang);
       break;
     case "/status":
       reply = buildStatusReply(message, session, lang);

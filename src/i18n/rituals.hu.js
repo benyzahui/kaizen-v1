@@ -113,11 +113,13 @@ module.exports = {
   ].join("\n"),
 
   body: [
-    "Test:",
-    "Víz. Fehérje, ha nem ettél.",
-    "Két perc lassú mozgás.",
+    "Test gyors ellenőrzés:",
+    "Volt víz az utóbbi órában?",
+    "Szilárd étel mostanában?",
+    "Alvás: nagyjából rendben vagy rövid?",
+    "30–60 mp mozgás — lépcső, váll, bármi.",
     "",
-    "Következő: /walk"
+    "Ha mehet kint: /walk"
   ].join("\n"),
 
   walk: [

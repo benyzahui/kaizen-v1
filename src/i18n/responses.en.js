@@ -36,10 +36,38 @@ module.exports = {
     "I did not catch that command. Use /help and continue calmly.",
 
   recoveryTimeoutReply:
-    "KaiZen hit a time limit processing this message. You are not ignored — try a shorter line, /status, or /help.",
+    "That message took too long to shape. Send one short line, or /status when you have a moment.",
 
   recoveryGenericReply:
-    "Something went wrong on our side. Try /help or a short message again in a moment.",
+    "I lost the thread on that one. Send one line — or /help — and we continue.",
+
+  recoverySendFailed:
+    "Reply could not reach Telegram. Check connection and send again in a few seconds.",
+
+  helpTipDefault:
+    "Tip: open chat for reflection; use commands when you want structure (/focus, /plan).",
+
+  helpTipOverload:
+    "Tip: overload → /reset or /body first, then words.",
+
+  helpTipEmotional:
+    "Tip: heavy feelings → /reset or /mirror — optional, not a demand.",
+
+  helpTipTrade:
+    "Tip: impulse edge → /trade, then pause before acting.",
+
+  helpTipFocus:
+    "Tip: scattered mind → /focus one line, one block.",
+
+  helpTipPlan:
+    "Tip: fog on priorities → /plan one field only.",
+
+  helpTipBody:
+    "Tip: body off → /body or /walk before big decisions.",
+
+  continuityLine: "Same thread — going a little deeper:",
+
+  variationNudge: "Add one new fact you have not said yet (even tiny).",
 
   pulse: [
     "Morning Pulse:",
@@ -74,36 +102,28 @@ module.exports = {
   ].join("\n\n"),
 
   recoveryPause:
-    "Pause.\n\nThis is no longer clarity-seeking. This is nervous-system noise.",
+    "Pause. This is noise speed, not decision speed.",
 
-  recoveryProtocolTitle: "Recovery Balance Protocol:",
+  recoveryProtocolTitle: "Steady sequence:",
 
   recoveryProtocolBody: [
-    "1. Water.",
-    "2. Step away from the screen.",
-    "3. 5–10 minutes of slow breathing.",
-    "4. Short walk or light movement.",
-    "5. No trade, no major decision for 2 hours.",
-    "6. Reduce screen stimulation.",
-    "7. Return with /mirror when you are calm."
+    "Water.",
+    "Step back from the screen — even one room away.",
+    "Five slow breaths or ten minutes outside if you can.",
+    "No trades, no big life calls for two hours.",
+    "When the edge drops: /mirror in one honest paragraph."
   ].join("\n"),
 
   recoveryLoopIntro: [
-    "I hear the same loop getting loud. I will not keep feeding the spin in chat.",
-    "Use the protocol below. Nothing here needs an instant verdict."
+    "Same spiral, louder volume. I will not argue you into calm here.",
+    "Run the sequence below — no performance, just sequence."
   ].join("\n\n"),
 
   tradingGuardrail: [
-    "Slow down. This sounds like impulse, not a plan.",
-    "",
-    "Ask plainly:",
-    "- Is the setup valid?",
-    "- Is risk fixed?",
-    "- Are you calm?",
-    "- Would you take this trade if you were not emotional?",
-    "",
-    "If any answer is weak: no trade. Protect the account. Protect the mind."
-  ].join("\n"),
+    "This reads like impulse wearing a plan costume.",
+    "Valid setup? Fixed risk? Calm body?",
+    "If any is shaky: stand down. Capital likes patience."
+  ].join("\n\n"),
 
   disclaimerHeavy:
     "Not therapy or financial advice — grounding and structure only.",
@@ -126,30 +146,24 @@ module.exports = {
   planFieldFocus: "Current 60-minute focus",
 
   chaosSoftReply: [
-    "This sounds like overload, not weakness.",
-    "",
-    "Water. Five slow breaths. No major decisions for the next hour.",
-    "",
-    "What is one tiny action that would ground you right now?"
-  ].join("\n"),
+    "Overload, not failure — your system is asking for less input, not more judgment.",
+    "One small downgrade: water, dimmer screen, or ten quiet minutes.",
+    "What is the next gentle physical action you can take in the next two minutes?"
+  ].join("\n\n"),
 
-  openHintEmotional: "\n\nIf it is heavy: /reset or /ground",
+  openHintEmotional: "\n\nOptional structure if you want it: /reset",
 
-  curiosity: [
-    "Say it in one honest sentence. What is the weight right now?",
-    "What would a steady friend tell you — without drama?",
-    "What is the next small move that would not make things worse?"
+  reflectivePrompts: [
+    "Name the tension in one line — no fixing yet.\nWhat would clarity cost you honestly?",
+    "What decision are you circling because it would make the next step obvious?",
+    "If you trusted yourself for sixty seconds, what would you stop negotiating?"
   ],
 
   emotionalTripleGrounding: [
-    "You sent the same emotional message several times.",
-    "I hear you — repeating will not add safety right now.",
-    "",
-    "Grounding mode:",
-    "Water. Slow breaths. Step away from the screen for ten minutes.",
-    "No big decisions until the edge softens.",
-    "",
-    "When you are ready: /reset or /mirror. Or take a real break — that counts."
+    "Same line, three times — I believe the feeling is real.",
+    "Typing more here will not lower the volume.",
+    "Water, screen away, ten minutes of quiet or slow walk.",
+    "When you return: /reset or /mirror — or rest without a label. That still counts."
   ].join("\n\n"),
 
   statusTitle: "KaiZen status",
@@ -169,74 +183,72 @@ module.exports = {
   statusNextTrade: "Review /trade and stand down if state is shaky.",
   statusNextEmotional: "/reset or /ground, then one small physical action.",
   statusNextPlan: "/plan — one concrete next line only.",
+  statusNextDrift: "/focus — one line, one 25-minute block.",
+  statusNextBody: "/body quick check, then the smallest physical move.",
+  statusNextReflect: "/clarity or stay here with one true sentence.",
   statusNextLastCommand: "Continue your last ritual, or /help for structure.",
   statusNextDefault: "/pulse or /focus — pick one small block.",
   statusCommandsHint:
     "Open chat guides you; commands keep structure. Use both.",
 
+  statusLastSuggested: "Last nudge",
+
   sessionLoopBoundary: [
-    "You are looping now.",
-    "More input will not create clarity.",
-    "",
-    "Recovery protocol:",
-    "Water.",
-    "Step away.",
-    "Walk 10 minutes.",
-    "No decision for 2 hours.",
-    "",
-    "Return with /mirror later."
+    "Loop detected — more words will not buy safety here.",
+    "Water, distance from the screen, ten minutes outside if you can.",
+    "No big calls for two hours.",
+    "/mirror later with one honest paragraph — not a verdict."
   ].join("\n\n"),
 
   rituals,
 
   categories: {
+    focus_drift: [
+      "Scatter is normal when the load is high.",
+      "Shrink the field: one tab, one task, twenty-five minutes.",
+      "What is the smallest finish line you can cross next?"
+    ].join("\n\n"),
+
+    body_energy: [
+      "State check: fuel, hydration, sleep debt, and movement often move mood before mindset does.",
+      "Pick one — water, food, five minutes of movement, or a screen step-back.",
+      "Which of those is most honest for you right now?"
+    ].join("\n\n"),
+
     emotional_reflection: [
-      "You do not need more pressure right now.",
-      "You need one clean point of focus.",
-      "",
-      "Choose one task that would make the next hour useful.",
-      "",
-      "What is the feeling under the story — one word?"
-    ].join("\n"),
+      "That sounds heavy, and it matters.",
+      "No need to explain perfectly — one true sentence is enough.",
+      "What is the feeling under the words (one word)?"
+    ].join("\n\n"),
 
     work_focus: [
-      "Work asks for clarity, not heroics.",
-      "",
-      "Name the next 25-minute block. Start it. One tab, one outcome.",
-      "",
-      "What is the smallest finishable piece?"
-    ].join("\n"),
+      "Work pressure loves vague heroics.",
+      "Name one block (≤25 minutes) with one visible output.",
+      "What is the smallest piece you could ship first?"
+    ].join("\n\n"),
 
     self_development: [
-      "Growth is quiet repetition, not a performance.",
-      "",
-      "Pick one habit-sized action you can do today without debating it.",
-      "",
-      "What would your calmer self do for ten minutes?"
-    ].join("\n"),
+      "Growth is repetition without the debate loop.",
+      "Choose one habit-sized move you can do today without negotiating.",
+      "What would your calmer self do for ten minutes only?"
+    ].join("\n\n"),
 
     plan_tracking: [
-      "Plans work when they are small enough to touch.",
-      "",
-      "Use /plan to see your map. Write one line for the area that matters most right now.",
-      "",
-      "What is the next concrete step — not the whole roadmap?"
-    ].join("\n"),
+      "Big roadmaps create paralysis.",
+      "Open /plan and write one line for the lane that matters today.",
+      "What is the next concrete step — not the whole map?"
+    ].join("\n\n"),
 
     general_curiosity: [
-      "I am here for discipline, balance, and honest reflection.",
-      "",
-      "If something is heavy, say it plainly in one sentence.",
-      "",
-      "What would make the next hour slightly more grounded?"
-    ].join("\n"),
+      "Say the weight in one honest line.",
+      "What would a steady friend name without drama?",
+      "What is one small move that would not make things worse?"
+    ].join("\n\n"),
 
     unknown: [
-      "I am listening.",
-      "",
-      "Say the truest line you can about what is happening.",
-      "",
-      "What is one small next step that would not make things worse?"
-    ].join("\n")
+      "I am with you — say it plainly, even messy.",
+      "One stabilizing move you can do in two minutes?",
+      "What would help most: clarity, rest, or a single task lock?"
+    ].join("\n\n")
   }
 };

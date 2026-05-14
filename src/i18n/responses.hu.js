@@ -35,10 +35,38 @@ module.exports = {
   unknown: "Nem értettem a parancsot. Nyugodtan: /help",
 
   recoveryTimeoutReply:
-    "Időkorlát lépett fel a feldolgozásnál. Nem vagy figyelmen kívül hagyva — próbálj rövidebb üzenetet, /status vagy /help.",
+    "Ez az üzenet túl sokáig formálódott. Írj egy rövid sort, vagy később /status.",
 
   recoveryGenericReply:
-    "Valami hiba történt a szerver oldalon. Próbáld újra röviden, vagy /help.",
+    "Elveszett a fonal. Írj egy sort — vagy /help — és folytatjuk.",
+
+  recoverySendFailed:
+    "A válasz nem ért el a Telegramon. Nézd a kapcsolatot, majd pár másodperc múlva újra.",
+
+  helpTipDefault:
+    "Tipp: nyílt chat a tükröződéshez; parancsok, ha struktúrát akarsz (/focus, /plan).",
+
+  helpTipOverload:
+    "Tipp: túlterhelés → előbb /reset vagy /body, aztán szöveg.",
+
+  helpTipEmotional:
+    "Tipp: nehéz érzés → /reset vagy /mirror — opcionális, nem parancs.",
+
+  helpTipTrade:
+    "Tipp: impulzus → /trade, aztán szünet a cselekedet előtt.",
+
+  helpTipFocus:
+    "Tipp: szétszórtság → /focus egy sor, egy blokk.",
+
+  helpTipPlan:
+    "Tipp: köd a prioritásokon → /plan egy mező csak.",
+
+  helpTipBody:
+    "Tipp: test le → /body vagy /walk nagy döntés előtt.",
+
+  continuityLine: "Ugyanaz a szál — egy kicsit mélyebben:",
+
+  variationNudge: "Adj egy új részletet, amit még nem mondtál (akár aprót).",
 
   pulse: [
     "Reggeli Pulzus:",
@@ -73,36 +101,28 @@ module.exports = {
   ].join("\n\n"),
 
   recoveryPause:
-    "Szünet.\n\nEz már nem tisztánlátás. Ez idegrendszeri zaj.",
+    "Szünet. Ez most zaj-sebesség, nem döntés-sebesség.",
 
-  recoveryProtocolTitle: "Recovery Balance Protocol:",
+  recoveryProtocolTitle: "Sorrend, ami tart:",
 
   recoveryProtocolBody: [
-    "1. Víz.",
-    "2. Lépj el a képernyőtől.",
-    "3. 5–10 perc lassú légzés.",
-    "4. Rövid séta vagy könnyű mozgás.",
-    "5. Nincs trade, nincs nagy döntés 2 óráig.",
-    "6. Csökkentsd a képernyő ingerét.",
-    "7. Térj vissza /mirror-ral, ha már nyugodtabb vagy."
+    "Víz.",
+    "Lépj el a képernyőtől — akár egy szobányit.",
+    "Öt lassú lélegzet vagy tíz perc kint, ha mehet.",
+    "Nincs trade, nincs nagy életdöntés két óráig.",
+    "Ha enged az él: /mirror egy őszinte bekezdésben."
   ].join("\n"),
 
   recoveryLoopIntro: [
-    "Hallom, hogy ugyanaz a kör forog. Nem táplálom tovább itt a spirált.",
-    "Használd az alábbi protokollt. Semmi nem kíván azonnali ítéletet."
+    "Ugyanaz a spirál, hangosabban. Nem vitázlak itt nyugalomba.",
+    "Futtasd az alábbi sorrendet — nem produkció, csak sorrend."
   ].join("\n\n"),
 
   tradingGuardrail: [
-    "Lassíts. Ez impulzusnak hangzik, nem tervnek.",
-    "",
-    "Kérdezd meg őszintén:",
-    "- Érvényes a felállás?",
-    "- Fix a kockázat?",
-    "- Nyugodt vagy?",
-    "- Vinéd ezt a tradet, ha nem lennél érzelmi állapotban?",
-    "",
-    "Ha bármelyik gyenge: nincs trade. Védd a számlát. Védd az elmét."
-  ].join("\n"),
+    "Impulzusnak hangzik, terv-jelmezben.",
+    "Érvényes a felállás? Fix a kockázat? Nyugodt a tested?",
+    "Ha bármi ingatag: állj félre. A tőke a türelmet szereti."
+  ].join("\n\n"),
 
   disclaimerHeavy:
     "Nem terápia és nem pénzügyi tanácsadás — földelés és struktúra.",
@@ -125,30 +145,24 @@ module.exports = {
   planFieldFocus: "Aktuális 60 perces fókusz",
 
   chaosSoftReply: [
-    "Ez túlterhelésnek hangzik, nem gyengeségnek.",
-    "",
-    "Víz. Öt lassú lélegzet. Nincs nagy döntés a következő órában.",
-    "",
-    "Mi lenne egy apró lépés, ami most földel?"
-  ].join("\n"),
+    "Túlterhelés, nem kudarc — kevesebb bemenet kell, nem több ítélet.",
+    "Apró downgrade: víz, halványabb kép, vagy tíz csendes perc.",
+    "Mi a legközelebbi gyengéd fizikai lépés két percen belül?"
+  ].join("\n\n"),
 
-  openHintEmotional: "\n\nHa nehéz: /reset vagy /ground",
+  openHintEmotional: "\n\nHa struktúrát kérsz: /reset",
 
-  curiosity: [
-    "Mondd egy őszinte mondatban: mi a súly most?",
-    "Mit mondana egy stabil barát — dráma nélkül?",
-    "Mi a következő kis lépés, ami nem ront el semmit?"
+  reflectivePrompts: [
+    "Nevezd meg a feszültséget egy sorban — még ne javítás.\nMit keresnél a tisztánlátással őszintén?",
+    "Melyik döntés körül mész, mert attól lenne egyértelmű a következő lépés?",
+    "Ha hatvan másodpercre megbízhatnál magadban, mit hagynál abba alkudozni?"
   ],
 
   emotionalTripleGrounding: [
-    "Ugyanazt az érzelmi üzenetet többször elküldted.",
-    "Hallak — az ismétlés most nem ad több biztonságot.",
-    "",
-    "Földelési mód:",
-    "Víz. Lassú légzés. Tíz percre lépj el a képernyőtől.",
-    "Nincs nagy döntés, amíg nem csillapodik az él.",
-    "",
-    "Ha kész vagy: /reset vagy /mirror. Vagy valódi szünet — az is számít."
+    "Ugyanaz a sor, háromszor — hiszek a fájdalomnak.",
+    "Több gépelés itt nem halkít.",
+    "Víz, képernyő távol, tíz perc csend vagy lassú séta.",
+    "Visszatérve: /reset vagy /mirror — vagy pihenés címke nélkül. Az is számít."
   ].join("\n\n"),
 
   statusTitle: "KaiZen állapot",
@@ -168,74 +182,72 @@ module.exports = {
   statusNextTrade: "Nézd át a /trade-t, és állj félre, ha ingatag az állapot.",
   statusNextEmotional: "/reset vagy /ground, majd egy apró fizikai lépés.",
   statusNextPlan: "/plan — csak egy konkrét következő sor.",
+  statusNextDrift: "/focus — egy sor, egy 25 perces blokk.",
+  statusNextBody: "/body gyors ellenőrzés, majd a legkisebb fizikai mozdulat.",
+  statusNextReflect: "/clarity vagy maradj egy igaz mondattal.",
   statusNextLastCommand: "Folytasd az utolsó rituálét, vagy /help a struktúrához.",
   statusNextDefault: "/pulse vagy /focus — egy kis blokk.",
   statusCommandsHint:
     "A nyílt chat vezet; a parancsok tartják a struktúrát. Használd mindkettőt.",
 
+  statusLastSuggested: "Utolsó javaslat",
+
   sessionLoopBoundary: [
-    "Most körben vagy.",
-    "Több szöveg nem hoz tisztánlátást.",
-    "",
-    "Recovery protokoll:",
-    "Víz.",
-    "Lépj el.",
-    "10 perc séta.",
-    "2 óráig nincs nagy döntés.",
-    "",
-    "Térj vissza később /mirror-ral."
+    "Kör észlelve — több szó nem vesz most biztonságot.",
+    "Víz, távolság a képernyőtől, tíz perc kint, ha lehet.",
+    "Nincs nagy hívás két óráig.",
+    "Később /mirror egy őszinte bekezdésben — nem ítélet."
   ].join("\n\n"),
 
   rituals,
 
   categories: {
+    focus_drift: [
+      "Szétszórtság normális, ha sok a terhelés.",
+      "Szűkíts: egy lap, egy feladat, huszonöt perc.",
+      "Mi a legkisebb célvonal, amit most átlépsz?"
+    ].join("\n\n"),
+
+    body_energy: [
+      "Állapot: üzemanyag, víz, alvás, mozgás — néha ezek mozdítják a hangulatot az értekezés előtt.",
+      "Válassz egyet — víz, étel, öt perc mozgás, vagy képernyő-távolság.",
+      "Melyik a legőszibb most?"
+    ].join("\n\n"),
+
     emotional_reflection: [
-      "Most nem kell több nyomás.",
-      "Egy tiszta fókuszpont kell.",
-      "",
-      "Válassz egy feladatot, ami a következő órát hasznossá teszi.",
-      "",
-      "Mi az érzés a történet alatt — egy szóban?"
-    ].join("\n"),
+      "Nehéznek hangzik, és számít.",
+      "Nem kell tökéletesen magyarázni — egy igaz mondat elég.",
+      "Mi az érzés a szavak alatt (egy szó)?"
+    ].join("\n\n"),
 
     work_focus: [
-      "A munka tisztánlátást kér, nem hősködést.",
-      "",
-      "Nevezd meg a következő 25 perces blokkot. Indítsd. Egy lap, egy eredmény.",
-      "",
-      "Mi a legkisebb befejezhető darab?"
-    ].join("\n"),
+      "A munkanyomás szereti a homályos hősködést.",
+      "Nevezz meg egy blokkot (≤25 perc) egy látható eredménnyel.",
+      "Mi a legkisebb darab, amit először lezársz?"
+    ].join("\n\n"),
 
     self_development: [
-      "A fejlődés csendes ismétlés, nem produkció.",
-      "",
-      "Válassz egy szokás-méretű lépést, amit ma vitázás nélkül megteszel.",
-      "",
+      "Fejlődés: ismétlés vitakör nélkül.",
+      "Válassz egy szokás-méretű lépést ma, alkudozás nélkül.",
       "Mit tenne a nyugodtabb éned tíz percig?"
-    ].join("\n"),
+    ].join("\n\n"),
 
     plan_tracking: [
-      "A terv akkor működik, ha elég kicsi ahhoz, hogy megérintsd.",
-      "",
-      "Használd a /plan-t. Írj egy sort arra a területre, ami most számít.",
-      "",
-      "Mi a következő konkrét lépés — nem az egész útiterv?"
-    ].join("\n"),
+      "Nagy útiterv bénít.",
+      "Nyisd meg a /plan-t, és írj egy sort a mai sávhoz.",
+      "Mi a következő konkrét lépés — nem az egész térkép?"
+    ].join("\n\n"),
 
     general_curiosity: [
-      "Fegyelemhez, egyensúlyhoz és őszinte tükröződéshez vagyok itt.",
-      "",
-      "Ha nehéz, mondd egy mondatban, nyíltan.",
-      "",
-      "Mi tenné a következő órát egy kicsit földeltebbé?"
-    ].join("\n"),
+      "Mondd egy őszinte sorban a súlyt.",
+      "Mit mondana egy stabil barát dráma nélkül?",
+      "Mi egy kis lépés, ami nem ront?"
+    ].join("\n\n"),
 
     unknown: [
-      "Figyelek.",
-      "",
-      "Mondd ki a legigazabb sort arról, mi történik.",
-      "",
-      "Mi az egy kicsi következő lépés, ami nem ront el semmit?"
-    ].join("\n")
+      "Itt vagyok — mondd ki nyíltan, akár rendetlenül.",
+      "Mi egy stabilizáló mozdulat két perc alatt?",
+      "Mi segítene most: tisztánlátás, pihenés, vagy egy zárt feladat?"
+    ].join("\n\n")
   }
 };

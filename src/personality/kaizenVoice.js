@@ -27,4 +27,13 @@ function disclaimer(lang) {
   return DISCLAIMER;
 }
 
-module.exports = { lines, pickSeeded, disclaimer };
+/** One-line legal / scope boundary — use sparingly on heavy paths only. */
+function disclaimerLight(lang) {
+  if (lang === "hu")
+    return "Nem terápia vagy pénzügyi tanács — strukturált támasz.";
+  if (lang === "ro")
+    return "Nu e terapie sau sfat financiar — doar structură și disciplină.";
+  return "Not therapy or financial advice — structure and discipline support only.";
+}
+
+module.exports = { lines, pickSeeded, disclaimer, disclaimerLight };

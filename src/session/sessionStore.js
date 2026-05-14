@@ -18,7 +18,7 @@ const store = new Map();
  * @property {string|null} lastCategory
  * @property {string|null} lastCommand
  * @property {{ text: string, category: string|null, ts: number }[]} messages
- * @property {Record<string, string>} lastReplyByCategory
+ * @property {string|null} lastSuggestedAction
  * @property {number} lastAt
  */
 
@@ -30,6 +30,7 @@ function emptySession() {
     lastCommand: null,
     messages: [],
     lastReplyByCategory: {},
+    lastSuggestedAction: null,
     lastAt: Date.now()
   };
 }
@@ -69,7 +70,14 @@ function clearSession(userId) {
   store.delete(String(userId));
 }
 
-const HEAVY = ["chaos_loop", "trading_impulse", "emotional_reflection"];
+const HEAVY = [
+  "chaos_loop",
+  "trading_impulse",
+  "emotional_reflection",
+  "focus_drift"
+];
+
+const TRIPLE_LOOP_CATEGORIES = ["emotional_reflection", "focus_drift"];
 
 /**
  * Third consecutive heavy message in the same category → loop.
@@ -98,15 +106,14 @@ function normalizeMessageKey(text) {
  * Lightweight guard against infinite recursion / rumination loops in chat.
  */
 function isTripleSameEmotionalText(session, text, category) {
-  if (category !== "emotional_reflection") return false;
+  if (!TRIPLE_LOOP_CATEGORIES.includes(category)) return false;
   const key = normalizeMessageKey(text);
   if (key.length < 6) return false;
   const m = session.messages || [];
   if (m.length < 2) return false;
   const m1 = m[m.length - 1];
   const m2 = m[m.length - 2];
-  if (m1.category !== "emotional_reflection" || m2.category !== "emotional_reflection")
-    return false;
+  if (m1.category !== category || m2.category !== category) return false;
   return (
     normalizeMessageKey(m1.text) === key && normalizeMessageKey(m2.text) === key
   );
@@ -114,7 +121,7 @@ function isTripleSameEmotionalText(session, text, category) {
 
 /**
  * @param {string|number} userId
- * @param {{ text: string, reply: string, lang: string, category?: string|null, command?: string|null }} ev
+ * @param {{ text: string, reply: string, lang: string, category?: string|null, command?: string|null, suggestedAction?: string|null }} ev
  */
 function recordInteraction(userId, ev) {
   const id = String(userId);
@@ -133,11 +140,17 @@ function recordInteraction(userId, ev) {
     ...s,
     lang: ev.lang || s.lang,
     lastEmotion:
-      ev.category === "emotional_reflection" || ev.category === "chaos_loop"
+      ev.category === "chaos_loop" ||
+      ev.category === "emotional_reflection" ||
+      ev.category === "focus_drift"
         ? ev.category
         : s.lastEmotion,
     lastCategory: ev.category ?? s.lastCategory,
     lastCommand: ev.command ?? s.lastCommand,
+    lastSuggestedAction:
+      ev.suggestedAction !== undefined
+        ? ev.suggestedAction
+        : s.lastSuggestedAction,
     messages,
     lastReplyByCategory,
     lastAt: Date.now()
@@ -154,5 +167,6 @@ module.exports = {
   isSessionCategoryLoop,
   isTripleSameEmotionalText,
   normalizeMessageKey,
-  HEAVY
+  HEAVY,
+  TRIPLE_LOOP_CATEGORIES
 };

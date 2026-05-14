@@ -35,10 +35,38 @@ module.exports = {
   unknown: "Nu am înțeles comanda. Scrie /help, fără grabă.",
 
   recoveryTimeoutReply:
-    "S-a atins limita de timp la procesare. Nu ești ignorat — încearcă un mesaj mai scurt, /status sau /help.",
+    "Mesajul a cerut prea mult timp să prindă formă. Trimite o linie scurtă sau /status mai târziu.",
 
   recoveryGenericReply:
-    "Ceva nu a mers bine la noi. Încearcă /help sau un mesaj scurt din nou peste un moment.",
+    "Mi-am pierdut firul acolo. Trimite o linie — sau /help — și continuăm.",
+
+  recoverySendFailed:
+    "Răspunsul nu a ajuns în Telegram. Verifică conexiunea și reîncearcă în câteva secunde.",
+
+  helpTipDefault:
+    "Sfat: chat deschis pentru reflecție; comenzi când vrei structură (/focus, /plan).",
+
+  helpTipOverload:
+    "Sfat: suprasolicitare → /reset sau /body întâi, apoi text.",
+
+  helpTipEmotional:
+    "Sfat: încărcare emoțională → /reset sau /mirror — opțional, nu ordin.",
+
+  helpTipTrade:
+    "Sfat: margine de impuls → /trade, apoi pauză înainte de acțiune.",
+
+  helpTipFocus:
+    "Sfat: minte împrăștiată → /focus o linie, un bloc.",
+
+  helpTipPlan:
+    "Sfat: ceață la priorități → /plan un singur câmp.",
+
+  helpTipBody:
+    "Sfat: corp jos → /body sau /walk înainte de decizii mari.",
+
+  continuityLine: "Același fir — mergem puțin mai adânc:",
+
+  variationNudge: "Adaugă un detaliu nou pe care nu l-ai spus încă (chiar mic).",
 
   pulse: [
     "Puls de dimineață:",
@@ -73,36 +101,28 @@ module.exports = {
   ].join("\n\n"),
 
   recoveryPause:
-    "Pauză.\n\nAsta nu mai e claritate. E zgomot de sistem nervos.",
+    "Pauză. Acum e viteza de zgomot, nu viteza de decizie.",
 
-  recoveryProtocolTitle: "Recovery Balance Protocol:",
+  recoveryProtocolTitle: "Secvență stabilă:",
 
   recoveryProtocolBody: [
-    "1. Apă.",
-    "2. Depărtează-te de ecran.",
-    "3. 5–10 minute de respirație lentă.",
-    "4. Plimbare scurtă sau mișcare ușoară.",
-    "5. Fără trade, fără decizii majore 2 ore.",
-    "6. Reduce stimularea ecranului.",
-    "7. Revino cu /mirror când ești calm."
+    "Apă.",
+    "Departe de ecran — măcar o cameră.",
+    "Cinci respirații lente sau zece minute afară dacă poți.",
+    "Fără trade, fără apeluri mari de viață două ore.",
+    "Când muchia scade: /mirror într-un paragraf onest."
   ].join("\n"),
 
   recoveryLoopIntro: [
-    "Aud aceeași buclă amplificându-se. Nu voi continua să hrănesc spirala aici.",
-    "Folosește protocolul de mai jos. Nimic nu cere un verdict instant."
+    "Aceeași spirală, mai tare. Nu te conving aici în calm.",
+    "Rulează secvența de mai jos — fără spectacol, doar pași."
   ].join("\n\n"),
 
   tradingGuardrail: [
-    "Încetinește. Sună a impuls, nu a plan.",
-    "",
-    "Întreabă direct:",
-    "- Setup-ul e valid?",
-    "- Riscul e fix?",
-    "- Ești calm?",
-    "- Ai lua acest trade dacă nu ai fi emoțional?",
-    "",
-    "Dacă vreun răspuns e slab: fără trade. Protejează contul. Protejează mintea."
-  ].join("\n"),
+    "Sună a impuls cu costum de plan.",
+    "Setup valid? Risc fix? Corp calm?",
+    "Dacă ceva e șubred: stai pe margine. Capitalul apreciază răbdarea."
+  ].join("\n\n"),
 
   disclaimerHeavy:
     "Nu e terapie sau sfat financiar — doar ancorare și structură.",
@@ -125,30 +145,24 @@ module.exports = {
   planFieldFocus: "Focus curent 60 minute",
 
   chaosSoftReply: [
-    "Sună a suprasolicitare, nu a slăbiciune.",
-    "",
-    "Apă. Cinci respirații lente. Fără decizii majore în următoarea oră.",
-    "",
-    "Care e o acțiune mică care te-ar ancora acum?"
-  ].join("\n"),
+    "Suprasolicitare, nu eșec — ai nevoie de mai puțin input, nu de mai multă judecată.",
+    "Un downgrade mic: apă, lumină mai joasă la ecran, sau zece minute liniște.",
+    "Care e următoarea mișcare fizică blândă în două minute?"
+  ].join("\n\n"),
 
-  openHintEmotional: "\n\nDacă e greu: /reset sau /ground",
+  openHintEmotional: "\n\nDacă vrei structură: /reset",
 
-  curiosity: [
-    "Spune-o într-o propoziție onestă: care e greutatea acum?",
-    "Ce ți-ar spune un prieten stabil — fără dramă?",
-    "Care e următorul mic pas care nu înrăutățește lucrurile?"
+  reflectivePrompts: [
+    "Numeste tensiunea într-o linie — fără reparat încă.\nCe te-ar costa claritatea, onest?",
+    "Ce decizie ocolești pentru că următorul pas ar deveni evident?",
+    "Dacă te-ai crede 60 de secunde, ce ai lăsa să nu mai negociezi?"
   ],
 
   emotionalTripleGrounding: [
-    "Ai trimis de mai multe ori același mesaj emoțional.",
-    "Te aud — repetarea nu adaugă siguranță acum.",
-    "",
-    "Mod ancorare:",
-    "Apă. Respirații lente. Departe de ecran zece minute.",
-    "Fără decizii mari până nu se potolește muchia.",
-    "",
-    "Când ești gata: /reset sau /mirror. Sau o pauză reală — contează."
+    "Același mesaj, de trei ori — cred că e real.",
+    "Mai mult text aici nu coboară volumul.",
+    "Apă, ecran la distanță, zece minute liniște sau plimbare lentă.",
+    "La întoarcere: /reset sau /mirror — sau pauză fără etichetă. Contează."
   ].join("\n\n"),
 
   statusTitle: "Status KaiZen",
@@ -168,74 +182,72 @@ module.exports = {
   statusNextTrade: "Revizuiește /trade și stai pe margine dacă starea e șubredă.",
   statusNextEmotional: "/reset sau /ground, apoi o mică acțiune fizică.",
   statusNextPlan: "/plan — o singură linie concretă următoare.",
+  statusNextDrift: "/focus — o linie, un bloc de 25 de minute.",
+  statusNextBody: "/body verificare rapidă, apoi cea mai mică mișcare fizică.",
+  statusNextReflect: "/clarity sau rămâi aici cu o propoziție adevărată.",
   statusNextLastCommand: "Continuă ultimul ritual sau /help pentru structură.",
   statusNextDefault: "/pulse sau /focus — un bloc mic.",
   statusCommandsHint:
     "Chatul deschis te ghidează; comenzile păstrează structura. Folosește ambele.",
 
+  statusLastSuggested: "Ultimul sfat",
+
   sessionLoopBoundary: [
-    "Ești într-o buclă acum.",
-    "Mai mult text nu aduce claritate.",
-    "",
-    "Protocol recovery:",
-    "Apă.",
-    "Departe de ecran.",
-    "Plimbare 10 minute.",
-    "Fără decizii mari 2 ore.",
-    "",
-    "Revino mai târziu cu /mirror."
+    "Buclă detectată — mai multe cuvinte nu cumpără siguranță acum.",
+    "Apă, distanță de ecran, zece minute afară dacă poți.",
+    "Fără apeluri mari două ore.",
+    "Mai târziu /mirror într-un paragraf onest — nu verdict."
   ].join("\n\n"),
 
   rituals,
 
   categories: {
+    focus_drift: [
+      "Împrăștierea e normală când sarcina e mare.",
+      "Micșorează câmpul: un tab, o sarcină, 25 de minute.",
+      "Care e cea mai mică linie de finish pe care o treci acum?"
+    ].join("\n\n"),
+
+    body_energy: [
+      "Stare: combustibil, apă, somn, mișcare — uneori astea mută starea înaintea mindsetului.",
+      "Alege una — apă, mâncare, cinci minute de mișcare sau un pas înapoi de la ecran.",
+      "Care e cea mai onestă acum?"
+    ].join("\n\n"),
+
     emotional_reflection: [
-      "Nu ai nevoie de mai multă presiune acum.",
-      "Ai nevoie de un punct clar de focus.",
-      "",
-      "Alege o sarcină care face următoarea oră utilă.",
-      "",
-      "Care e sentimentul din spatele poveștii — un cuvânt?"
-    ].join("\n"),
+      "Sună greu — contează.",
+      "Nu trebuie explicat perfect — o propoziție adevărată e suficientă.",
+      "Care e sentimentul din spatele cuvintelor (un cuvânt)?"
+    ].join("\n\n"),
 
     work_focus: [
-      "Munca cere claritate, nu eroism.",
-      "",
-      "Numeste următorul bloc de 25 de minute. Începe. Un tab, un rezultat.",
-      "",
-      "Care e cea mai mică bucată finisabilă?"
-    ].join("\n"),
+      "Presiunea de muncă iubește eroismul vag.",
+      "Numeste un bloc (≤25 minute) cu un output vizibil.",
+      "Care e cea mai mică bucată pe care o livrezi primul?"
+    ].join("\n\n"),
 
     self_development: [
-      "Creșterea e repetiție liniștită, nu spectacol.",
-      "",
-      "Alege o acțiune cât un obicei, pe care o faci azi fără dezbateri.",
-      "",
-      "Ce ar face „tu mai calm” timp de zece minute?"
-    ].join("\n"),
+      "Creștere = repetiție fără buclă de dezbateri.",
+      "Alege o acțiune cât un obicei pentru azi, fără negocieri.",
+      "Ce ar face „tu mai calm” zece minute?"
+    ].join("\n\n"),
 
     plan_tracking: [
-      "Planurile merg când sunt suficient de mici ca să le atingi.",
-      "",
-      "Folosește /plan. Scrie un rând pentru zona care contează acum.",
-      "",
-      "Care e următorul pas concret — nu întregul roadmap?"
-    ].join("\n"),
+      "Roadmap-urile mari paralizează.",
+      "Deschide /plan și scrie un rând pentru banda care contează azi.",
+      "Care e următorul pas concret — nu harta întreagă?"
+    ].join("\n\n"),
 
     general_curiosity: [
-      "Sunt aici pentru disciplină, echilibru și reflecție onestă.",
-      "",
-      "Dacă e greu, spune-o într-o propoziție simplă.",
-      "",
-      "Ce ar face următoarea oră puțin mai ancorată?"
-    ].join("\n"),
+      "Spune greutatea într-o linie onestă.",
+      "Ce ar spune un prieten stabil, fără dramă?",
+      "Care e un mic pas care nu înrăutățește?"
+    ].join("\n\n"),
 
     unknown: [
-      "Te ascult.",
-      "",
-      "Spune cel mai adevărat rând despre ce se întâmplă.",
-      "",
-      "Care e un pas mic următor care nu înrăutățește lucrurile?"
-    ].join("\n")
+      "Sunt aici — spune direct, chiar dezordonat.",
+      "Ce mic gest de stabilizare poți face în două minute?",
+      "Ce te-ar ajuta acum: claritate, odihnă sau un singur task blocat?"
+    ].join("\n\n")
   }
 };
