@@ -1,4 +1,5 @@
 const rituals = require("./rituals.ro");
+const onboardingStrings = require("./onboardingCopy.ro");
 
 module.exports = {
   start:
@@ -29,7 +30,10 @@ module.exports = {
     "/plan /today /next /done",
     "",
     "Snapshot:",
-    "/status"
+    "/status",
+    "",
+    "Profil:",
+    "/profile /setup /skip"
   ].join("\n"),
 
   unknown: "Nu am înțeles comanda. Scrie /help, fără grabă.",
@@ -249,5 +253,7 @@ module.exports = {
       "Ce mic gest de stabilizare poți face în două minute?",
       "Ce te-ar ajuta acum: claritate, odihnă sau un singur task blocat?"
     ].join("\n\n")
-  }
+  },
+
+  ...onboardingStrings
 };

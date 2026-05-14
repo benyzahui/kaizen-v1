@@ -30,6 +30,8 @@ const {
   getSession,
   recordInteraction
 } = require("../../src/session/sessionStore");
+const { shouldInterceptOpenText } = require("../../src/session/userProfile");
+const { processOnboardingReply } = require("../../src/handlers/onboarding");
 const log = require("../../src/logging/log");
 
 require("../../src/handlers/balanceProtocol");
@@ -96,7 +98,30 @@ async function buildTelegramReply(message) {
     return reply;
   }
 
-  const lang = resolveLanguageWithSession(text, session);
+  let sessionOpen = getSession(userId);
+  const langOnb = resolveLanguageWithSession(trimmed, sessionOpen);
+  if (shouldInterceptOpenText(sessionOpen)) {
+    const ob = processOnboardingReply(
+      userId,
+      trimmed,
+      sessionOpen,
+      langOnb
+    );
+    if (ob && ob.reply) {
+      log.kaizen("routing", { branch: "onboarding", handler: "onboarding.process" });
+      recordInteraction(userId, {
+        text: trimmed,
+        reply: ob.reply,
+        lang: langOnb,
+        category: "onboarding",
+        command: null
+      });
+      return ob.reply;
+    }
+  }
+
+  sessionOpen = getSession(userId);
+  const lang = resolveLanguageWithSession(trimmed, sessionOpen);
   const category = classifyMessage(text);
   log.kaizen("routing", {
     branch: "open",
@@ -124,7 +149,7 @@ async function buildTelegramReply(message) {
   const { reply, category: outCat, suggestedAction } = handleOpenConversation(
     message,
     lang,
-    session
+    sessionOpen
   );
   log.kaizen("chosen_handler", {
     handler: "openConversation.handleOpenConversation",

@@ -15,7 +15,9 @@ function buildHelpReply(lang, session = {}) {
   const cat = session.lastCategory || "";
   let tip = r.helpTipDefault;
 
-  if (
+  if (session.onboardingActive && !session.onboardingCompleted) {
+    tip = r.helpTipOnboarding;
+  } else if (
     [
       "chaos_loop",
       "immediate_recovery",

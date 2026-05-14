@@ -8,6 +8,8 @@
 
 const TTL_MS = 24 * 60 * 60 * 1000;
 
+const { profileDefaults } = require("./userProfile");
+
 /** @type {Map<string, any>} */
 const store = new Map();
 
@@ -18,12 +20,22 @@ const store = new Map();
  * @property {string|null} lastCategory
  * @property {string|null} lastCommand
  * @property {{ text: string, category: string|null, ts: number }[]} messages
- * @property {string|null} lastSuggestedAction
- * @property {number} lastAt
+ * @property {string|null} userPrimaryPath
+ * @property {string|null} userPrimaryPathNote
+ * @property {string|null} userGoal30Days
+ * @property {string|null} userMainObstacle
+ * @property {string|null} userMainObstacleNote
+ * @property {string|null} userIntensityPreference
+ * @property {string|null} preferredLanguage
+ * @property {boolean} onboardingCompleted
+ * @property {boolean} onboardingActive
+ * @property {boolean} onboardingSkipped
+ * @property {number} onboardingStep
  */
 
 function emptySession() {
   return {
+    ...profileDefaults(),
     lang: null,
     lastEmotion: null,
     lastCategory: null,

@@ -1,0 +1,310 @@
+/**
+ * V1.3 onboarding: one question per message, 24h session only.
+ * Commands always bypass this module (handled in telegram-webhook first).
+ */
+
+const { lines } = require("../personality/kaizenVoice");
+const { getResponses } = require("../i18n/getResponses");
+const { updateSession, getSession } = require("../session/sessionStore");
+const { profileDefaults } = require("../session/userProfile");
+
+function resetProfileFields(userId) {
+  updateSession(userId, profileDefaults());
+}
+
+function startOnboarding(userId) {
+  resetProfileFields(userId);
+  updateSession(userId, {
+    onboardingActive: true,
+    onboardingCompleted: false,
+    onboardingSkipped: false,
+    onboardingStep: 1
+  });
+}
+
+function getStartReply(lang) {
+  const r = getResponses(lang);
+  return lines(r.obIntro, "", r.obQ1);
+}
+
+function parsePathToken(raw) {
+  const t = String(raw || "").trim().toLowerCase();
+  const n = parseInt(t, 10);
+  if (n === 1 || /\btrading\b/.test(t)) return { id: "trading", note: null };
+  if (n === 2 || /\b(business|work|munka|biz)\b/.test(t))
+    return { id: "business", note: null };
+  if (n === 3 || /\b(physical|body|test|corp)\b/.test(t))
+    return { id: "physical", note: null };
+  if (n === 4 || /\b(emotional|balance|emotion)\b/.test(t))
+    return { id: "emotional", note: null };
+  if (n === 5 || /\b(self|development|fejlőd|dezvoltare)\b/.test(t))
+    return { id: "selfdev", note: null };
+  if (n === 6 || /\b(energy|spirit|spiritual|energie)\b/.test(t))
+    return { id: "spiritual", note: null };
+  if (n === 7) return { id: "other", note: t.replace(/^\d+\s*/, "").slice(0, 200) || null };
+  if (t.length > 1 && t.length < 120 && !/^\d$/.test(t)) return { id: "other", note: t };
+  return null;
+}
+
+function parseObstacleToken(raw) {
+  const t = String(raw || "").trim().toLowerCase();
+  const n = parseInt(t, 10);
+  const map = {
+    1: "overthinking",
+    2: "impulse",
+    3: "avoidance",
+    4: "emotional_chaos",
+    5: "structure",
+    6: "burnout",
+    7: "habits",
+    8: "trading_emotions",
+    9: "other"
+  };
+  if (map[n]) {
+    const note =
+      n === 9 ? t.replace(/^\d+\s*/, "").trim().slice(0, 200) || null : null;
+    return { id: map[n], note };
+  }
+  if (/overthink|túlgond/.test(t)) return { id: "overthinking", note: null };
+  if (/impuls/.test(t)) return { id: "impulse", note: null };
+  if (/avoid|lazy|procrast|halog|lenev/.test(t)) return { id: "avoidance", note: null };
+  if (/chaos|emoțional|emotional/.test(t)) return { id: "emotional_chaos", note: null };
+  if (/structur/.test(t)) return { id: "structure", note: null };
+  if (/burnout|kiég|epuiz/.test(t)) return { id: "burnout", note: null };
+  if (/habit|szokás|obicei/.test(t)) return { id: "habits", note: null };
+  if (/trading.*emo|emotion.*trad/.test(t)) return { id: "trading_emotions", note: null };
+  if (t.length > 1 && t.length < 120) return { id: "other", note: t };
+  return null;
+}
+
+function parseIntensityToken(raw) {
+  const t = String(raw || "").trim().toLowerCase();
+  const n = parseInt(t, 10);
+  if (n === 1 || /^gentle|finom|blând/.test(t)) return "gentle";
+  if (n === 2 || /balanced|kiegy|echilibrat/.test(t)) return "balanced";
+  if (n === 3 || /^direct|közvetlen/.test(t)) return "direct";
+  return null;
+}
+
+function parseLanguageToken(raw) {
+  const t = String(raw || "").trim().toLowerCase();
+  const n = parseInt(t, 10);
+  if (n === 1 || /^en(glish)?\b/.test(t)) return "en";
+  if (n === 2 || /\b(hu|magyar|hungarian)\b/.test(t)) return "hu";
+  if (n === 3 || /\b(ro|romanian|român)\b/.test(t)) return "ro";
+  if (n === 4 || /\bauto\b/.test(t)) return "auto";
+  return null;
+}
+
+function pathLabel(session, r) {
+  const id = session.userPrimaryPath;
+  if (!id) return r.profileNotSet;
+  if (id === "other" && session.userPrimaryPathNote)
+    return session.userPrimaryPathNote;
+  return r.obPathLabels[id] || id;
+}
+
+function obstacleLabel(session, r) {
+  const id = session.userMainObstacle;
+  if (!id) return r.profileNotSet;
+  if (id === "other" && session.userMainObstacleNote)
+    return session.userMainObstacleNote;
+  return r.obObstacleLabels[id] || id;
+}
+
+function formatSummary(session, lang) {
+  const r = getResponses(lang);
+  const p = pathLabel(session, r);
+  const o = obstacleLabel(session, r);
+  const tone =
+    r.obIntensityLabels[session.userIntensityPreference] ||
+    session.userIntensityPreference ||
+    r.profileNotSet;
+  const langLine =
+    session.preferredLanguage === "auto"
+      ? r.obLangLabels.auto
+      : r.obLangLabels[session.preferredLanguage] || r.profileNotSet;
+  const goal =
+    session.userGoal30Days && String(session.userGoal30Days).trim()
+      ? String(session.userGoal30Days).trim()
+      : r.profileNotSet;
+  return lines(
+    r.obSummaryHead,
+    "",
+    `${r.obSummaryPath}: ${p}`,
+    `${r.obSummaryGoal}: ${goal}`,
+    `${r.obSummaryObstacle}: ${o}`,
+    `${r.obSummaryTone}: ${tone}`,
+    `${r.obSummaryLang}: ${langLine}`,
+    "",
+    r.obSummaryFooter
+  );
+}
+
+function skipOnboarding(userId, lang) {
+  const r = getResponses(lang);
+  updateSession(userId, {
+    onboardingActive: false,
+    onboardingSkipped: true,
+    onboardingCompleted: false
+  });
+  return r.obSkip;
+}
+
+function buildProfileReply(session, lang) {
+  const r = getResponses(lang);
+  const hasAny =
+    session.onboardingActive ||
+    session.onboardingCompleted ||
+    session.onboardingSkipped ||
+    session.userPrimaryPath ||
+    (session.userGoal30Days && String(session.userGoal30Days).trim()) ||
+    session.userMainObstacle ||
+    session.userIntensityPreference ||
+    session.preferredLanguage;
+  if (!hasAny) return r.profileEmpty;
+  const setup =
+    session.onboardingCompleted
+      ? r.profileOnboardingDone
+      : session.onboardingSkipped
+        ? r.profileOnboardingSkipped
+        : session.onboardingActive
+          ? r.profileOnboardingPending
+          : r.profileOnboardingSkipped;
+  return lines(
+    r.profileTitle,
+    "",
+    `${r.profilePath}: ${pathLabel(session, r)}`,
+    `${r.profileGoal}: ${
+      session.userGoal30Days?.trim() || r.profileNotSet
+    }`,
+    `${r.profileObstacle}: ${obstacleLabel(session, r)}`,
+    `${r.profileTone}: ${
+      r.obIntensityLabels[session.userIntensityPreference] ||
+      session.userIntensityPreference ||
+      r.profileNotSet
+    }`,
+    `${r.profileLangPref}: ${
+      session.preferredLanguage === "auto"
+        ? r.obLangLabels.auto
+        : r.obLangLabels[session.preferredLanguage] || r.profileNotSet
+    }`,
+    `${r.profileOnboarding}: ${setup}`
+  );
+}
+
+/**
+ * @returns {{ reply: string }|null} null = not handled here
+ */
+function processOnboardingReply(userId, text, session, lang) {
+  if (!session.onboardingActive || session.onboardingCompleted) return null;
+  if (session.onboardingSkipped) return null;
+
+  const r = getResponses(lang);
+  const raw = String(text || "").trim();
+  if (/^(skip|later|később|mai târziu|not now)\b/i.test(raw)) {
+    return { reply: skipOnboarding(userId, lang) };
+  }
+
+  const step = session.onboardingStep || 1;
+
+  const tangential =
+    /\?/.test(raw) &&
+    raw.length > 40 &&
+    step !== 2 &&
+    !/^\d$/.test(raw) &&
+    !/^([1-9])\s/.test(raw);
+
+  if (tangential) {
+    return {
+      reply: lines(
+        r.obNoted,
+        "",
+        r.obContinueSetup,
+        "",
+        step === 1
+          ? r.obQ1
+          : step === 2
+            ? r.obQ2
+            : step === 3
+              ? r.obQ3
+              : step === 4
+                ? r.obQ4
+                : r.obQ5
+      )
+    };
+  }
+
+  if (step === 1) {
+    const p = parsePathToken(raw);
+    if (!p) return { reply: lines(r.obInvalidPath, "", r.obQ1) };
+    updateSession(userId, {
+      userPrimaryPath: p.id,
+      userPrimaryPathNote: p.note,
+      onboardingStep: 2
+    });
+    return { reply: r.obQ2 };
+  }
+
+  if (step === 2) {
+    if (raw.length < 3) return { reply: lines(r.obQ2) };
+    updateSession(userId, {
+      userGoal30Days: raw.slice(0, 500),
+      onboardingStep: 3
+    });
+    return { reply: r.obQ3 };
+  }
+
+  if (step === 3) {
+    const o = parseObstacleToken(raw);
+    if (!o) return { reply: lines(r.obInvalidObstacle, "", r.obQ3) };
+    updateSession(userId, {
+      userMainObstacle: o.id,
+      userMainObstacleNote: o.note,
+      onboardingStep: 4
+    });
+    return { reply: r.obQ4 };
+  }
+
+  if (step === 4) {
+    const i = parseIntensityToken(raw);
+    if (!i) return { reply: lines(r.obInvalidIntensity, "", r.obQ4) };
+    updateSession(userId, {
+      userIntensityPreference: i,
+      onboardingStep: 5
+    });
+    return { reply: r.obQ5 };
+  }
+
+  if (step === 5) {
+    const l = parseLanguageToken(raw);
+    if (!l) return { reply: lines(r.obInvalidLanguage, "", r.obQ5) };
+    const langPatch = {};
+    if (l !== "auto") {
+      langPatch.lang = l;
+    }
+    updateSession(userId, {
+      preferredLanguage: l,
+      onboardingCompleted: true,
+      onboardingActive: false,
+      onboardingSkipped: false,
+      ...langPatch
+    });
+    const s = getSession(userId);
+    return { reply: formatSummary(s, l === "auto" ? lang : l) };
+  }
+
+  return null;
+}
+
+module.exports = {
+  startOnboarding,
+  resetProfileFields,
+  getStartReply,
+  processOnboardingReply,
+  skipOnboarding,
+  buildProfileReply,
+  formatSummary,
+  pathLabel,
+  obstacleLabel
+};

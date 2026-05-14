@@ -20,9 +20,10 @@ const {
   isSessionCategoryLoop,
   isTripleSameEmotionalText
 } = require("../session/sessionStore");
+const { appendAdaptiveLine } = require("../companion/adaptive");
 
-function logOpen(payload) {
-  logConversation(JSON.stringify(payload), null);
+function wrapAdaptive(session, lang, text, category, replyBody) {
+  return replyBody + appendAdaptiveLine(session, lang, text, category);
 }
 
 function maybeVaryReply(session, category, body, r) {
@@ -140,7 +141,13 @@ function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     return {
-      reply: withContinuity(session, category, r.chaosSoftReply, r),
+      reply: wrapAdaptive(
+        session,
+        lang,
+        text,
+        "chaos_loop",
+        withContinuity(session, category, r.chaosSoftReply, r)
+      ),
       category: "chaos_loop",
       suggestedAction: "/reset"
     };
@@ -154,7 +161,13 @@ function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     return {
-      reply: withContinuity(session, category, r.tradingGuardrail, r),
+      reply: wrapAdaptive(
+        session,
+        lang,
+        text,
+        "trading_impulse",
+        withContinuity(session, category, r.tradingGuardrail, r)
+      ),
       category: "trading_impulse",
       suggestedAction: "/trade"
     };
@@ -174,7 +187,7 @@ function handleOpenConversation(message, lang, session) {
       r
     );
     return {
-      reply: body,
+      reply: wrapAdaptive(session, lang, text, category, body),
       category: "focus_drift",
       suggestedAction: "/focus"
     };
@@ -194,7 +207,7 @@ function handleOpenConversation(message, lang, session) {
       r
     );
     return {
-      reply: body,
+      reply: wrapAdaptive(session, lang, text, category, body),
       category: "body_energy",
       suggestedAction: "/body"
     };
@@ -209,7 +222,7 @@ function handleOpenConversation(message, lang, session) {
     });
     const body = pickSeeded(r.reflectivePrompts, String(userId));
     return {
-      reply: body,
+      reply: wrapAdaptive(session, lang, text, category, body),
       category: "reflective_open",
       suggestedAction: "/clarity"
     };
@@ -240,7 +253,7 @@ function handleOpenConversation(message, lang, session) {
   };
 
   return {
-    reply: body,
+    reply: wrapAdaptive(session, lang, text, category, body),
     category,
     suggestedAction: suggestedByCat[category] || "/help"
   };

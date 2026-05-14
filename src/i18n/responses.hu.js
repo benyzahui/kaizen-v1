@@ -1,4 +1,5 @@
 const rituals = require("./rituals.hu");
+const onboardingStrings = require("./onboardingCopy.hu");
 
 module.exports = {
   start:
@@ -29,7 +30,10 @@ module.exports = {
     "/plan /today /next /done",
     "",
     "Pillanatkép:",
-    "/status"
+    "/status",
+    "",
+    "Profil:",
+    "/profile /setup /skip"
   ].join("\n"),
 
   unknown: "Nem értettem a parancsot. Nyugodtan: /help",
@@ -249,5 +253,7 @@ module.exports = {
       "Mi egy stabilizáló mozdulat két perc alatt?",
       "Mi segítene most: tisztánlátás, pihenés, vagy egy zárt feladat?"
     ].join("\n\n")
-  }
+  },
+
+  ...onboardingStrings
 };

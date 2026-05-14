@@ -1,4 +1,5 @@
 const rituals = require("./rituals.en");
+const onboardingStrings = require("./onboardingCopy.en");
 
 module.exports = {
   start:
@@ -29,7 +30,10 @@ module.exports = {
     "/plan /today /next /done",
     "",
     "Snapshot:",
-    "/status"
+    "/status",
+    "",
+    "Profile:",
+    "/profile /setup /skip"
   ].join("\n"),
 
   unknown:
@@ -250,5 +254,7 @@ module.exports = {
       "One stabilizing move you can do in two minutes?",
       "What would help most: clarity, rest, or a single task lock?"
     ].join("\n\n")
-  }
+  },
+
+  ...onboardingStrings
 };

@@ -16,6 +16,16 @@ const {
 } = require("./planTracking");
 const { buildStatusReply } = require("./status");
 const { buildHelpReply } = require("./help");
+const {
+  startOnboarding,
+  getStartReply,
+  skipOnboarding,
+  buildProfileReply
+} = require("./onboarding");
+
+function uid(message) {
+  return String(message.from?.id ?? message.chat?.id ?? "");
+}
 
 function extractCommand(text = "") {
   const first = String(text).trim().split(/\s+/)[0];
@@ -52,7 +62,18 @@ async function routeCommandMessage(message, session) {
 
   switch (command) {
     case "/start":
-      reply = r.start;
+      startOnboarding(uid(message));
+      reply = getStartReply(lang);
+      break;
+    case "/setup":
+      startOnboarding(uid(message));
+      reply = getStartReply(lang);
+      break;
+    case "/skip":
+      reply = skipOnboarding(uid(message), lang);
+      break;
+    case "/profile":
+      reply = buildProfileReply(session, lang);
       break;
     case "/help":
       reply = buildHelpReply(lang, session);
