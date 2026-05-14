@@ -1,43 +1,62 @@
-/** English copy for V1.3 onboarding (merged into responses bundle). */
+/** English copy — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
-  obIntro:
-    "KaiZen — structure without noise. A few quick answers so I match your lane.\nOne step at a time. Anytime: use commands as usual, or send skip to finish later.",
-
-  obQ1: [
-    "1) What should I lean into with you?",
+  obIntro: [
+    "KaiZen V1 online.",
     "",
-    "1 — Trading discipline",
-    "2 — Business / work focus",
+    "I am not here to entertain you.",
+    "I am here to help you stay aligned when life gets noisy.",
+    "",
+    "I can lean in with you on:",
+    "",
+    "1 — Work / business focus",
+    "2 — Trading discipline",
     "3 — Physical discipline",
     "4 — Emotional balance",
     "5 — Self-development",
-    "6 — Energy / spiritual alignment (grounded, not predictions)",
-    "7 — Other (say it in one line)",
+    "6 — Energy alignment (grounded — no fortune-telling)",
+    "7 — Mixed / more than one lane",
     "",
-    "Reply with a number or the label."
+    "First, let me understand you.",
+    "What do you want KaiZen to support most right now?",
+    "Reply with a number or one short sentence.",
+    "",
+    "Commands still work anytime. Send skip to pause setup."
   ].join("\n"),
 
-  obQ2: "2) Your main aim for the next 30 days — one or two sentences:",
+  obQ1: [
+    "1) Main path — pick one:",
+    "",
+    "1 — Work / business focus",
+    "2 — Trading discipline",
+    "3 — Physical discipline",
+    "4 — Emotional balance",
+    "5 — Self-development",
+    "6 — Energy alignment",
+    "7 — Mixed",
+    "",
+    "Number or short label."
+  ].join("\n"),
+
+  obQ2: "2) Your main goal for the next 30 days — one or two sentences:",
 
   obQ3: [
     "3) What usually pulls you off track?",
     "",
     "1 — Overthinking",
     "2 — Impulse",
-    "3 — Laziness / avoidance",
-    "4 — Emotional chaos",
-    "5 — Lack of structure",
-    "6 — Burnout",
-    "7 — Bad habits",
-    "8 — Trading emotions",
-    "9 — Other (one line)",
+    "3 — Lack of structure",
+    "4 — Burnout",
+    "5 — Emotional chaos",
+    "6 — Bad habits",
+    "7 — Trading emotions",
+    "8 — Other (one line)",
     "",
     "Number or short label."
   ].join("\n"),
 
   obQ4: [
-    "4) How direct should I be?",
+    "4) Preferred tone:",
     "",
     "1 — Gentle",
     "2 — Balanced",
@@ -47,7 +66,7 @@ module.exports = {
   ].join("\n"),
 
   obQ5: [
-    "5) Preferred language for coaching copy:",
+    "5) Preferred language:",
     "",
     "1 — English",
     "2 — Hungarian",
@@ -57,47 +76,48 @@ module.exports = {
     "Reply 1–4."
   ].join("\n"),
 
-  obInvalidPath: "Pick 1–7, or name the lane in one short line.",
-  obInvalidObstacle: "Pick 1–9, or one short label.",
+  obInvalidPath: "Pick 1–7, or one short line for your lane.",
+  obInvalidObstacle: "Pick 1–8, or one short label.",
   obInvalidIntensity: "Reply 1 (gentle), 2 (balanced), or 3 (direct).",
   obInvalidLanguage: "Reply 1–4 for language preference.",
 
   obSkip:
     "Understood — setup paused. Your profile stays light until you run /setup or /start again.",
 
-  obNoted:
-    "Noted.",
+  obNoted: "Noted.",
 
   obContinueSetup: "Back to setup:",
 
-  obSummaryHead: "Good. Here is how I will show up:",
-  obSummaryPath: "Focus",
-  obSummaryGoal: "30-day aim",
-  obSummaryObstacle: "Main drift",
+  obProfileCreated: "Profile created.",
+  obSummaryPath: "Path",
+  obSummaryGoal: "Goal",
+  obSummaryObstacle: "Obstacle",
   obSummaryTone: "Tone",
   obSummaryLang: "Language",
-  obSummaryFooter: "Start with /pulse when you want a daily check-in.",
+  obSummaryFooter:
+    "Start with /pulse for daily alignment or /help to see the full system.",
 
   obPathLabels: {
-    trading: "trading discipline & emotional control around risk",
-    business: "work focus, execution, and decision clarity",
-    physical: "body, routine, training, recovery",
-    emotional: "grounding, reflection, nervous-system steadiness",
-    spiritual: "energy, cycles, identity — grounded, no fortune-telling",
-    selfdev: "self-development and disciplined growth",
+    trading: "trading discipline",
+    business: "work / business focus",
+    physical: "physical discipline",
+    emotional: "emotional balance",
+    spiritual: "energy alignment",
+    selfdev: "self-development",
+    mixed: "mixed priorities",
     other: "your stated lane"
   },
 
   obObstacleLabels: {
     overthinking: "overthinking",
     impulse: "impulse",
-    avoidance: "avoidance",
-    emotional_chaos: "emotional chaos",
     structure: "lack of structure",
     burnout: "burnout",
+    emotional_chaos: "emotional chaos",
     habits: "bad habits",
     trading_emotions: "trading emotions",
-    other: "your stated pattern"
+    other: "your stated pattern",
+    avoidance: "avoidance / procrastination drift"
   },
 
   obIntensityLabels: {
@@ -127,6 +147,53 @@ module.exports = {
   profileOnboardingSkipped: "skipped / minimal",
   profileNotSet: "—",
 
+  guideBody: [
+    "KaiZen system map:",
+    "",
+    "Daily rhythm:",
+    "/pulse /focus /mirror",
+    "",
+    "When overloaded:",
+    "/reset /ground /breathe",
+    "",
+    "Trading:",
+    "/trade /check /risk /cooldown",
+    "",
+    "Body:",
+    "/body /walk /train /sleep",
+    "",
+    "Direction:",
+    "/plan /clarity /path /question",
+    "",
+    "Profile:",
+    "/setup /profile /guide /status",
+    "",
+    "You can also speak naturally.",
+    "I will steer you back to structure when the chat drifts."
+  ].join("\n"),
+
+  helpIntentReply: [
+    "You typed help without a slash — here is the fast map.",
+    "Daily: /pulse · Scatter: /focus · Heavy load: /reset · Trading: /trade",
+    "Full layout: /guide"
+  ].join("\n"),
+
+  energyIntentReply:
+    "That reads like an energy check, not a feelings spiral.\nUse /energy for today’s structured read — I keep it practical, not mystical.",
+
+  clarityIntentReply: [
+    "Clarity pass:",
+    "One decision that would simplify everything else — write one line.",
+    "Then one physical next step in the next 25 minutes.",
+    "Deeper ritual: /clarity"
+  ].join("\n"),
+
+  creatorEasterReply:
+    "Then test me honestly. Push the system. I will show you where I am still weak.",
+
+  antiLoopRewrite:
+    "Same shape again — I will not repeat the same script.\nName one concrete fact that changed since your last message, or pick one command: /focus /reset /guide",
+
   adaptTiredTrading:
     "Low energy is not a license to force trades. Protect the account first. If you still trade today: /check before anything else.",
 
@@ -145,13 +212,28 @@ module.exports = {
   adaptTiredDefault:
     "Small physical downgrade first (water, food, short walk), then one honest sentence about what matters today.",
 
+  adaptTiredMixed:
+    "Mixed lane days need a single anchor: /pulse one line, then pick one lane for the next hour only.",
+
+  bannedPhraseAltComfort:
+    "Same comfort line twice would waste your time — say it plain, even rough. One fact I should not miss?",
+
+  bannedPhraseAltSmallStep:
+    "Skip the repeated prompt — name one move you can finish in ten minutes, no performance.",
+
   statusNextPathTrading: "Suggested next (your path): /check or /trade",
   statusNextPathBusiness: "Suggested next (your path): /focus or /plan",
   statusNextPathPhysical: "Suggested next (your path): /body or /walk",
   statusNextPathEmotional: "Suggested next (your path): /reset or /mirror",
   statusNextPathSpiritual: "Suggested next (your path): /energy or /path",
   statusNextPathSelfdev: "Suggested next (your path): /plan or /discipline",
+  statusNextPathMixed: "Suggested next (mixed path): /pulse then /plan one line",
   statusNextPathOther: "Suggested next: /pulse or /help",
+
+  statusNextGuide: "/guide for the map, or /pulse to anchor the day.",
+  statusNextEnergyAsk: "/energy for the full structured read.",
+  statusNextClarity: "/clarity for the ritual pass.",
+  statusNextCreator: "/guide — stress the weak points if you are shaping me.",
 
   helpTipOnboarding:
     "Setup in progress — reply to the last question, send skip to pause, or use any command anytime."

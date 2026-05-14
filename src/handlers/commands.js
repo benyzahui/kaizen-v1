@@ -16,6 +16,7 @@ const {
 } = require("./planTracking");
 const { buildStatusReply } = require("./status");
 const { buildHelpReply } = require("./help");
+const { buildGuideReply } = require("./guide");
 const {
   startOnboarding,
   getStartReply,
@@ -77,6 +78,9 @@ async function routeCommandMessage(message, session) {
       break;
     case "/help":
       reply = buildHelpReply(lang, session);
+      break;
+    case "/guide":
+      reply = buildGuideReply(lang);
       break;
     case "/energy":
       reply = await handleEnergy(message, lang);

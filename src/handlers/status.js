@@ -36,6 +36,10 @@ function nextStepHint(cat, lastCmd, r) {
     return r.statusNextEmotional;
   if (cat === "focus_drift") return r.statusNextDrift;
   if (cat === "body_energy") return r.statusNextBody;
+  if (cat === "help_intent") return r.statusNextGuide;
+  if (cat === "energy_question") return r.statusNextEnergyAsk;
+  if (cat === "clarity_protocol") return r.statusNextClarity;
+  if (cat === "easter_creator") return r.statusNextCreator;
   if (cat === "reflective_open" || cat === "general_curiosity")
     return r.statusNextReflect;
   if (cat === "plan_tracking") return r.statusNextPlan;
@@ -43,7 +47,7 @@ function nextStepHint(cat, lastCmd, r) {
   if (cat === "self_development") return r.statusNextPlan;
   if (
     lastCmd &&
-    !["/status", "/help", "/start"].includes(lastCmd)
+    !["/status", "/help", "/guide", "/start", "/profile", "/setup"].includes(lastCmd)
   )
     return r.statusNextLastCommand;
   return r.statusNextDefault;
@@ -59,6 +63,7 @@ function pathBasedNext(session, r) {
     emotional: r.statusNextPathEmotional,
     spiritual: r.statusNextPathSpiritual,
     selfdev: r.statusNextPathSelfdev,
+    mixed: r.statusNextPathMixed,
     other: r.statusNextPathOther
   };
   return map[p] || r.statusNextPathOther;
@@ -117,6 +122,7 @@ function buildStatusReply(message, session, lang) {
   const metaCmds = new Set([
     "/status",
     "/help",
+    "/guide",
     "/start",
     "/profile",
     "/setup",

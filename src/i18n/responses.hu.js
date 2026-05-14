@@ -6,34 +6,28 @@ module.exports = {
     "KaiZen elérhető. A napi kis igazítás hosszú távon mély változást hoz.",
 
   help: [
-    "KaiZen utak:",
+    "KaiZen térkép:",
     "",
-    "Napi:",
-    "/pulse /focus /reset /mirror",
+    "Napi ritmus:",
+    "/pulse /focus /mirror",
     "",
-    "Energia:",
-    "/energy /ground /breathe /recenter /recovery /detach",
+    "Túlterhelésnél:",
+    "/reset /ground /breathe",
     "",
     "Trading:",
-    "/trade /check /risk /notrade /cooldown",
-    "",
-    "Növekedés:",
-    "/discipline /habit /identity /pattern /shadow",
+    "/trade /check /risk /cooldown",
     "",
     "Test:",
     "/body /walk /train /sleep",
     "",
-    "Út:",
-    "/clarity /question /vision /path",
-    "",
-    "Terv:",
-    "/plan /today /next /done",
-    "",
-    "Pillanatkép:",
-    "/status",
+    "Irány:",
+    "/plan /clarity /path /question",
     "",
     "Profil:",
-    "/profile /setup /skip"
+    "/setup /profile /guide /status",
+    "",
+    "Természetesen is írhatsz.",
+    "Szükség esetén visszavezetlek a struktúrához."
   ].join("\n"),
 
   unknown: "Nem értettem a parancsot. Nyugodtan: /help",
@@ -252,6 +246,12 @@ module.exports = {
       "Itt vagyok — mondd ki nyíltan, akár rendetlenül.",
       "Mi egy stabilizáló mozdulat két perc alatt?",
       "Mi segítene most: tisztánlátás, pihenés, vagy egy zárt feladat?"
+    ].join("\n\n"),
+
+    unknown_alt: [
+      "Rövid jel — ehhez igazítom a hangerőt.",
+      "Egy tény, egy szándék. Ritmus: /pulse.",
+      "Vagy maradj: egy rendetlen igaz mondat is elég."
     ].join("\n\n")
   },
 

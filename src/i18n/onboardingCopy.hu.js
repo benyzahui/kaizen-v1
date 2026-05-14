@@ -1,19 +1,39 @@
-/** Hungarian onboarding copy. */
+/** Hungarian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
-  obIntro:
-    "KaiZen — struktúra zaj nélkül. Pár gyors válasz, hogy passzoljak a sávodhoz.\nLépésről lépésre. Bármikor: a parancsok továbbra is működnek, vagy írd: skip, ha később fejeznéd be.",
-
-  obQ1: [
-    "1) Miben támogassalak elsősorban?",
+  obIntro: [
+    "KaiZen V1 online.",
     "",
-    "1 — Trading fegyelem",
-    "2 — Üzlet / munka fókusz",
+    "Nem azért vagyok itt, hogy szórakoztassalak.",
+    "Azért, hogy zajban is tudj igazodni.",
+    "",
+    "Ezeken az utakon tudok veled menni:",
+    "",
+    "1 — Munka / üzleti fókusz",
+    "2 — Trading fegyelem",
     "3 — Testi fegyelem",
     "4 — Érzelmi egyensúly",
     "5 — Önfejlesztés",
-    "6 — Energia / spirituális igazítás (földelve, nem jóslás)",
-    "7 — Egyéb (egy sorban)",
+    "6 — Energia-igazítás (földelve — nem jóslás)",
+    "7 — Vegyes / több sáv egyszerre",
+    "",
+    "Először értelek meg.",
+    "Hol szeretnéd most a legjobban, hogy KaiZen támogasson?",
+    "Írj egy számot vagy egy rövid mondatot.",
+    "",
+    "A parancsok bármikor működnek. A beállítás szüneteltetéséhez: skip."
+  ].join("\n"),
+
+  obQ1: [
+    "1) Fő sáv — válassz egyet:",
+    "",
+    "1 — Munka / üzleti fókusz",
+    "2 — Trading fegyelem",
+    "3 — Testi fegyelem",
+    "4 — Érzelmi egyensúly",
+    "5 — Önfejlesztés",
+    "6 — Energia-igazítás",
+    "7 — Vegyes",
     "",
     "Szám vagy rövid címke."
   ].join("\n"),
@@ -25,19 +45,18 @@ module.exports = {
     "",
     "1 — Túlgondolás",
     "2 — Impulzus",
-    "3 — Lustaság / halogatás",
-    "4 — Érzelmi káosz",
-    "5 — Struktúra hiánya",
-    "6 — Kiégés",
-    "7 — Rossz szokások",
-    "8 — Trading érzelmek",
-    "9 — Egyéb (egy sor)",
+    "3 — Struktúra hiánya",
+    "4 — Kiégés",
+    "5 — Érzelmi káosz",
+    "6 — Rossz szokások",
+    "7 — Trading érzelmek",
+    "8 — Egyéb (egy sor)",
     "",
     "Szám vagy rövid címke."
   ].join("\n"),
 
   obQ4: [
-    "4) Milyen közvetlen legyek?",
+    "4) Milyen hangnem:",
     "",
     "1 — Finoman",
     "2 — Kiegyensúlyozottan",
@@ -58,7 +77,7 @@ module.exports = {
   ].join("\n"),
 
   obInvalidPath: "Válassz 1–7 közül, vagy egy rövid sort a sávhoz.",
-  obInvalidObstacle: "Válassz 1–9 közül, vagy egy rövid címkét.",
+  obInvalidObstacle: "Válassz 1–8 közül, vagy egy rövid címkét.",
   obInvalidIntensity: "1 (finoman), 2 (kiegyensúlyozott), 3 (közvetlen).",
   obInvalidLanguage: "1–4 a nyelvhez.",
 
@@ -69,34 +88,36 @@ module.exports = {
 
   obContinueSetup: "Vissza a beállításhoz:",
 
-  obSummaryHead: "Rendben. Így leszek jelen:",
-  obSummaryPath: "Fókusz",
-  obSummaryGoal: "30 napos cél",
-  obSummaryObstacle: "Fő elcsúszás",
+  obProfileCreated: "Profil kész.",
+  obSummaryPath: "Sáv",
+  obSummaryGoal: "Cél",
+  obSummaryObstacle: "Akadály",
   obSummaryTone: "Hangnem",
   obSummaryLang: "Nyelv",
-  obSummaryFooter: "Ha kész vagy: /pulse egy napi rögzítéshez.",
+  obSummaryFooter:
+    "Kezdés: /pulse napi igazításhoz vagy /help a teljes rendszerhez.",
 
   obPathLabels: {
-    trading: "trading fegyelem és érzelmi kontroll a kockázat körül",
-    business: "munkafókusz, végrehajtás, döntéstisztaság",
-    physical: "test, rutin, edzés, regenerálódás",
-    emotional: "földelés, tükröződés, idegrendszer-stabilitás",
-    spiritual: "energia, ciklusok, identitás — földelve, jóslás nélkül",
-    selfdev: "önfejlesztés és fegyelmezett növekedés",
+    trading: "trading fegyelem",
+    business: "munka / üzleti fókusz",
+    physical: "testi fegyelem",
+    emotional: "érzelmi egyensúly",
+    spiritual: "energia-igazítás",
+    selfdev: "önfejlesztés",
+    mixed: "vegyes prioritások",
     other: "általad megadott sáv"
   },
 
   obObstacleLabels: {
     overthinking: "túlgondolás",
     impulse: "impulzus",
-    avoidance: "halogatás",
-    emotional_chaos: "érzelmi káosz",
     structure: "struktúra hiánya",
     burnout: "kiégés",
+    emotional_chaos: "érzelmi káosz",
     habits: "rossz szokások",
     trading_emotions: "trading érzelmek",
-    other: "általad leírt minta"
+    other: "általad leírt minta",
+    avoidance: "halogatás / elkerülés"
   },
 
   obIntensityLabels: {
@@ -126,6 +147,59 @@ module.exports = {
   profileOnboardingSkipped: "kihagyva / minimál",
   profileNotSet: "—",
 
+  guideBody: [
+    "KaiZen térkép:",
+    "",
+    "Napi ritmus:",
+    "/pulse /focus /mirror",
+    "",
+    "Túlterhelésnél:",
+    "/reset /ground /breathe",
+    "",
+    "Trading:",
+    "/trade /check /risk /cooldown",
+    "",
+    "Test:",
+    "/body /walk /train /sleep",
+    "",
+    "Irány:",
+    "/plan /clarity /path /question",
+    "",
+    "Profil:",
+    "/setup /profile /guide /status",
+    "",
+    "Természetesen is írhatsz.",
+    "Ha elkalandozunk, visszavezetlek a struktúrához."
+  ].join("\n"),
+
+  helpIntentReply: [
+    "Segítség perjel nélkül — gyors térkép.",
+    "Napi: /pulse · Szétszórtság: /focus · Túlterhelés: /reset · Trading: /trade",
+    "Teljes felosztás: /guide"
+  ].join("\n"),
+
+  energyIntentReply:
+    "Ez energia-kérdésnek hangzik, nem érzelmi spirálnak.\nA /energy ad strukturált napi keretet — gyakorlati, nem misztikus.",
+
+  clarityIntentReply: [
+    "Clarity passz:",
+    "Egy döntés, ami mindent egyszerűsítene — írj egy sort.",
+    "Aztán egy fizikai következő lépés a következő 25 percben.",
+    "Teljes rituálé: /clarity"
+  ].join("\n"),
+
+  creatorEasterReply:
+    "Akkor tesztelj őszintén. Nyomd a rendszert. Megmutatom, hol vagyok még gyenge.",
+
+  antiLoopRewrite:
+    "Ugyanaz a forma újra — nem ismétlem ugyanazt a szkriptet.\nÍrj egy új tényt az előző üzenet óta, vagy válassz parancsot: /focus /reset /guide",
+
+  bannedPhraseAltComfort:
+    "Kétszer ugyanaz a vigasztalás időpocsékolás — mondd ki nyersen is. Egy tény, amit ne hagyjak ki?",
+
+  bannedPhraseAltSmallStep:
+    "Nem ismétlem a kérdést — nevezz meg egy tízperces mozdulatot, előadás nélkül.",
+
   adaptTiredTrading:
     "Alacsony energia nem indok a kényszer-tradereknél. Előbb védd a számlát. Ha mégis: előbb /check.",
 
@@ -144,13 +218,22 @@ module.exports = {
   adaptTiredDefault:
     "Előbb apró fizikai lépés (víz, étel, rövid séta), aztán egy őszinte mondat arról, mi számít ma.",
 
+  adaptTiredMixed:
+    "Vegyes sáv: egy horgony kell — /pulse egy sor, aztán egy sáv egy órára.",
+
   statusNextPathTrading: "Következő javaslat (sáv): /check vagy /trade",
   statusNextPathBusiness: "Következő javaslat (sáv): /focus vagy /plan",
   statusNextPathPhysical: "Következő javaslat (sáv): /body vagy /walk",
   statusNextPathEmotional: "Következő javaslat (sáv): /reset vagy /mirror",
   statusNextPathSpiritual: "Következő javaslat (sáv): /energy vagy /path",
   statusNextPathSelfdev: "Következő javaslat (sáv): /plan vagy /discipline",
+  statusNextPathMixed: "Következő javaslat (vegyes): /pulse, aztán /plan egy sor",
   statusNextPathOther: "Következő javaslat: /pulse vagy /help",
+
+  statusNextGuide: "/guide a térképhez, vagy /pulse napi horgonyhoz.",
+  statusNextEnergyAsk: "/energy a teljes strukturált olvasathoz.",
+  statusNextClarity: "/clarity a teljes rituálé passzhoz.",
+  statusNextCreator: "/guide — ha formálsz, nyomd a gyenge pontokat.",
 
   helpTipOnboarding:
     "Beállítás folyamatban — válaszolj az utolsó kérdésre, skip a szünethez, vagy bármikor parancs."

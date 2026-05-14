@@ -9,6 +9,8 @@
 const TTL_MS = 24 * 60 * 60 * 1000;
 
 const { profileDefaults } = require("./userProfile");
+const { replyFingerprint } = require("../conversation/replyFingerprint");
+const { countBannedPhraseHits } = require("../conversation/bannedPhrases");
 
 /** @type {Map<string, any>} */
 const store = new Map();
@@ -31,6 +33,9 @@ const store = new Map();
  * @property {boolean} onboardingActive
  * @property {boolean} onboardingSkipped
  * @property {number} onboardingStep
+ * @property {string[]} lastAssistantPrints
+ * @property {number} comfortOpenerUses
+ * @property {number} smallStepAskUses
  */
 
 function emptySession() {
@@ -43,6 +48,9 @@ function emptySession() {
     messages: [],
     lastReplyByCategory: {},
     lastSuggestedAction: null,
+    lastAssistantPrints: [],
+    comfortOpenerUses: 0,
+    smallStepAskUses: 0,
     lastAt: Date.now()
   };
 }
@@ -148,6 +156,9 @@ function recordInteraction(userId, ev) {
   if (ev.category) {
     lastReplyByCategory[ev.category] = String(ev.reply || "").slice(0, 400);
   }
+  const fp = replyFingerprint(String(ev.reply || ""));
+  const lastAssistantPrints = [...(s.lastAssistantPrints || []), fp].slice(-2);
+  const hits = countBannedPhraseHits(ev.reply);
   store.set(id, {
     ...s,
     lang: ev.lang || s.lang,
@@ -165,6 +176,9 @@ function recordInteraction(userId, ev) {
         : s.lastSuggestedAction,
     messages,
     lastReplyByCategory,
+    lastAssistantPrints,
+    comfortOpenerUses: (s.comfortOpenerUses || 0) + hits.comfort,
+    smallStepAskUses: (s.smallStepAskUses || 0) + hits.smallStep,
     lastAt: Date.now()
   });
 }

@@ -7,6 +7,8 @@
  */
 
 const { classifyMessage } = require("../conversation/classify");
+const { variateIfSameShape } = require("../conversation/antiTemplate");
+const { applyBannedPhraseRotation } = require("../conversation/bannedPhrases");
 const { getResponses } = require("../i18n/getResponses");
 const { conversation: logConversation } = require("../logging/log");
 const { lines, pickSeeded, disclaimerLight } = require("../personality/kaizenVoice");
@@ -21,9 +23,25 @@ const {
   isTripleSameEmotionalText
 } = require("../session/sessionStore");
 const { appendAdaptiveLine } = require("../companion/adaptive");
+const { buildEnergyReply } = require("./energy");
 
 function wrapAdaptive(session, lang, text, category, replyBody) {
   return replyBody + appendAdaptiveLine(session, lang, text, category);
+}
+
+/**
+ * Shape-variation + banned comfort phrases + adaptive suffix.
+ * @param {object} session
+ * @param {'en'|'hu'|'ro'} lang
+ * @param {string} text
+ * @param {string} category
+ * @param {string} body
+ * @param {object} r
+ */
+function finalizeCoaching(session, lang, text, category, body, r) {
+  let b = variateIfSameShape(session, body, r);
+  b = applyBannedPhraseRotation(session, b, r);
+  return wrapAdaptive(session, lang, text, category, b);
 }
 
 function maybeVaryReply(session, category, body, r) {
@@ -39,6 +57,10 @@ function withContinuity(session, category, body, r) {
     return lines(r.continuityLine, "", body);
   }
   return body;
+}
+
+function logOpen(payload) {
+  logConversation(JSON.stringify({ path: "open", ...payload }), null);
 }
 
 /**
@@ -133,6 +155,68 @@ function handleOpenConversation(message, lang, session) {
     };
   }
 
+  if (category === "easter_creator") {
+    logOpen({
+      lang,
+      category,
+      handler: "responses.creatorEasterReply",
+      textPreview: text.slice(0, 80)
+    });
+    return {
+      reply: finalizeCoaching(session, lang, text, category, r.creatorEasterReply, r),
+      category: "easter_creator",
+      suggestedAction: "/guide"
+    };
+  }
+
+  if (category === "help_intent") {
+    logOpen({
+      lang,
+      category,
+      handler: "responses.helpIntentReply",
+      textPreview: text.slice(0, 80)
+    });
+    return {
+      reply: finalizeCoaching(session, lang, text, category, r.helpIntentReply, r),
+      category: "help_intent",
+      suggestedAction: "/guide"
+    };
+  }
+
+  if (category === "energy_question") {
+    logOpen({
+      lang,
+      category,
+      handler: "responses.energyIntentReply+buildEnergyReply",
+      textPreview: text.slice(0, 80)
+    });
+    const teaser = buildEnergyReply(new Date(), lang)
+      .split(/\n\n+/)
+      .filter(Boolean)
+      .slice(0, 1)
+      .join("\n\n");
+    const body = lines(r.energyIntentReply, "", teaser);
+    return {
+      reply: finalizeCoaching(session, lang, text, category, body, r),
+      category: "energy_question",
+      suggestedAction: "/energy"
+    };
+  }
+
+  if (category === "clarity_protocol") {
+    logOpen({
+      lang,
+      category,
+      handler: "responses.clarityIntentReply",
+      textPreview: text.slice(0, 80)
+    });
+    return {
+      reply: finalizeCoaching(session, lang, text, category, r.clarityIntentReply, r),
+      category: "clarity_protocol",
+      suggestedAction: "/clarity"
+    };
+  }
+
   if (category === "chaos_loop") {
     logOpen({
       lang,
@@ -141,12 +225,13 @@ function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     return {
-      reply: wrapAdaptive(
+      reply: finalizeCoaching(
         session,
         lang,
         text,
         "chaos_loop",
-        withContinuity(session, category, r.chaosSoftReply, r)
+        withContinuity(session, category, r.chaosSoftReply, r),
+        r
       ),
       category: "chaos_loop",
       suggestedAction: "/reset"
@@ -161,12 +246,13 @@ function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     return {
-      reply: wrapAdaptive(
+      reply: finalizeCoaching(
         session,
         lang,
         text,
         "trading_impulse",
-        withContinuity(session, category, r.tradingGuardrail, r)
+        withContinuity(session, category, r.tradingGuardrail, r),
+        r
       ),
       category: "trading_impulse",
       suggestedAction: "/trade"
@@ -187,7 +273,7 @@ function handleOpenConversation(message, lang, session) {
       r
     );
     return {
-      reply: wrapAdaptive(session, lang, text, category, body),
+      reply: finalizeCoaching(session, lang, text, category, body, r),
       category: "focus_drift",
       suggestedAction: "/focus"
     };
@@ -207,7 +293,7 @@ function handleOpenConversation(message, lang, session) {
       r
     );
     return {
-      reply: wrapAdaptive(session, lang, text, category, body),
+      reply: finalizeCoaching(session, lang, text, category, body, r),
       category: "body_energy",
       suggestedAction: "/body"
     };
@@ -222,7 +308,7 @@ function handleOpenConversation(message, lang, session) {
     });
     const body = pickSeeded(r.reflectivePrompts, String(userId));
     return {
-      reply: wrapAdaptive(session, lang, text, category, body),
+      reply: finalizeCoaching(session, lang, text, category, body, r),
       category: "reflective_open",
       suggestedAction: "/clarity"
     };
@@ -232,6 +318,13 @@ function handleOpenConversation(message, lang, session) {
     r.categories[category] ||
     r.categories.reflective_open ||
     r.categories.unknown;
+  if (
+    category === "unknown" &&
+    session?.lastCategory === "unknown" &&
+    r.categories.unknown_alt
+  ) {
+    body = r.categories.unknown_alt;
+  }
   body = maybeVaryReply(session, category, withContinuity(session, category, body, r), r);
   if (category === "emotional_reflection" && r.openHintEmotional) {
     body = body + r.openHintEmotional;
@@ -249,11 +342,15 @@ function handleOpenConversation(message, lang, session) {
     work_focus: "/focus",
     plan_tracking: "/plan",
     self_development: "/plan",
-    unknown: "/help"
+    unknown: "/help",
+    help_intent: "/guide",
+    energy_question: "/energy",
+    clarity_protocol: "/clarity",
+    easter_creator: "/guide"
   };
 
   return {
-    reply: wrapAdaptive(session, lang, text, category, body),
+    reply: finalizeCoaching(session, lang, text, category, body, r),
     category,
     suggestedAction: suggestedByCat[category] || "/help"
   };

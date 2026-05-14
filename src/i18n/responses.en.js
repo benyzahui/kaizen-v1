@@ -6,34 +6,28 @@ module.exports = {
     "KaiZen online. Small daily alignment creates massive long-term transformation.",
 
   help: [
-    "KaiZen paths:",
+    "KaiZen system map:",
     "",
-    "Daily:",
-    "/pulse /focus /reset /mirror",
+    "Daily rhythm:",
+    "/pulse /focus /mirror",
     "",
-    "Energy:",
-    "/energy /ground /breathe /recenter /recovery /detach",
+    "When overloaded:",
+    "/reset /ground /breathe",
     "",
     "Trading:",
-    "/trade /check /risk /notrade /cooldown",
-    "",
-    "Growth:",
-    "/discipline /habit /identity /pattern /shadow",
+    "/trade /check /risk /cooldown",
     "",
     "Body:",
     "/body /walk /train /sleep",
     "",
-    "Path:",
-    "/clarity /question /vision /path",
-    "",
-    "Plan:",
-    "/plan /today /next /done",
-    "",
-    "Snapshot:",
-    "/status",
+    "Direction:",
+    "/plan /clarity /path /question",
     "",
     "Profile:",
-    "/profile /setup /skip"
+    "/setup /profile /guide /status",
+    "",
+    "You can also speak naturally.",
+    "I will guide you back to structure when needed."
   ].join("\n"),
 
   unknown:
@@ -253,6 +247,12 @@ module.exports = {
       "I am with you — say it plainly, even messy.",
       "One stabilizing move you can do in two minutes?",
       "What would help most: clarity, rest, or a single task lock?"
+    ].join("\n\n"),
+
+    unknown_alt: [
+      "Short signal — I will match volume.",
+      "One fact, one intent. Rhythm: /pulse.",
+      "Or stay: one messy true line is enough."
     ].join("\n\n")
   },
 

@@ -6,34 +6,28 @@ module.exports = {
     "KaiZen online. Alinierea zilnică mică aduce transformare mare în timp.",
 
   help: [
-    "Căi KaiZen:",
+    "Harta sistemului KaiZen:",
     "",
-    "Zilnic:",
-    "/pulse /focus /reset /mirror",
+    "Ritm zilnic:",
+    "/pulse /focus /mirror",
     "",
-    "Energie:",
-    "/energy /ground /breathe /recenter /recovery /detach",
+    "Când e prea mult:",
+    "/reset /ground /breathe",
     "",
     "Trading:",
-    "/trade /check /risk /notrade /cooldown",
-    "",
-    "Creștere:",
-    "/discipline /habit /identity /pattern /shadow",
+    "/trade /check /risk /cooldown",
     "",
     "Corp:",
     "/body /walk /train /sleep",
     "",
-    "Cale:",
-    "/clarity /question /vision /path",
-    "",
-    "Plan:",
-    "/plan /today /next /done",
-    "",
-    "Snapshot:",
-    "/status",
+    "Direcție:",
+    "/plan /clarity /path /question",
     "",
     "Profil:",
-    "/profile /setup /skip"
+    "/setup /profile /guide /status",
+    "",
+    "Poți vorbi și natural.",
+    "Te aduc la structură când e nevoie."
   ].join("\n"),
 
   unknown: "Nu am înțeles comanda. Scrie /help, fără grabă.",
@@ -252,6 +246,12 @@ module.exports = {
       "Sunt aici — spune direct, chiar dezordonat.",
       "Ce mic gest de stabilizare poți face în două minute?",
       "Ce te-ar ajuta acum: claritate, odihnă sau un singur task blocat?"
+    ].join("\n\n"),
+
+    unknown_alt: [
+      "Semnal scurt — mă aliniez la volum.",
+      "Un fapt, un intent. Ritm: /pulse.",
+      "Sau rămâi: o linie adevărată dezordonată e suficientă."
     ].join("\n\n")
   },
 

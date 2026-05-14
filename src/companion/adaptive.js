@@ -38,6 +38,7 @@ function appendAdaptiveLine(session, lang, userText, category) {
   if (p === "emotional") return `\n\n${r.adaptTiredEmotional}`;
   if (p === "spiritual") return `\n\n${r.adaptTiredSpiritual}`;
   if (p === "selfdev") return `\n\n${r.adaptTiredDefault}`;
+  if (p === "mixed") return `\n\n${r.adaptTiredMixed}`;
   return `\n\n${r.adaptTiredDefault}`;
 }
 

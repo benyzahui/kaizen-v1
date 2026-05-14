@@ -2,6 +2,7 @@
  * Open-text classification (no slash commands — those never reach here).
  *
  * Priority (highest first):
+ * 0 creator easter / bare help / energy question / clarity keyword
  * 1 chaos / overload
  * 2 focus drift / mental scatter
  * 3 trading impulse
@@ -23,6 +24,35 @@ function classifyMessage(text) {
   if (!t) return "unknown";
 
   const low = t.toLowerCase();
+
+  if (/(i\s*am|i'm)\s+your\s+creator\b/i.test(t)) {
+    return "easter_creator";
+  }
+
+  if (
+    low === "help" ||
+    low === "help." ||
+    low === "help!" ||
+    low === "help?" ||
+    low === "segíts" ||
+    low === "segíts!" ||
+    low === "ajutor" ||
+    low === "ajutor!"
+  ) {
+    return "help_intent";
+  }
+
+  if (
+    /(today'?s energy|energy (today|of the day|right now)|tell me about.{0,40}energy|what('s| is) the energy|napi energia|energia zilei|energia de azi|mai spune.{0,20}energi)/i.test(
+      t
+    )
+  ) {
+    return "energy_question";
+  }
+
+  if (/^clarity\s*[.!?…]*$/i.test(low) || (low === "clarity" && t.length < 20)) {
+    return "clarity_protocol";
+  }
 
   if (
     /(hopeless|spiral|can't stop|cant stop|meltdown|overstim|overwhelmed|overload|overloaded|mental overload|panic|dying inside|too much at once|shutting down|can't think straight|cant think straight|can't cope|cant cope|pánik|reménytelen|összeoml|panică|disperat|can't breathe|cant breathe)/i.test(

@@ -1,5 +1,5 @@
 /**
- * V1.3 onboarding: one question per message, 24h session only.
+ * V1.4 onboarding: one question per message, 24h session only.
  * Commands always bypass this module (handled in telegram-webhook first).
  */
 
@@ -18,31 +18,35 @@ function startOnboarding(userId) {
     onboardingActive: true,
     onboardingCompleted: false,
     onboardingSkipped: false,
-    onboardingStep: 1
+    onboardingStep: 1,
+    lastAssistantPrints: [],
+    comfortOpenerUses: 0,
+    smallStepAskUses: 0
   });
 }
 
 function getStartReply(lang) {
   const r = getResponses(lang);
-  return lines(r.obIntro, "", r.obQ1);
+  return r.obIntro;
 }
 
 function parsePathToken(raw) {
   const t = String(raw || "").trim().toLowerCase();
   const n = parseInt(t, 10);
-  if (n === 1 || /\btrading\b/.test(t)) return { id: "trading", note: null };
-  if (n === 2 || /\b(business|work|munka|biz)\b/.test(t))
+  if (n === 1 || /\b(work|business|biz|office|munka)\b/.test(t))
     return { id: "business", note: null };
-  if (n === 3 || /\b(physical|body|test|corp)\b/.test(t))
+  if (n === 2 || /\btrad(e|ing)\b/.test(t)) return { id: "trading", note: null };
+  if (n === 3 || /\b(physical|body|train|gym)\b/.test(t))
     return { id: "physical", note: null };
-  if (n === 4 || /\b(emotional|balance|emotion)\b/.test(t))
+  if (n === 4 || /\b(emotional|balance|stabilit)\b/.test(t))
     return { id: "emotional", note: null };
-  if (n === 5 || /\b(self|development|fejlőd|dezvoltare)\b/.test(t))
+  if (n === 5 || /\b(self|growth|develop|fejlőd|dezvoltare)\b/.test(t))
     return { id: "selfdev", note: null };
-  if (n === 6 || /\b(energy|spirit|spiritual|energie)\b/.test(t))
+  if (n === 6 || /\b(energy|alignment|spirit|energie)\b/.test(t))
     return { id: "spiritual", note: null };
-  if (n === 7) return { id: "other", note: t.replace(/^\d+\s*/, "").slice(0, 200) || null };
-  if (t.length > 1 && t.length < 120 && !/^\d$/.test(t)) return { id: "other", note: t };
+  if (n === 7 || /\bmixed\b/.test(t)) return { id: "mixed", note: null };
+  if (t.length > 2 && t.length < 120 && !/^\d$/.test(t))
+    return { id: "other", note: t };
   return null;
 }
 
@@ -52,27 +56,26 @@ function parseObstacleToken(raw) {
   const map = {
     1: "overthinking",
     2: "impulse",
-    3: "avoidance",
-    4: "emotional_chaos",
-    5: "structure",
-    6: "burnout",
-    7: "habits",
-    8: "trading_emotions",
-    9: "other"
+    3: "structure",
+    4: "burnout",
+    5: "emotional_chaos",
+    6: "habits",
+    7: "trading_emotions",
+    8: "other"
   };
   if (map[n]) {
     const note =
-      n === 9 ? t.replace(/^\d+\s*/, "").trim().slice(0, 200) || null : null;
+      n === 8 ? t.replace(/^\d+\s*/, "").trim().slice(0, 200) || null : null;
     return { id: map[n], note };
   }
   if (/overthink|túlgond/.test(t)) return { id: "overthinking", note: null };
   if (/impuls/.test(t)) return { id: "impulse", note: null };
-  if (/avoid|lazy|procrast|halog|lenev/.test(t)) return { id: "avoidance", note: null };
-  if (/chaos|emoțional|emotional/.test(t)) return { id: "emotional_chaos", note: null };
-  if (/structur/.test(t)) return { id: "structure", note: null };
+  if (/structur|lack of struct/.test(t)) return { id: "structure", note: null };
   if (/burnout|kiég|epuiz/.test(t)) return { id: "burnout", note: null };
+  if (/chaos|emoțional/.test(t)) return { id: "emotional_chaos", note: null };
   if (/habit|szokás|obicei/.test(t)) return { id: "habits", note: null };
   if (/trading.*emo|emotion.*trad/.test(t)) return { id: "trading_emotions", note: null };
+  if (/avoid|procrast|lazy|halog/.test(t)) return { id: "structure", note: null };
   if (t.length > 1 && t.length < 120) return { id: "other", note: t };
   return null;
 }
@@ -129,7 +132,7 @@ function formatSummary(session, lang) {
       ? String(session.userGoal30Days).trim()
       : r.profileNotSet;
   return lines(
-    r.obSummaryHead,
+    r.obProfileCreated,
     "",
     `${r.obSummaryPath}: ${p}`,
     `${r.obSummaryGoal}: ${goal}`,
@@ -213,7 +216,7 @@ function processOnboardingReply(userId, text, session, lang) {
     raw.length > 40 &&
     step !== 2 &&
     !/^\d$/.test(raw) &&
-    !/^([1-9])\s/.test(raw);
+    !/^([1-8])\s/.test(raw);
 
   if (tangential) {
     return {
