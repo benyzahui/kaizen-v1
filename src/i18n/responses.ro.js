@@ -26,10 +26,19 @@ module.exports = {
     "/clarity /question /vision /path",
     "",
     "Plan:",
-    "/plan /today /next /done"
+    "/plan /today /next /done",
+    "",
+    "Snapshot:",
+    "/status"
   ].join("\n"),
 
   unknown: "Nu am înțeles comanda. Scrie /help, fără grabă.",
+
+  recoveryTimeoutReply:
+    "S-a atins limita de timp la procesare. Nu ești ignorat — încearcă un mesaj mai scurt, /status sau /help.",
+
+  recoveryGenericReply:
+    "Ceva nu a mers bine la noi. Încearcă /help sau un mesaj scurt din nou peste un moment.",
 
   pulse: [
     "Puls de dimineață:",
@@ -130,6 +139,39 @@ module.exports = {
     "Ce ți-ar spune un prieten stabil — fără dramă?",
     "Care e următorul mic pas care nu înrăutățește lucrurile?"
   ],
+
+  emotionalTripleGrounding: [
+    "Ai trimis de mai multe ori același mesaj emoțional.",
+    "Te aud — repetarea nu adaugă siguranță acum.",
+    "",
+    "Mod ancorare:",
+    "Apă. Respirații lente. Departe de ecran zece minute.",
+    "Fără decizii mari până nu se potolește muchia.",
+    "",
+    "Când ești gata: /reset sau /mirror. Sau o pauză reală — contează."
+  ].join("\n\n"),
+
+  statusTitle: "Status KaiZen",
+  statusLanguage: "Limbă",
+  statusMode: "Mod",
+  statusModeStructured: "Structurat (comenzi)",
+  statusModeOpen: "Conversație deschisă (ghidată)",
+  statusLastCommand: "Ultima comandă",
+  statusLastCategory: "Ultima temă",
+  statusSessionTurns: "Ture recente (în memorie)",
+  statusIntensity: "Intensitate (estimare)",
+  statusIntensityLow: "scăzută / stabilă",
+  statusIntensityMedium: "ridicată",
+  statusIntensityHigh: "mare — folosește protocoale",
+  statusNext: "Pas recomandat",
+  statusNextRecovery: "Pași recovery, apoi /mirror când ești calm.",
+  statusNextTrade: "Revizuiește /trade și stai pe margine dacă starea e șubredă.",
+  statusNextEmotional: "/reset sau /ground, apoi o mică acțiune fizică.",
+  statusNextPlan: "/plan — o singură linie concretă următoare.",
+  statusNextLastCommand: "Continuă ultimul ritual sau /help pentru structură.",
+  statusNextDefault: "/pulse sau /focus — un bloc mic.",
+  statusCommandsHint:
+    "Chatul deschis te ghidează; comenzile păstrează structura. Folosește ambele.",
 
   sessionLoopBoundary: [
     "Ești într-o buclă acum.",

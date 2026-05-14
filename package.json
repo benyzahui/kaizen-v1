@@ -6,7 +6,9 @@
   "main": "netlify/functions/telegram-webhook.js",
   "scripts": {
     "dev": "netlify dev",
-    "start": "netlify dev"
+    "start": "netlify dev",
+    "deploy-check": "node scripts/deploy-check.js",
+    "logs": "node -e \"console.log('Netlify: netlify logs:function telegram-webhook (after netlify link)'); console.log('Or: Site → Logs → Functions in Netlify UI.');\""
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.8"

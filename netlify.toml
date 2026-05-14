@@ -1,10 +1,25 @@
+# KaiZen: serverless Telegram bot (functions-only deploy).
+# Architecture: build installs deps; static `public/` satisfies Netlify publish;
+# all bot logic lives under netlify/functions + src/.
+
 [build]
+  command = "npm install"
+  publish = "public"
   functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
 
 [functions]
   node_bundler = "esbuild"
 
 [[redirects]]
   from = "/telegram-webhook"
+  to = "/.netlify/functions/telegram-webhook"
+  status = 200
+
+# Optional human-friendly health URL (same handler as GET probe).
+[[redirects]]
+  from = "/health"
   to = "/.netlify/functions/telegram-webhook"
   status = 200

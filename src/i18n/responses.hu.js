@@ -26,10 +26,19 @@ module.exports = {
     "/clarity /question /vision /path",
     "",
     "Terv:",
-    "/plan /today /next /done"
+    "/plan /today /next /done",
+    "",
+    "Pillanatkép:",
+    "/status"
   ].join("\n"),
 
   unknown: "Nem értettem a parancsot. Nyugodtan: /help",
+
+  recoveryTimeoutReply:
+    "Időkorlát lépett fel a feldolgozásnál. Nem vagy figyelmen kívül hagyva — próbálj rövidebb üzenetet, /status vagy /help.",
+
+  recoveryGenericReply:
+    "Valami hiba történt a szerver oldalon. Próbáld újra röviden, vagy /help.",
 
   pulse: [
     "Reggeli Pulzus:",
@@ -130,6 +139,39 @@ module.exports = {
     "Mit mondana egy stabil barát — dráma nélkül?",
     "Mi a következő kis lépés, ami nem ront el semmit?"
   ],
+
+  emotionalTripleGrounding: [
+    "Ugyanazt az érzelmi üzenetet többször elküldted.",
+    "Hallak — az ismétlés most nem ad több biztonságot.",
+    "",
+    "Földelési mód:",
+    "Víz. Lassú légzés. Tíz percre lépj el a képernyőtől.",
+    "Nincs nagy döntés, amíg nem csillapodik az él.",
+    "",
+    "Ha kész vagy: /reset vagy /mirror. Vagy valódi szünet — az is számít."
+  ].join("\n\n"),
+
+  statusTitle: "KaiZen állapot",
+  statusLanguage: "Nyelv",
+  statusMode: "Mód",
+  statusModeStructured: "Strukturált (parancsok)",
+  statusModeOpen: "Nyílt beszélgetés (vezetett)",
+  statusLastCommand: "Utolsó parancs",
+  statusLastCategory: "Utolsó téma",
+  statusSessionTurns: "Utóbbi fordulók (memóriában)",
+  statusIntensity: "Intenzitás (becslés)",
+  statusIntensityLow: "alacsony / stabil",
+  statusIntensityMedium: "emelkedett",
+  statusIntensityHigh: "magas — protokollok",
+  statusNext: "Javasolt következő",
+  statusNextRecovery: "Recovery lépések, majd nyugodtan /mirror.",
+  statusNextTrade: "Nézd át a /trade-t, és állj félre, ha ingatag az állapot.",
+  statusNextEmotional: "/reset vagy /ground, majd egy apró fizikai lépés.",
+  statusNextPlan: "/plan — csak egy konkrét következő sor.",
+  statusNextLastCommand: "Folytasd az utolsó rituálét, vagy /help a struktúrához.",
+  statusNextDefault: "/pulse vagy /focus — egy kis blokk.",
+  statusCommandsHint:
+    "A nyílt chat vezet; a parancsok tartják a struktúrát. Használd mindkettőt.",
 
   sessionLoopBoundary: [
     "Most körben vagy.",

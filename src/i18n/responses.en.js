@@ -26,11 +26,20 @@ module.exports = {
     "/clarity /question /vision /path",
     "",
     "Plan:",
-    "/plan /today /next /done"
+    "/plan /today /next /done",
+    "",
+    "Snapshot:",
+    "/status"
   ].join("\n"),
 
   unknown:
     "I did not catch that command. Use /help and continue calmly.",
+
+  recoveryTimeoutReply:
+    "KaiZen hit a time limit processing this message. You are not ignored — try a shorter line, /status, or /help.",
+
+  recoveryGenericReply:
+    "Something went wrong on our side. Try /help or a short message again in a moment.",
 
   pulse: [
     "Morning Pulse:",
@@ -131,6 +140,39 @@ module.exports = {
     "What would a steady friend tell you — without drama?",
     "What is the next small move that would not make things worse?"
   ],
+
+  emotionalTripleGrounding: [
+    "You sent the same emotional message several times.",
+    "I hear you — repeating will not add safety right now.",
+    "",
+    "Grounding mode:",
+    "Water. Slow breaths. Step away from the screen for ten minutes.",
+    "No big decisions until the edge softens.",
+    "",
+    "When you are ready: /reset or /mirror. Or take a real break — that counts."
+  ].join("\n\n"),
+
+  statusTitle: "KaiZen status",
+  statusLanguage: "Language",
+  statusMode: "Mode",
+  statusModeStructured: "Structured (commands)",
+  statusModeOpen: "Open conversation (guided)",
+  statusLastCommand: "Last command",
+  statusLastCategory: "Last topic",
+  statusSessionTurns: "Recent turns (in memory)",
+  statusIntensity: "Intensity (estimate)",
+  statusIntensityLow: "low / steady",
+  statusIntensityMedium: "elevated",
+  statusIntensityHigh: "high — use protocols",
+  statusNext: "Suggested next",
+  statusNextRecovery: "Run recovery steps, then /mirror when calm.",
+  statusNextTrade: "Review /trade and stand down if state is shaky.",
+  statusNextEmotional: "/reset or /ground, then one small physical action.",
+  statusNextPlan: "/plan — one concrete next line only.",
+  statusNextLastCommand: "Continue your last ritual, or /help for structure.",
+  statusNextDefault: "/pulse or /focus — pick one small block.",
+  statusCommandsHint:
+    "Open chat guides you; commands keep structure. Use both.",
 
   sessionLoopBoundary: [
     "You are looping now.",

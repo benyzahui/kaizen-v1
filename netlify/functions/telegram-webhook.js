@@ -1,6 +1,12 @@
 /**
- * Active Netlify entry: Telegram POST → reply.
- * Commands vs open conversation is explicit here.
+ * Netlify Function entry: Telegram updates (POST) + health probe (GET).
+ *
+ * Architecture:
+ * - Validate method + optional secret before parsing body (fail closed on bad secret).
+ * - Commands (`/…`) route first — open conversation never replaces slash handlers.
+ * - Reply generation is time-budgeted so Telegram + Netlify see a graceful string, not a hard crash.
+ * - Always return 200 for Telegram delivery quirks where a non-2xx would retry storms;
+ *   use logs for real failures.
  */
 
 const { sendMessage } = require("../../src/telegram");
@@ -13,6 +19,7 @@ const {
   resolveLanguageWithSession,
   resolveLang
 } = require("../../src/i18n/languageDetect");
+const { getResponses } = require("../../src/i18n/getResponses");
 const {
   handleOpenConversation,
   classifyMessage
@@ -23,14 +30,12 @@ const {
   getSession,
   recordInteraction
 } = require("../../src/session/sessionStore");
+const log = require("../../src/logging/log");
 
 require("../../src/handlers/balanceProtocol");
 require("../../src/personality/kaizenVoice");
-require("../../src/i18n/getResponses");
 
-function log(...args) {
-  console.log("[kaizen]", ...args);
-}
+const REPLY_BUDGET_MS = 9000;
 
 function isAuthorized(headers) {
   const expected = process.env.WEBHOOK_SECRET;
@@ -65,19 +70,22 @@ async function buildTelegramReply(message) {
   clearExpiredSessions();
   const session = getSession(userId);
 
-  log("incoming_text", { text: trimmed.slice(0, 240), length: trimmed.length });
+  log.kaizen("incoming_text", {
+    text: trimmed.slice(0, 240),
+    length: trimmed.length
+  });
 
   if (!trimmed) {
-    log("routing", { branch: "fallback", reason: "empty_text" });
+    log.kaizen("routing", { branch: "fallback", reason: "empty_text" });
     return "Send a message when you are ready.";
   }
 
   if (isCommandText(text)) {
-    log("routing", { branch: "command", isCommandText: true });
+    log.command("routing", { branch: "command", command: extractCommand(text) });
     const lang = resolveLang(message, text, session);
-    log("session_lang", { lang, command: extractCommand(text) });
+    log.kaizen("session_lang", { lang, command: extractCommand(text) });
     const reply = await routeCommandMessage(message, session);
-    log("chosen_handler", { handler: "commands.routeCommandMessage" });
+    log.kaizen("chosen_handler", { handler: "commands.routeCommandMessage" });
     recordInteraction(userId, {
       text: trimmed,
       reply,
@@ -90,7 +98,7 @@ async function buildTelegramReply(message) {
 
   const lang = resolveLanguageWithSession(text, session);
   const category = classifyMessage(text);
-  log("routing", {
+  log.kaizen("routing", {
     branch: "open",
     lang,
     category,
@@ -99,7 +107,10 @@ async function buildTelegramReply(message) {
 
   const focused = tryConsumeFocusReply(message, lang);
   if (focused) {
-    log("chosen_handler", { handler: "planTracking.tryConsumeFocusReply", lang });
+    log.kaizen("chosen_handler", {
+      handler: "planTracking.tryConsumeFocusReply",
+      lang
+    });
     recordInteraction(userId, {
       text: trimmed,
       reply: focused,
@@ -115,7 +126,7 @@ async function buildTelegramReply(message) {
     lang,
     session
   );
-  log("chosen_handler", {
+  log.kaizen("chosen_handler", {
     handler: "openConversation.handleOpenConversation",
     lang,
     category: outCat
@@ -130,14 +141,52 @@ async function buildTelegramReply(message) {
   return reply;
 }
 
+async function buildTelegramReplyWithBudget(message) {
+  const userId = message.from?.id ?? message.chat.id;
+  const session = getSession(userId);
+  const langHint = resolveLanguageWithSession(
+    String(message.text || "").trim(),
+    session
+  );
+  const r = getResponses(langHint);
+
+  let timer;
+  try {
+    const reply = await Promise.race([
+      buildTelegramReply(message),
+      new Promise((_, reject) => {
+        timer = setTimeout(
+          () =>
+            reject(Object.assign(new Error("reply_budget"), { code: "TIMEOUT" })),
+          REPLY_BUDGET_MS
+        );
+      })
+    ]);
+    return reply;
+  } catch (err) {
+    if (err && err.code === "TIMEOUT") {
+      log.recovery("reply budget exceeded", { userId: String(userId) });
+      return r.recoveryTimeoutReply;
+    }
+    throw err;
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
+
 exports.handler = async (event) => {
-  log("incoming", {
+  log.deploy("function_invoked", {
     method: event.httpMethod,
     path: event.path,
     isBase64Encoded: Boolean(event.isBase64Encoded),
     hasBody: Boolean(event.body),
     hasToken: Boolean(process.env.TELEGRAM_BOT_TOKEN),
     hasSecret: Boolean(process.env.WEBHOOK_SECRET)
+  });
+
+  log.webhook("incoming", {
+    method: event.httpMethod,
+    hasBody: Boolean(event.body)
   });
 
   if (event.httpMethod === "GET") {
@@ -150,7 +199,7 @@ exports.handler = async (event) => {
 
   const auth = isAuthorized(event.headers || {});
   if (!auth.ok) {
-    log("unauthorized", auth.reason);
+    log.webhook("unauthorized", auth);
     return { statusCode: 401, body: "Unauthorized" };
   }
 
@@ -158,39 +207,53 @@ exports.handler = async (event) => {
   try {
     update = parseBody(event);
   } catch (err) {
-    log("body parse failed", err.message);
+    log.recovery("body parse failed", err.message);
     return { statusCode: 200, body: "Body parse failed (ignored)." };
   }
 
   const message = update.message;
   if (!message || !message.chat?.id) {
-    log("no actionable message", { hasMessage: Boolean(message) });
+    log.webhook("no_actionable_message", { hasMessage: Boolean(message) });
     return { statusCode: 200, body: "No actionable message." };
   }
 
   if (!message.text) {
-    log("no_text", { updateType: "message_without_text" });
+    log.webhook("no_text", { updateType: "message_without_text" });
     return { statusCode: 200, body: "No text (ignored)." };
   }
 
   const command = String(message.text).trim().split(/\s+/)[0].toLowerCase();
-  log("message", {
+  log.webhook("message", {
     chat_id: message.chat.id,
     command,
     isCommandText: isCommandText(message.text)
   });
 
   try {
-    const reply = await buildTelegramReply(message);
-    log("reply", {
+    const reply = await buildTelegramReplyWithBudget(message);
+    log.kaizen("reply", {
       length: reply?.length,
       preview: String(reply || "").slice(0, 100)
     });
     await sendMessage(message.chat.id, reply);
-    log("sendMessage ok");
+    log.webhook("sendMessage ok", { chat_id: message.chat.id });
     return { statusCode: 200, body: "OK" };
   } catch (err) {
-    log("handler failed", err.message);
+    log.recovery("handler failed", {
+      message: err.message,
+      stack: err.stack && String(err.stack).slice(0, 400)
+    });
+    try {
+      const session = getSession(message.from?.id ?? message.chat.id);
+      const lang = resolveLanguageWithSession(
+        String(message.text || "").trim(),
+        session
+      );
+      const fallback = getResponses(lang).recoveryGenericReply;
+      await sendMessage(message.chat.id, fallback);
+    } catch (sendErr) {
+      log.recovery("fallback send failed", sendErr.message);
+    }
     return { statusCode: 200, body: "Internal error (logged)." };
   }
 };

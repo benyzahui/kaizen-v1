@@ -1,6 +1,9 @@
 /**
  * In-memory per-user session (24h TTL). Not durable — no DB.
  * Cleared automatically after 24h without interaction.
+ *
+ * Architecture: hot path is synchronous Map reads/writes. For scale, swap this
+ * module for Redis/Supabase while keeping the same exports used by the webhook.
  */
 
 const TTL_MS = 24 * 60 * 60 * 1000;
@@ -82,6 +85,33 @@ function isSessionCategoryLoop(session, category) {
   return a === category && b === category;
 }
 
+/** Normalize user text for repeat detection (anti-loop). */
+function normalizeMessageKey(text) {
+  return String(text || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+}
+
+/**
+ * Same emotional-class message text repeated 3× (before recording current turn).
+ * Lightweight guard against infinite recursion / rumination loops in chat.
+ */
+function isTripleSameEmotionalText(session, text, category) {
+  if (category !== "emotional_reflection") return false;
+  const key = normalizeMessageKey(text);
+  if (key.length < 6) return false;
+  const m = session.messages || [];
+  if (m.length < 2) return false;
+  const m1 = m[m.length - 1];
+  const m2 = m[m.length - 2];
+  if (m1.category !== "emotional_reflection" || m2.category !== "emotional_reflection")
+    return false;
+  return (
+    normalizeMessageKey(m1.text) === key && normalizeMessageKey(m2.text) === key
+  );
+}
+
 /**
  * @param {string|number} userId
  * @param {{ text: string, reply: string, lang: string, category?: string|null, command?: string|null }} ev
@@ -122,5 +152,7 @@ module.exports = {
   clearSession,
   recordInteraction,
   isSessionCategoryLoop,
+  isTripleSameEmotionalText,
+  normalizeMessageKey,
   HEAVY
 };

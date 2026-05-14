@@ -1,9 +1,13 @@
 /**
  * Open conversation: light classification, grounded replies, guardrails.
  * Returns { reply, category } for session recording.
+ *
+ * Architecture: slash commands never enter here — webhook routes commands first.
+ * This layer adds coaching tone; structured rituals stay in commands + responses.
  */
 
 const { getResponses } = require("../i18n/getResponses");
+const { conversation: logConversation } = require("../logging/log");
 const { lines, pickSeeded, disclaimer } = require("../personality/kaizenVoice");
 const { detectPatternKind } = require("../conversation/boundaries");
 const { recordPattern, isInCooldown } = require("../conversation/patternMemory");
@@ -12,11 +16,12 @@ const {
   formatFullRecovery
 } = require("./balanceProtocol");
 const {
-  isSessionCategoryLoop
+  isSessionCategoryLoop,
+  isTripleSameEmotionalText
 } = require("../session/sessionStore");
 
 function logOpen(payload) {
-  console.log("[kaizen:open]", JSON.stringify(payload));
+  logConversation(JSON.stringify(payload), null);
 }
 
 function classifyMessage(text) {
@@ -152,6 +157,19 @@ function handleOpenConversation(message, lang, session) {
   }
 
   const category = classifyMessage(text);
+
+  if (isTripleSameEmotionalText(session, text, category)) {
+    logOpen({
+      lang,
+      category: "emotional_repeat_triple",
+      handler: "sessionStore.triple_same_text",
+      textPreview: text.slice(0, 80)
+    });
+    return {
+      reply: lines(r.emotionalTripleGrounding, "", disclaimer(lang)),
+      category: "emotional_repeat_triple"
+    };
+  }
 
   if (isSessionCategoryLoop(session, category)) {
     logOpen({

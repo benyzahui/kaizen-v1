@@ -1,8 +1,12 @@
 /**
  * Command-only routing. Open conversation is in telegram-webhook.js.
+ *
+ * Architecture: one switch per release keeps command surface explicit and testable.
+ * Add new slash flows here; keep long prose in i18n responses, not in routing.
  */
 
 const { resolveLang } = require("../i18n/languageDetect");
+const { command: logCommand } = require("../logging/log");
 const { getResponses } = require("../i18n/getResponses");
 const { handleEnergy } = require("./energy");
 const {
@@ -11,6 +15,7 @@ const {
   handleResetCommand,
   clearAllPendingForUser
 } = require("./planTracking");
+const { buildStatusReply } = require("./status");
 
 function extractCommand(text = "") {
   const first = String(text).trim().split(/\s+/)[0];
@@ -24,7 +29,7 @@ function isCommandText(text = "") {
 }
 
 function logRoute(payload) {
-  console.log("[kaizen:route]", JSON.stringify(payload));
+  logCommand(JSON.stringify(payload), null);
 }
 
 function ritualFromResponses(r, command) {
@@ -73,6 +78,9 @@ async function routeCommandMessage(message, session) {
       break;
     case "/reset":
       reply = handleResetCommand(lang);
+      break;
+    case "/status":
+      reply = buildStatusReply(message, session, lang);
       break;
     default: {
       const ritual = ritualFromResponses(r, command);
