@@ -1,15 +1,32 @@
+const rituals = require("./rituals.en");
+
 module.exports = {
   start:
     "KaiZen online. Small daily alignment creates massive long-term transformation.",
 
   help: [
-    "/energy",
-    "/pulse",
-    "/mirror",
-    "/trade",
-    "/plan",
-    "/focus",
-    "/reset"
+    "KaiZen paths:",
+    "",
+    "Daily:",
+    "/pulse /focus /reset /mirror",
+    "",
+    "Energy:",
+    "/energy /ground /breathe /recenter /recovery /detach",
+    "",
+    "Trading:",
+    "/trade /check /risk /notrade /cooldown",
+    "",
+    "Growth:",
+    "/discipline /habit /identity /pattern /shadow",
+    "",
+    "Body:",
+    "/body /walk /train /sleep",
+    "",
+    "Path:",
+    "/clarity /question /vision /path",
+    "",
+    "Plan:",
+    "/plan /today /next /done"
   ].join("\n"),
 
   unknown:
@@ -107,11 +124,28 @@ module.exports = {
     "What is one tiny action that would ground you right now?"
   ].join("\n"),
 
+  openHintEmotional: "\n\nIf it is heavy: /reset or /ground",
+
   curiosity: [
     "Say it in one honest sentence. What is the weight right now?",
     "What would a steady friend tell you — without drama?",
     "What is the next small move that would not make things worse?"
   ],
+
+  sessionLoopBoundary: [
+    "You are looping now.",
+    "More input will not create clarity.",
+    "",
+    "Recovery protocol:",
+    "Water.",
+    "Step away.",
+    "Walk 10 minutes.",
+    "No decision for 2 hours.",
+    "",
+    "Return with /mirror later."
+  ].join("\n\n"),
+
+  rituals,
 
   categories: {
     emotional_reflection: [

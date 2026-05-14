@@ -1,18 +1,29 @@
 /**
  * Active Netlify entry: Telegram POST → reply.
- * Commands vs open conversation is decided HERE so normal text never hits command fallback.
+ * Commands vs open conversation is explicit here.
  */
 
 const { sendMessage } = require("../../src/telegram");
-const { isCommandText, routeCommandMessage } = require("../../src/handlers/commands");
-const { detectLanguage } = require("../../src/i18n/languageDetect");
+const {
+  isCommandText,
+  routeCommandMessage,
+  extractCommand
+} = require("../../src/handlers/commands");
+const {
+  resolveLanguageWithSession,
+  resolveLang
+} = require("../../src/i18n/languageDetect");
 const {
   handleOpenConversation,
   classifyMessage
 } = require("../../src/handlers/openConversation");
 const { tryConsumeFocusReply } = require("../../src/handlers/planTracking");
+const {
+  clearExpiredSessions,
+  getSession,
+  recordInteraction
+} = require("../../src/session/sessionStore");
 
-// Ensure bundler / runtime loads the full V1.1 stack (open path pulls these transitively).
 require("../../src/handlers/balanceProtocol");
 require("../../src/personality/kaizenVoice");
 require("../../src/i18n/getResponses");
@@ -47,8 +58,12 @@ function parseBody(event) {
  * @returns {Promise<string>}
  */
 async function buildTelegramReply(message) {
+  const userId = message.from?.id ?? message.chat.id;
   const text = message.text || "";
   const trimmed = String(text).trim();
+
+  clearExpiredSessions();
+  const session = getSession(userId);
 
   log("incoming_text", { text: trimmed.slice(0, 240), length: trimmed.length });
 
@@ -59,12 +74,21 @@ async function buildTelegramReply(message) {
 
   if (isCommandText(text)) {
     log("routing", { branch: "command", isCommandText: true });
-    const reply = await routeCommandMessage(message);
+    const lang = resolveLang(message, text, session);
+    log("session_lang", { lang, command: extractCommand(text) });
+    const reply = await routeCommandMessage(message, session);
     log("chosen_handler", { handler: "commands.routeCommandMessage" });
+    recordInteraction(userId, {
+      text: trimmed,
+      reply,
+      lang,
+      category: null,
+      command: extractCommand(text)
+    });
     return reply;
   }
 
-  const lang = detectLanguage(text);
+  const lang = resolveLanguageWithSession(text, session);
   const category = classifyMessage(text);
   log("routing", {
     branch: "open",
@@ -76,11 +100,33 @@ async function buildTelegramReply(message) {
   const focused = tryConsumeFocusReply(message, lang);
   if (focused) {
     log("chosen_handler", { handler: "planTracking.tryConsumeFocusReply", lang });
+    recordInteraction(userId, {
+      text: trimmed,
+      reply: focused,
+      lang,
+      category: "focus_reply",
+      command: null
+    });
     return focused;
   }
 
-  const reply = handleOpenConversation(message, lang);
-  log("chosen_handler", { handler: "openConversation.handleOpenConversation", lang });
+  const { reply, category: outCat } = handleOpenConversation(
+    message,
+    lang,
+    session
+  );
+  log("chosen_handler", {
+    handler: "openConversation.handleOpenConversation",
+    lang,
+    category: outCat
+  });
+  recordInteraction(userId, {
+    text: trimmed,
+    reply,
+    lang,
+    category: outCat,
+    command: null
+  });
   return reply;
 }
 

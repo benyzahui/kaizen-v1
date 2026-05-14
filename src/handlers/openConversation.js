@@ -1,6 +1,6 @@
 /**
  * Open conversation: light classification, grounded replies, guardrails.
- * No AI, no database.
+ * Returns { reply, category } for session recording.
  */
 
 const { getResponses } = require("../i18n/getResponses");
@@ -11,14 +11,14 @@ const {
   needsImmediateRecovery,
   formatFullRecovery
 } = require("./balanceProtocol");
+const {
+  isSessionCategoryLoop
+} = require("../session/sessionStore");
 
 function logOpen(payload) {
   console.log("[kaizen:open]", JSON.stringify(payload));
 }
 
-/**
- * @returns {'emotional_reflection'|'work_focus'|'self_development'|'trading_impulse'|'plan_tracking'|'chaos_loop'|'general_curiosity'|'unknown'}
- */
 function classifyMessage(text) {
   const t = String(text || "").trim();
   if (!t) return "unknown";
@@ -64,7 +64,7 @@ function classifyMessage(text) {
     /\b(feel|feeling|sad|anxious|scattered|lost|empty|stressed|tired of)\b/i.test(
       t
     ) ||
-    /(érz|szorong|szétszórt|szétesett|kimerült|nem bírom|magány|tristețe|trist|obosit|obosită|epuizat|stresat|nu am chef|fără chef|fară chef)/i.test(
+    /(érz|szorong|szétszórt|szétesett|kimerült|nem bírom|magány|tristețe|trist|obosit|obosită|epuizat|stresat|nu am chef|fără chef|fară chef|szét vagyok|szétesett)/i.test(
       t
     )
   ) {
@@ -83,7 +83,21 @@ function classifyMessage(text) {
   return "unknown";
 }
 
-function handleOpenConversation(message, lang) {
+function maybeVaryReply(session, category, body) {
+  const prev = session?.lastReplyByCategory?.[category];
+  if (prev && prev === body) {
+    return `${body}\n\n(Say one new detail you have not repeated yet.)`;
+  }
+  return body;
+}
+
+/**
+ * @param {object} message
+ * @param {'en'|'hu'|'ro'} lang
+ * @param {object} session
+ * @returns {{ reply: string, category: string }}
+ */
+function handleOpenConversation(message, lang, session) {
   const userId = message.from?.id ?? message.chat?.id;
   const text = String(message.text || "").trim();
   const r = getResponses(lang);
@@ -95,7 +109,7 @@ function handleOpenConversation(message, lang) {
       handler: "patternMemory.cooldown",
       textPreview: text.slice(0, 80)
     });
-    return r.boundaryCooldown;
+    return { reply: r.boundaryCooldown, category: "cooldown" };
   }
 
   if (needsImmediateRecovery(text)) {
@@ -105,11 +119,14 @@ function handleOpenConversation(message, lang) {
       handler: "balanceProtocol.immediate",
       textPreview: text.slice(0, 80)
     });
-    return lines(
-      formatFullRecovery(lang, { includeLoopIntro: false }),
-      "",
-      disclaimer(lang)
-    );
+    return {
+      reply: lines(
+        formatFullRecovery(lang, { includeLoopIntro: false }),
+        "",
+        disclaimer(lang)
+      ),
+      category: "immediate_recovery"
+    };
   }
 
   const kind = detectPatternKind(text);
@@ -123,15 +140,28 @@ function handleOpenConversation(message, lang) {
         handler: "balanceProtocol.loop_escalation",
         textPreview: text.slice(0, 80)
       });
-      return lines(
-        formatFullRecovery(lang, { includeLoopIntro: true }),
-        "",
-        disclaimer(lang)
-      );
+      return {
+        reply: lines(
+          formatFullRecovery(lang, { includeLoopIntro: true }),
+          "",
+          disclaimer(lang)
+        ),
+        category: "pattern_blocked"
+      };
     }
   }
 
   const category = classifyMessage(text);
+
+  if (isSessionCategoryLoop(session, category)) {
+    logOpen({
+      lang,
+      category: "session_loop",
+      handler: "sessionStore.loop",
+      textPreview: text.slice(0, 80)
+    });
+    return { reply: r.sessionLoopBoundary, category: "session_loop" };
+  }
 
   if (category === "chaos_loop") {
     logOpen({
@@ -140,7 +170,10 @@ function handleOpenConversation(message, lang) {
       handler: "responses.chaosSoftReply",
       textPreview: text.slice(0, 80)
     });
-    return lines(r.chaosSoftReply, "", disclaimer(lang));
+    return {
+      reply: lines(r.chaosSoftReply, "", disclaimer(lang)),
+      category: "chaos_loop"
+    };
   }
 
   if (category === "trading_impulse") {
@@ -150,7 +183,10 @@ function handleOpenConversation(message, lang) {
       handler: "responses.tradingGuardrail",
       textPreview: text.slice(0, 80)
     });
-    return lines(r.tradingGuardrail, "", disclaimer(lang));
+    return {
+      reply: lines(r.tradingGuardrail, "", disclaimer(lang)),
+      category: "trading_impulse"
+    };
   }
 
   if (category === "general_curiosity") {
@@ -160,17 +196,25 @@ function handleOpenConversation(message, lang) {
       handler: "responses.curiosity",
       textPreview: text.slice(0, 80)
     });
-    return pickSeeded(r.curiosity, String(userId));
+    return {
+      reply: pickSeeded(r.curiosity, String(userId)),
+      category: "general_curiosity"
+    };
   }
 
-  const body = r.categories[category] || r.categories.unknown;
+  let body = r.categories[category] || r.categories.unknown;
+  body = maybeVaryReply(session, category, body);
+  if (category === "emotional_reflection" && r.openHintEmotional) {
+    body = body + r.openHintEmotional;
+  }
+
   logOpen({
     lang,
     category,
     handler: `responses.categories.${category}`,
     textPreview: text.slice(0, 80)
   });
-  return body;
+  return { reply: body, category };
 }
 
 module.exports = { classifyMessage, handleOpenConversation };

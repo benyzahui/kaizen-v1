@@ -1,15 +1,32 @@
+const rituals = require("./rituals.ro");
+
 module.exports = {
   start:
     "KaiZen online. Alinierea zilnică mică aduce transformare mare în timp.",
 
   help: [
-    "/energy",
-    "/pulse",
-    "/mirror",
-    "/trade",
-    "/plan",
-    "/focus",
-    "/reset"
+    "Căi KaiZen:",
+    "",
+    "Zilnic:",
+    "/pulse /focus /reset /mirror",
+    "",
+    "Energie:",
+    "/energy /ground /breathe /recenter /recovery /detach",
+    "",
+    "Trading:",
+    "/trade /check /risk /notrade /cooldown",
+    "",
+    "Creștere:",
+    "/discipline /habit /identity /pattern /shadow",
+    "",
+    "Corp:",
+    "/body /walk /train /sleep",
+    "",
+    "Cale:",
+    "/clarity /question /vision /path",
+    "",
+    "Plan:",
+    "/plan /today /next /done"
   ].join("\n"),
 
   unknown: "Nu am înțeles comanda. Scrie /help, fără grabă.",
@@ -106,11 +123,28 @@ module.exports = {
     "Care e o acțiune mică care te-ar ancora acum?"
   ].join("\n"),
 
+  openHintEmotional: "\n\nDacă e greu: /reset sau /ground",
+
   curiosity: [
     "Spune-o într-o propoziție onestă: care e greutatea acum?",
     "Ce ți-ar spune un prieten stabil — fără dramă?",
     "Care e următorul mic pas care nu înrăutățește lucrurile?"
   ],
+
+  sessionLoopBoundary: [
+    "Ești într-o buclă acum.",
+    "Mai mult text nu aduce claritate.",
+    "",
+    "Protocol recovery:",
+    "Apă.",
+    "Departe de ecran.",
+    "Plimbare 10 minute.",
+    "Fără decizii mari 2 ore.",
+    "",
+    "Revino mai târziu cu /mirror."
+  ].join("\n\n"),
+
+  rituals,
 
   categories: {
     emotional_reflection: [

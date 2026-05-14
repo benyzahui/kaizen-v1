@@ -49,14 +49,39 @@ function detectLanguage(text) {
   return "en";
 }
 
+/** HU/RO clearly signaled (not default-English noise). */
+function hasStrongNonEnglishSignal(text) {
+  const t = String(text || "").trim();
+  if (!t) return false;
+  const hu = scoreHungarian(t);
+  const ro = scoreRomanian(t);
+  return hu >= 2 || ro >= 2;
+}
+
 /**
- * Bare `/command` → use Telegram client language for hu/ro; else English.
- * @returns {'en'|'hu'|'ro'}
+ * Prefer session language unless the new message clearly switches language.
+ * @param {string} text
+ * @param {{ lang?: 'en'|'hu'|'ro'|null }} [session]
  */
-function resolveLang(message, text) {
+function resolveLanguageWithSession(text, session) {
+  const detected = detectLanguage(text);
+  if (hasStrongNonEnglishSignal(text)) return detected;
+  if (session?.lang === "hu" || session?.lang === "ro") return session.lang;
+  if (session?.lang === "en") return "en";
+  return detected;
+}
+
+/**
+ * Bare `/command` → session lang if set, else Telegram client code, else English.
+ * @param {{ lang?: 'en'|'hu'|'ro'|null }} [session]
+ */
+function resolveLang(message, text, session) {
   const t = String(text || "").trim();
   const isBareCommand = /^\s*\/\w+(@\w+)?$/i.test(t);
   if (isBareCommand) {
+    if (session?.lang === "hu" || session?.lang === "ro" || session?.lang === "en") {
+      return session.lang;
+    }
     const fromCode = fromTelegramCode(message?.from?.language_code);
     if (fromCode) return fromCode;
     return "en";
@@ -64,4 +89,10 @@ function resolveLang(message, text) {
   return detectLanguage(t);
 }
 
-module.exports = { detectLanguage, resolveLang, fromTelegramCode };
+module.exports = {
+  detectLanguage,
+  resolveLang,
+  fromTelegramCode,
+  hasStrongNonEnglishSignal,
+  resolveLanguageWithSession
+};

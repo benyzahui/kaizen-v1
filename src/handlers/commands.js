@@ -1,5 +1,5 @@
 /**
- * Command-only routing (slash commands). Open conversation is handled in telegram-webhook.js.
+ * Command-only routing. Open conversation is in telegram-webhook.js.
  */
 
 const { resolveLang } = require("../i18n/languageDetect");
@@ -18,9 +18,6 @@ function extractCommand(text = "") {
   return cmd.toLowerCase();
 }
 
-/**
- * Telegram commands are /word — not any string that happens to start with "/".
- */
 function isCommandText(text = "") {
   const s = String(text || "").trimStart();
   return /^\/[A-Za-z0-9_]/.test(s);
@@ -30,13 +27,19 @@ function logRoute(payload) {
   console.log("[kaizen:route]", JSON.stringify(payload));
 }
 
+function ritualFromResponses(r, command) {
+  const key = command.replace(/^\//, "");
+  return r.rituals && r.rituals[key] ? r.rituals[key] : null;
+}
+
 /**
- * Slash commands only. Caller must ensure isCommandText(message.text) first.
+ * @param {object} message
+ * @param {object} [session]
  */
-async function routeCommandMessage(message) {
+async function routeCommandMessage(message, session) {
   clearAllPendingForUser(message);
   const text = message.text || "";
-  const lang = resolveLang(message, text);
+  const lang = resolveLang(message, text, session);
   const r = getResponses(lang);
   const command = extractCommand(text);
 
@@ -71,9 +74,16 @@ async function routeCommandMessage(message) {
     case "/reset":
       reply = handleResetCommand(lang);
       break;
-    default:
-      handler = "fallback:unknown_command";
-      reply = r.unknown;
+    default: {
+      const ritual = ritualFromResponses(r, command);
+      if (ritual) {
+        handler = `ritual:${command}`;
+        reply = ritual;
+      } else {
+        handler = "fallback:unknown_command";
+        reply = r.unknown;
+      }
+    }
   }
 
   logRoute({
@@ -86,11 +96,11 @@ async function routeCommandMessage(message) {
   return reply;
 }
 
-/** @deprecated Use routeCommandMessage; kept for any legacy requires. */
 const routeMessage = routeCommandMessage;
 
 module.exports = {
   routeCommandMessage,
   routeMessage,
-  isCommandText
+  isCommandText,
+  extractCommand
 };

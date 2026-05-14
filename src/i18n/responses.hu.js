@@ -1,15 +1,32 @@
+const rituals = require("./rituals.hu");
+
 module.exports = {
   start:
     "KaiZen elérhető. A napi kis igazítás hosszú távon mély változást hoz.",
 
   help: [
-    "/energy",
-    "/pulse",
-    "/mirror",
-    "/trade",
-    "/plan",
-    "/focus",
-    "/reset"
+    "KaiZen utak:",
+    "",
+    "Napi:",
+    "/pulse /focus /reset /mirror",
+    "",
+    "Energia:",
+    "/energy /ground /breathe /recenter /recovery /detach",
+    "",
+    "Trading:",
+    "/trade /check /risk /notrade /cooldown",
+    "",
+    "Növekedés:",
+    "/discipline /habit /identity /pattern /shadow",
+    "",
+    "Test:",
+    "/body /walk /train /sleep",
+    "",
+    "Út:",
+    "/clarity /question /vision /path",
+    "",
+    "Terv:",
+    "/plan /today /next /done"
   ].join("\n"),
 
   unknown: "Nem értettem a parancsot. Nyugodtan: /help",
@@ -106,11 +123,28 @@ module.exports = {
     "Mi lenne egy apró lépés, ami most földel?"
   ].join("\n"),
 
+  openHintEmotional: "\n\nHa nehéz: /reset vagy /ground",
+
   curiosity: [
     "Mondd egy őszinte mondatban: mi a súly most?",
     "Mit mondana egy stabil barát — dráma nélkül?",
     "Mi a következő kis lépés, ami nem ront el semmit?"
   ],
+
+  sessionLoopBoundary: [
+    "Most körben vagy.",
+    "Több szöveg nem hoz tisztánlátást.",
+    "",
+    "Recovery protokoll:",
+    "Víz.",
+    "Lépj el.",
+    "10 perc séta.",
+    "2 óráig nincs nagy döntés.",
+    "",
+    "Térj vissza később /mirror-ral."
+  ].join("\n\n"),
+
+  rituals,
 
   categories: {
     emotional_reflection: [
