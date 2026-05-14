@@ -1,34 +1,96 @@
 /**
- * Phase 1 router — no database, no sessions.
- * Each command returns a static, tone-shaped reply.
+ * Command-only routing (slash commands). Open conversation is handled in telegram-webhook.js.
  */
 
-const tone = require("../personality/tone");
+const { resolveLang } = require("../i18n/languageDetect");
+const { getResponses } = require("../i18n/getResponses");
 const { handleEnergy } = require("./energy");
+const {
+  handlePlanCommand,
+  handleFocusCommand,
+  handleResetCommand,
+  clearAllPendingForUser
+} = require("./planTracking");
 
 function extractCommand(text = "") {
-  return text.trim().split(/\s+/)[0].toLowerCase();
+  const first = String(text).trim().split(/\s+/)[0];
+  const cmd = first.includes("@") ? first.split("@")[0] : first;
+  return cmd.toLowerCase();
 }
 
-async function routeMessage(message) {
-  const command = extractCommand(message.text || "");
+/**
+ * Telegram commands are /word — not any string that happens to start with "/".
+ */
+function isCommandText(text = "") {
+  const s = String(text || "").trimStart();
+  return /^\/[A-Za-z0-9_]/.test(s);
+}
+
+function logRoute(payload) {
+  console.log("[kaizen:route]", JSON.stringify(payload));
+}
+
+/**
+ * Slash commands only. Caller must ensure isCommandText(message.text) first.
+ */
+async function routeCommandMessage(message) {
+  clearAllPendingForUser(message);
+  const text = message.text || "";
+  const lang = resolveLang(message, text);
+  const r = getResponses(lang);
+  const command = extractCommand(text);
+
+  let handler = command;
+  let reply;
 
   switch (command) {
     case "/start":
-      return tone.startLine();
+      reply = r.start;
+      break;
     case "/help":
-      return tone.helpMenu();
+      reply = r.help;
+      break;
     case "/energy":
-      return handleEnergy(message);
+      reply = await handleEnergy(message, lang);
+      break;
     case "/pulse":
-      return tone.pulsePrompt();
+      reply = r.pulse;
+      break;
     case "/mirror":
-      return tone.mirrorPrompt();
+      reply = r.mirror;
+      break;
     case "/trade":
-      return tone.tradePrompt();
+      reply = r.trade;
+      break;
+    case "/plan":
+      reply = handlePlanCommand(message, lang);
+      break;
+    case "/focus":
+      reply = handleFocusCommand(message, lang);
+      break;
+    case "/reset":
+      reply = handleResetCommand(lang);
+      break;
     default:
-      return tone.unknownCommand();
+      handler = "fallback:unknown_command";
+      reply = r.unknown;
   }
+
+  logRoute({
+    path: "command",
+    lang,
+    command,
+    handler,
+    textPreview: String(text).slice(0, 80)
+  });
+  return reply;
 }
 
-module.exports = { routeMessage };
+/** @deprecated Use routeCommandMessage; kept for any legacy requires. */
+const routeMessage = routeCommandMessage;
+
+module.exports = {
+  routeCommandMessage,
+  routeMessage,
+  isCommandText
+};

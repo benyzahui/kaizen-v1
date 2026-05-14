@@ -7,21 +7,27 @@ function getApiBase() {
 }
 
 async function sendMessage(chatId, text) {
-  const response = await fetch(`${getApiBase()}/sendMessage`, {
+  const url = `${getApiBase()}/sendMessage`;
+  const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text
-    })
+    body: JSON.stringify({ chat_id: chatId, text })
   });
 
+  const bodyText = await response.text();
+  console.log(
+    "[kaizen] telegram.sendMessage",
+    response.status,
+    bodyText.slice(0, 200)
+  );
+
   if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Telegram sendMessage failed: ${errorText}`);
+    throw new Error(
+      `Telegram sendMessage ${response.status}: ${bodyText}`
+    );
   }
 
-  return response.json();
+  return JSON.parse(bodyText);
 }
 
 module.exports = { sendMessage };
