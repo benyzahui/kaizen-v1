@@ -1,0 +1,14 @@
+{
+  "name": "kaizen-v1",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lightweight Telegram accountability companion bot",
+  "main": "netlify/functions/telegram-webhook.js",
+  "scripts": {
+    "dev": "netlify dev",
+    "start": "netlify dev"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.8"
+  }
+}
