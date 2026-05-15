@@ -347,6 +347,8 @@ module.exports = {
   statusNextReflect: "/clarity vagy maradj egy igaz mondattal.",
   statusNextLastCommand: "Folytasd az utolsó rituálét, vagy /help a struktúrához.",
   statusNextDefault: "/pulse vagy /focus — egy kis blokk.",
+  statusNextResume: "/resume — a társ mód vezetése szünetel.",
+  statusNextCompanionContinue: "/whereami — aztán csak egy parancs.",
   statusCommandsHint:
     "A nyílt chat vezet; a parancsok tartják a struktúrát. Használd mindkettőt.",
 

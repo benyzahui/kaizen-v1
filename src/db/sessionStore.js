@@ -22,7 +22,14 @@ const EPHEMERAL_KEYS = [
   "currentProgramStep",
   "lastMantraDate",
   "lastMirrorDate",
-  "focusLocked"
+  "focusLocked",
+  "companionActive",
+  "companionPaused",
+  "companionAwaiting",
+  "companionFlowBody",
+  "companionFlowMind",
+  "companionLastMissionSnippet",
+  "companionLastProtocol"
 ];
 
 /**

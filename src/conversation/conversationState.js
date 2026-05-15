@@ -12,6 +12,9 @@ function mapCategoryToConversationState(category, opts = {}) {
   if (opts.command) return "command_mode";
   const c = category || "";
   if (c === "onboarding") return "onboarding";
+  if (c === "companion_active" || c === "companion_flow" || c === "companion_paused") {
+    return "companion";
+  }
   if (c === "chaos_loop" || c === "session_loop" || c === "emotional_repeat_triple") {
     return "overload";
   }

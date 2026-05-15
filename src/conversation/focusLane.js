@@ -26,7 +26,10 @@ const BUCKET = {
   session_loop: "overload",
   emotional_repeat_triple: "emotion",
   cooldown: "trading",
-  onboarding: "light"
+  onboarding: "light",
+  companion_active: "light",
+  companion_flow: "light",
+  companion_paused: "light"
 };
 
 /**

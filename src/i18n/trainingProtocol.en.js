@@ -311,7 +311,10 @@ module.exports = {
     "/trade /check /risk /cooldown /notrade",
     "",
     "PROFILE",
-    "/profile /status /language /help /guide /commands /map"
+    "/profile /status /language /help /guide /commands /map",
+    "",
+    "ACTIVE (companion)",
+    "/mode /off /pause /resume /whereami"
   ].join("\n"),
 
   tMapFooter: "Save this message. This is your training map.",
@@ -321,6 +324,9 @@ module.exports = {
     "",
     "1) Speak naturally — reflection and clarity.",
     "2) Use commands — structure and training.",
+    "",
+    "Active guidance (one step at a time):",
+    "/mode — then /off /pause /resume /whereami",
     "",
     "Start the day frame:",
     "/program",
@@ -337,6 +343,10 @@ module.exports = {
   tStatusProgramIdle: "idle (no active step)",
   tStatusNextProgram: "Suggested (program)",
 
+  tStatusCompanionOff: "Companion mode: off",
+  tStatusCompanionLive: "Companion mode: on (guidance live)",
+  tStatusCompanionPaused: "Companion mode: on (guidance paused)",
+
   tEnergyLensFooter: [
     "",
     "Lens options:",
@@ -344,5 +354,163 @@ module.exports = {
   ].join("\n"),
 
   tProfileMissionLine: "Mission (training):",
-  tProfileTrainingStyle: "Training style:"
+  tProfileTrainingStyle: "Training style:",
+
+  compSlotMorning: [
+    "Morning mode.",
+    "First: stabilize.",
+    "Second: choose the lane.",
+    "Third: one clean action."
+  ].join("\n"),
+  compSlotMidday: [
+    "Midday mode.",
+    "Focus check.",
+    "One correction.",
+    "One visible move."
+  ].join("\n"),
+  compSlotEvening: [
+    "Evening mode.",
+    "No more proving.",
+    "Review, release, recover."
+  ].join("\n"),
+  compSlotLate: [
+    "Late night mode.",
+    "Reduce stimulation.",
+    "No deep decisions.",
+    "Rest protocol only."
+  ].join("\n"),
+
+  compModeOn: "⚔️ Active Companion Mode — on.",
+  compModeOff:
+    "Active Mode off.\n\nCommands stay available whenever you want structure.\nReturn to guidance: /mode",
+  compPausedMsg: "Guidance paused.\n\nNext: /resume",
+  compResumeMsg: "Guidance resumed.\n\nOne step at a time.",
+  compNotActiveWhere: "Active Mode is off.\n\nTurn it on: /mode",
+  compNotActivePause: "Active Mode is not on.\n\nStart it: /mode",
+  compNotActiveResume: "Active Mode is not on.\n\nStart it: /mode",
+
+  compFlowWeStart: "We start simple.",
+  compFlowAskBody: "1. Body state — 1 to 10?",
+  compFlowBadBody: "One number only. 1–10.",
+  compFlowAfterBody: "Good enough.",
+  compFlowAskMind: "2. Mind state — calm, scattered, heavy, or sharp? (one word)",
+  compFlowBadMind: "Pick one: calm, scattered, heavy, sharp.",
+  compFlowAfterMind: "Noted.\nOne lane only.",
+  compFlowAskMission: "3. Today’s mission — one line?",
+  compMissionTooShort: "Too thin.\nOne honest mission line.",
+  compFlowMissionClose: "Mission received.\nNo wide plan until this ships.",
+  compNextPrefix: "Next:",
+  compAgreement: [
+    "That reads as agreement without commitment.",
+    "Pick one lane:",
+    "• /pulse — continue",
+    "• /trade — trading lane",
+    "• /reset — stop the spiral"
+  ].join("\n"),
+  compNyOpen: [
+    "Session time is not a trade thesis.",
+    "Setup first: bias, liquidity, risk, entry trigger.",
+    "If any one is unclear: no trade."
+  ].join("\n"),
+  compTradingImpulse: [
+    "Impulse is expensive.",
+    "Cool the story. Check risk before size.",
+    "No hero trades."
+  ].join("\n"),
+  compStartParalysis: [
+    "Start paralysis is real.",
+    "Shrink the day to one visible move — ten minutes.",
+    "Name the mission in one line when you are ready."
+  ].join("\n"),
+  compProcrastinate: [
+    "Procrastination is resistance with a mask.",
+    "Make the first step ugly and small — five minutes.",
+    "Then report with /done."
+  ].join("\n"),
+  compCasualTalk: [
+    "Chat is allowed.",
+    "Training still asks for one honest lane.",
+    "Pick what you are actually avoiding."
+  ].join("\n"),
+  compTiredPush: [
+    "Tired body, hard demands.",
+    "No deep decisions tonight unless unavoidable.",
+    "Stabilize first: water, slow breath, one small block only."
+  ].join("\n"),
+  compScattered: [
+    "Scattered mind, scattered outcomes.",
+    "No wide plan.",
+    "One lane. One next block."
+  ].join("\n"),
+  compOverload: [
+    "Overload wins when you add more input.",
+    "Cut channels. One breath. One task.",
+    "Shrink until it fits."
+  ].join("\n"),
+  compMissionDrift: [
+    "Mission drift.",
+    "Re-lock today’s line — not the whole future.",
+    "One sentence mission."
+  ].join("\n"),
+  compSeekingPermission: [
+    "You are asking permission to exist at full size.",
+    "Permission is not out there.",
+    "Choose one constraint you will keep today — then act inside it."
+  ].join("\n"),
+  compSeekingClarity: [
+    "Clarity comes from motion, not more thinking.",
+    "One experiment. One observable result.",
+    "Keep the question small."
+  ].join("\n"),
+  compOverthink: [
+    "Overthinking is a second job with no pay.",
+    "Cap the analysis. Move for ten minutes.",
+    "Let reality vote."
+  ].join("\n"),
+  compEmotional: [
+    "Emotion is data, not a command.",
+    "Name it once. Then choose one stabilizing action.",
+    "No spiral auditions."
+  ].join("\n"),
+  compBodyNeglect: [
+    "The body is the base layer.",
+    "Fuel, water, movement — boring wins.",
+    "One physical reset before more mind."
+  ].join("\n"),
+
+  compDefaultMorning: [
+    "Morning alignment.",
+    "Mantra → energy → one mission → body anchor.",
+    "Keep the first hour quiet if you can."
+  ].join("\n"),
+  compDefaultMidday: [
+    "Midday correction.",
+    "One focus check. One resistance name. One fix.",
+    "No new lanes."
+  ].join("\n"),
+  compDefaultEvening: [
+    "Evening mirror.",
+    "Review without trial. Release one weight.",
+    "Close the loop."
+  ].join("\n"),
+  compDefaultLate: [
+    "Late window.",
+    "Lower stimulation. No big commitments.",
+    "Rest is part of training."
+  ].join("\n"),
+
+  compWhereTitle: "Where you are",
+  compWherePausedYes: "Paused: yes",
+  compWherePausedNo: "Paused: no",
+  compWhereTimeBand: "Time band",
+  compWhereBandMorning: "morning",
+  compWhereBandMidday: "midday",
+  compWhereBandEvening: "evening",
+  compWhereBandLate: "late night",
+  compWhereAwaiting: "Awaiting",
+  compWhereWaitingInput: "Flow: idle (coach routing)",
+  compWhereBody: "Body score",
+  compWhereMind: "Mind tag",
+  compWhereLastProtocol: "Last protocol",
+  compWhereHint: "/pause · /resume · /off"
 };

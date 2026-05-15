@@ -28,6 +28,7 @@ const { buildEnergyFromOpenText } = require("./energyHandler");
 const { pickUnseenVariant } = require("../conversation/responseVariation");
 const { detectLaneWandering } = require("../conversation/focusLane");
 const { programWanderLine } = require("./programFlow");
+const { processCompanionOpenText } = require("../core/modeEngine");
 
 const COACH_HEAVY = new Set([
   "emotional_reflection",
@@ -195,6 +196,21 @@ function handleOpenConversation(message, lang, session) {
       reply: r.sessionLoopBoundary,
       category: "session_loop",
       suggestedAction: "/mirror"
+    };
+  }
+
+  const companion = processCompanionOpenText(userId, text, lang, session);
+  if (companion && companion.handled) {
+    logOpen({
+      lang,
+      category: companion.category,
+      handler: "modeEngine.processCompanionOpenText",
+      textPreview: text.slice(0, 80)
+    });
+    return {
+      reply: finalizeLite(userId, session, lang, text, companion.category, companion.reply, r),
+      category: companion.category,
+      suggestedAction: companion.suggestedAction ?? null
     };
   }
 

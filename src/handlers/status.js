@@ -31,6 +31,9 @@ function intensityLabel(cat, r) {
 }
 
 function nextStepHint(cat, lastCmd, r) {
+  if (cat === "companion_paused") return r.statusNextResume;
+  if (cat === "companion_active" || cat === "companion_flow")
+    return r.statusNextCompanionContinue;
   if (["chaos_loop", "immediate_recovery", "pattern_blocked", "session_loop"].includes(cat))
     return r.statusNextRecovery;
   if (cat === "trading_impulse") return r.statusNextTrade;
@@ -85,7 +88,12 @@ function nextStepHint(cat, lastCmd, r) {
       "/plan",
       "/reset",
       "/commands",
-      "/map"
+      "/map",
+      "/mode",
+      "/off",
+      "/pause",
+      "/resume",
+      "/whereami"
     ].includes(lastCmd)
   )
     return r.statusNextLastCommand;
@@ -197,7 +205,12 @@ function buildStatusReply(message, session, lang) {
     "/plan",
     "/reset",
     "/commands",
-    "/map"
+    "/map",
+    "/mode",
+    "/off",
+    "/pause",
+    "/resume",
+    "/whereami"
   ]);
   const mode =
     lastCmdRaw && !metaCmds.has(lastCmdRaw)
@@ -239,6 +252,12 @@ function buildStatusReply(message, session, lang) {
     `${r.tStatusProgram}: ${session.programMode || "—"}`,
     `${r.tStatusProgramStep}: ${progStep}`,
     `${r.tStatusNextProgram}: ${progCmd}`,
+    "",
+    session.companionActive
+      ? session.companionPaused
+        ? r.tStatusCompanionPaused
+        : r.tStatusCompanionLive
+      : r.tStatusCompanionOff,
     "",
     r.statusCommandsHint,
     "",

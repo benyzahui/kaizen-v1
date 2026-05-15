@@ -28,6 +28,13 @@ const { updateSession, getSession } = require("../session/sessionStore");
 const { clearRemoteSession } = require("../db/syncState");
 const { handleTrainingCommand } = require("./dragonTraining");
 const { appendProgramProgress } = require("./programFlow");
+const {
+  activateMode,
+  deactivateMode,
+  pauseMode,
+  resumeMode,
+  buildWhereAmiReply
+} = require("../core/modeEngine");
 
 const PROGRAM_WRAP = new Set([
   "/program",
@@ -109,6 +116,21 @@ async function routeCommandMessage(message, session) {
       break;
     case "/map":
       reply = lines(r.tCommandsCategorized, "", "", r.tMapFooter);
+      break;
+    case "/mode":
+      reply = activateMode(uid(message), lang);
+      break;
+    case "/off":
+      reply = deactivateMode(uid(message), lang);
+      break;
+    case "/pause":
+      reply = pauseMode(uid(message), lang);
+      break;
+    case "/resume":
+      reply = resumeMode(uid(message), lang);
+      break;
+    case "/whereami":
+      reply = buildWhereAmiReply(getSession(uid(message)), lang);
       break;
     case "/guide":
       reply = buildGuideReply(lang);

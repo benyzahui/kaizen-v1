@@ -347,6 +347,8 @@ module.exports = {
   statusNextReflect: "/clarity sau rămâi aici cu o propoziție adevărată.",
   statusNextLastCommand: "Continuă ultimul ritual sau /help pentru structură.",
   statusNextDefault: "/pulse sau /focus — un bloc mic.",
+  statusNextResume: "/resume — ghidarea companion e în pauză.",
+  statusNextCompanionContinue: "/whereami — apoi o singură comandă.",
   statusCommandsHint:
     "Chatul deschis te ghidează; comenzile păstrează structura. Folosește ambele.",
 

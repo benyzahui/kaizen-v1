@@ -348,6 +348,8 @@ module.exports = {
   statusNextReflect: "/clarity or stay here with one true sentence.",
   statusNextLastCommand: "Continue your last ritual, or /help for structure.",
   statusNextDefault: "/pulse or /focus — pick one small block.",
+  statusNextResume: "/resume — companion guidance is paused.",
+  statusNextCompanionContinue: "/whereami — then one command only.",
   statusCommandsHint:
     "Open chat guides you; commands keep structure. Use both.",
 

@@ -311,7 +311,10 @@ module.exports = {
     "/trade /check /risk /cooldown /notrade",
     "",
     "PROFIL",
-    "/profile /status /language /help /guide /commands /map"
+    "/profile /status /language /help /guide /commands /map",
+    "",
+    "AKTÍV (társ mód)",
+    "/mode /off /pause /resume /whereami"
   ].join("\n"),
 
   tMapFooter: "Mentsd el ezt az üzenetet. Ez a training térképed.",
@@ -321,6 +324,9 @@ module.exports = {
     "",
     "1) Természetes beszéd — tükrözés és tisztánlátás.",
     "2) Parancsok — szerkezet és training.",
+    "",
+    "Aktív vezetés (egy lépés egyszerre):",
+    "/mode — majd /off /pause /resume /whereami",
     "",
     "Napi keret indítása:",
     "/program",
@@ -337,6 +343,10 @@ module.exports = {
   tStatusProgramIdle: "üres (nincs aktív lépés)",
   tStatusNextProgram: "Javasolt (program)",
 
+  tStatusCompanionOff: "Társ mód: ki",
+  tStatusCompanionLive: "Társ mód: be (vezetés aktív)",
+  tStatusCompanionPaused: "Társ mód: be (vezetés szünetel)",
+
   tEnergyLensFooter: [
     "",
     "Nézőpont:",
@@ -344,5 +354,163 @@ module.exports = {
   ].join("\n"),
 
   tProfileMissionLine: "Küldetés (training):",
-  tProfileTrainingStyle: "Training stílus:"
+  tProfileTrainingStyle: "Training stílus:",
+
+  compSlotMorning: [
+    "Reggeli mód.",
+    "Először: stabilizálás.",
+    "Azután: sáv választás.",
+    "Végül: egy tiszta tett."
+  ].join("\n"),
+  compSlotMidday: [
+    "Délutáni mód.",
+    "Fókusz ellenőrzés.",
+    "Egy korrekció.",
+    "Egy látható lépés."
+  ].join("\n"),
+  compSlotEvening: [
+    "Esti mód.",
+    "Nincs több bizonyítás.",
+    "Áttekintés, elengedés, visszatérés."
+  ].join("\n"),
+  compSlotLate: [
+    "Késő éjszakai mód.",
+    "Kevesebb inger.",
+    "Mély döntés nélkül.",
+    "Csak pihenő protokoll."
+  ].join("\n"),
+
+  compModeOn: "⚔️ Aktív KaiZen társ — bekapcsolva.",
+  compModeOff:
+    "Aktív mód ki.\n\nA parancsok megmaradnak, ha struktúrát akarsz.\nVissza az vezetéshez: /mode",
+  compPausedMsg: "Vezetés szünetel.\n\nKövetkező: /resume",
+  compResumeMsg: "Vezetés folytatódik.\n\nEgy lépés egyszerre.",
+  compNotActiveWhere: "Az aktív mód ki van kapcsolva.\n\nBekapcsolás: /mode",
+  compNotActivePause: "Az aktív mód nincs bekapcsolva.\n\nIndítás: /mode",
+  compNotActiveResume: "Az aktív mód nincs bekapcsolva.\n\nIndítás: /mode",
+
+  compFlowWeStart: "Egyszerűen kezdünk.",
+  compFlowAskBody: "1. Test állapot — 1-től 10-ig?",
+  compFlowBadBody: "Egy szám. 1–10.",
+  compFlowAfterBody: "Elég jó.",
+  compFlowAskMind: "2. Elmeállapot — calm, scattered, heavy vagy sharp? (egy szó)",
+  compFlowBadMind: "Válassz egyet: calm, scattered, heavy, sharp.",
+  compFlowAfterMind: "Rögzítve.\nEgy sáv.",
+  compFlowAskMission: "3. A mai küldetés — egy sorban?",
+  compMissionTooShort: "Túl rövid.\nEgy őszinte küldetéssor.",
+  compFlowMissionClose: "Küldetés megvan.\nNem nyitunk széles tervet, amíg ez nincs kint.",
+  compNextPrefix: "Következő:",
+  compAgreement: [
+    "Ez beleegyezésnek hangzik, de nincs mögötte vállalás.",
+    "Egy sávot válassz:",
+    "• /pulse — folytatás",
+    "• /trade — trading sáv",
+    "• /reset — spirál stop"
+  ].join("\n"),
+  compNyOpen: [
+    "A session idő nem trade tétel.",
+    "Előbb a setup: irány, likviditás, kockázat, belépő trigger.",
+    "Ha bármelyik homályos: nincs trade."
+  ].join("\n"),
+  compTradingImpulse: [
+    "Az impulzus drága.",
+    "Hűtsd a történetet. Kockázat előtt méret.",
+    "Nincs hős trade."
+  ].join("\n"),
+  compStartParalysis: [
+    "A kezdés bénítása valós.",
+    "Zsugorítsd a napot egy látható lépésre — tíz perc.",
+    "Ha kész vagy, egy sorban nevezd meg a küldetést."
+  ].join("\n"),
+  compProcrastinate: [
+    "A halogatás ellenállás álarcban.",
+    "Az első lépés legyen csúnya és kicsi — öt perc.",
+    "Utána jelents: /done"
+  ].join("\n"),
+  compCasualTalk: [
+    "A beszélgetés megengedett.",
+    "A training ettől még egy őszinte sávot kér.",
+    "Mondd meg, mit kerülsz valójában."
+  ].join("\n"),
+  compTiredPush: [
+    "Fáradt test, kemény elvárás.",
+    "Ma ne mély döntés, ha nem muszáj.",
+    "Előbb stabilizálás: víz, lassú légzés, egy kicsi blokk."
+  ].join("\n"),
+  compScattered: [
+    "Szétesett elme, szétesett eredmény.",
+    "Nincs széles terv.",
+    "Egy sáv. Egy következő blokk."
+  ].join("\n"),
+  compOverload: [
+    "A túlterhelés nyer, ha még inputot adsz hozzá.",
+    "Vágj csatornákat. Egy lélegzet. Egy feladat.",
+    "Zsugorítsd, amíg belefér."
+  ].join("\n"),
+  compMissionDrift: [
+    "Küldetés elcsúszás.",
+    "Zárd újra a mai sort — nem az egész jövőt.",
+    "Egy mondatos küldetés."
+  ].join("\n"),
+  compSeekingPermission: [
+    "Engedélyt kérsz ahhoz, hogy teljes méretben légy.",
+    "Az engedély nem kint van.",
+    "Válassz egy keretet ma — és abban cselekedj."
+  ].join("\n"),
+  compSeekingClarity: [
+    "A tisztánlátás mozgásból jön, nem újabb gondolatból.",
+    "Egy kísérlet. Egy megfigyelhető eredmény.",
+    "Tartsd kicsiben a kérdést."
+  ].join("\n"),
+  compOverthink: [
+    "A túlgondolás második munka fizetés nélkül.",
+    "Korlátozd az elemzést. Mozdulj tíz percet.",
+    "Hagyj szavazni a valóságot."
+  ].join("\n"),
+  compEmotional: [
+    "Az érzelem adat, nem parancs.",
+    "Nevezd meg egyszer. Aztán egy stabilizáló tett.",
+    "Nincs spirál próba."
+  ].join("\n"),
+  compBodyNeglect: [
+    "A test az alapréteg.",
+    "Üzemanyag, víz, mozgás — a unalmas nyer.",
+    "Egy fizikai reset a több elme előtt."
+  ].join("\n"),
+
+  compDefaultMorning: [
+    "Reggeli igazítás.",
+    "Mantra → energia → egy küldetés → test horgony.",
+    "Ha lehet, csend az első órában."
+  ].join("\n"),
+  compDefaultMidday: [
+    "Déli korrekció.",
+    "Egy fókusz ellenőrzés. Egy ellenállás név. Egy javítás.",
+    "Új sáv nélkül."
+  ].join("\n"),
+  compDefaultEvening: [
+    "Esti tükör.",
+    "Áttekintés ítélet nélkül. Egy súly elengedése.",
+    "Zárd a kört."
+  ].join("\n"),
+  compDefaultLate: [
+    "Késő ablak.",
+    "Csökkentsd az ingereket. Nagy ígéretek nélkül.",
+    "A pihenés is training."
+  ].join("\n"),
+
+  compWhereTitle: "Hol vagy",
+  compWherePausedYes: "Szünet: igen",
+  compWherePausedNo: "Szünet: nem",
+  compWhereTimeBand: "Napsáv",
+  compWhereBandMorning: "reggel",
+  compWhereBandMidday: "délután",
+  compWhereBandEvening: "este",
+  compWhereBandLate: "késő éjszaka",
+  compWhereAwaiting: "Várakozás",
+  compWhereWaitingInput: "Folyamat: üres (coach útvonal)",
+  compWhereBody: "Test pont",
+  compWhereMind: "Elme címke",
+  compWhereLastProtocol: "Utolsó protokoll",
+  compWhereHint: "/pause · /resume · /off"
 };

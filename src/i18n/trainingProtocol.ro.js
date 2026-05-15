@@ -310,7 +310,10 @@ module.exports = {
     "/trade /check /risk /cooldown /notrade",
     "",
     "PROFIL",
-    "/profile /status /language /help /guide /commands /map"
+    "/profile /status /language /help /guide /commands /map",
+    "",
+    "ACTIV (companion)",
+    "/mode /off /pause /resume /whereami"
   ].join("\n"),
 
   tMapFooter: "Salvează acest mesaj. E harta ta de training.",
@@ -320,6 +323,9 @@ module.exports = {
     "",
     "1) Natural — reflecție și claritate.",
     "2) Comenzi — structură și training.",
+    "",
+    "Ghidare activă (un pas odată):",
+    "/mode — apoi /off /pause /resume /whereami",
     "",
     "Începe cadrul zilei:",
     "/program",
@@ -336,6 +342,10 @@ module.exports = {
   tStatusProgramIdle: "liber (fără pas activ)",
   tStatusNextProgram: "Sugest (program)",
 
+  tStatusCompanionOff: "Mod companion: oprit",
+  tStatusCompanionLive: "Mod companion: pornit (ghidare activă)",
+  tStatusCompanionPaused: "Mod companion: pornit (ghidare în pauză)",
+
   tEnergyLensFooter: [
     "",
     "Lentile:",
@@ -343,5 +353,163 @@ module.exports = {
   ].join("\n"),
 
   tProfileMissionLine: "Misiune (training):",
-  tProfileTrainingStyle: "Stil training:"
+  tProfileTrainingStyle: "Stil training:",
+
+  compSlotMorning: [
+    "Mod dimineață.",
+    "Întâi: stabilizează.",
+    "Apoi: alege banda.",
+    "La final: o acțiune curată."
+  ].join("\n"),
+  compSlotMidday: [
+    "Mod prânz.",
+    "Verificare focus.",
+    "O corecție.",
+    "Un pas vizibil."
+  ].join("\n"),
+  compSlotEvening: [
+    "Mod seară.",
+    "Nu mai dovedi nimic.",
+    "Revizuiește, eliberează, revino."
+  ].join("\n"),
+  compSlotLate: [
+    "Mod noapte târziu.",
+    "Mai puțin stimulare.",
+    "Fără decizii adânci.",
+    "Doar protocol de odihnă."
+  ].join("\n"),
+
+  compModeOn: "⚔️ Mod companion activ — pornit.",
+  compModeOff:
+    "Mod activ oprit.\n\nComenzile rămân când vrei structură.\nÎnapoi la ghidare: /mode",
+  compPausedMsg: "Ghidarea e în pauză.\n\nUrmătorul pas: /resume",
+  compResumeMsg: "Ghidarea continuă.\n\nUn pas odată.",
+  compNotActiveWhere: "Modul activ e oprit.\n\nPornește cu: /mode",
+  compNotActivePause: "Modul activ nu e pornit.\n\nStart: /mode",
+  compNotActiveResume: "Modul activ nu e pornit.\n\nStart: /mode",
+
+  compFlowWeStart: "Începem simplu.",
+  compFlowAskBody: "1. Starea corpului — de la 1 la 10?",
+  compFlowBadBody: "Un singur număr. 1–10.",
+  compFlowAfterBody: "E suficient.",
+  compFlowAskMind: "2. Starea minții — calm, scattered, heavy sau sharp? (un cuvânt)",
+  compFlowBadMind: "Alege unul: calm, scattered, heavy, sharp.",
+  compFlowAfterMind: "Notat.\nO singură bandă.",
+  compFlowAskMission: "3. Misiunea zilei — o linie?",
+  compMissionTooShort: "Prea subțire.\nO linie onestă de misiune.",
+  compFlowMissionClose: "Misiune primită.\nFără plan larg până nu livrezi asta.",
+  compNextPrefix: "Următorul:",
+  compAgreement: [
+    "Sună a acord fără angajament.",
+    "Alege o bandă:",
+    "• /pulse — continuă",
+    "• /trade — bandă trading",
+    "• /reset — oprește spirala"
+  ].join("\n"),
+  compNyOpen: [
+    "Ora sesiunii nu e teză de trade.",
+    "Întâi setup: bias, lichiditate, risc, trigger de intrare.",
+    "Dacă unul e neclar: fără trade."
+  ].join("\n"),
+  compTradingImpulse: [
+    "Impulsul e scump.",
+    "Răcește povestea. Verifică riscul înainte de mărime.",
+    "Fără trade-uri eroice."
+  ].join("\n"),
+  compStartParalysis: [
+    "Blocajul de start e real.",
+    "Micșorează ziua la un pas vizibil — zece minute.",
+    "Numele misiunii într-o propoziție când ești gata."
+  ].join("\n"),
+  compProcrastinate: [
+    "Procrastinarea e rezistență cu mască.",
+    "Primul pas urât și mic — cinci minute.",
+    "Apoi raportează cu /done"
+  ].join("\n"),
+  compCasualTalk: [
+    "Discuția e permisă.",
+    "Training-ul cere totuși o bandă onestă.",
+    "Spune ce eviți de fapt."
+  ].join("\n"),
+  compTiredPush: [
+    "Corp obosit, cereri dure.",
+    "Fără decizii adânci diseară dacă nu e musai.",
+    "Stabilizează: apă, respirație lentă, un singur bloc mic."
+  ].join("\n"),
+  compScattered: [
+    "Minte împrăștiată, rezultate împrăștiate.",
+    "Fără plan larg.",
+    "O bandă. Un bloc următor."
+  ].join("\n"),
+  compOverload: [
+    "Supraîncărcarea câștigă când adaugi input.",
+    "Taie canale. O respirație. O sarcină.",
+    "Micșorează până încape."
+  ].join("\n"),
+  compMissionDrift: [
+    "Deriva misiunii.",
+    "Reîncuie linia zilei — nu tot viitorul.",
+    "O propoziție de misiune."
+  ].join("\n"),
+  compSeekingPermission: [
+    "Ceri voie să exiști la dimensiune completă.",
+    "Permisiunea nu e „acolo”.",
+    "Alege o limită pe care o ții azi — apoi acționează în ea."
+  ].join("\n"),
+  compSeekingClarity: [
+    "Claritatea vine din mișcare, nu din încă un gând.",
+    "Un experiment. Un rezultat observabil.",
+    "Ține întrebarea mică."
+  ].join("\n"),
+  compOverthink: [
+    "Gândirea excesivă e a doua slujbă fără plată.",
+    "Capă analiza. Mișcă-te zece minute.",
+    "Lasă realitatea să voteze."
+  ].join("\n"),
+  compEmotional: [
+    "Emoția e date, nu comandă.",
+    "Num-o o dată. Apoi o acțiune stabilizatoare.",
+    "Fără audiții în spirală."
+  ].join("\n"),
+  compBodyNeglect: [
+    "Corpul e stratul de bază.",
+    "Combustibil, apă, mișcare — plictisitorul câștigă.",
+    "Un reset fizic înainte de mai multă minte."
+  ].join("\n"),
+
+  compDefaultMorning: [
+    "Aliniere dimineață.",
+    "Mantra → energie → o misiune → ancoră corporală.",
+    "Prima oră liniștită, dacă poți."
+  ].join("\n"),
+  compDefaultMidday: [
+    "Corecție la prânz.",
+    "Un check de focus. Un nume pentru rezistență. Un fix.",
+    "Fără benzi noi."
+  ].join("\n"),
+  compDefaultEvening: [
+    "Oglindă de seară.",
+    "Revizuire fără proces. Eliberează o greutate.",
+    "Închide cercul."
+  ].join("\n"),
+  compDefaultLate: [
+    "Fereastră târzie.",
+    "Mai puțin stimul. Fără angajamente mari.",
+    "Odihna face parte din training."
+  ].join("\n"),
+
+  compWhereTitle: "Unde ești",
+  compWherePausedYes: "Pauză: da",
+  compWherePausedNo: "Pauză: nu",
+  compWhereTimeBand: "Fâșie orară",
+  compWhereBandMorning: "dimineață",
+  compWhereBandMidday: "prânz",
+  compWhereBandEvening: "seară",
+  compWhereBandLate: "noapte târziu",
+  compWhereAwaiting: "Așteaptă",
+  compWhereWaitingInput: "Flux: liber (rutare coach)",
+  compWhereBody: "Scor corp",
+  compWhereMind: "Etichetă minte",
+  compWhereLastProtocol: "Ultimul protocol",
+  compWhereHint: "/pause · /resume · /off"
 };

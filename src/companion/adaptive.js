@@ -19,6 +19,7 @@ function isTiredSignal(text) {
  */
 function appendAdaptiveLine(session, lang, userText, category) {
   if (!session?.onboardingCompleted || session?.onboardingSkipped) return "";
+  if (session?.companionActive) return "";
   if (!isTiredSignal(userText)) return "";
   const relevant =
     category === "body_energy" ||

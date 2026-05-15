@@ -46,7 +46,7 @@ function classifyMessage(text) {
   }
 
   if (
-    /(today'?s energy|energy (today|of the day|right now)|tell me about.{0,40}energy|what('s| is) the energy|napi energia|energia zilei|energia de azi|energie\s+azi|mai spune.{0,20}energi|a\s+mai\s+nap\s+energi[aá]ja|energia\s+ma|mai\s+energia|moon\s+phase|holdf[aá]zis|astrology\s+today|astrologie\s+ast[aă]zi|numerology\s+today|numerologie\s+azi|\bnumerologia\b)/i.test(
+    /(today'?s energy|energy (today|of the day|right now)|tell me about.{0,40}energy|what('s| is) the energy|mi\s+(a\s+)?mai\s+energi|napi energia|energia zilei|energia de azi|energie\s+azi|mai spune.{0,20}energi|a\s+mai\s+nap\s+energi[aá]ja|energia\s+ma|mai\s+energia|moon\s+phase|holdf[aá]zis|astrology\s+today|astrologie\s+ast[aă]zi|numerology\s+today|numerologie\s+azi|\bnumerologia\b)/i.test(
       t
     )
   ) {
