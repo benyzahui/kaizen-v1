@@ -26,7 +26,18 @@ const PROFILE_AND_LOCK_KEYS = [
   "programLane",
   "currentMission",
   "preferredTrainingStyle",
-  "meetKaiZenCompleted"
+  "meetKaiZenCompleted",
+  "membershipTier",
+  "dragonLevel",
+  "currentProgram",
+  "dailyStreak",
+  "lastMorningCheckin",
+  "lastEveningMirror",
+  "seriousnessScore",
+  "notificationOptIn",
+  "morningTime",
+  "eveningTime",
+  "timezone"
 ];
 const { replyFingerprint } = require("../conversation/replyFingerprint");
 const { countBannedPhraseHits } = require("../conversation/bannedPhrases");

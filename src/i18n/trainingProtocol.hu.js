@@ -561,5 +561,114 @@ module.exports = {
   compWhereBody: "Test pont",
   compWhereMind: "Elme címke",
   compWhereLastProtocol: "Utolsó protokoll",
-  compWhereHint: "/pause · /resume · /off"
+  compWhereHint: "/pause · /resume · /off",
+
+  /* ── Napi Ritmus ── */
+  tMorningGateTitle: "⚔️ Reggeli Kapu",
+  tMorningEnergyHint: "Mielőtt dolgoznál — ellenőrizd a nap energiáját: /energy",
+  tMorningBodyInstruction: "Telefon előtt: 3 lassú légzés. Felállás. Víz.",
+  tMorningCurrentMission: "Mai küldetés",
+  tMorningSetMission: "Nincs tárolt küldetés. Írj egyet: /mission a te egy sorod",
+  tMorningNextPrompt: "Amikor kész: /energy → /mission → /midday",
+  tStreakLine: (n) =>
+    n <= 1 ? "Első check-in. Jó start." :
+    n < 7  ? `${n} egymást követő nap. Ne törd meg a sorozatot.` :
+    `${n} napos sorozat. Ez már identitás.`,
+
+  tMiddayGateTitle: "🔁 Déli Ellenőrzés",
+  tMiddayDriftCheck: "Hová ment valójában a délelőtt?",
+  tMiddayMissionCheck: "Küldetés",
+  tMiddayNoMission: "Nincs küldetés. Egy sor mielőtt folytatod: /mission",
+  tMiddayAvoidancePrompt: "Ha kerülgetted — nevezd meg a blokkot. Aztán csinálj belőle 5 percet.",
+  tMiddayNextPrompt: "Tovább: /focus vagy nyílt chat ha ki kell fejteni.",
+
+  tEveningGateTitle: "🌙 Esti Tükör",
+  tEveningMissionReview: "Mai küldetés",
+  tEveningNoMission: "Ma nem volt rögzített küldetés.",
+  tEveningReleasePrompt: "Engedd el, amit nem értél el. Nem követ tovább.",
+  tEveningLessonPrompt: "Mit akarsz, hogy a holnapi éned emlékezzen?",
+  tEveningRecoveryHint: "A regeneráció a protokoll része. Az alvás nem gyengeség.",
+  tEveningNextPrompt: "Zárd le a napot. Ma este már semmit sem kell megoldani.",
+
+  tDailyTitle: "📋 Teljes Napi Keret",
+  tDailySlotMorning: "Reggel van — kezd a testtel, majd mantrával, majd energia olvasattal.",
+  tDailySlotMidday: "Félidő — ellenőrizd a küldetés sort, vágd le a tab overloadot.",
+  tDailySlotEvening: "Este — értékeld ami sikerült, engedd el ami nem.",
+  tDailyNextPrompt: "Egy következő lépés: /morning · /midday · /evening",
+
+  /* ── Sárkány Útvonal ── */
+  tPathTitle: "🐉 Sárkány Útvonal",
+  tPathLevel: "Szint",
+  tPathTier: "Tier",
+  tPathStreak: "Sorozat",
+  tPathMission: "Küldetés",
+  tPathNoMission: "Nincs küldetés — /mission a te egy sorod",
+  tPathNextHint: "Mélyítés: /level · /streak · /morning",
+
+  tLevelTitle: "Sárkány Szint",
+  tLevelCurrent: "Jelenlegi",
+  tLevelNext: "Következő",
+  tLevelMaxReached: "Legmagasabb szint elérve. Most add tovább.",
+  tLevelRequirement: (n) => {
+    const reqs = [
+      "",
+      "7 reggeli check-in a 2. szinthez.",
+      "30 napos küldetés + 14 napos sorozat a 3. szinthez.",
+      "Egy hónap napi ritmus kihagyás nélkül a 4. szinthez.",
+      "3 érzelmi minta dokumentálva, amit megszakítottál — 5. szint.",
+      "Egy valódi protokoll 21 napig futtatva — 6. szint.",
+      "Osztd meg az utat egy másik személlyel — 7. szint.",
+      ""
+    ];
+    return reqs[n] || "";
+  },
+
+  tStreakTitle: "🔥 Sorozat",
+  tStreakCount: (n) => `${n} egymás utáni nap check-in.`,
+  tStreakZero: "Még nincs sorozat. Kezd ma: /morning",
+  tStreakLastCheckin: "Utolsó reggeli kapu",
+  tStreakBuildHint: "Jelenj meg három reggelen egymás után. Aztán ragad.",
+  tStreakKeepHint: "A lendület a tőkéd. Védd.",
+
+  /* ── Training Zónák ── */
+  tZoneMindTitle: "🧠 Elme Zóna",
+  tZoneMindPurpose: "Mentális zaj törlése. Nem optimalizálás — törlés.",
+  tZoneMindQuestion: "Melyik gondolat ismétlődik most a legjobban?",
+  tZoneMindAction: "Írd le, majd húzd át ha nem a mai nap problémája.",
+  tZoneMindNext: "Következő: /focus vagy nyílt chat ha ki kell fejteni.",
+
+  tZoneBodyTitle: "🏋️ Test Zóna",
+  tZoneBodyPurpose: "A test mindent hordoz amit az elme figyelmen kívül hagy.",
+  tZoneBodyQuestion: "Hol tartasz feszültséget most — váll, mellkas, állkapocs?",
+  tZoneBodyAction: "Scanneld és engedd el. 90 másodperc nyújtás. Aztán víz.",
+  tZoneBodyNext: "Következő: /breath vagy /morning ha még nem nyitottad meg a napot.",
+
+  tZoneBreathTitle: "🌬️ Légzés Protokoll",
+  tZoneBreathInstruction: "Ülj le. Egyenes gerinc. Tab overload kikapcs — mentálisan is.",
+  tZoneBreathRound:
+    "Belégzés 4 ütem — tartás 4 — kilégzés 6.\n5 kör.\nNincs timer. Nincs app. Csak levegő.",
+  tZoneBreathClose: "Érezd mi változott. Nem kell megmagyarázni.",
+  tZoneBreathNext: "Következő: /focus ha az elme még hangos. /midday ha check-in idő.",
+
+  tZoneBalanceTitle: "⚖️ Egyensúly Zóna",
+  tZoneBalancePurpose: "Nem vagy vagy produktív vagy pihenő. Az egyensúly skill.",
+  tZoneBalanceMorning: "Reggeli egyensúly: határozz meg egyet, amit ma nem kezdesz el.",
+  tZoneBalanceMidday: "Déli egyensúly: töröld az egyik mai feladatot amit szorongásból raktál be.",
+  tZoneBalanceEvening: "Esti egyensúly: mit védtél — magadat vagy a teljesítményt?",
+  tZoneBalanceAction: "Nevezd meg azt a területet ahol ezen a héten túlterhelted magad.",
+  tZoneBalanceNext: "Következő: /lettinggo vagy /evening.",
+
+  tZoneLettingGoTitle: "🌊 Elengedés",
+  tZoneLettingGoPurpose: "A ragaszkodás többe kerül mint befejezni.",
+  tZoneLettingGoQuestion: "Mit cipelsz még, ami már nem a tiéd?",
+  tZoneLettingGoAction: "Írd le. Olvasd el egyszer. Döntsd el: tegyél valamit érte vagy engedd el. Nem mindkettő.",
+  tZoneLettingGoNext: "Következő: /evening a nap lezárásához, vagy /balance ha a teher strukturális.",
+
+  /* ── Komolysági tükör ── */
+  tSeriousnessNudge:
+    "Észreveszem: ugyanazon a területen körözsz.\nCsökkentsd a lépést. Öt perc. Hajrá.",
+  tSeriousnessCallout:
+    "Megjelensz de nem mozogsz.\nEz jel, nem menetrend.\nMi a valódi blokk?",
+  tSeriousnessWall:
+    "Nem táplálom a köröket.\nHa készen állsz a mozgásra — nem csak beszélni róla — itt vagyok."
 };

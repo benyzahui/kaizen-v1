@@ -35,6 +35,17 @@ const {
   resumeMode,
   buildWhereAmiReply
 } = require("../core/modeEngine");
+const {
+  buildMorningReply,
+  buildMiddayReply,
+  buildEveningReply,
+  buildDailyReply,
+  buildPathReply,
+  buildLevelReply,
+  buildStreakReply
+} = require("./dailyRhythm");
+const { buildZoneReply } = require("./trainingZones");
+const { recordCompletedRitual } = require("../core/seriousnessEngine");
 
 const PROGRAM_WRAP = new Set([
   "/program",
@@ -132,6 +143,44 @@ async function routeCommandMessage(message, session) {
       break;
     case "/whereami":
       reply = buildWhereAmiReply(getSession(uid(message)), lang);
+      break;
+
+    /* ── Daily Rhythm (rich handlers) ── */
+    case "/morning":
+      reply = buildMorningReply(message, session, lang);
+      recordCompletedRitual(uid(message), getSession(uid(message)));
+      break;
+    case "/midday":
+      reply = buildMiddayReply(session, lang);
+      break;
+    case "/daily":
+      reply = buildDailyReply(message, session, lang);
+      break;
+
+    /* ── Dragon Path ── */
+    case "/path":
+      reply = buildPathReply(session, lang);
+      break;
+    case "/level":
+      reply = buildLevelReply(session, lang);
+      break;
+    case "/streak":
+      reply = buildStreakReply(session, lang);
+      break;
+
+    /* ── Training Zones ── */
+    case "/mind":
+    case "/body":
+    case "/breath":
+    case "/balance":
+    case "/lettinggo":
+      reply = buildZoneReply(command, session, lang);
+      break;
+
+    /* ── Evening (rich override from dailyRhythm) ── */
+    case "/evening":
+      reply = buildEveningReply(message, session, lang);
+      recordCompletedRitual(uid(message), getSession(uid(message)));
       break;
     case "/guide":
       reply = buildGuideReply(lang);

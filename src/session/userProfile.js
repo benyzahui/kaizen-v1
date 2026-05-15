@@ -20,7 +20,31 @@ const DEFAULT_USER_PROFILE = {
   onboardingSkipped: false,
   onboardingStep: 0,
   /** @type {'free'|'elite'|'dragon_path'|'trading'|'physical'|'emotional'|'business'|'mixed'|string|null} */
-  programLane: "free"
+  programLane: "free",
+
+  /** Dragon Path — V2.1 psyche layer */
+  /** @type {'free'|'elite'|'dragon'} */
+  membershipTier: "free",
+  /** @type {1|2|3|4|5|6|7} 1=Initiate … 7=Dragon Mind */
+  dragonLevel: 1,
+  /** e.g. 'psyche_foundation' | null */
+  currentProgram: null,
+  /** number of consecutive days with at least one check-in */
+  dailyStreak: 0,
+  /** ISO date string of last morning check-in, e.g. '2026-05-15' */
+  lastMorningCheckin: null,
+  /** ISO date string of last evening mirror */
+  lastEveningMirror: null,
+  /** 0–100: drops when user avoids, rises when user completes */
+  seriousnessScore: 50,
+  /** whether to receive scheduled push messages */
+  notificationOptIn: false,
+  /** HH:MM local morning target, e.g. '06:00' */
+  morningTime: "06:00",
+  /** HH:MM local evening target */
+  eveningTime: "21:00",
+  /** IANA tz or offset string */
+  timezone: null
 };
 
 /**

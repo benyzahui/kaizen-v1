@@ -42,7 +42,18 @@ function userRowToSessionPatch(row) {
     programLane: row.program_lane ?? "free",
     currentMission: row.current_mission ?? null,
     preferredTrainingStyle: row.preferred_training_style ?? null,
-    meetKaiZenCompleted: Boolean(row.meet_kaizen_completed)
+    meetKaiZenCompleted: Boolean(row.meet_kaizen_completed),
+    membershipTier: row.membership_tier ?? "free",
+    dragonLevel: Number(row.dragon_level) || 1,
+    currentProgram: row.current_program ?? null,
+    dailyStreak: Number(row.daily_streak) || 0,
+    lastMorningCheckin: row.last_morning_checkin ?? null,
+    lastEveningMirror: row.last_evening_mirror ?? null,
+    seriousnessScore: Number(row.seriousness_score) ?? 50,
+    notificationOptIn: Boolean(row.notification_opt_in),
+    morningTime: row.morning_time ?? "06:00",
+    eveningTime: row.evening_time ?? "21:00",
+    timezone: row.timezone ?? null
   };
 }
 
@@ -75,6 +86,17 @@ function sessionToUserUpsert(telegramId, message, session) {
     current_mission: session.currentMission ?? null,
     preferred_training_style: session.preferredTrainingStyle ?? null,
     meet_kaizen_completed: Boolean(session.meetKaiZenCompleted),
+    membership_tier: session.membershipTier ?? "free",
+    dragon_level: Number(session.dragonLevel) || 1,
+    current_program: session.currentProgram ?? null,
+    daily_streak: Number(session.dailyStreak) || 0,
+    last_morning_checkin: session.lastMorningCheckin ?? null,
+    last_evening_mirror: session.lastEveningMirror ?? null,
+    seriousness_score: Number(session.seriousnessScore) ?? 50,
+    notification_opt_in: Boolean(session.notificationOptIn),
+    morning_time: session.morningTime ?? "06:00",
+    evening_time: session.eveningTime ?? "21:00",
+    timezone: session.timezone ?? null,
     updated_at: new Date().toISOString()
   };
 }

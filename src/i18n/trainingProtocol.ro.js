@@ -560,5 +560,114 @@ module.exports = {
   compWhereBody: "Scor corp",
   compWhereMind: "Etichetă minte",
   compWhereLastProtocol: "Ultimul protocol",
-  compWhereHint: "/pause · /resume · /off"
+  compWhereHint: "/pause · /resume · /off",
+
+  /* ── Ritmul Zilnic ── */
+  tMorningGateTitle: "⚔️ Poarta Dimineții",
+  tMorningEnergyHint: "Înainte de muncă — verifică energia zilei: /energy",
+  tMorningBodyInstruction: "Înainte de telefon: 3 respirații lente. Ridică-te. Apă.",
+  tMorningCurrentMission: "Misiunea de azi",
+  tMorningSetMission: "Nicio misiune stocată. Scrie una: /mission linia ta de azi",
+  tMorningNextPrompt: "Când ești gata: /energy → /mission → /midday",
+  tStreakLine: (n) =>
+    n <= 1 ? "Primul check-in. Start bun." :
+    n < 7  ? `${n} zile consecutive. Nu rupe lanțul.` :
+    `Serie de ${n} zile. Devine identitate.`,
+
+  tMiddayGateTitle: "🔁 Verificare de Prânz",
+  tMiddayDriftCheck: "Unde a mers de fapt dimineața?",
+  tMiddayMissionCheck: "Misiune",
+  tMiddayNoMission: "Nicio misiune. O linie înainte să continui: /mission",
+  tMiddayAvoidancePrompt: "Dacă ai evitat — numește blocajul. Apoi fă 5 minute din el.",
+  tMiddayNextPrompt: "Continuă: /focus sau chat deschis dacă trebuie să gândești.",
+
+  tEveningGateTitle: "🌙 Oglinda Serii",
+  tEveningMissionReview: "Misiunea de azi",
+  tEveningNoMission: "Nu a fost setată nicio misiune azi.",
+  tEveningReleasePrompt: "Eliberează ce nu ai terminat. Nu te urmărește.",
+  tEveningLessonPrompt: "Ce vrei să rețină versiunea ta de mâine?",
+  tEveningRecoveryHint: "Recuperarea face parte din protocol. Somnul nu e lene.",
+  tEveningNextPrompt: "Închide ziua. Nu mai trebuie rezolvat nimic în seara asta.",
+
+  tDailyTitle: "📋 Cadrul Zilei Întregi",
+  tDailySlotMorning: "E dimineață — începe cu corpul, apoi mantra, apoi citirea energiei.",
+  tDailySlotMidday: "La mijlocul zilei — verifică misiunea, taie supraîncărcarea.",
+  tDailySlotEvening: "Seară — revizuiește ce a mers, eliberează ce nu.",
+  tDailyNextPrompt: "Un singur pas următor: /morning · /midday · /evening",
+
+  /* ── Calea Dragonului ── */
+  tPathTitle: "🐉 Calea Dragonului",
+  tPathLevel: "Nivel",
+  tPathTier: "Tier",
+  tPathStreak: "Serie",
+  tPathMission: "Misiune",
+  tPathNoMission: "Nicio misiune — /mission linia ta",
+  tPathNextHint: "Aprofundează: /level · /streak · /morning",
+
+  tLevelTitle: "Nivelul Dragonului",
+  tLevelCurrent: "Curent",
+  tLevelNext: "Următor",
+  tLevelMaxReached: "Cel mai înalt nivel atins. Acum predă.",
+  tLevelRequirement: (n) => {
+    const reqs = [
+      "",
+      "7 check-in-uri de dimineață pentru Nivelul 2.",
+      "Misiune de 30 de zile + serie de 14 zile pentru Nivelul 3.",
+      "O lună de ritm zilnic fără pauze pentru Nivelul 4.",
+      "Documentează 3 tipare emoționale rupte — Nivelul 5.",
+      "Rulează un protocol real 21 de zile — Nivelul 6.",
+      "Împărtășește calea cu o altă persoană — Nivelul 7.",
+      ""
+    ];
+    return reqs[n] || "";
+  },
+
+  tStreakTitle: "🔥 Serie",
+  tStreakCount: (n) => `${n} zile consecutive de check-in.`,
+  tStreakZero: "Nicio serie încă. Începe azi: /morning",
+  tStreakLastCheckin: "Ultima poartă a dimineții",
+  tStreakBuildHint: "Prezintă-te trei dimineți la rând. Apoi prinde.",
+  tStreakKeepHint: "Impulsul e activul tău. Protejează-l.",
+
+  /* ── Zone de Antrenament ── */
+  tZoneMindTitle: "🧠 Zona Minții",
+  tZoneMindPurpose: "Elimină zgomotul mental. Nu optimiza — elimină.",
+  tZoneMindQuestion: "Ce gând se repetă cel mai mult acum?",
+  tZoneMindAction: "Scrie-l, apoi taie-l dacă nu e problema de azi.",
+  tZoneMindNext: "Următor: /focus sau chat deschis dacă trebuie desfăcut.",
+
+  tZoneBodyTitle: "🏋️ Zona Corpului",
+  tZoneBodyPurpose: "Corpul poartă tot ce mintea ignoră.",
+  tZoneBodyQuestion: "Unde ții tensiunea acum — umeri, piept, maxilar?",
+  tZoneBodyAction: "Scanează și eliberează. 90 de secunde de stretching. Apă.",
+  tZoneBodyNext: "Următor: /breath sau /morning dacă nu ai deschis ziua.",
+
+  tZoneBreathTitle: "🌬️ Protocol Respirație",
+  tZoneBreathInstruction: "Stai jos. Coloana dreaptă. Închide tab-urile — și mental.",
+  tZoneBreathRound:
+    "Inspiră 4 timpi — ține 4 — expiră 6.\n5 runde.\nFără timer. Fără aplicație. Doar aer.",
+  tZoneBreathClose: "Observă ce s-a schimbat. Nu trebuie să explici.",
+  tZoneBreathNext: "Următor: /focus dacă mintea e zgomotoasă. /midday dacă e ora.",
+
+  tZoneBalanceTitle: "⚖️ Zona Echilibrului",
+  tZoneBalancePurpose: "Nu ești ori productiv ori odihnit. Echilibrul e o abilitate.",
+  tZoneBalanceMorning: "Echilibru dimineață: stabilește un lucru pe care nu îl vei începe azi.",
+  tZoneBalanceMidday: "Echilibru prânz: elimină o sarcină adăugată din anxietate.",
+  tZoneBalanceEvening: "Echilibru seară: ce ai protejat — pe tine sau performanța?",
+  tZoneBalanceAction: "Numește zona în care ești supraîncărcat săptămâna asta.",
+  tZoneBalanceNext: "Următor: /lettinggo sau /evening.",
+
+  tZoneLettingGoTitle: "🌊 Eliberare",
+  tZoneLettingGoPurpose: "A te agăța costă mai mult decât a termina.",
+  tZoneLettingGoQuestion: "Ce mai cari care nu mai e al tău?",
+  tZoneLettingGoAction: "Scrie. Citește o dată. Decide: acționează sau eliberează. Nu ambele.",
+  tZoneLettingGoNext: "Următor: /evening să închizi ziua, sau /balance dacă povara e structurală.",
+
+  /* ── Oglinda seriozității ── */
+  tSeriousnessNudge:
+    "Am observat: circulezi în același teritoriu.\nMicșorează pasul. Cinci minute. Du-te.",
+  tSeriousnessCallout:
+    "Apari dar nu te miști.\nAcesta e un semnal, nu un program.\nCare e blocajul real?",
+  tSeriousnessWall:
+    "Nu voi alimenta bucla.\nCând ești gata să te miști — nu doar să vorbești — sunt aici."
 };

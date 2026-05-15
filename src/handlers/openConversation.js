@@ -31,6 +31,11 @@ const { programWanderLine } = require("./programFlow");
 const { processCompanionOpenText } = require("../core/modeEngine");
 const { composeBrainPriority } = require("../brain/coachBrain");
 const { detectLanguageSwitchIntent } = require("../brain/intentEngine");
+const { detectCoachState } = require("../core/stateDetector");
+const {
+  adjustSeriousness,
+  getAvoidanceMirror
+} = require("../core/seriousnessEngine");
 
 const COACH_HEAVY = new Set([
   "emotional_reflection",
@@ -192,6 +197,25 @@ async function handleOpenConversation(message, lang, session) {
   }
 
   const category = classifyMessage(text);
+
+  // Seriousness tracking — adjust score before brain routing so mirror can fire.
+  const coachState = detectCoachState(text, session, category);
+  const seriousnessScore = adjustSeriousness(userId, session, coachState);
+  const mirror = getAvoidanceMirror(seriousnessScore, lang, r);
+  if (mirror) {
+    logOpen({
+      lang,
+      category: "avoidance_mirror",
+      seriousnessScore,
+      handler: "seriousnessEngine.mirror",
+      textPreview: text.slice(0, 80)
+    });
+    return {
+      reply: mirror,
+      category: "avoidance_mirror",
+      suggestedAction: seriousnessScore < 20 ? null : "/morning"
+    };
+  }
 
   const brainEarly = await composeBrainPriority(userId, text, lang, session, category);
   if (brainEarly) {

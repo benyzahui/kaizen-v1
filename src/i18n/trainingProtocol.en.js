@@ -584,5 +584,114 @@ module.exports = {
   compWhereBody: "Body score",
   compWhereMind: "Mind tag",
   compWhereLastProtocol: "Last protocol",
-  compWhereHint: "/pause · /resume · /off"
+  compWhereHint: "/pause · /resume · /off",
+
+  /* ── Daily Rhythm ── */
+  tMorningGateTitle: "⚔️ Morning Gate",
+  tMorningEnergyHint: "Check today's energy layer before pushing into work — /energy",
+  tMorningBodyInstruction: "Before reading your phone: 3 slow breaths. Stand up. Water.",
+  tMorningCurrentMission: "Today's mission",
+  tMorningSetMission: "No mission stored. Set one: /mission your one-liner",
+  tMorningNextPrompt: "When ready: /energy → /mission → /midday",
+  tStreakLine: (n) =>
+    n <= 1 ? "First check-in. Good start." :
+    n < 7  ? `${n} days in a row. Don't break the chain.` :
+    `${n}-day streak. This is becoming identity.`,
+
+  tMiddayGateTitle: "🔁 Midday Check",
+  tMiddayDriftCheck: "Where did the morning actually go?",
+  tMiddayMissionCheck: "Mission",
+  tMiddayNoMission: "No mission set. One line before you continue: /mission",
+  tMiddayAvoidancePrompt: "If you have been avoiding — name the block. Then do 5 minutes of it only.",
+  tMiddayNextPrompt: "Continue: /focus or open chat if you need to think it out.",
+
+  tEveningGateTitle: "🌙 Evening Mirror",
+  tEveningMissionReview: "Mission today",
+  tEveningNoMission: "No mission was set today.",
+  tEveningReleasePrompt: "Release what you could not finish. It does not follow you.",
+  tEveningLessonPrompt: "What do you want tomorrow's version of you to remember?",
+  tEveningRecoveryHint: "Recovery is part of the protocol. Sleep is not laziness.",
+  tEveningNextPrompt: "Close the day. Nothing else needs solving tonight.",
+
+  tDailyTitle: "📋 Full Day Frame",
+  tDailySlotMorning: "It is morning — start with body, then mantra, then energy read.",
+  tDailySlotMidday: "Mid-session — check your mission line, cut the tab overload.",
+  tDailySlotEvening: "Evening — review what landed, release what did not.",
+  tDailyNextPrompt: "One clear next command: /morning · /midday · /evening",
+
+  /* ── Dragon Path ── */
+  tPathTitle: "🐉 Dragon Path",
+  tPathLevel: "Level",
+  tPathTier: "Tier",
+  tPathStreak: "Streak",
+  tPathMission: "Mission",
+  tPathNoMission: "No mission set — /mission your one-liner",
+  tPathNextHint: "Deepen: /level · /streak · /morning",
+
+  tLevelTitle: "Dragon Level",
+  tLevelCurrent: "Current",
+  tLevelNext: "Next",
+  tLevelMaxReached: "Highest level reached. Teach it now.",
+  tLevelRequirement: (n) => {
+    const reqs = [
+      "",
+      "Complete 7 morning check-ins to reach Level 2.",
+      "Define a 30-day mission and hold 14-day streak for Level 3.",
+      "One month of daily rhythm without skipping for Level 4.",
+      "Document 3 emotional patterns you have broken for Level 5.",
+      "Build and run one real protocol for 21 days for Level 6.",
+      "Share the path with one other person for Level 7.",
+      ""
+    ];
+    return reqs[n] || "";
+  },
+
+  tStreakTitle: "🔥 Streak",
+  tStreakCount: (n) => `${n} days of consecutive check-ins.`,
+  tStreakZero: "No streak yet. Start today with /morning.",
+  tStreakLastCheckin: "Last morning gate",
+  tStreakBuildHint: "Show up three mornings in a row. Then it starts to stick.",
+  tStreakKeepHint: "Momentum is your asset. Guard it.",
+
+  /* ── Training Zones ── */
+  tZoneMindTitle: "🧠 Mind Zone",
+  tZoneMindPurpose: "Clear mental noise. Not optimize — clear.",
+  tZoneMindQuestion: "What thought is repeating the most right now?",
+  tZoneMindAction: "Write it down, then cross it out if it is not today's problem.",
+  tZoneMindNext: "Next: /focus or open chat if it needs unpacking.",
+
+  tZoneBodyTitle: "🏋️ Body Zone",
+  tZoneBodyPurpose: "The body carries everything the mind ignores.",
+  tZoneBodyQuestion: "Where do you hold tension right now — shoulders, chest, jaw?",
+  tZoneBodyAction: "Scan and release. Stretch for 90 seconds. Then water.",
+  tZoneBodyNext: "Next: /breath or /morning if you have not opened the day yet.",
+
+  tZoneBreathTitle: "🌬️ Breath Protocol",
+  tZoneBreathInstruction: "Sit. Spine straight. Close the browser tabs — mentally too.",
+  tZoneBreathRound:
+    "Inhale 4 counts — hold 4 — exhale 6.\nRepeat 5 rounds.\nNo timer. No app. Just air.",
+  tZoneBreathClose: "Notice what shifted. You do not need to explain it.",
+  tZoneBreathNext: "Next: /focus if mind is still loud. /midday if it is check-in time.",
+
+  tZoneBalanceTitle: "⚖️ Balance Zone",
+  tZoneBalancePurpose: "You are not either productive or resting. Balance is a skill.",
+  tZoneBalanceMorning: "Morning balance: set one thing you will not start today.",
+  tZoneBalanceMidday: "Midday balance: remove one task from today's list that you added out of anxiety.",
+  tZoneBalanceEvening: "Evening balance: what did you protect — yourself or the performance?",
+  tZoneBalanceAction: "Name the area where you are overextended this week.",
+  tZoneBalanceNext: "Next: /lettinggo or /evening.",
+
+  tZoneLettingGoTitle: "🌊 Letting Go",
+  tZoneLettingGoPurpose: "Holding on costs more than finishing.",
+  tZoneLettingGoQuestion: "What are you still carrying that is not yours anymore?",
+  tZoneLettingGoAction: "Write it. Read it once. Then decide: act on it or release it. Not both.",
+  tZoneLettingGoNext: "Next: /evening to close the day, or /balance if the load is structural.",
+
+  /* ── Seriousness Mirror ── */
+  tSeriousnessNudge:
+    "Noticed: you have been circling the same territory.\nShrink the step. Five minutes. Go.",
+  tSeriousnessCallout:
+    "You keep showing up but not moving.\nThat is a signal, not a schedule.\nWhat is the real block?",
+  tSeriousnessWall:
+    "I will not feed the loop.\nWhen you are ready to move — not just talk about it — I am here."
 };
