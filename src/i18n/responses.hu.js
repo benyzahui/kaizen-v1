@@ -1,6 +1,7 @@
 const rituals = require("./rituals.hu");
 const onboardingStrings = require("./onboardingCopy.hu");
 const trainingProtocol = require("./trainingProtocol.hu");
+const presenceCopy = require("./presenceCopy.hu");
 
 module.exports = {
   start:
@@ -419,6 +420,7 @@ module.exports = {
     ].join("\n\n")
   },
 
+  ...presenceCopy,
   ...trainingProtocol,
   ...onboardingStrings
 };

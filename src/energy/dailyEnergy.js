@@ -35,42 +35,39 @@ function premiumSectionLabels(lang, lens) {
   if (l === "hu") {
     return {
       title: `🌙 A nap energiája${lensNote}`,
-      numerology: "🔢 Numerológia",
-      astrology: "♉ Asztrológiai minőség",
-      moon: "🌘 Hold",
-      mind: "🧠 Mentális fókusz",
-      lettingGo: "🌊 Elengedés",
-      discipline: "⚔️ Fegyelem",
-      direction: "🔥 Legjobb irány",
-      trading: "📈 Trading",
-      body: "🌿 Test"
+      atmosphere: "🌤 Légkör",
+      mental: "🧠 Mentális mező",
+      discipline: "⚔️ Fegyelem jel",
+      body: "🌿 Test jel",
+      social: "🤝 Kapcsolat / társ",
+      trading: "📈 Üzlet / trading",
+      action: "→ Irány",
+      symbolic: "🔢 Szimbolikus réteg"
     };
   }
   if (l === "ro") {
     return {
       title: `🌙 Energia zilei${lensNote}`,
-      numerology: "🔢 Numerologie",
-      astrology: "♉ Calitate astrologică",
-      moon: "🌘 Lună",
-      mind: "🧠 Focus mental",
-      lettingGo: "🌊 Eliberare",
-      discipline: "⚔️ Disciplină",
-      direction: "🔥 Cea mai bună direcție",
-      trading: "📈 Trading",
-      body: "🌿 Corp"
+      atmosphere: "🌤 Atmosferă",
+      mental: "🧠 Câmp mental",
+      discipline: "⚔️ Semnal disciplină",
+      body: "🌿 Semnal corp",
+      social: "🤝 Relații / social",
+      trading: "📈 Business / trading",
+      action: "→ Direcție",
+      symbolic: "🔢 Strat simbolic"
     };
   }
   return {
     title: `🌙 Today's energy${lensNote}`,
-    numerology: "🔢 Numerology",
-    astrology: "♉ Astrological quality",
-    moon: "🌘 Moon",
-    mind: "🧠 Mental focus",
-    lettingGo: "🌊 Letting go",
-    discipline: "⚔️ Discipline",
-    direction: "🔥 Best direction",
-    trading: "📈 Trading",
-    body: "🌿 Body"
+    atmosphere: "🌤 Atmosphere",
+    mental: "🧠 Mental field",
+    discipline: "⚔️ Discipline signal",
+    body: "🌿 Body signal",
+    social: "🤝 Relationship / social",
+    trading: "📈 Business / trading",
+    action: "→ Direction",
+    symbolic: "🔢 Symbolic layer"
   };
 }
 
@@ -111,12 +108,6 @@ function buildDailyEnergyMessage(date = new Date(), lang = "en", lens = "general
 
   const h = premiumSectionLabels(l, lens);
   const headNote = f.lensLead[lens] ? lines(f.lensLead[lens]) : null;
-  const lettingLine =
-    l === "hu"
-      ? "Egy dolgot engedj el ma — nem az egész múltat, csak egy terhet."
-      : l === "ro"
-        ? "Eliberează un lucru azi — nu tot trecutul, doar o greutate."
-        : "Release one weight today — not the whole past, one honest burden.";
   const disciplineLine =
     l === "hu"
       ? "Egy szabály, egy ismétlés. Nincs új terv, amíg ez nincs kint."
@@ -124,37 +115,47 @@ function buildDailyEnergyMessage(date = new Date(), lang = "en", lens = "general
         ? "O regulă, o repetare. Fără plan nou până livrezi asta."
         : "One rule, one repetition. No new plan until this ships.";
 
+  const atmosphereLine =
+    l === "hu"
+      ? `${core.emotion} — ${moonText}`
+      : l === "ro"
+        ? `${core.emotion} — ${moonText}`
+        : `${core.emotion} — ${moonText}`;
+
+  const socialLine =
+    l === "hu"
+      ? "Egy beszélgetés ma: őszinte, rövid, nem teljesítmény."
+      : l === "ro"
+        ? "O conversație azi: onestă, scurtă, fără spectacol."
+        : "One conversation today: honest, short, not performance.";
+
   const parts = [
     h.title,
     headNote,
     "",
-    h.numerology,
-    core.num,
-    core.body,
+    h.atmosphere,
+    atmosphereLine,
     "",
-    h.astrology,
-    sign,
-    "",
-    h.moon,
-    moonText,
-    "",
-    h.mind,
+    h.mental,
     lines(emotionForMind, watch),
-    "",
-    h.lettingGo,
-    lettingLine,
     "",
     h.discipline,
     disciplineLine,
     "",
-    h.direction,
-    directionBlock,
+    h.body,
+    bodyBlock,
+    "",
+    h.social,
+    socialLine,
     "",
     h.trading,
     tradingBlock,
     "",
-    h.body,
-    bodyBlock,
+    h.action,
+    directionBlock,
+    "",
+    h.symbolic,
+    lines(`${core.num} · ${sign}`, f.moon.staticHonest.split(".")[0] + "."),
     foot
   ];
 

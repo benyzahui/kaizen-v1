@@ -70,6 +70,12 @@ function resolveLanguageWithSession(text, session) {
   const dom = Math.max(hu, ro);
 
   const pref = session?.preferredLanguage;
+
+  // After onboarding: hard lock — only /language or explicit switch changes language.
+  if (session?.onboardingCompleted && (pref === "hu" || pref === "ro" || pref === "en")) {
+    return pref;
+  }
+
   if (pref === "hu" || pref === "ro" || pref === "en") {
     return pref;
   }
@@ -82,7 +88,9 @@ function resolveLanguageWithSession(text, session) {
 
   const sess = session?.lang;
   if (sess === "hu" || sess === "ro" || sess === "en") {
-    if (dom >= 7 && detected !== sess) return detected;
+    if (!session?.onboardingCompleted && dom >= 7 && detected !== sess) {
+      return detected;
+    }
     return sess;
   }
   return detected;

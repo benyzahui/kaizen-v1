@@ -16,7 +16,15 @@
  */
 
 const { composeBrainPriority } = require("./responseComposer");
+const {
+  analyzeUserState,
+  humanizeReply,
+  engineSessionPatch
+} = require("../core/responseEngine");
 
 module.exports = {
-  composeBrainPriority
+  composeBrainPriority,
+  analyzeUserState,
+  humanizeReply,
+  engineSessionPatch
 };

@@ -43,6 +43,7 @@ const { replyFingerprint } = require("../conversation/replyFingerprint");
 const { countBannedPhraseHits } = require("../conversation/bannedPhrases");
 const { snippetKey } = require("../conversation/responseVariation");
 const { mapCategoryToConversationState } = require("../conversation/conversationState");
+const { recordStructure } = require("../conversation/structureMemory");
 
 /** @type {Map<string, any>} */
 const store = new Map();
@@ -104,6 +105,10 @@ function emptySession() {
     awaitingWhyHere: false,
     brainHumorCooldown: 0,
     brainHumorIndex: 0,
+    responseStructures: [],
+    lastMentorMode: null,
+    emotionalMomentum: "stable",
+    lastEmotionalIntensity: 0,
     lastMantraDate: null,
     lastMirrorDate: null,
     focusLocked: false,
@@ -251,8 +256,11 @@ function recordInteraction(userId, ev) {
     ev.command != null && String(ev.command).trim()
       ? [...(s.recentCommands || []), String(ev.command).trim()].slice(-8)
       : s.recentCommands || [];
+  const structPatch = recordStructure(s, String(ev.reply || ""));
+
   store.set(id, {
     ...s,
+    ...structPatch,
     lang: ev.lang || s.lang,
     lastEmotion:
       ev.category === "chaos_loop" ||
