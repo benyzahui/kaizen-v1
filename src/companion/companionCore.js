@@ -22,6 +22,9 @@ const { variateIfSameShape } = require("../conversation/antiTemplate");
 const { applyBannedPhraseRotation } = require("../conversation/bannedPhrases");
 const { detectLaneWandering } = require("../conversation/focusLane");
 const { programWanderLine } = require("../handlers/programFlow");
+const { resolveMoodMode, moodSessionPatch } = require("./moodEngine");
+const { applyEmotionalPacing } = require("./emotionalPacing");
+const { appendChoicesToReply } = require("./interactiveChoices");
 
 /**
  * @param {string|number} userId
@@ -38,9 +41,11 @@ function prepareCompanionContext(userId, text, session, lang, classifyCategory) 
   memory.session.rhythmPhase = rhythm.phase;
 
   const plan = selectResponsePlan(state, memory, rhythm);
+  const mood = resolveMoodMode(state, memory);
 
   updateSession(userId, {
     ...engineSessionPatch(state),
+    ...moodSessionPatch(mood),
     sessionEmotionalTrend: memory.session.emotionalTrend,
     rhythmPhase: rhythm.phase
   });
@@ -52,6 +57,7 @@ function prepareCompanionContext(userId, text, session, lang, classifyCategory) 
     state,
     rhythm,
     plan,
+    mood,
     session
   };
 }
@@ -66,6 +72,13 @@ function prepareCompanionContext(userId, text, session, lang, classifyCategory) 
  */
 function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
   let b = rawBody;
+  const s = ctx.session || {
+    messages: ctx.memory.short.turns,
+    lastCategory: ctx.memory.short.lastCategory,
+    responseStructures: ctx.memory.short.responseStructures
+  };
+
+  b = applyEmotionalPacing(b, ctx.lang, s, ctx.plan);
 
   if (!opts.skipPresence) {
     b = applyPresence(b, ctx, category);
@@ -73,10 +86,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
 
   b = applyAntiLoop(ctx, b, category, r);
 
-  const s = ctx.session || {
-    messages: ctx.memory.short.turns,
-    lastCategory: ctx.memory.short.lastCategory
-  };
+  b = appendChoicesToReply(b, ctx.mood, ctx.lang, s, category, ctx.plan);
 
   if (detectLaneWandering(s, category)) {
     updateSession(ctx.userId, { focusLocked: true });

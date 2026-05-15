@@ -2,6 +2,7 @@ const rituals = require("./rituals.hu");
 const onboardingStrings = require("./onboardingCopy.hu");
 const trainingProtocol = require("./trainingProtocol.hu");
 const presenceCopy = require("./presenceCopy.hu");
+const moodCopy = require("./moodCopy.hu");
 
 module.exports = {
   start:
@@ -421,6 +422,7 @@ module.exports = {
   },
 
   ...presenceCopy,
+  ...moodCopy,
   ...trainingProtocol,
   ...onboardingStrings
 };

@@ -60,6 +60,7 @@ function loadMemoryHierarchy(session) {
     userIntensityPreference: s.userIntensityPreference ?? null,
     currentMission: s.currentMission ?? null,
     seriousnessScore: Number(s.seriousnessScore) ?? 50,
+    dailyStreak: Number(s.dailyStreak) || 0,
     dragonLevel: Number(s.dragonLevel) || 1,
     membershipTier: s.membershipTier ?? "free",
     onboardingCompleted: Boolean(s.onboardingCompleted)

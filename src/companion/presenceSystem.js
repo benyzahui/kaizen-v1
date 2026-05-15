@@ -2,10 +2,10 @@
  * PRESENCE_SYSTEM — emotional mirroring, pacing, human leads/closes.
  */
 
-const { humanizeReply } = require("../core/responseEngine");
 const { lines } = require("../personality/kaizenVoice");
 const { pickSeeded } = require("../personality/tone");
 const { getResponses } = require("../i18n/getResponses");
+const { applyMoodPresence } = require("./moodPresence");
 
 const SKIP_PRESENCE = new Set([
   "cooldown",
@@ -28,16 +28,18 @@ const SKIP_PRESENCE = new Set([
  */
 function applyPresence(body, ctx, category) {
   if (SKIP_PRESENCE.has(category)) return body;
-  const { state, memory, lang } = ctx;
-  const sessionLike = {
-    messages: memory.short.turns,
-    brainHumorIndex: 0,
-    brainHumorCooldown: 0
-  };
-
+  const { state, memory, lang, plan, mood, session } = ctx;
   const skipLead =
     category === "light_conversation" || category === "trading_context";
-  let out = humanizeReply(body, state, lang, sessionLike, skipLead);
+  let out = applyMoodPresence(
+    body,
+    mood || "discipline",
+    lang,
+    session || { messages: memory.short.turns, userName: memory.permanent.userName },
+    category,
+    plan,
+    skipLead
+  );
 
   if (state.useHumor && state.seriousness >= 40) {
     const r = getResponses(lang);

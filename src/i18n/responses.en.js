@@ -2,6 +2,7 @@ const rituals = require("./rituals.en");
 const onboardingStrings = require("./onboardingCopy.en");
 const trainingProtocol = require("./trainingProtocol.en");
 const presenceCopy = require("./presenceCopy.en");
+const moodCopy = require("./moodCopy.en");
 
 module.exports = {
   start:
@@ -100,44 +101,16 @@ module.exports = {
   ],
 
   focusDriftVariants: [
-    [
-      "Too many open loops at once.",
-      "Close one loop before you open another.",
-      "Next 25 minutes: one tab, one finish line."
-    ].join("\n\n"),
-    [
-      "Scatter is load management, not a character flaw.",
-      "Pick one visible output for the next block.",
-      "/focus one line if you want it locked."
-    ].join("\n\n"),
-    [
-      "Noise rises when the body is under-fueled or over-stimulated.",
-      "Water, five minutes of movement, then one task.",
-      "Smallest finish line you can cross next?"
-    ].join("\n\n"),
-    [
-      "Not a depth problem — a scope problem.",
-      "Cut scope by half for the next hour.",
-      "What is the one block that would make the day honest?"
-    ].join("\n\n")
+    "Too many open loops.\nClose one.\nTwenty-five minutes: one tab, one finish.",
+    "Scatter is not a character flaw — it is scope.\nCut half.\nMove.",
+    "Body first: water, five minutes.\nThen one visible output.\nNo debate.",
+    "Not depth — scope.\nOne block makes today honest.\nDo that block."
   ],
 
   emotionalReflectionVariants: [
-    [
-      "That sounds like a heavy load.",
-      "One grounded sentence is enough — no perfect explanation needed.",
-      "What is the next stabilizing action (tiny is fine)?"
-    ].join("\n\n"),
-    [
-      "Acknowledged.",
-      "Keep language simple: name the situation, not the verdict.",
-      "If you want structure later: /reset is optional."
-    ].join("\n\n"),
-    [
-      "Intensity without a container turns into noise.",
-      "Small container: ten minutes, one room, no scroll.",
-      "Then one honest line about what you need."
-    ].join("\n\n")
+    "Heavy signal.\nName it once — no trial.\nThen one small move.",
+    "Acknowledged.\nSit with it sixty seconds.\nThen /breath or one line of action.",
+    "Intensity needs a container.\nTen minutes. One room. No scroll.\nThen move."
   ],
 
   energyFramedIntros: [
@@ -315,9 +288,9 @@ module.exports = {
   openHintEmotional: "\n\nOptional: /reset",
 
   reflectivePrompts: [
-    "Name the tension in one line — no fixing yet.",
-    "What decision would make the next step obvious?",
-    "If you stopped negotiating for sixty seconds, what would you choose?"
+    "Name the tension in one line.\nNo fixing yet.",
+    "The next step is already obvious.\nYou are circling it.",
+    "Sixty seconds of honesty.\nThen one move."
   ],
 
   emotionalTripleGrounding: [
@@ -366,47 +339,26 @@ module.exports = {
   rituals,
 
   categories: {
-    focus_drift: [
-      "Scatter is normal when the load is high.",
-      "Shrink the field: one tab, one task, twenty-five minutes.",
-      "What is the smallest finish line you can cross next?"
-    ].join("\n\n"),
+    focus_drift:
+      "Scatter under load.\nOne tab. One task. Twenty-five minutes.\nCross one finish line.",
 
-    body_energy: [
-      "State check: fuel, hydration, sleep debt, and movement often move mood before mindset does.",
-      "Pick one — water, food, five minutes of movement, or a screen step-back.",
-      "Which of those is most honest for you right now?"
-    ].join("\n\n"),
+    body_energy:
+      "Fuel, water, movement — before mindset theater.\nPick one now.\nThen /breath if the nervous system is loud.",
 
-    emotional_reflection: [
-      "That sounds like a heavy load.",
-      "One grounded sentence is enough.",
-      "What is the next stabilizing action (tiny is fine)?"
-    ].join("\n\n"),
+    emotional_reflection:
+      "Heavy signal received.\nName it once.\nOne small move — or /breath first.",
 
-    work_focus: [
-      "Work pressure loves vague heroics.",
-      "Name one block (≤25 minutes) with one visible output.",
-      "What is the smallest piece you could ship first?"
-    ].join("\n\n"),
+    work_focus:
+      "No vague heroics.\nOne block. One visible output.\nShip the smallest piece.",
 
-    self_development: [
-      "Growth is repetition without the debate loop.",
-      "Choose one habit-sized move you can do today without negotiating.",
-      "What would your calmer self do for ten minutes only?"
-    ].join("\n\n"),
+    self_development:
+      "Repetition beats debate.\nOne habit-sized move today.\nTen minutes. No negotiation.",
 
-    plan_tracking: [
-      "Big roadmaps create paralysis.",
-      "Open /plan and write one line for the lane that matters today.",
-      "What is the next concrete step — not the whole map?"
-    ].join("\n\n"),
+    plan_tracking:
+      "Roadmaps paralyze.\nOne line for today: /plan\nThen execute the first inch.",
 
-    general_curiosity: [
-      "Say the weight in one honest line.",
-      "What would a steady read of this situation be?",
-      "One small move that would not make things worse?"
-    ].join("\n\n"),
+    general_curiosity:
+      "One honest line about the weight.\nSteady read: shrink scope.\nOne move that does not make it worse.",
 
     unknown: [
       "Short signal received.",
@@ -422,6 +374,7 @@ module.exports = {
   },
 
   ...presenceCopy,
+  ...moodCopy,
   ...trainingProtocol,
   ...onboardingStrings
 };

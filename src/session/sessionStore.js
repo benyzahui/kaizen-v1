@@ -109,6 +109,7 @@ function emptySession() {
     brainHumorIndex: 0,
     responseStructures: [],
     lastMentorMode: null,
+    currentMoodMode: null,
     emotionalMomentum: "stable",
     lastEmotionalIntensity: 0,
     lastMantraDate: null,

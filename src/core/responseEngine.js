@@ -138,11 +138,8 @@ function analyzeUserState(text, session, classifyCategory) {
   if (mentorMode === "reflective_mode" && emotionalIntensity >= 5) length = "medium";
   if (mentorMode === "silent_stability") length = "short";
 
-  const shouldAskQuestion =
-    mentorMode === "reflective_mode" &&
-    emotionalIntensity >= 4 &&
-  seriousness >= 40 &&
-    scatter < 6;
+  // Lead the experience — questions are rare, not default therapy loops.
+  const shouldAskQuestion = false;
 
   const useHumor =
     seriousness >= 35 &&
@@ -257,12 +254,12 @@ function selectResponsePlan(state, memory, rhythm) {
   };
 
   const action =
-    state.mentorMode === "reflective_mode" && state.shouldAskQuestion
-      ? "ask"
-      : state.mentorMode === "disciplined_push" || state.mentorMode === "sharp_focus"
-        ? "challenge"
-        : state.mentorMode === "silent_stability"
-          ? "observe"
+    state.mentorMode === "disciplined_push" || state.mentorMode === "sharp_focus"
+      ? "challenge"
+      : state.mentorMode === "silent_stability"
+        ? "observe"
+        : state.mentorMode === "reflective_mode"
+          ? "guide"
           : "guide";
 
   const humorLevel = state.useHumor ? "light" : "none";

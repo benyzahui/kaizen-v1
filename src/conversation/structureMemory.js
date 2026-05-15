@@ -50,8 +50,11 @@ function endingClass(line) {
 }
 
 function hasWeakQuestionPattern(text) {
-  return /\b(what is one grounded action|mi az egy|care este o acțiune|smallest step|legkisebb lépés)\b/i.test(
-    String(text || "")
+  const t = String(text || "");
+  return (
+    /\b(what is one grounded|what do you feel|how do you feel|what would you|what matters most|stabilizing action|grounded sentence|smallest step|legkisebb lépés|mi érzel|hogy érzed|ce simți)\b/i.test(
+      t
+    ) || (t.match(/\?/g) || []).length >= 2
   );
 }
 
