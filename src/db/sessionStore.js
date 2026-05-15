@@ -29,7 +29,10 @@ const EPHEMERAL_KEYS = [
   "companionFlowBody",
   "companionFlowMind",
   "companionLastMissionSnippet",
-  "companionLastProtocol"
+  "companionLastProtocol",
+  "awaitingWhyHere",
+  "brainHumorCooldown",
+  "brainHumorIndex"
 ];
 
 /**

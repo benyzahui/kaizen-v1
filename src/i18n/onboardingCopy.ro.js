@@ -25,12 +25,14 @@ module.exports = {
   obMeetTooShort: "Puțin mai mult — un paragraf onest e suficient.",
 
   obStartReturning: [
-    "⚔️ KaiZen",
+    "⚔️ KaiZen — Dragon Training Companion.",
     "",
-    "Profilul de training există deja.",
-    "Continuă: /program · /today · /profile",
+    "Baza: minte clară, corp, respirație, energie. Business și trading sunt arene secundare.",
     "",
-    "Hartă completă: /commands sau /map"
+    "De ce ai venit astăzi la KaiZen?",
+    "",
+    "Structură zilnică: /program · Ghid pas cu pas: /mode",
+    "Hartă completă doar la cerere: /map"
   ].join("\n"),
 
   obIntro: [

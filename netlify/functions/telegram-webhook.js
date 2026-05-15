@@ -150,7 +150,7 @@ async function buildTelegramReply(message) {
       return focused;
     }
 
-    const { reply, category: outCat, suggestedAction } = handleOpenConversation(
+    const { reply, category: outCat, suggestedAction } = await handleOpenConversation(
       message,
       lang,
       sessionOpen

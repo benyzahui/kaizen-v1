@@ -356,6 +356,78 @@ module.exports = {
   tProfileMissionLine: "Mission (training):",
   tProfileTrainingStyle: "Training style:",
 
+  brainLangSwitchConfirm: [
+    "Locked to English.",
+    "Not a corporate menu bot — still a training companion.",
+    "",
+    "What needs sorting today: mind, body, energy, or one task?"
+  ].join("\n"),
+
+  brainHumorPool: [
+    "That is not strategy — that is mental tab overload.",
+    "Your body filed a complaint minutes ago — you are still scheduling meetings with chaos.",
+    "You do not rebuild a life in fourteen minutes. One step is enough.",
+    "If this were a trade, this would be a no-trade zone — not an entry."
+  ],
+
+  brainThreePaths: [
+    "Three doors — pick one:",
+    "• Clear mind — breathe, cut noise, one true line (/morning · /focus)",
+    "• Body reset — water, slow movement, nervous system first (/body · /breath)",
+    "• Energy read — align with today before you force (/energy)"
+  ].join("\n"),
+
+  brainLostShort: "You sound lost without shame.\nThat is fine.",
+
+  brainWhyHeard: "Heard.\nLet's give today a spine — not a speech.",
+
+  brainWhyEnergyAnchor: "Energy first — alignment before hustle.",
+
+  brainWhyConfused: "Confusion is allowed.\nPick a door anyway.",
+
+  brainWhyChaos: "Overload mode.\nShrink input before we optimize anything.",
+
+  brainWhyTrading: "Trading lane — discipline beats storyline.",
+
+  brainWhyBody: "Body lane — boring fixes beat heroic denial.",
+
+  brainWhyWork: "Execution lane — one block shipped beats ten debates.",
+
+  brainWhyProcrastinate: "Avoidance spotted.\nShrink the step until it fits five minutes.",
+
+  brainEnergyPrimaryLead:
+    "Today's energy — root layer before trading or inbox theater.",
+
+  brainCommandHelpLite: [
+    "Two modes:",
+    "Speak naturally — I route you.",
+    "Or use one ritual command when you want structure.",
+    "",
+    "Full map only when you ask: /commands",
+    "Active guided flow: /mode"
+  ].join("\n"),
+
+  tGateMorningLine:
+    "Morning Gate.\nAnchor the day before you negotiate with chaos.",
+
+  tGateCleanMindPrompt:
+    "Clean Mind Gate.\nFirst question: what is noisy in your head — one phrase?",
+
+  tGateEnergyLine:
+    "Energy Gate.\nRead the day before you borrow conviction from adrenaline.",
+
+  tGateBodyLine:
+    "Body Gate.\nNervous system before heroic narratives.",
+
+  tGateMissionLine:
+    "Mission Gate.\nOne line that earns the rest of your attention.",
+
+  tGateLettingGoLine:
+    "Letting Go Gate.\nName one weight you refuse to drag past sunset.",
+
+  tGateEveningLine:
+    "Evening Gate.\nReview without trial — close the loop with honesty.",
+
   compSlotMorning: [
     "Morning mode.",
     "First: stabilize.",

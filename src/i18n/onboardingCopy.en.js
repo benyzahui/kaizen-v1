@@ -25,12 +25,15 @@ module.exports = {
   obMeetTooShort: "A little more than that — one honest paragraph is enough.",
 
   obStartReturning: [
-    "⚔️ KaiZen",
+    "⚔️ KaiZen — Dragon Training Companion.",
     "",
-    "Your training profile already exists.",
-    "Continue: /program · /today · /profile",
+    "Root: clear mind, body discipline, breath, energy awareness.",
+    "Business and trading are side arenas — state comes first.",
     "",
-    "Full map: /commands or /map"
+    "Why did you come to KaiZen today?",
+    "",
+    "Daily structure: /program · Guided steps: /mode",
+    "Full map only when you want it: /map"
   ].join("\n"),
 
   obIntro: [

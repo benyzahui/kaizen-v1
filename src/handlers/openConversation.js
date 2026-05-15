@@ -29,6 +29,8 @@ const { pickUnseenVariant } = require("../conversation/responseVariation");
 const { detectLaneWandering } = require("../conversation/focusLane");
 const { programWanderLine } = require("./programFlow");
 const { processCompanionOpenText } = require("../core/modeEngine");
+const { composeBrainPriority } = require("../brain/coachBrain");
+const { detectLanguageSwitchIntent } = require("../brain/intentEngine");
 
 const COACH_HEAVY = new Set([
   "emotional_reflection",
@@ -111,12 +113,32 @@ function logOpen(payload) {
  * @param {object} message
  * @param {'en'|'hu'|'ro'} lang
  * @param {object} session
- * @returns {{ reply: string, category: string, suggestedAction?: string|null }}
+ * @returns {Promise<{ reply: string, category: string, suggestedAction?: string|null }>}
  */
-function handleOpenConversation(message, lang, session) {
+async function handleOpenConversation(message, lang, session) {
   const userId = message.from?.id ?? message.chat?.id;
   const text = String(message.text || "").trim();
   const r = getResponses(lang);
+
+  const langSwitch = detectLanguageSwitchIntent(text);
+  if (langSwitch?.lang) {
+    updateSession(userId, {
+      preferredLanguage: langSwitch.lang,
+      lang: langSwitch.lang
+    });
+    const r2 = getResponses(langSwitch.lang);
+    logOpen({
+      lang: langSwitch.lang,
+      category: "language_switch",
+      handler: "brain.intentEngine.language_switch",
+      textPreview: text.slice(0, 80)
+    });
+    return {
+      reply: r2.brainLangSwitchConfirm,
+      category: "language_switch",
+      suggestedAction: null
+    };
+  }
 
   if (isInCooldown(userId)) {
     logOpen({
@@ -170,6 +192,29 @@ function handleOpenConversation(message, lang, session) {
   }
 
   const category = classifyMessage(text);
+
+  const brainEarly = await composeBrainPriority(userId, text, lang, session, category);
+  if (brainEarly) {
+    logOpen({
+      lang,
+      category: brainEarly.category,
+      handler: "brain.composeBrainPriority",
+      textPreview: text.slice(0, 80)
+    });
+    return {
+      reply: finalizeLite(
+        userId,
+        session,
+        lang,
+        text,
+        brainEarly.category,
+        brainEarly.reply,
+        r
+      ),
+      category: brainEarly.category,
+      suggestedAction: brainEarly.suggestedAction ?? null
+    };
+  }
 
   if (isTripleSameEmotionalText(session, text, category)) {
     logOpen({
@@ -266,13 +311,13 @@ function handleOpenConversation(message, lang, session) {
     logOpen({
       lang,
       category,
-      handler: "responses.helpIntentReply",
+      handler: "brain.brainCommandHelpLite",
       textPreview: text.slice(0, 80)
     });
     return {
-      reply: finalizeCoaching(userId, session, lang, text, category, r.helpIntentReply, r),
+      reply: finalizeLite(userId, session, lang, text, category, r.brainCommandHelpLite, r),
       category: "help_intent",
-      suggestedAction: "/guide"
+      suggestedAction: "/commands"
     };
   }
 
@@ -284,8 +329,9 @@ function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     const body = buildEnergyFromOpenText(text, lang);
+    const framed = lines(r.brainEnergyPrimaryLead, "", body);
     return {
-      reply: finalizeLite(userId, session, lang, text, category, body, r),
+      reply: finalizeLite(userId, session, lang, text, category, framed, r),
       category: "energy_question",
       suggestedAction: "/energy"
     };

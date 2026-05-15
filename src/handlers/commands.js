@@ -91,6 +91,7 @@ async function routeCommandMessage(message, session) {
       const id = uid(message);
       const s0 = getSession(id);
       if (s0.onboardingCompleted) {
+        updateSession(id, { awaitingWhyHere: true });
         reply = r.obStartReturning;
         break;
       }

@@ -356,6 +356,55 @@ module.exports = {
   tProfileMissionLine: "Küldetés (training):",
   tProfileTrainingStyle: "Training stílus:",
 
+  brainLangSwitchConfirm: [
+    "Rendben. Magyarul megyünk tovább.",
+    "Mostantól nem angol menübot vagyok, nyugi.",
+    "",
+    "Mit akarsz ma rendbe rakni: fej, test, energia vagy feladat?"
+  ].join("\n"),
+
+  brainHumorPool: [
+    "Ez most nem stratégia, ez mentális tab overload.",
+    "A tested már rég szólt, csak te még meetinget tartasz a káosszal.",
+    "Nem kell új életet építeni 14 perc alatt. Egy lépés elég.",
+    "Ha ez trade lenne, most nem entry lenne, hanem no-trade zóna."
+  ],
+
+  brainThreePaths: [
+    "Három ajtó — válassz egyet:",
+    "• Tiszta fej — légzés, zajcsökkentés, egy igaz mondat (/morning · /focus)",
+    "• Test reset — víz, lassú mozgás, idegrendszer először (/body · /breath)",
+    "• Energia — igazodás a naphoz, mielőtt erőltetsz (/energy)"
+  ].join("\n"),
+
+  brainLostShort: "Elveszettnek hangzol — ez rendben van.",
+  brainWhyHeard: "Értettem.\nAdjunk ma gerincet — nem beszédet.",
+  brainWhyEnergyAnchor: "Először energia — igazodás, mielőtt hajtod magad.",
+  brainWhyConfused: "A zavar megengedett.\nVálassz ajtót akkor is.",
+  brainWhyChaos: "Túlterhelés.\nCsökkentsd az inputot, mielőtt optimalizálnánk.",
+  brainWhyTrading: "Trading sáv — a fegyelem fontosabb a történetnél.",
+  brainWhyBody: "Test sáv — unalmas javítások, nem hősies tagadás.",
+  brainWhyWork: "Végrehajtás — egy blokk, ami kimegy.",
+  brainWhyProcrastinate: "Kerülés észlelve.\nZsugorítsd öt percre.",
+  brainEnergyPrimaryLead: "Mai energia — gyökérréteg, mielőtt inbox vagy trade színház.",
+  brainCommandHelpLite: [
+    "Két mód:",
+    "Természetesen beszélsz — én irányítok.",
+    "Vagy egy rituális parancs, ha szerkezet kell.",
+    "",
+    "Teljes lista csak kérésre: /commands",
+    "Vezetett flow: /mode"
+  ].join("\n"),
+
+  tGateMorningLine: "Reggeli Gate.\nRögzítsd a napot, mielőtt a káosszal alkudnál.",
+  tGateCleanMindPrompt:
+    "Clean Mind Gate.\nElső kérdés: mi zajosítja a fejed — egy mondatban?",
+  tGateEnergyLine: "Energy Gate.\nOlvasd a napot, mielőtt az adrenalinból kölcsönöznél.",
+  tGateBodyLine: "Body Gate.\nElőbb idegrendszer, utána hős történet.",
+  tGateMissionLine: "Mission Gate.\nEgy sor, ami megérdemli a figyelmed.",
+  tGateLettingGoLine: "Letting Go Gate.\nEgy súly, amit nem viszel tovább naplementéig.",
+  tGateEveningLine: "Esti Gate.\nÁttekintés ítélet nélkül — zárd a kört.",
+
   compSlotMorning: [
     "Reggeli mód.",
     "Először: stabilizálás.",

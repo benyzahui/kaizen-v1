@@ -25,12 +25,14 @@ module.exports = {
   obMeetTooShort: "Egy kicsit több kell — egy őszinte bekezdés elég.",
 
   obStartReturning: [
-    "⚔️ KaiZen",
+    "⚔️ KaiZen — Dragon Training Companion.",
     "",
-    "Már van training profilod.",
-    "Folytatás: /program · /today · /profile",
+    "Hang alap: tiszta fej, testfegyelem, légzés, energia. Üzlet és trading melléksáv.",
     "",
-    "Teljes térkép: /commands vagy /map"
+    "Miért jöttél ma hozzám?",
+    "",
+    "Ha struktúrát akarsz: /program · ha vezetést kérsz lépésről lépésre: /mode",
+    "Teljes térkép csak kérésre: /map"
   ].join("\n"),
 
   obIntro: [

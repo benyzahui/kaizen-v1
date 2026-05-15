@@ -1,6 +1,8 @@
 /**
  * Trigger-point narration: respond to detected coach state, not only surface text.
  * Copy lives in i18n (trainingProtocol.*) — this module only selects and merges.
+ *
+ * Higher-level interactive routing lives in src/brain/coachBrain.js (facade for future LLM).
  */
 
 const { lines } = require("../personality/kaizenVoice");

@@ -39,6 +39,8 @@ function premiumSectionLabels(lang, lens) {
       astrology: "♉ Asztrológiai minőség",
       moon: "🌘 Hold",
       mind: "🧠 Mentális fókusz",
+      lettingGo: "🌊 Elengedés",
+      discipline: "⚔️ Fegyelem",
       direction: "🔥 Legjobb irány",
       trading: "📈 Trading",
       body: "🌿 Test"
@@ -51,6 +53,8 @@ function premiumSectionLabels(lang, lens) {
       astrology: "♉ Calitate astrologică",
       moon: "🌘 Lună",
       mind: "🧠 Focus mental",
+      lettingGo: "🌊 Eliberare",
+      discipline: "⚔️ Disciplină",
       direction: "🔥 Cea mai bună direcție",
       trading: "📈 Trading",
       body: "🌿 Corp"
@@ -62,6 +66,8 @@ function premiumSectionLabels(lang, lens) {
     astrology: "♉ Astrological quality",
     moon: "🌘 Moon",
     mind: "🧠 Mental focus",
+    lettingGo: "🌊 Letting go",
+    discipline: "⚔️ Discipline",
     direction: "🔥 Best direction",
     trading: "📈 Trading",
     body: "🌿 Body"
@@ -105,6 +111,18 @@ function buildDailyEnergyMessage(date = new Date(), lang = "en", lens = "general
 
   const h = premiumSectionLabels(l, lens);
   const headNote = f.lensLead[lens] ? lines(f.lensLead[lens]) : null;
+  const lettingLine =
+    l === "hu"
+      ? "Egy dolgot engedj el ma — nem az egész múltat, csak egy terhet."
+      : l === "ro"
+        ? "Eliberează un lucru azi — nu tot trecutul, doar o greutate."
+        : "Release one weight today — not the whole past, one honest burden.";
+  const disciplineLine =
+    l === "hu"
+      ? "Egy szabály, egy ismétlés. Nincs új terv, amíg ez nincs kint."
+      : l === "ro"
+        ? "O regulă, o repetare. Fără plan nou până livrezi asta."
+        : "One rule, one repetition. No new plan until this ships.";
 
   const parts = [
     h.title,
@@ -122,6 +140,12 @@ function buildDailyEnergyMessage(date = new Date(), lang = "en", lens = "general
     "",
     h.mind,
     lines(emotionForMind, watch),
+    "",
+    h.lettingGo,
+    lettingLine,
+    "",
+    h.discipline,
+    disciplineLine,
     "",
     h.direction,
     directionBlock,

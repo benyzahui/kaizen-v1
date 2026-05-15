@@ -355,6 +355,55 @@ module.exports = {
   tProfileMissionLine: "Misiune (training):",
   tProfileTrainingStyle: "Stil training:",
 
+  brainLangSwitchConfirm: [
+    "Bine. Continuăm în română.",
+    "Nu mai sunt meniu-bot în engleză — calm.",
+    "",
+    "Ce vrei să pui la loc azi: minte, corp, energie sau o sarcină?"
+  ].join("\n"),
+
+  brainHumorPool: [
+    "Asta nu e strategie — e tab overload mental.",
+    "Corpul a semnalat de mult; tu încă ții meeting cu haosul.",
+    "Nu reconstruiești o viață în 14 minute. Un pas e suficient.",
+    "Dacă ar fi trade, acum ar fi zonă no-trade — nu entry."
+  ],
+
+  brainThreePaths: [
+    "Trei uși — alege una:",
+    "• Minte clară — respirație, mai puțin zgomot, o propoziție adevărată (/morning · /focus)",
+    "• Reset corp — apă, mișcare lentă, sistem nervos primul (/body · /breath)",
+    "• Energie — aliniere înainte să forțezi (/energy)"
+  ].join("\n"),
+
+  brainLostShort: "Sună pierdut — e permis.",
+  brainWhyHeard: "Am înțeles.\nDăm coloană zilei — nu discurs.",
+  brainWhyEnergyAnchor: "Energie întâi — aliniere înainte de grabă.",
+  brainWhyConfused: "Confuzia e permisă.\nAlege o ușă oricum.",
+  brainWhyChaos: "Supraîncărcare.\nTaie inputul înainte de optimizare.",
+  brainWhyTrading: "Bandă trading — disciplina bate povestea.",
+  brainWhyBody: "Bandă corp — fixuri plictisitoare, nu eroism.",
+  brainWhyWork: "Execuție — un bloc livrat.",
+  brainWhyProcrastinate: "Evitare detectată.\nMicșorează la cinci minute.",
+  brainEnergyPrimaryLead: "Energia zilei — stratul de bază înainte de inbox sau trade.",
+  brainCommandHelpLite: [
+    "Două moduri:",
+    "Vorbești natural — eu te ghidez.",
+    "Sau o comandă ritual când vrei structură.",
+    "",
+    "Hartă completă doar la cerere: /commands",
+    "Flow ghidat: /mode"
+  ].join("\n"),
+
+  tGateMorningLine: "Morning Gate.\nAncorează ziua înainte să negociezi cu haosul.",
+  tGateCleanMindPrompt:
+    "Clean Mind Gate.\nPrima întrebare: ce e zgomotos în cap — o frază?",
+  tGateEnergyLine: "Energy Gate.\nCitește ziua înainte să împrumuți convingere de la adrenalină.",
+  tGateBodyLine: "Body Gate.\nSistem nervos înainte de povești eroice.",
+  tGateMissionLine: "Mission Gate.\nO linie care merită atenția ta.",
+  tGateLettingGoLine: "Letting Go Gate.\nO greutate pe care nu o tragi după apus.",
+  tGateEveningLine: "Evening Gate.\nRevizuire fără proces — închide cercul.",
+
   compSlotMorning: [
     "Mod dimineață.",
     "Întâi: stabilizează.",

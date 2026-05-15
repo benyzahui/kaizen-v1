@@ -28,31 +28,31 @@ function appendProgramProgress(userId, command, reply, lang) {
   switch (command) {
     case "/program":
       patch = { programMode: "dragon_training", currentProgramStep: "morning" };
-      extra = "";
+      extra = r.tGateMorningLine;
       break;
     case "/morning":
       patch = { currentProgramStep: "energy" };
-      extra = r.tProgramStep2Energy;
+      extra = lines(r.tGateCleanMindPrompt, "", r.tProgramStep2Energy);
       break;
     case "/energy":
       patch = { currentProgramStep: "mission" };
-      extra = r.tProgramStep3Mission;
+      extra = lines(r.tGateEnergyLine, "", r.tProgramStep3Mission);
       break;
     case "/mission":
       patch = { currentProgramStep: "body" };
-      extra = r.tProgramStep4Body;
+      extra = lines(r.tGateMissionLine, "", r.tProgramStep4Body);
       break;
     case "/body":
     case "/breath":
     case "/walk":
     case "/train":
       patch = { currentProgramStep: "evening" };
-      extra = r.tProgramStep5Evening;
+      extra = lines(r.tGateBodyLine, "", r.tProgramStep5Evening);
       break;
     case "/evening":
     case "/mirror":
       patch = { currentProgramStep: "idle" };
-      extra = r.tProgramCycleClosed;
+      extra = lines(r.tGateEveningLine, "", r.tProgramCycleClosed);
       break;
     default:
       return reply;
