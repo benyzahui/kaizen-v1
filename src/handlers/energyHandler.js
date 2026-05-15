@@ -4,7 +4,9 @@
  * @typedef {'general'|'trading'|'body'|'emotion'|'work'} EnergyLens
  */
 
-const { buildDailyEnergyMessage } = require("../energy/dailyEnergy");
+const { buildEnergyRead } = require("../companion/energyEngine");
+const { loadMemoryHierarchy } = require("../companion/memoryHierarchy");
+const { getSession } = require("../session/sessionStore");
 
 /**
  * @param {string} [arg]
@@ -77,7 +79,9 @@ function parseNaturalEnergyLens(text) {
  */
 async function handleEnergy(message, lang = "en") {
   const lens = parseSlashEnergyLens(message.text || "");
-  return buildDailyEnergyMessage(new Date(), lang, lens);
+  const uid = message.from?.id ?? message.chat?.id;
+  const memory = loadMemoryHierarchy(getSession(uid));
+  return buildEnergyRead(new Date(), lang, lens, { memory });
 }
 
 /**
@@ -86,7 +90,7 @@ async function handleEnergy(message, lang = "en") {
  * @param {EnergyLens} [lens]
  */
 function buildDailyEnergyReply(date = new Date(), lang = "en", lens = "general") {
-  return buildDailyEnergyMessage(date, lang, lens);
+  return buildEnergyRead(date, lang, lens, null);
 }
 
 /**
@@ -94,9 +98,11 @@ function buildDailyEnergyReply(date = new Date(), lang = "en", lens = "general")
  * @param {string} text
  * @param {Lang} lang
  */
-function buildEnergyFromOpenText(text, lang = "en") {
+function buildEnergyFromOpenText(text, lang = "en", userId = null) {
   const lens = parseNaturalEnergyLens(text);
-  return buildDailyEnergyMessage(new Date(), lang, lens);
+  const memory =
+    userId != null ? loadMemoryHierarchy(getSession(userId)) : null;
+  return buildEnergyRead(new Date(), lang, lens, memory ? { memory } : null);
 }
 
 module.exports = {

@@ -227,7 +227,61 @@ function engineSessionPatch(state) {
   return {
     lastMentorMode: state.mentorMode,
     emotionalMomentum: state.momentum,
-    lastEmotionalIntensity: state.emotionalIntensity
+    lastEmotionalIntensity: state.emotionalIntensity,
+    rhythmPhase: state.timeSlot
+  };
+}
+
+/**
+ * Response plan from state + memory + rhythm (COMPANION_CORE decision layer).
+ * @param {import('../companion/memoryHierarchy').UserStateSnapshot} state
+ * @param {ReturnType<typeof import('../companion/memoryHierarchy').loadMemoryHierarchy>} memory
+ * @param {ReturnType<typeof import('../companion/activeRhythm').getActiveRhythmContext>} rhythm
+ */
+function selectResponsePlan(state, memory, rhythm) {
+  const pressure =
+    state.mentorMode === "disciplined_push" || state.mentorMode === "sharp_focus"
+      ? "high"
+      : state.mentorMode === "recovery_mode"
+        ? "low"
+        : "medium";
+
+  const styleMap = {
+    grounded_calm: "calm_mentor",
+    sharp_focus: "sharp_focus",
+    disciplined_push: "disciplined_push",
+    recovery_mode: "recovery_mode",
+    reflective_mode: "reflective_observer",
+    warrior_mode: "warrior_mode",
+    silent_stability: "grounded_friend"
+  };
+
+  const action =
+    state.mentorMode === "reflective_mode" && state.shouldAskQuestion
+      ? "ask"
+      : state.mentorMode === "disciplined_push" || state.mentorMode === "sharp_focus"
+        ? "challenge"
+        : state.mentorMode === "silent_stability"
+          ? "observe"
+          : "guide";
+
+  const humorLevel = state.useHumor ? "light" : "none";
+  const appendRhythm =
+    rhythm.shouldNudge &&
+    memory.permanent.onboardingCompleted &&
+    memory.session.emotionalTrend !== "heavy";
+
+  return {
+    mentorMode: state.mentorMode,
+    style: styleMap[state.mentorMode] || "calm_mentor",
+    length: state.length,
+    pressure,
+    action,
+    humorLevel,
+    groundedRatio: state.groundedRatio,
+    mysticalRatio: state.mysticalRatio,
+    appendRhythm,
+    suggestCommand: action === "guide" && state.scatter >= 5
   };
 }
 
@@ -236,5 +290,6 @@ module.exports = {
   humanizeReply,
   pickPresenceLead,
   pickPresenceClose,
-  engineSessionPatch
+  engineSessionPatch,
+  selectResponsePlan
 };

@@ -1,6 +1,56 @@
 /** Hungarian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcWelcomeAtmosphere: [
+    "Megtaláltad a kaput.",
+    "",
+    "Ez KaiZen — Dragon Path training társ.",
+    "Nem chatbot. Nem motivációs zaj.",
+    "",
+    "Nyugodt rendszer fegyelemre, idegrendszer-stabilitásra, őszinte végrehajtásra.",
+    "",
+    "Még nincs parancs. Nincs menü.",
+    "Csak jelenlét.",
+    "",
+    "Ha itt vagy, küldj egy sort — bármilyen szót — és kezdünk."
+  ].join("\n"),
+  fcWelcomePrompt: "Egy sor elég a kapu megnyitásához.",
+  fcAskName: "Először — hogyan szólítsalak?\n(Elég a keresztnév.)",
+  fcNameAck: "Rendben, {name}.",
+  fcAskPurpose: [
+    "Miért jöttél ma KaiZenhez?",
+    "",
+    "Ne a csiszolt válasz — a valódi.",
+    "Egy-két mondat."
+  ].join("\n"),
+  fcAskIdentity: [
+    "Ki leszel a következő 30 napban?",
+    "",
+    "A saját nyelveden — ki vagy, és mit akarsz megerősíteni."
+  ].join("\n"),
+  fcIdentityHint: "Egy rövid őszinte bekezdés. Nincs előadás.",
+  fcIdentityHeard: "Hallottam: {snippet}",
+  fcStructureIntro: [
+    "Jó. Bent vagy a rendszerben.",
+    "",
+    "Pár szerkezeti kérdés — egyenként.",
+    "Aztán edzünk."
+  ].join("\n"),
+  rhythmHints: {
+    morning: "Reggeli sáv: test először, aztán egy küldetés sor.",
+    midday: "Déli check: egy őszinte blokk — vágd a tab zajt.",
+    evening: "Este: engedd el ami nem ment ki. Tiszta zárás.",
+    late_night: "Késői ablak: lefelé. Ma nincs hőség.",
+    neutral: null
+  },
+  presenceNameAck: "{name} — maradj annál amit mondtál.",
+  presenceQuips: [
+    "Megint alkuszik magával.",
+    "Ez a válasz őszintén hangzott.",
+    "Túl sok tab. Zárd le a zajt.",
+    "Jó. Kevesebb sztori. Több kapcsolat."
+  ],
+  energyPersonalLead: "{name} — mai energia (földelt, szimbolikus):",
   obMeetKaiZenIntro: [
     "⚔️ KaiZen V1 online.",
     "",

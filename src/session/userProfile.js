@@ -6,6 +6,11 @@
 const DEFAULT_USER_PROFILE = {
   /** After first Meet KaiZen intro + self intro, setup questions begin. */
   meetKaiZenCompleted: false,
+  userName: null,
+  userPurpose: null,
+  sessionTodayFocus: null,
+  sessionEmotionalTrend: null,
+  rhythmPhase: null,
   currentMission: null,
   preferredTrainingStyle: null,
   userPrimaryPath: null,

@@ -27,6 +27,8 @@ const PROFILE_AND_LOCK_KEYS = [
   "currentMission",
   "preferredTrainingStyle",
   "meetKaiZenCompleted",
+  "userName",
+  "userPurpose",
   "membershipTier",
   "dragonLevel",
   "currentProgram",
@@ -239,7 +241,7 @@ function recordInteraction(userId, ev) {
     category: ev.category ?? null,
     ts: Date.now()
   };
-  const messages = [...(s.messages || []), msg].slice(-5);
+  const messages = [...(s.messages || []), msg].slice(-15);
   const lastReplyByCategory = { ...(s.lastReplyByCategory || {}) };
   if (ev.category) {
     lastReplyByCategory[ev.category] = String(ev.reply || "").slice(0, 400);

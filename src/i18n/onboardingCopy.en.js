@@ -1,6 +1,69 @@
 /** English copy — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcWelcomeAtmosphere: [
+    "You found the gate.",
+    "",
+    "This is KaiZen — Dragon Path training companion.",
+    "Not a chatbot. Not motivation noise.",
+    "",
+    "A calm system for discipline, nervous system stability, and honest execution.",
+    "",
+    "No commands yet. No menu.",
+    "Just presence.",
+    "",
+    "When you are here, send one line — any word — and we begin."
+  ].join("\n"),
+
+  fcWelcomePrompt: "One line is enough to open the gate.",
+
+  fcAskName: "First — what should I call you?\n(First name is fine.)",
+
+  fcNameAck: "Good, {name}.",
+
+  fcAskPurpose: [
+    "Why did you come to KaiZen today?",
+    "",
+    "Not the polished answer — the real one.",
+    "One or two sentences."
+  ].join("\n"),
+
+  fcAskIdentity: [
+    "Who are you becoming in the next 30 days?",
+    "",
+    "Say it in your own language — who you are, and what you want to strengthen."
+  ].join("\n"),
+
+  fcIdentityHint: "A short honest paragraph. No performance.",
+
+  fcIdentityHeard: "Heard: {snippet}",
+
+  fcStructureIntro: [
+    "Good. You are in the system now.",
+    "",
+    "A few structure questions — one at a time.",
+    "Then we train."
+  ].join("\n"),
+
+  rhythmHints: {
+    morning: "Morning lane: body first, then one mission line.",
+    midday: "Midday check: one honest block — cut the tab noise.",
+    evening: "Evening: release what did not ship. Close clean.",
+    late_night: "Late window: downshift. Nothing heroic tonight.",
+    neutral: null
+  },
+
+  presenceNameAck: "{name} — stay with what you said.",
+
+  presenceQuips: [
+    "You are negotiating with yourself again.",
+    "That answer sounded honest.",
+    "Too many tabs open. Close the noise.",
+    "Good. Less story. More contact."
+  ],
+
+  energyPersonalLead: "{name} — today's energy read (grounded, symbolic):",
+
   obMeetKaiZenIntro: [
     "⚔️ KaiZen V1 online.",
     "",

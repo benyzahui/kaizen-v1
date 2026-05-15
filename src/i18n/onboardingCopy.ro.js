@@ -1,6 +1,56 @@
 /** Romanian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcWelcomeAtmosphere: [
+    "Ai găsit poarta.",
+    "",
+    "Acesta e KaiZen — companion Dragon Path.",
+    "Nu chatbot. Nu zgomot motivațional.",
+    "",
+    "Sistem calm pentru disciplină, stabilitate nervoasă, execuție onestă.",
+    "",
+    "Încă fără comenzi. Fără meniu.",
+    "Doar prezență.",
+    "",
+    "Când ești aici, trimite o linie — orice cuvânt — și începem."
+  ].join("\n"),
+  fcWelcomePrompt: "O linie e suficientă să deschizi poarta.",
+  fcAskName: "Mai întâi — cum să te numesc?\n(Prenumele e suficient.)",
+  fcNameAck: "Bine, {name}.",
+  fcAskPurpose: [
+    "De ce ai venit la KaiZen azi?",
+    "",
+    "Nu răspunsul lustruit — cel real.",
+    "Unu-două propoziții."
+  ].join("\n"),
+  fcAskIdentity: [
+    "Cine devii în următoarele 30 de zile?",
+    "",
+    "În limba ta — cine ești, și ce vrei să întărești."
+  ].join("\n"),
+  fcIdentityHint: "Un paragraf scurt și onest. Fără spectacol.",
+  fcIdentityHeard: "Am auzit: {snippet}",
+  fcStructureIntro: [
+    "Bine. Ești în sistem.",
+    "",
+    "Câteva întrebări de structură — una câte una.",
+    "Apoi antrenăm."
+  ].join("\n"),
+  rhythmHints: {
+    morning: "Dimineață: corpul întâi, apoi o linie de misiune.",
+    midday: "Prânz: un bloc onest — taie zgomotul tab-urilor.",
+    evening: "Seară: eliberează ce n-a ieșit. Închide curat.",
+    late_night: "Târziu: coboară. Nimic eroic diseară.",
+    neutral: null
+  },
+  presenceNameAck: "{name} — rămâi la ce ai spus.",
+  presenceQuips: [
+    "Negociezi din nou cu tine.",
+    "Răspunsul ăla a sunat onest.",
+    "Prea multe tab-uri. Închide zgomotul.",
+    "Bine. Mai puțină poveste. Mai mult contact."
+  ],
+  energyPersonalLead: "{name} — energia de azi (ancorată, simbolică):",
   obMeetKaiZenIntro: [
     "⚔️ KaiZen V1 online.",
     "",
