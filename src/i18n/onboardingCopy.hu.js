@@ -1,6 +1,26 @@
 /** Hungarian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcActivation: [
+    "⚡ KaiZen aktiválva.",
+    "",
+    "Valami élesedett — nem chatbot.",
+    "Napi társ: fegyelem, tisztánlátás, őszinte végrehajtás.",
+    "",
+    "Egy légzés.",
+    "Bármilyen sorral folytatjuk."
+  ].join("\n"),
+  fcWho: [
+    "KaiZen vagyok.",
+    "",
+    "Amikor zajos az élet: test, fókusz, energia, fegyelem — guru nélkül.",
+    "",
+    "Következő: nyelv rögzítése."
+  ].join("\n"),
+  fcLangPick: "Nyelv:\n1 — English\n2 — Magyar\n3 — Română",
+  fcLangInvalid: "Válassz: 1, 2 vagy 3.",
+  fcFirstGround: "Három lassú légzés.\nÁllj fel.\nVíz.\nÍrj ha kész — nyitjuk a training sávot.",
+  fcGroundClose: "Jó. Bent vagy. Rövid setup jön.",
   fcWelcomeAtmosphere: [
     "Megtaláltad a kaput.",
     "",

@@ -1,6 +1,46 @@
 /** English copy — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcActivation: [
+    "⚡ KaiZen activated.",
+    "",
+    "Something just came online — not a chatbot.",
+    "A daily companion for discipline, clarity, and honest execution.",
+    "",
+    "Breathe once.",
+    "Send any line when you are ready."
+  ].join("\n"),
+
+  fcWho: [
+    "I am KaiZen.",
+    "",
+    "I help you stay aligned when life gets noisy:",
+    "body rhythm, focus, energy awareness, discipline — without fake guru energy.",
+    "",
+    "Next: lock your language."
+  ].join("\n"),
+
+  fcLangPick: [
+    "Language — pick one:",
+    "1 — English",
+    "2 — Magyar",
+    "3 — Română"
+  ].join("\n"),
+
+  fcLangInvalid: "Pick 1, 2, or 3 for language.",
+
+  fcFirstGround: [
+    "Before structure — one grounding beat.",
+    "",
+    "Three slow breaths.",
+    "Stand up.",
+    "Water.",
+    "",
+    "Reply when done — we open the training lane."
+  ].join("\n"),
+
+  fcGroundClose: "Good. You are in. Short setup next — one question at a time.",
+
   fcWelcomeAtmosphere: [
     "You found the gate.",
     "",

@@ -14,6 +14,8 @@ const {
   FC_STRUCTURE_START
 } = require("../companion/firstContactEngine");
 
+const STRUCTURE = FC_STRUCTURE_START;
+
 function resetProfileFields(userId) {
   updateSession(userId, profileDefaults());
 }
@@ -242,7 +244,7 @@ function processOnboardingReply(userId, text, session, lang) {
   const tangential =
     /\?/.test(raw) &&
     raw.length > 40 &&
-    step < FC_STRUCTURE_START + 2 &&
+    step < STRUCTURE + 2 &&
     !/^\d$/.test(raw) &&
     !/^([1-8])\s/.test(raw);
 
@@ -253,77 +255,70 @@ function processOnboardingReply(userId, text, session, lang) {
         "",
         r.obContinueSetup,
         "",
-        step === FC_STRUCTURE_START
+        step === STRUCTURE
           ? r.obQ1
-          : step === FC_STRUCTURE_START + 1
+          : step === STRUCTURE + 1
             ? r.obQ2
-            : step === FC_STRUCTURE_START + 2
+            : step === STRUCTURE + 2
               ? r.obQ3
-              : step === FC_STRUCTURE_START + 3
+              : step === STRUCTURE + 3
                 ? r.obQ4
                 : r.obQ5
       )
     };
   }
 
-  if (step === FC_STRUCTURE_START) {
+  if (step === STRUCTURE) {
     const p = parsePathToken(raw);
     if (!p) return { reply: lines(r.obInvalidPath, "", r.obQ1) };
     updateSession(userId, {
       userPrimaryPath: p.id,
       userPrimaryPathNote: p.note,
-      onboardingStep: FC_STRUCTURE_START + 1
+      onboardingStep: STRUCTURE + 1
     });
     return { reply: r.obQ2 };
   }
 
-  if (step === FC_STRUCTURE_START + 1) {
+  if (step === STRUCTURE + 1) {
     if (raw.length < 3) return { reply: lines(r.obQ2) };
     updateSession(userId, {
       userGoal30Days: raw.slice(0, 500),
-      onboardingStep: 3
+      onboardingStep: STRUCTURE + 2
     });
     return { reply: r.obQ3 };
   }
 
-  if (step === 3) {
+  if (step === STRUCTURE + 2) {
     const o = parseObstacleToken(raw);
     if (!o) return { reply: lines(r.obInvalidObstacle, "", r.obQ3) };
     updateSession(userId, {
       userMainObstacle: o.id,
       userMainObstacleNote: o.note,
-      onboardingStep: FC_STRUCTURE_START + 3
+      onboardingStep: STRUCTURE + 3
     });
     return { reply: r.obQ4 };
   }
 
-  if (step === FC_STRUCTURE_START + 3) {
+  if (step === STRUCTURE + 3) {
     const i = parseIntensityToken(raw);
     if (!i) return { reply: lines(r.obInvalidIntensity, "", r.obQ4) };
     updateSession(userId, {
       userIntensityPreference: i,
-      onboardingStep: FC_STRUCTURE_START + 4
+      onboardingStep: STRUCTURE + 4
     });
     return { reply: r.obQ5 };
   }
 
-  if (step === FC_STRUCTURE_START + 4) {
-    const l = parseLanguageToken(raw);
-    if (!l) return { reply: lines(r.obInvalidLanguage, "", r.obQ5) };
-    const langPatch = {};
-    if (l !== "auto") {
-      langPatch.lang = l;
-    }
+  if (step === STRUCTURE + 4) {
     updateSession(userId, {
-      preferredLanguage: l,
       onboardingCompleted: true,
       onboardingActive: false,
       onboardingSkipped: false,
-      meetKaiZenCompleted: true,
-      ...langPatch
+      meetKaiZenCompleted: true
     });
     const s = getSession(userId);
-    return { reply: formatSummary(s, l === "auto" ? lang : l) };
+    const locked = s.preferredLanguage || s.lang || lang;
+    return { reply: formatSummary(s, locked) };
   }
 
   return null;

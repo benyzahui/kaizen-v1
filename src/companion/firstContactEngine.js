@@ -1,40 +1,33 @@
 /**
- * FIRST_CONTACT_ENGINE — relationship beginning, not command dump.
- *
- * Flow: welcome → atmosphere → name → purpose → identity → structure questions
+ * Phase 2 FIRST_CONTACT — cinematic activation, language lock early, no command dump.
  */
 
 const { lines } = require("../personality/kaizenVoice");
 const { getResponses } = require("../i18n/getResponses");
-const { updateSession, getSession } = require("../session/sessionStore");
+const { updateSession } = require("../session/sessionStore");
 const { detectLanguage } = require("../i18n/languageDetect");
 
-/** First-contact steps 0–3; structure setup continues from step 4 in onboarding.js */
-const FC_WELCOME = 0;
-const FC_NAME = 1;
-const FC_PURPOSE = 2;
-const FC_IDENTITY = 3;
-const FC_STRUCTURE_START = 4;
+const FC_ACTIVATION = 0;
+const FC_WHO = 1;
+const FC_LANG = 2;
+const FC_NAME = 3;
+const FC_PURPOSE = 4;
+const FC_GROUND = 5;
+const FC_STRUCTURE_START = 6;
 
-function isFirstContactStep(step) {
-  return step >= FC_WELCOME && step < FC_STRUCTURE_START;
+function parseLanguageToken(raw) {
+  const t = String(raw || "").trim().toLowerCase();
+  const n = parseInt(t, 10);
+  if (n === 1 || /^en(glish)?\b/.test(t)) return "en";
+  if (n === 2 || /\b(hu|magyar|hungarian)\b/.test(t)) return "hu";
+  if (n === 3 || /\b(ro|romanian|român)\b/.test(t)) return "ro";
+  return null;
 }
 
-/**
- * @param {'en'|'hu'|'ro'} lang
- */
 function getFirstContactStart(lang) {
-  const r = getResponses(lang);
-  return r.fcWelcomeAtmosphere || r.obMeetKaiZenIntro;
+  return getResponses(lang).fcActivation;
 }
 
-/**
- * @param {string|number} userId
- * @param {string} text
- * @param {object} session
- * @param {'en'|'hu'|'ro'} lang
- * @returns {{ reply: string }|null}
- */
 function processFirstContact(userId, text, session, lang) {
   const step = Number(session.onboardingStep) || 0;
   if (step >= FC_STRUCTURE_START) return null;
@@ -44,32 +37,40 @@ function processFirstContact(userId, text, session, lang) {
   const raw = String(text || "").trim();
 
   if (/^(skip|later|később|mai târziu|not now)\b/i.test(raw)) {
-    updateSession(userId, {
-      onboardingSkipped: true,
-      onboardingActive: false
-    });
+    updateSession(userId, { onboardingSkipped: true, onboardingActive: false });
     return { reply: r.obSkip };
   }
 
-  if (step === FC_WELCOME) {
-    if (raw.length < 2) {
-      return { reply: lines(r.fcWelcomeAtmosphere, "", r.fcWelcomePrompt) };
-    }
-    updateSession(userId, { onboardingStep: FC_NAME });
-    return { reply: r.fcAskName };
+  if (step === FC_ACTIVATION) {
+    if (raw.length < 1) return { reply: lines(r.fcActivation, "", r.fcWelcomePrompt) };
+    updateSession(userId, { onboardingStep: FC_WHO });
+    return { reply: r.fcWho };
+  }
+
+  if (step === FC_WHO) {
+    updateSession(userId, { onboardingStep: FC_LANG });
+    return { reply: r.fcLangPick };
+  }
+
+  if (step === FC_LANG) {
+    const picked = parseLanguageToken(raw);
+    if (!picked) return { reply: lines(r.fcLangInvalid || r.obInvalidLanguage, "", r.fcLangPick) };
+    updateSession(userId, {
+      preferredLanguage: picked,
+      lang: picked,
+      onboardingStep: FC_NAME
+    });
+    const r2 = getResponses(picked);
+    return { reply: r2.fcAskName };
   }
 
   if (step === FC_NAME) {
     if (raw.length < 2) return { reply: r.fcAskName };
     const name = raw.slice(0, 80).replace(/\s+/g, " ").trim();
     updateSession(userId, { userName: name, onboardingStep: FC_PURPOSE });
-    const r2 = getResponses(lang);
+    const r2 = getResponses(session.lang || lang);
     return {
-      reply: lines(
-        (r2.fcNameAck || "Good.").replace("{name}", name),
-        "",
-        r2.fcAskPurpose
-      )
+      reply: lines((r2.fcNameAck || "").replace("{name}", name), "", r2.fcAskPurpose)
     };
   }
 
@@ -77,49 +78,31 @@ function processFirstContact(userId, text, session, lang) {
     if (raw.length < 4) return { reply: r.fcAskPurpose };
     updateSession(userId, {
       userPurpose: raw.slice(0, 400),
-      onboardingStep: FC_IDENTITY
+      onboardingStep: FC_GROUND
     });
-    return { reply: r.fcAskIdentity };
+    return { reply: getResponses(session.lang || lang).fcFirstGround };
   }
 
-  if (step === FC_IDENTITY) {
-    if (raw.length < 3) {
-      return { reply: lines(r.fcAskIdentity, "", r.fcIdentityHint) };
-    }
-    const detected = detectLanguage(raw);
+  if (step === FC_GROUND) {
     updateSession(userId, {
       meetKaiZenCompleted: true,
-      preferredLanguage: detected,
-      lang: detected,
       onboardingStep: FC_STRUCTURE_START
     });
-    const r2 = getResponses(detected);
-    const snippet = raw.slice(0, 200).replace(/\s+/g, " ").trim();
-    const heard = (r2.fcIdentityHeard || r2.obMeetHeardYou).replace(
-      "{snippet}",
-      snippet
-    );
-    return {
-      reply: lines(
-        heard,
-        "",
-        r2.fcStructureIntro || r2.obMeetContinue,
-        "",
-        r2.obQ1
-      )
-    };
+    const r2 = getResponses(session.lang || lang);
+    return { reply: lines(r2.fcGroundClose, "", r2.obQ1) };
   }
 
   return null;
 }
 
 module.exports = {
-  FC_WELCOME,
+  FC_ACTIVATION,
+  FC_WHO,
+  FC_LANG,
   FC_NAME,
   FC_PURPOSE,
-  FC_IDENTITY,
+  FC_GROUND,
   FC_STRUCTURE_START,
-  isFirstContactStep,
   getFirstContactStart,
   processFirstContact
 };

@@ -110,6 +110,7 @@ function emptySession() {
     responseStructures: [],
     lastMentorMode: null,
     currentMoodMode: null,
+    conversationMode: null,
     emotionalMomentum: "stable",
     lastEmotionalIntensity: 0,
     lastMantraDate: null,

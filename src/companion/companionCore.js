@@ -21,10 +21,11 @@ const { updateSession } = require("../session/sessionStore");
 const { variateIfSameShape } = require("../conversation/antiTemplate");
 const { applyBannedPhraseRotation } = require("../conversation/bannedPhrases");
 const { detectLaneWandering } = require("../conversation/focusLane");
-const { programWanderLine } = require("../handlers/programFlow");
-const { resolveMoodMode, moodSessionPatch } = require("./moodEngine");
 const { applyEmotionalPacing } = require("./emotionalPacing");
-const { appendChoicesToReply } = require("./interactiveChoices");
+const {
+  resolveConversationMode,
+  conversationModePatch
+} = require("./conversationModes");
 
 /**
  * @param {string|number} userId
@@ -41,11 +42,11 @@ function prepareCompanionContext(userId, text, session, lang, classifyCategory) 
   memory.session.rhythmPhase = rhythm.phase;
 
   const plan = selectResponsePlan(state, memory, rhythm);
-  const mood = resolveMoodMode(state, memory);
+  const conversationMode = resolveConversationMode(state, classifyCategory);
 
   updateSession(userId, {
     ...engineSessionPatch(state),
-    ...moodSessionPatch(mood),
+    ...conversationModePatch(conversationMode),
     sessionEmotionalTrend: memory.session.emotionalTrend,
     rhythmPhase: rhythm.phase
   });
@@ -57,7 +58,7 @@ function prepareCompanionContext(userId, text, session, lang, classifyCategory) 
     state,
     rhythm,
     plan,
-    mood,
+    conversationMode,
     session
   };
 }
@@ -86,15 +87,14 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
 
   b = applyAntiLoop(ctx, b, category, r);
 
-  b = appendChoicesToReply(b, ctx.mood, ctx.lang, s, category, ctx.plan);
-
   if (detectLaneWandering(s, category)) {
     updateSession(ctx.userId, { focusLocked: true });
     b = lines(r.tFocusLaneNudge, "", b);
   }
 
-  const wander = programWanderLine(s, ctx.lang);
-  if (wander) b = lines(b, "", wander);
+  if (opts.suggestedCommand && !opts.skipCommandHint) {
+    b = lines(b, "", `→ ${opts.suggestedCommand}`);
+  }
 
   if (ctx.plan.appendRhythm && !opts.skipRhythm) {
     const tail = rhythmTailIfNeeded(ctx.rhythm, ctx.lang);

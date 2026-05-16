@@ -5,7 +5,7 @@
 const { lines } = require("../personality/kaizenVoice");
 const { pickSeeded } = require("../personality/tone");
 const { getResponses } = require("../i18n/getResponses");
-const { applyMoodPresence } = require("./moodPresence");
+const { applyModePresence } = require("./modePresence");
 
 const SKIP_PRESENCE = new Set([
   "cooldown",
@@ -28,16 +28,16 @@ const SKIP_PRESENCE = new Set([
  */
 function applyPresence(body, ctx, category) {
   if (SKIP_PRESENCE.has(category)) return body;
-  const { state, memory, lang, plan, mood, session } = ctx;
+  const { state, memory, lang, session } = ctx;
+  const mode = ctx.conversationMode || "MODE_STABLE";
   const skipLead =
     category === "light_conversation" || category === "trading_context";
-  let out = applyMoodPresence(
+  let out = applyModePresence(
     body,
-    mood || "discipline",
+    mode,
     lang,
     session || { messages: memory.short.turns, userName: memory.permanent.userName },
     category,
-    plan,
     skipLead
   );
 

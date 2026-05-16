@@ -157,7 +157,7 @@ async function composeBrainPriority(userId, text, lang, session, classifyCategor
     return {
       reply: r.brainCommandHelpLite,
       category: "help_intent",
-      suggestedAction: "/commands"
+      suggestedAction: null
     };
   }
 

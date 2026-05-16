@@ -1,165 +1,128 @@
 /**
- * Daily Energy Intelligence — structured compose (numerology, season, moon, tone, action).
- * V1.9: premium readability layout (headers, spacing, restrained emoji).
+ * Phase 2 — compact daily energy read.
+ * Short, readable, screenshot-worthy. Symbolic data used lightly — no fortune telling.
  */
 
 const { lines } = require("../personality/tone");
-const { getResponses } = require("../i18n/getResponses");
 const { getUniversalDayVibration } = require("./numerology");
-const { getAstrologicalSeason } = require("./astrologySeason");
 const { getMoonPhaseContext } = require("./moonPhase");
 const { getEnergyMaps } = require("../i18n/energyLocales");
-const {
-  getFrame,
-  pickVib,
-  pickTrading,
-  pickBody,
-  signLine,
-  getLensTail
-} = require("../i18n/dailyEnergyStrings");
+const { pickVib, pickTrading, pickBody } = require("../i18n/dailyEnergyStrings");
 
-/**
- * @param {'en'|'hu'|'ro'} lang
- * @param {string} lens
- */
-function premiumSectionLabels(lang, lens) {
-  const l = lang === "hu" ? "hu" : lang === "ro" ? "ro" : "en";
-  const lensNote =
-    l === "hu"
-      ? ` (${lens === "general" ? "általános" : lens})`
-      : l === "ro"
-        ? ` (${lens === "general" ? "general" : lens})`
-        : lens !== "general"
-          ? ` (${lens})`
-          : "";
-  if (l === "hu") {
+function sectionLabels(lang) {
+  if (lang === "hu") {
     return {
-      title: `🌙 A nap energiája${lensNote}`,
-      atmosphere: "🌤 Légkör",
-      mental: "🧠 Mentális mező",
-      discipline: "⚔️ Fegyelem jel",
-      body: "🌿 Test jel",
-      social: "🤝 Kapcsolat / társ",
-      trading: "📈 Üzlet / trading",
-      action: "→ Irány",
-      symbolic: "🔢 Szimbolikus réteg"
+      title: "🌙 Mai energia",
+      tone: "⚡ Fő hangulat",
+      mental: "🧠 Mentális tér",
+      body: "🫀 Test",
+      work: "💼 Munka / trading",
+      discipline: "🔥 Mai fegyelem",
+      step: "🌱 Egy stabil lépés"
     };
   }
-  if (l === "ro") {
+  if (lang === "ro") {
     return {
-      title: `🌙 Energia zilei${lensNote}`,
-      atmosphere: "🌤 Atmosferă",
-      mental: "🧠 Câmp mental",
-      discipline: "⚔️ Semnal disciplină",
-      body: "🌿 Semnal corp",
-      social: "🤝 Relații / social",
-      trading: "📈 Business / trading",
-      action: "→ Direcție",
-      symbolic: "🔢 Strat simbolic"
+      title: "🌙 Energia zilei",
+      tone: "⚡ Ton principal",
+      mental: "🧠 Spațiu mental",
+      body: "🫀 Corp",
+      work: "💼 Muncă / trading",
+      discipline: "🔥 Disciplina de azi",
+      step: "🌱 Un pas stabil"
     };
   }
   return {
-    title: `🌙 Today's energy${lensNote}`,
-    atmosphere: "🌤 Atmosphere",
+    title: "🌙 Today's energy",
+    tone: "⚡ Main tone",
     mental: "🧠 Mental field",
-    discipline: "⚔️ Discipline signal",
-    body: "🌿 Body signal",
-    social: "🤝 Relationship / social",
-    trading: "📈 Business / trading",
-    action: "→ Direction",
-    symbolic: "🔢 Symbolic layer"
+    body: "🫀 Body",
+    work: "💼 Work / trading",
+    discipline: "🔥 Today's discipline",
+    step: "🌱 One stable step"
   };
+}
+
+function disciplineLine(lang, vib) {
+  const maps = {
+    en: [
+      "One rule ships before a new plan.",
+      "Repeat one thing you already know works.",
+      "No heroics — one honest repetition."
+    ],
+    hu: [
+      "Egy szabály, aztán ismétlés — új terv nélkül.",
+      "Ismételd amit már tudsz hogy működik.",
+      "Nincs hőség — egy őszinte ismétlés."
+    ],
+    ro: [
+      "O regulă, apoi repetare — fără plan nou.",
+      "Repetă ce știi deja că merge.",
+      "Fără eroism — o repetare onestă."
+    ]
+  };
+  const pool = maps[lang] || maps.en;
+  return pool[(vib - 1) % pool.length];
+}
+
+function stableStep(lang, action) {
+  if (lang === "hu") return action || "Egy blokk. Huszonöt perc. Kész.";
+  if (lang === "ro") return action || "Un bloc. Douăzeci și cinci de minute. Gata.";
+  return action || "One block. Twenty-five minutes. Done.";
 }
 
 /**
  * @param {Date} [date]
  * @param {'en'|'hu'|'ro'} [lang]
  * @param {'general'|'trading'|'body'|'emotion'|'work'} [lens]
- * @returns {string}
  */
 function buildDailyEnergyMessage(date = new Date(), lang = "en", lens = "general") {
   const l = lang === "hu" ? "hu" : lang === "ro" ? "ro" : "en";
   const vib = getUniversalDayVibration(date).vibration;
-  const season = getAstrologicalSeason(date);
   const moon = getMoonPhaseContext(date);
-  const f = getFrame(l, lens);
   const maps = getEnergyMaps(l);
   const core = pickVib(l, vib);
   const watch = maps.watch[vib] || maps.watch[7];
   const action = maps.action[vib] || maps.action[7];
-  const moonText =
-    moon.mode === "api" && moon.displayKey === "api_pending"
-      ? f.moon.apiPending
-      : f.moon.staticHonest;
-  const sign = signLine(season.sign, l) || "—";
-  const tail = getLensTail(l, lens);
-  const tradingLine = pickTrading(l, vib);
+  const h = sectionLabels(l);
+
+  const toneLine = core.emotion;
+  const mentalLine =
+    lens === "emotion"
+      ? lines(core.emotion, watch)
+      : `${watch}`.split(".")[0];
   const bodyLine = pickBody(l, vib);
-  const r = getResponses(l);
-  const foot = r.tEnergyLensFooter || "";
+  const workLine = pickTrading(l, vib);
+  const moonNote =
+    moon.mode === "api" && moon.displayKey === "api_pending"
+      ? ""
+      : l === "hu"
+        ? " (hold: szimbolikus, nem előrejelzés)"
+        : l === "ro"
+          ? " (simbolic, nu predicție)"
+          : " (moon: symbolic, not prediction)";
 
-  const emotionForMind =
-    lens === "emotion" && tail ? lines(core.emotion, tail) : core.emotion;
-  const directionBlock =
-    lens === "work" && tail ? lines(action, tail) : action;
-  const tradingBlock =
-    lens === "trading" && tail ? lines(tradingLine, tail) : tradingLine;
-  const bodyBlock = lens === "body" && tail ? lines(bodyLine, tail) : bodyLine;
-
-  const h = premiumSectionLabels(l, lens);
-  const headNote = f.lensLead[lens] ? lines(f.lensLead[lens]) : null;
-  const disciplineLine =
-    l === "hu"
-      ? "Egy szabály, egy ismétlés. Nincs új terv, amíg ez nincs kint."
-      : l === "ro"
-        ? "O regulă, o repetare. Fără plan nou până livrezi asta."
-        : "One rule, one repetition. No new plan until this ships.";
-
-  const atmosphereLine =
-    l === "hu"
-      ? `${core.emotion} — ${moonText}`
-      : l === "ro"
-        ? `${core.emotion} — ${moonText}`
-        : `${core.emotion} — ${moonText}`;
-
-  const socialLine =
-    l === "hu"
-      ? "Egy beszélgetés ma: őszinte, rövid, nem teljesítmény."
-      : l === "ro"
-        ? "O conversație azi: onestă, scurtă, fără spectacol."
-        : "One conversation today: honest, short, not performance.";
-
-  const parts = [
+  return lines(
     h.title,
-    headNote,
     "",
-    h.atmosphere,
-    atmosphereLine,
+    h.tone,
+    toneLine + moonNote,
     "",
     h.mental,
-    lines(emotionForMind, watch),
-    "",
-    h.discipline,
-    disciplineLine,
+    mentalLine,
     "",
     h.body,
-    bodyBlock,
+    bodyLine,
     "",
-    h.social,
-    socialLine,
+    h.work,
+    workLine,
     "",
-    h.trading,
-    tradingBlock,
+    h.discipline,
+    disciplineLine(l, vib),
     "",
-    h.action,
-    directionBlock,
-    "",
-    h.symbolic,
-    lines(`${core.num} · ${sign}`, f.moon.staticHonest.split(".")[0] + "."),
-    foot
-  ];
-
-  return lines(...parts.filter((x) => x !== null && x !== ""));
+    h.step,
+    stableStep(l, action)
+  );
 }
 
 module.exports = { buildDailyEnergyMessage };

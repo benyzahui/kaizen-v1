@@ -86,30 +86,25 @@ function buildMorningReply(message, session, lang) {
   recordMorningCheckin(id, session);
 
   const mantra = pickMantra(r, session, id);
-  const streak = (Number(getSession(id).dailyStreak) || 1);
-  const streakLine = r.tStreakLine
-    ? r.tStreakLine(streak)
-    : `Day ${streak} in a row.`;
+  const energySnippet = buildDailyEnergyMessage(new Date(), lang, "general")
+    .split("\n")
+    .slice(2, 4)
+    .join(" ")
+    .slice(0, 120);
+  const focus = session.currentMission?.trim() || null;
+  const name = session.userName?.trim() || null;
 
-  const missionLine = session.currentMission?.trim()
-    ? `${r.tMorningCurrentMission}: ${session.currentMission.trim()}`
-    : r.tMorningSetMission;
+  if (r.rhythmMorning) {
+    return r.rhythmMorning(
+      name,
+      mantra || energySnippet,
+      focus,
+      r.rhythmDangerDefault || "tab overload",
+      r.rhythmBodyDefault || null
+    );
+  }
 
-  return lines(
-    r.tMorningGateTitle,
-    "",
-    mantra,
-    "",
-    r.tMorningEnergyHint,
-    "",
-    r.tMorningBodyInstruction,
-    "",
-    streakLine,
-    "",
-    missionLine,
-    "",
-    r.tMorningNextPrompt
-  );
+  return lines(r.tMorningGateTitle || "Morning", "", mantra);
 }
 
 /* ------------------------------------------------------------------ */
@@ -118,22 +113,7 @@ function buildMorningReply(message, session, lang) {
 
 function buildMiddayReply(session, lang) {
   const r = getResponses(lang);
-
-  const missionLine = session.currentMission?.trim()
-    ? `${r.tMiddayMissionCheck}: ${session.currentMission.trim()}`
-    : r.tMiddayNoMission;
-
-  return lines(
-    r.tMiddayGateTitle,
-    "",
-    r.tMiddayDriftCheck,
-    "",
-    missionLine,
-    "",
-    r.tMiddayAvoidancePrompt,
-    "",
-    r.tMiddayNextPrompt
-  );
+  return r.rhythmMidday || r.tMiddayGateTitle || "Midday check.";
 }
 
 /* ------------------------------------------------------------------ */
@@ -143,24 +123,7 @@ function buildMiddayReply(session, lang) {
 function buildEveningReply(message, session, lang) {
   const r = getResponses(lang);
   recordEveningMirror(uid(message));
-
-  const missionLine = session.currentMission?.trim()
-    ? `${r.tEveningMissionReview}: ${session.currentMission.trim()}`
-    : r.tEveningNoMission;
-
-  return lines(
-    r.tEveningGateTitle,
-    "",
-    missionLine,
-    "",
-    r.tEveningReleasePrompt,
-    "",
-    r.tEveningLessonPrompt,
-    "",
-    r.tEveningRecoveryHint,
-    "",
-    r.tEveningNextPrompt
-  );
+  return r.rhythmEvening || r.tEveningGateTitle || "Evening mirror.";
 }
 
 /* ------------------------------------------------------------------ */

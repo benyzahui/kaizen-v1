@@ -102,6 +102,10 @@ function resolveLanguageWithSession(text, session) {
  */
 function resolveLang(message, text, session) {
   const t = String(text || "").trim();
+  if (session?.onboardingCompleted) {
+    const pref = session?.preferredLanguage;
+    if (pref === "hu" || pref === "ro" || pref === "en") return pref;
+  }
   const isBareCommand = /^\s*\/\w+(@\w+)?$/i.test(t);
   if (isBareCommand) {
     const pref = session?.preferredLanguage;

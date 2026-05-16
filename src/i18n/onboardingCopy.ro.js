@@ -1,6 +1,20 @@
 /** Romanian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcActivation: [
+    "⚡ KaiZen activat.",
+    "",
+    "Ceva s-a aprins — nu chatbot.",
+    "Companion zilnic: disciplină, claritate, execuție onestă.",
+    "",
+    "O respirație.",
+    "Trimite o linie când ești gata."
+  ].join("\n"),
+  fcWho: "Sunt KaiZen.\n\nCorp, focus, energie, disciplină — fără guru fals.\n\nUrmătorul: limba.",
+  fcLangPick: "Limba:\n1 — English\n2 — Magyar\n3 — Română",
+  fcLangInvalid: "Alege 1, 2 sau 3.",
+  fcFirstGround: "Trei respirații lente.\nRidică-te.\nApă.\nScrie când ești gata.",
+  fcGroundClose: "Bine. Ești înăuntru. Setup scurt urmează.",
   fcWelcomeAtmosphere: [
     "Ai găsit poarta.",
     "",

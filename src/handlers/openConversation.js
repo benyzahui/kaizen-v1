@@ -62,20 +62,44 @@ function wrapAdaptive(session, lang, text, category, replyBody) {
 /**
  * @param {object|null} companionCtx from prepareCompanionContext
  */
-function finalizeCoaching(userId, session, lang, text, category, body, r, companionCtx = null) {
+function finalizeCoaching(
+  userId,
+  session,
+  lang,
+  text,
+  category,
+  body,
+  r,
+  companionCtx = null,
+  suggestedCommand = null
+) {
   if (!companionCtx) return body;
   return finalizeCompanionReply(companionCtx, category, body, r, {
     skipPresence: SKIP_PRESENCE.has(category),
-    withAdaptive: (b) => wrapAdaptive(session, lang, text, category, b)
+    skipRhythm: true,
+    suggestedCommand,
+    skipCommandHint: !suggestedCommand
   });
 }
 
 /** Shorter open replies — no adaptive coaching suffix. */
-function finalizeLite(userId, session, lang, text, category, body, r, companionCtx = null) {
+function finalizeLite(
+  userId,
+  session,
+  lang,
+  text,
+  category,
+  body,
+  r,
+  companionCtx = null,
+  suggestedCommand = null
+) {
   if (!companionCtx) return body;
   return finalizeCompanionReply(companionCtx, category, body, r, {
     skipPresence: SKIP_PRESENCE.has(category),
-    skipRhythm: true
+    skipRhythm: true,
+    suggestedCommand,
+    skipCommandHint: !suggestedCommand
   });
 }
 
@@ -522,24 +546,29 @@ async function handleOpenConversation(message, lang, session) {
   });
 
   const suggestedByCat = {
-    emotional_reflection: "/reset",
+    emotional_reflection: "/breath",
     work_focus: "/focus",
-    plan_tracking: "/plan",
-    self_development: "/plan",
-    unknown: "/help",
-    help_intent: "/guide",
+    plan_tracking: "/focus",
+    self_development: "/focus",
+    chaos_loop: "/breath",
+    focus_drift: "/focus",
+    body_energy: "/body",
     energy_question: "/energy",
-    clarity_protocol: "/clarity",
-    easter_creator: "/guide",
-    casual_greeting: "/pulse",
-    light_conversation: "/guide",
-    trading_context: "/trade"
+    trading_impulse: "/trade",
+    trading_context: null,
+    unknown: null,
+    help_intent: null,
+    clarity_protocol: "/focus",
+    casual_greeting: null,
+    light_conversation: null
   };
 
+  const cmd = suggestedByCat[category] ?? null;
+
   return {
-    reply: finalizeCoaching(userId, session, lang, text, category, body, r, companionCtx),
+    reply: finalizeCoaching(userId, session, lang, text, category, body, r, companionCtx, cmd),
     category,
-    suggestedAction: suggestedByCat[category] || "/help"
+    suggestedAction: cmd
   };
 }
 

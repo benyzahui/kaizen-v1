@@ -3,6 +3,8 @@ const onboardingStrings = require("./onboardingCopy.ro");
 const trainingProtocol = require("./trainingProtocol.ro");
 const presenceCopy = require("./presenceCopy.ro");
 const moodCopy = require("./moodCopy.ro");
+const conversationCopy = require("./conversationCopy.ro");
+const rhythmCompact = require("./rhythmCompact.ro");
 
 module.exports = {
   start:
@@ -423,6 +425,8 @@ module.exports = {
 
   ...presenceCopy,
   ...moodCopy,
+  ...conversationCopy,
+  ...rhythmCompact,
   ...trainingProtocol,
   ...onboardingStrings
 };

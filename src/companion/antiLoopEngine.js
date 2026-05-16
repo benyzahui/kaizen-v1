@@ -10,6 +10,29 @@ const {
 } = require("../conversation/structureMemory");
 const { variateIfSameShape } = require("../conversation/antiTemplate");
 const { pickSeeded } = require("../personality/tone");
+const { getResponses } = require("../i18n/getResponses");
+
+const HARD_BANNED = [
+  /one fact\.?\s*one intent/i,
+  /hold\.?\s*then step/i,
+  /smallest finish line you can cross/i,
+  /what is the next stabilizing action/i,
+  /one grounded sentence is enough/i
+];
+
+function stripHardBannedPhrases(body, lang) {
+  let b = String(body || "");
+  const r = getResponses(lang);
+  const alts = r.loopPhraseAlts || {};
+  for (const re of HARD_BANNED) {
+    if (re.test(b)) {
+      const key = Object.keys(alts).find((k) => re.source.includes(k.split(".")[0]));
+      const alt = key ? alts[key] : pickSeeded(r.structureRewrites || ["Move one inch."], re.source);
+      b = b.replace(re, alt);
+    }
+  }
+  return b;
+}
 
 /**
  * @param {object} ctx companion context (memory.short + state)
@@ -18,7 +41,7 @@ const { pickSeeded } = require("../personality/tone");
  * @param {object} r responses bundle
  */
 function applyAntiLoop(ctx, body, category, r) {
-  let b = body;
+  let b = stripHardBannedPhrases(body, ctx.lang);
   const sessionLike = {
     responseStructures: ctx.memory?.short?.responseStructures || [],
     messages: ctx.memory?.short?.turns || []
