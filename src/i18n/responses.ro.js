@@ -170,13 +170,15 @@ module.exports = {
   ].join("\n"),
 
   cmdLanguageMenu: [
-    "/language — limba răspunsurilor",
+    "Blocare limbă — toate răspunsurile urmează alegerea:",
+    "",
     "1 — engleză",
     "2 — maghiară",
     "3 — română",
-    "4 — auto (detectare din mesaje)",
+    "4 — auto (din mesaje; nerecomandat după setup)",
     "",
-    "Exemplu: /language 3"
+    "Setare: /language 3",
+    "La onboarding, 1–3 blochează imediat limba."
   ].join("\n"),
 
   cmdLanguageInvalid: "Scrie /language apoi 1–4 (exemplu: /language 3).",

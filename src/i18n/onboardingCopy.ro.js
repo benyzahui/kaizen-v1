@@ -1,6 +1,16 @@
 /** Romanian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcIntro: [
+    "⚔️ KaiZen — Elite Zone · Dragon Path",
+    "",
+    "Sunt companionul tău zilnic: disciplină, claritate, stabilitate nervoasă, execuție onestă.",
+    "",
+    "Nu e chat AI la întâmplare. Fără zgomot de guru. Fără spam motivațional.",
+    "Prezență structurată — de dimineață până seara.",
+    "",
+    "Trimite o linie când ești gata pentru setup."
+  ].join("\n"),
   fcActivation: [
     "⚡ KaiZen activat.",
     "",
@@ -10,11 +20,41 @@ module.exports = {
     "O respirație.",
     "Trimite o linie când ești gata."
   ].join("\n"),
-  fcWho: "Sunt KaiZen.\n\nCorp, focus, energie, disciplină — fără guru fals.\n\nUrmătorul: limba.",
-  fcLangPick: "Limba:\n1 — English\n2 — Magyar\n3 — Română",
+  fcLangPick: [
+    "Limba — alege (se schimbă doar cu /language):",
+    "1 — English",
+    "2 — Magyar",
+    "3 — Română"
+  ].join("\n"),
   fcLangInvalid: "Alege 1, 2 sau 3.",
-  fcFirstGround: "Trei respirații lente.\nRidică-te.\nApă.\nScrie când ești gata.",
-  fcGroundClose: "Bine. Ești înăuntru. Setup scurt urmează.",
+  fcAskFocus: [
+    "Care e focusul tău principal acum?",
+    "",
+    "1 — Minte / stres",
+    "2 — Corp / disciplină",
+    "3 — Energie / conștiență",
+    "4 — Mindset trading",
+    "5 — Business / execuție",
+    "6 — Mixt",
+    "",
+    "Răspunde cu un număr."
+  ].join("\n"),
+  fcFocusInvalid: "Alege 1–6.",
+  fcFocusLabels: {
+    mind: "minte / stres",
+    body: "corp / disciplină",
+    energy: "energie / conștiență",
+    trading: "mindset trading",
+    business: "business / execuție",
+    mixed: "priorități mixte"
+  },
+  fcComplete: [
+    "Ești înăuntru, {name}.",
+    "",
+    "Sfera principală: {focus}.",
+    "Răspunsurile rămân ancorate în asta — nu chat generic."
+  ].join("\n"),
+  fcCompleteNext: "Pasul următor: /today — structura zilei pe un ecran.",
   fcWelcomeAtmosphere: [
     "Ai găsit poarta.",
     "",
@@ -89,14 +129,17 @@ module.exports = {
   obMeetTooShort: "Puțin mai mult — un paragraf onest e suficient.",
 
   obStartReturning: [
-    "⚔️ KaiZen — Dragon Training Companion.",
+    "⚔️ KaiZen — Elite Zone · Dragon Path.",
     "",
-    "Baza: minte clară, corp, respirație, energie. Business și trading sunt arene secundare.",
+    "Ești deja în sistem.",
     "",
-    "De ce ai venit astăzi la KaiZen?",
+    "Ancore zilnice:",
+    "/today — structura zilei",
+    "/morning — deschide ziua",
+    "/energy — citirea zilei",
     "",
-    "Structură zilnică: /program · Ghid pas cu pas: /mode",
-    "Hartă completă doar la cerere: /map"
+    "Cum folosești KaiZen: /guide",
+    "Hartă completă (doar dacă vrei): /map"
   ].join("\n"),
 
   obIntro: [
@@ -246,29 +289,41 @@ module.exports = {
   profileNotSet: "—",
 
   guideBody: [
-    "Harta sistemului KaiZen:",
+    "Cum folosești KaiZen (simplu):",
     "",
-    "Ritm zilnic:",
-    "/pulse /focus /mirror",
+    "Dimineață — deschide ziua:",
+    "/morning",
     "",
-    "Când e prea mult:",
-    "/reset /ground /breathe",
+    "Structura zilei — un ecran:",
+    "/today",
     "",
-    "Trading:",
-    "/trade /check /risk /cooldown",
+    "Energie — practic, nu mistic:",
+    "/energy",
     "",
-    "Corp:",
-    "/body /walk /train /sleep",
+    "Supraîncărcare — reset sistem nervos:",
+    "/reset",
     "",
-    "Direcție:",
-    "/plan /clarity /path /question",
+    "Seară — închide curat:",
+    "/mirror",
     "",
-    "Profil:",
-    "/setup /profile /guide /status /language /clear /program /mission /today /commands /map",
-    "",
-    "Poți vorbi și natural.",
-    "Te aduc înapoi la structură când e nevoie."
+    "Poți scrie natural. Răspund ca un coach, nu ca un meniu.",
+    "Lista completă doar la cerere: /map",
+    "Limbă: /language"
   ].join("\n"),
+
+  mapBody: [
+    "Harta comenzi KaiZen (esențial):",
+    "",
+    "START · /start /today /status /language",
+    "ZILNIC · /morning /energy /mirror /reset",
+    "FOCUS · /focus /plan /body /breath",
+    "TRADING · /trade /check /risk",
+    "PROFIL · /profile /guide /clear",
+    "",
+    "Companion pas cu pas: /mode /off /pause /resume"
+  ].join("\n"),
+
+  mapFooter: "Salvează dacă e util. Ziua de zi merge pe /guide, nu pe lista completă.",
 
   helpIntentReply: [
     "Ai scris help fără slash — harta rapidă.",

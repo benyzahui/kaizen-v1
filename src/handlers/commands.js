@@ -16,7 +16,7 @@ const {
   handleResetCommand
 } = require("./planTracking");
 const { buildStatusReply } = require("./status");
-const { buildGuideReply } = require("./guide");
+const { buildGuideReply, buildMapReply } = require("./guide");
 const {
   startOnboarding,
   getStartReply,
@@ -126,7 +126,7 @@ async function routeCommandMessage(message, session) {
       reply = r.tCommandsCategorized;
       break;
     case "/map":
-      reply = lines(r.tCommandsCategorized, "", "", r.tMapFooter);
+      reply = buildMapReply(lang);
       break;
     case "/mode":
       reply = activateMode(uid(message), lang);

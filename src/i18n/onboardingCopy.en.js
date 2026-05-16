@@ -1,6 +1,17 @@
 /** English copy — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcIntro: [
+    "⚔️ KaiZen — Elite Zone · Dragon Path",
+    "",
+    "I am your daily companion: discipline, clarity, nervous-system stability, honest execution.",
+    "",
+    "This is not random AI chat. No guru noise. No motivation spam.",
+    "Structured presence — morning to evening.",
+    "",
+    "Send one line when you are ready to begin setup."
+  ].join("\n"),
+
   fcActivation: [
     "⚡ KaiZen activated.",
     "",
@@ -11,17 +22,8 @@ module.exports = {
     "Send any line when you are ready."
   ].join("\n"),
 
-  fcWho: [
-    "I am KaiZen.",
-    "",
-    "I help you stay aligned when life gets noisy:",
-    "body rhythm, focus, energy awareness, discipline — without fake guru energy.",
-    "",
-    "Next: lock your language."
-  ].join("\n"),
-
   fcLangPick: [
-    "Language — pick one:",
+    "Language — pick one (locked until you change it with /language):",
     "1 — English",
     "2 — Magyar",
     "3 — Română"
@@ -29,17 +31,38 @@ module.exports = {
 
   fcLangInvalid: "Pick 1, 2, or 3 for language.",
 
-  fcFirstGround: [
-    "Before structure — one grounding beat.",
+  fcAskFocus: [
+    "What is your main focus right now?",
     "",
-    "Three slow breaths.",
-    "Stand up.",
-    "Water.",
+    "1 — Mind / stress",
+    "2 — Body / discipline",
+    "3 — Energy / awareness",
+    "4 — Trading mindset",
+    "5 — Business / execution",
+    "6 — Mixed",
     "",
-    "Reply when done — we open the training lane."
+    "Reply with a number."
   ].join("\n"),
 
-  fcGroundClose: "Good. You are in. Short setup next — one question at a time.",
+  fcFocusInvalid: "Pick 1–6 for your current focus.",
+
+  fcFocusLabels: {
+    mind: "mind / stress",
+    body: "body / discipline",
+    energy: "energy / awareness",
+    trading: "trading mindset",
+    business: "business / execution",
+    mixed: "mixed priorities"
+  },
+
+  fcComplete: [
+    "You are in, {name}.",
+    "",
+    "Primary lane: {focus}.",
+    "I will keep replies grounded in that — not generic chat."
+  ].join("\n"),
+
+  fcCompleteNext: "Next step: /today — your day structure in one screen.",
 
   fcWelcomeAtmosphere: [
     "You found the gate.",
@@ -128,15 +151,17 @@ module.exports = {
   obMeetTooShort: "A little more than that — one honest paragraph is enough.",
 
   obStartReturning: [
-    "⚔️ KaiZen — Dragon Training Companion.",
+    "⚔️ KaiZen — Elite Zone · Dragon Path.",
     "",
-    "Root: clear mind, body discipline, breath, energy awareness.",
-    "Business and trading are side arenas — state comes first.",
+    "You are already in the system.",
     "",
-    "Why did you come to KaiZen today?",
+    "Daily anchors:",
+    "/today — day structure",
+    "/morning — open the day",
+    "/energy — read the day",
     "",
-    "Daily structure: /program · Guided steps: /mode",
-    "Full map only when you want it: /map"
+    "How to use KaiZen: /guide",
+    "Full command map (only if you want it): /map"
   ].join("\n"),
 
   obIntro: [
@@ -286,29 +311,41 @@ module.exports = {
   profileNotSet: "—",
 
   guideBody: [
-    "KaiZen system map:",
+    "How to use KaiZen (simple):",
     "",
-    "Daily rhythm:",
-    "/pulse /focus /mirror",
+    "Morning — open the day:",
+    "/morning",
     "",
-    "When overloaded:",
-    "/reset /ground /breathe",
+    "Day structure — one screen:",
+    "/today",
     "",
-    "Trading:",
-    "/trade /check /risk /cooldown",
+    "Energy read — practical, not mystical:",
+    "/energy",
     "",
-    "Body:",
-    "/body /walk /train /sleep",
+    "Overload — nervous system reset:",
+    "/reset",
     "",
-    "Direction:",
-    "/plan /clarity /path /question",
+    "Evening — close clean:",
+    "/mirror",
     "",
-    "Profile:",
-    "/setup /profile /guide /status /language /clear /program /mission /today /commands /map",
-    "",
-    "You can also speak naturally.",
-    "I will steer you back to structure when the chat drifts."
+    "You can also write naturally. I answer like a coach, not a menu.",
+    "Full command list only when you ask: /map",
+    "Language: /language"
   ].join("\n"),
+
+  mapBody: [
+    "KaiZen command map (essentials):",
+    "",
+    "START · /start /today /status /language",
+    "DAILY · /morning /energy /mirror /reset",
+    "FOCUS · /focus /plan /body /breath",
+    "TRADING · /trade /check /risk",
+    "PROFILE · /profile /guide /clear",
+    "",
+    "Companion step-flow: /mode /off /pause /resume"
+  ].join("\n"),
+
+  mapFooter: "Save if useful. Daily life runs on /guide, not this full list.",
 
   helpIntentReply: [
     "You typed help without a slash — here is the fast map.",

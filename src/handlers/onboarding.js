@@ -11,7 +11,9 @@ const { detectLanguage } = require("../i18n/languageDetect");
 const {
   getFirstContactStart,
   processFirstContact,
-  FC_STRUCTURE_START
+  FC_STRUCTURE_START,
+  FC_FOCUS,
+  FC_LANG
 } = require("../companion/firstContactEngine");
 
 const STRUCTURE = FC_STRUCTURE_START;
@@ -236,10 +238,27 @@ function processOnboardingReply(userId, text, session, lang) {
     return { reply: skipOnboarding(userId, lang) };
   }
 
-  const fc = processFirstContact(userId, raw, session, lang);
+  const locked =
+    session.preferredLanguage === "hu" ||
+    session.preferredLanguage === "ro" ||
+    session.preferredLanguage === "en"
+      ? session.preferredLanguage
+      : lang;
+
+  const fc = processFirstContact(userId, raw, session, locked);
   if (fc) return fc;
 
   const step = Number(session.onboardingStep) || 0;
+
+  if (step > FC_FOCUS && step < FC_STRUCTURE_START) {
+    const r2 = getResponses(locked);
+    if (session.userName) {
+      updateSession(userId, { onboardingStep: FC_FOCUS });
+      return { reply: r2.fcAskFocus };
+    }
+    updateSession(userId, { onboardingStep: FC_LANG });
+    return { reply: r2.fcLangPick };
+  }
 
   const tangential =
     /\?/.test(raw) &&

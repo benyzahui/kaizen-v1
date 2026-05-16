@@ -1,6 +1,16 @@
 /** Hungarian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcIntro: [
+    "⚔️ KaiZen — Elite Zone · Dragon Path",
+    "",
+    "Napi társad vagyok: fegyelem, tisztánlátás, idegrendszer-stabilitás, őszinte végrehajtás.",
+    "",
+    "Ez nem véletlen AI chat. Nincs guru-zaj. Nincs motivációs spam.",
+    "Strukturált jelenlét — reggeltől estig.",
+    "",
+    "Küldj egy sort, ha készen állsz a beállításra."
+  ].join("\n"),
   fcActivation: [
     "⚡ KaiZen aktiválva.",
     "",
@@ -10,17 +20,41 @@ module.exports = {
     "Egy légzés.",
     "Bármilyen sorral folytatjuk."
   ].join("\n"),
-  fcWho: [
-    "KaiZen vagyok.",
-    "",
-    "Amikor zajos az élet: test, fókusz, energia, fegyelem — guru nélkül.",
-    "",
-    "Következő: nyelv rögzítése."
+  fcLangPick: [
+    "Nyelv — válassz (csak /language változtatja):",
+    "1 — English",
+    "2 — Magyar",
+    "3 — Română"
   ].join("\n"),
-  fcLangPick: "Nyelv:\n1 — English\n2 — Magyar\n3 — Română",
   fcLangInvalid: "Válassz: 1, 2 vagy 3.",
-  fcFirstGround: "Három lassú légzés.\nÁllj fel.\nVíz.\nÍrj ha kész — nyitjuk a training sávot.",
-  fcGroundClose: "Jó. Bent vagy. Rövid setup jön.",
+  fcAskFocus: [
+    "Mi a fő fókuszod most?",
+    "",
+    "1 — Elme / stressz",
+    "2 — Test / fegyelem",
+    "3 — Energia / tudatosság",
+    "4 — Trading szemlélet",
+    "5 — Üzlet / végrehajtás",
+    "6 — Vegyes",
+    "",
+    "Válasz: szám."
+  ].join("\n"),
+  fcFocusInvalid: "Válassz 1–6 közül.",
+  fcFocusLabels: {
+    mind: "elme / stressz",
+    body: "test / fegyelem",
+    energy: "energia / tudatosság",
+    trading: "trading szemlélet",
+    business: "üzlet / végrehajtás",
+    mixed: "vegyes prioritások"
+  },
+  fcComplete: [
+    "Bent vagy, {name}.",
+    "",
+    "Fő sáv: {focus}.",
+    "Ehhez igazítom a válaszokat — nem általános chat."
+  ].join("\n"),
+  fcCompleteNext: "Következő lépés: /today — a napod egy képernyőn.",
   fcWelcomeAtmosphere: [
     "Megtaláltad a kaput.",
     "",
@@ -95,14 +129,17 @@ module.exports = {
   obMeetTooShort: "Egy kicsit több kell — egy őszinte bekezdés elég.",
 
   obStartReturning: [
-    "⚔️ KaiZen — Dragon Training Companion.",
+    "⚔️ KaiZen — Elite Zone · Dragon Path.",
     "",
-    "Hang alap: tiszta fej, testfegyelem, légzés, energia. Üzlet és trading melléksáv.",
+    "Már bent vagy a rendszerben.",
     "",
-    "Miért jöttél ma hozzám?",
+    "Napi horgonyok:",
+    "/today — napi struktúra",
+    "/morning — nap nyitása",
+    "/energy — napi olvasat",
     "",
-    "Ha struktúrát akarsz: /program · ha vezetést kérsz lépésről lépésre: /mode",
-    "Teljes térkép csak kérésre: /map"
+    "Használat: /guide",
+    "Teljes parancstérkép (ha kell): /map"
   ].join("\n"),
 
   obIntro: [
@@ -252,29 +289,41 @@ module.exports = {
   profileNotSet: "—",
 
   guideBody: [
-    "KaiZen térkép:",
+    "Hogyan használd KaiZent (egyszerűen):",
     "",
-    "Napi ritmus:",
-    "/pulse /focus /mirror",
+    "Reggel — nap nyitása:",
+    "/morning",
     "",
-    "Túlterhelésnél:",
-    "/reset /ground /breathe",
+    "Napi struktúra — egy képernyő:",
+    "/today",
     "",
-    "Trading:",
-    "/trade /check /risk /cooldown",
+    "Energia — gyakorlati, nem misztikus:",
+    "/energy",
     "",
-    "Test:",
-    "/body /walk /train /sleep",
+    "Túlterhelés — idegrendszer reset:",
+    "/reset",
     "",
-    "Irány:",
-    "/plan /clarity /path /question",
+    "Este — tiszta zárás:",
+    "/mirror",
     "",
-    "Profil:",
-    "/setup /profile /guide /status /language /clear /program /mission /today /commands /map",
-    "",
-    "Természetesen is írhatsz.",
-    "Ha elkalandozunk, visszavezetlek a struktúrához."
+    "Írhatsz természetesen is. Coach hang, nem menü.",
+    "Teljes parancslista csak kérésre: /map",
+    "Nyelv: /language"
   ].join("\n"),
+
+  mapBody: [
+    "KaiZen parancstérkép (lényeg):",
+    "",
+    "START · /start /today /status /language",
+    "NAPI · /morning /energy /mirror /reset",
+    "FOKUSZ · /focus /plan /body /breath",
+    "TRADING · /trade /check /risk",
+    "PROFIL · /profile /guide /clear",
+    "",
+    "Companion lépések: /mode /off /pause /resume"
+  ].join("\n"),
+
+  mapFooter: "Mentsd el ha kell. A mindennap a /guide körül megy, nem ez a teljes lista.",
 
   helpIntentReply: [
     "Segítség perjel nélkül — gyors térkép.",

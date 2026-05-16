@@ -63,9 +63,18 @@ classifyMessage()
 
 Other commands remain in the switch but do not add parallel open-chat paths.
 
+## Onboarding (first contact)
+
+Short path in `companion/firstContactEngine.js`:
+
+`/start` → intro → language (locked) → name → focus (1–6) → complete with `/today` hint.
+
+`/guide` — daily usage (morning, today, energy, reset, mirror).  
+`/map` — full command list only on request.
+
 ## Manual test checklist
 
-1. `/start` — cinematic onboarding, no command dump  
+1. `/start` — Elite Zone intro, no command dump  
 2. Language `2` (Magyar) — lock HU  
 3. `Stresszes reggelem van` — HU coaching, one next step, no EN  
 4. `Mi a mai energia?` — compact energy block, optional `→ /energy`  

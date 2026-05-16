@@ -170,13 +170,15 @@ module.exports = {
   ].join("\n"),
 
   cmdLanguageMenu: [
-    "/language — válasznyelv",
+    "Nyelvzár — minden válasz ehhez igazodik:",
+    "",
     "1 — angol",
     "2 — magyar",
     "3 — román",
-    "4 — auto (üzenetekből)",
+    "4 — auto (üzenetekből; setup után nem ajánlott)",
     "",
-    "Példa: /language 2"
+    "Beállítás: /language 2",
+    "Onboardingnál a 1–3 választás azonnal rögzít."
   ].join("\n"),
 
   cmdLanguageInvalid: "Írd: /language majd 1–4 (példa: /language 2).",

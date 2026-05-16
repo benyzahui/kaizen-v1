@@ -142,13 +142,15 @@ module.exports = {
   ].join("\n"),
 
   cmdLanguageMenu: [
-    "/language — set reply language",
+    "Language lock — all replies follow your choice:",
+    "",
     "1 — English",
     "2 — Hungarian",
     "3 — Romanian",
-    "4 — Auto (detect from your messages)",
+    "4 — Auto (detect from messages; not recommended after setup)",
     "",
-    "Example: /language 2"
+    "Set: /language 2",
+    "During onboarding, language is locked when you pick 1–3."
   ].join("\n"),
 
   cmdLanguageInvalid: "Send /language then 1–4 (example: /language 2).",
