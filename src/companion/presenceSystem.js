@@ -28,7 +28,8 @@ const SKIP_PRESENCE = new Set([
   "micro_reward",
   "accountability_setup",
   "accountability_followup",
-  "natural_conversation"
+  "natural_conversation",
+  "thread_continuity"
 ]);
 
 /**
@@ -54,13 +55,13 @@ function applyPresence(body, ctx, category) {
   const r = getResponses(lang);
   if (state.useHumor && state.seriousness >= 40) {
     const quips = r.presenceQuips || [];
-    if (quips.length && Math.random() < 0.18) {
+    if (quips.length && Math.random() < 0.12) {
       const q = pickSeeded(quips, `${category}_${memory.short.turns.length}`);
       out = lines(q, "", out);
     }
   }
 
-  if (state.scatter >= 4 && Math.random() < 0.12) {
+  if (state.scatter >= 4 && Math.random() < 0.08) {
     const sarcasm = r.sarcasmRare || [];
     if (sarcasm.length) {
       out = lines(pickSeeded(sarcasm, `sar_${category}`), "", out);

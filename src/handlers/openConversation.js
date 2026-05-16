@@ -42,6 +42,7 @@ const {
   applyAccountabilityToggle,
   tryAccountabilityFollowUp
 } = require("../companion/accountabilityMode");
+const { tryThreadReturnReply } = require("../companion/threadContinuityEngine");
 
 const COACH_HEAVY = new Set([
   "emotional_reflection",
@@ -154,6 +155,18 @@ async function handleOpenConversation(message, lang, session) {
         suggestedAction: "/reset"
       };
     }
+  }
+
+  const threadReturn = tryThreadReturnReply(session, text, lang);
+  if (threadReturn) {
+    const companionCtx = prepareCompanionContext(
+      userId,
+      text,
+      session,
+      lang,
+      threadReturn.category
+    );
+    return emitOpen(companionCtx, threadReturn.category, threadReturn.body, r, null);
   }
 
   const accToggle = detectAccountabilityToggle(text);

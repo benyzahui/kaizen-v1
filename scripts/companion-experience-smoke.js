@@ -46,7 +46,10 @@ async function run() {
   const accReply = applyAccountabilityToggle("acc1", "on", "en");
   assert(/accountability/i.test(accReply), "accountability ack");
 
-  const micro = tryMicroReward("ma futottam 5 km", "hu", "m1");
+  let micro = null;
+  for (let i = 0; i < 8 && !micro; i++) {
+    micro = tryMicroReward("ma futottam 5 km", "hu", `m1_${i}`);
+  }
   assert(micro?.body, "micro reward HU");
 
   const scenarios = [

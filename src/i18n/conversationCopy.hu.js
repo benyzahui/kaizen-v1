@@ -181,5 +181,46 @@ module.exports = {
     "A fegyelem az önáratás csökkentése.",
     "Az energiaszivárgás több jövőt rombol, mint a tehetséghiány.",
     "A standard az, amit akkor is csinálsz, ha senki nem tapsol."
-  ]
+  ],
+
+  groundedVoiceAlts: [
+    "Ez inkább túlterhelésnek hangzik, nem lustaságnak.",
+    "Túl sok dolog fut egyszerre benned.",
+    "Nem tűnsz gyengének. Inkább túl sokáig húztad megállás nélkül.",
+    "Most nem új terv kell. Idegrendszeri visszarendezés.",
+    "A tested előbb jelez, mint az egód."
+  ],
+
+  oneLineBeats: [
+    "Ma ne bizonyíts. Csak stabilizálj.",
+    "Most a legegyszerűbb lépés lesz a legerősebb.",
+    "Egy őszinte blokk. Aztán állj."
+  ],
+
+  threadReturn: {
+    generic: [
+      "Na?\nTisztább a fejed vagy még zajos?",
+      "Vissza vagy — mi változott?"
+    ],
+    run: [
+      "Na?\nKönnyebb lett a fejed vagy még mindig zajos?",
+      "Futás után — a test lejjebb vitte az elmét?"
+    ],
+    workout: [
+      "Kész?\nA test visszahúzta egy fokkal az elmét?",
+      "Vissza — erősebb vagy csak jó fáradtság?"
+    ],
+    walk: [
+      "Vissza.\nVett a séta öt százalék nyugalmat?",
+      "Visszajöttél — segített a levegő?"
+    ],
+    breath: [
+      "Vissza.\nLazább a légzés?",
+      "Vissza — kicsit több hely bent?"
+    ],
+    trade: [
+      "Vissza.\nMég rajta a fegyelem?",
+      "Session előtt — tiszta a szabály?"
+    ]
+  }
 };

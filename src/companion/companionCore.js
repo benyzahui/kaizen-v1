@@ -35,6 +35,9 @@ const { applyTimePresence } = require("./timePresenceEngine");
 const { formatPremiumMessage } = require("./messageFormat");
 const { applyDepthScale } = require("./responseDepth");
 const { maybeDragonWhisper } = require("./dragonPresence");
+const { applyHumanVoiceGuard } = require("./humanVoiceGuard");
+const { shouldUseOneLinePacing, applyOneLinePacing } = require("./oneLinePacing");
+const { maybeThreadLead } = require("./threadContinuityEngine");
 
 const SKIP_MEMORY_CATEGORIES = new Set([
   "onboarding",
@@ -43,7 +46,8 @@ const SKIP_MEMORY_CATEGORIES = new Set([
   "cooldown",
   "micro_reward",
   "accountability_setup",
-  "accountability_followup"
+  "accountability_followup",
+  "thread_continuity"
 ]);
 
 const EMBEDDED_CMD_RE = /\n→\s*\/\w+(@\w+)?\s*$/gim;
@@ -97,7 +101,8 @@ function prepareCompanionContext(userId, text, session, lang, classifyCategory) 
     rhythm,
     plan,
     conversationMode,
-    session
+    session,
+    lastUserText: text
   };
 }
 
@@ -130,6 +135,11 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = lines(memLine, "", b);
   }
 
+  const threadLead = maybeThreadLead(ctx.session || s, ctx.lang);
+  if (threadLead && !SKIP_MEMORY_CATEGORIES.has(category) && category !== "thread_continuity") {
+    b = lines(threadLead, "", b);
+  }
+
   if (!opts.skipPresence) {
     b = applyTimePresence(b, ctx, category);
     b = applyPresence(b, ctx, category);
@@ -137,8 +147,14 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
 
   b = applyAntiLoop(ctx, b, category, r);
 
+  if (shouldUseOneLinePacing(ctx.lastUserText, ctx.state, category)) {
+    b = applyOneLinePacing(b, ctx.lang, `${category}_${ctx.userId}`);
+  }
+
+  b = applyHumanVoiceGuard(b, ctx.lang, `${category}_${ctx.userId}`);
+
   const dragon = maybeDragonWhisper(ctx.lang, category, `${category}_${ctx.userId}`);
-  if (dragon) b = lines(b, "", dragon);
+  if (dragon && b.split(/\n/).length < 6) b = lines(b, "", dragon);
 
   b = formatPremiumMessage(b);
 

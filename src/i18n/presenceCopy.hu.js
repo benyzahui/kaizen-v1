@@ -80,9 +80,9 @@ module.exports = {
   },
 
   structureRewrites: [
-    "Most nem több gondolkodás kell.\nEgy őszinte mozdulat.",
-    "A lépés már nyilvánvaló.\nAzért állsz, mert ego-ba kerül.",
-    "Kevesebb narratíva. Több kapcsolat a valósággal.",
-    "Ne kérdezd, mit csinálj.\nCsináld azt, amit kerülgetsz."
+    "Ez inkább túlterhelésnek hangzik, nem lustaságnak.",
+    "Túl sok dolog fut egyszerre benned.",
+    "A tested előbb jelez, mint az egód.",
+    "Most nem új terv kell. Idegrendszeri visszarendezés."
   ]
 };

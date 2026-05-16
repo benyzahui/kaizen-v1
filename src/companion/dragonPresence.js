@@ -20,7 +20,7 @@ const SKIP = new Set([
  */
 function maybeDragonWhisper(lang, category, seed = "") {
   if (SKIP.has(category)) return null;
-  if (Math.random() > 0.11) return null;
+  if (Math.random() > 0.06) return null;
   const r = getResponses(lang);
   const pool = r.dragonWhispers || [];
   if (!pool.length) return null;

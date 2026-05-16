@@ -81,9 +81,9 @@ module.exports = {
   },
 
   structureRewrites: [
-    "You do not need more thinking right now.\nYou need one honest movement.",
-    "The move is already obvious.\nYou are stalling because it costs ego.",
-    "Less narrative. More contact with reality.",
-    "Stop asking what to do.\nDo the thing you have been avoiding."
+    "This sounds more like overload than laziness.",
+    "Too many things running at once inside you.",
+    "Your body signaled before your ego admitted it.",
+    "Not a new plan — nervous system reset first."
   ]
 };

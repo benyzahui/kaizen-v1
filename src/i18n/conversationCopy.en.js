@@ -187,5 +187,46 @@ module.exports = {
     "Discipline is reducing self-betrayal.",
     "Energy leaks destroy more futures than lack of talent.",
     "Standards are what you do when nobody applauds."
-  ]
+  ],
+
+  groundedVoiceAlts: [
+    "This sounds more like overload than laziness.",
+    "Too many things running at once inside you.",
+    "You do not look weak — you look like you pushed without pauses.",
+    "Not a new plan. Nervous system reset first.",
+    "Your body signaled before your ego admitted it."
+  ],
+
+  oneLineBeats: [
+    "Do not prove anything today. Stabilize.",
+    "The simplest step right now is the strongest.",
+    "One honest block. Then stop."
+  ],
+
+  threadReturn: {
+    generic: [
+      "Back.\nClearer head or still noisy?",
+      "You returned — what shifted?"
+    ],
+    run: [
+      "So?\nEasier in the head or still loud inside?",
+      "Back from the run — body lighter or mind still racing?"
+    ],
+    workout: [
+      "Done?\nDid the body pull the mind down a notch?",
+      "Back — stronger or just tired in a good way?"
+    ],
+    walk: [
+      "Back.\nDid the walk buy you five percent calm?",
+      "Returned — air help or still tangled?"
+    ],
+    breath: [
+      "Back.\nBreath softer or still tight?",
+      "Returned — a little more space inside?"
+    ],
+    trade: [
+      "Back.\nDiscipline still on or impulse creeping in?",
+      "Pre-session done — rules still clear?"
+    ]
+  }
 };

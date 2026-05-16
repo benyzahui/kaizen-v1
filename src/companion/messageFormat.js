@@ -16,7 +16,23 @@ function formatPremiumMessage(text) {
     "\n\n$1"
   );
   t = t.replace(/\n\n\n+/g, "\n\n");
+  t = dedupeEmojiHeaders(t);
   return t.trim();
 }
 
-module.exports = { formatPremiumMessage };
+function dedupeEmojiHeaders(text) {
+  const seen = new Set();
+  const out = [];
+  for (const line of String(text).split(/\n/)) {
+    const m = line.match(/^([\u{1F300}-\u{1FAFF}\u2600-\u27BF🧠⚔🌱💪🔥📉🌘🌙⚡🫀💼]+)\s/u);
+    if (m) {
+      const key = m[1];
+      if (seen.has(key)) continue;
+      seen.add(key);
+    }
+    out.push(line);
+  }
+  return out.join("\n");
+}
+
+module.exports = { formatPremiumMessage, dedupeEmojiHeaders };

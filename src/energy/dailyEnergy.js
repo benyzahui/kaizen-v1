@@ -81,7 +81,8 @@ function buildDailyEnergyMessage(
   date = new Date(),
   lang = "en",
   lens = "general",
-  seed = ""
+  seed = "",
+  ctx = null
 ) {
   const l = lang === "hu" ? "hu" : lang === "ro" ? "ro" : "en";
   const vib = getUniversalDayVibration(date).vibration;
@@ -92,12 +93,51 @@ function buildDailyEnergyMessage(
   const h = sectionLabels(l);
   const daySeed = seed || date.toISOString().slice(0, 10);
 
+  const state = ctx?.state;
   const mentalLine =
     lens === "emotion"
       ? lines(core.emotion, watch.split(".")[0])
-      : core.emotion;
-  const bodyLine = pickBody(l, vib);
-  const workLine = pickTrading(l, vib);
+      : lens === "body" && state?.energyLevel <= 4
+        ? pickSeeded(
+            {
+              en: ["Calm the nervous system before any new input.", "Body first. Mind follows slower."],
+              hu: ["Előbb idegrendszer. Utána input.", "Test először. Fej lassabban követ."],
+              ro: ["Calmează sistemul nervos înainte de input.", "Corpul întâi. Mintea urmează."]
+            }[l] || [],
+            `${daySeed}:calm`
+          )
+        : core.emotion;
+  const bodyLine =
+    lens === "body"
+      ? pickSeeded(
+          {
+            en: ["Water, food, slow walk — in that order if you can.", "No heroics. Restore the tank."],
+            hu: ["Víz, étel, lassú séta — ebben a sorrendben, ha lehet.", "Nincs hőség. Töltés."],
+            ro: ["Apă, mâncare, mers lent — în ordinea asta.", "Fără eroism. Reîncarcă."]
+          }[l] || [],
+          `${daySeed}:body`
+        )
+      : pickBody(l, vib);
+  const workLine =
+    lens === "trading"
+      ? pickSeeded(
+          {
+            en: ["Rules before charts. Size second.", "Discipline is the edge today — not adrenaline."],
+            hu: ["Szabály a chart előtt. Méret második.", "Ma a fegyelem az edge — nem az adrenalin."],
+            ro: ["Reguli înainte de chart. Mărimea pe locul doi.", "Disciplina e edge-ul azi."]
+          }[l] || [],
+          `${daySeed}:trade`
+        )
+      : lens === "work"
+        ? pickSeeded(
+            {
+              en: ["One block with a visible finish.", "Execution energy — close one loop."],
+              hu: ["Egy blokk látható véggel.", "Végrehajtás — egy kör lezárása."],
+              ro: ["Un bloc cu final vizibil.", "Execuție — închide o buclă."]
+            }[l] || [],
+            `${daySeed}:work`
+          )
+        : pickTrading(l, vib);
   const watchLine = `${watch}`.split(".")[0].trim();
 
   const out = lines(

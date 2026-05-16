@@ -13,7 +13,7 @@ module.exports = {
 
   moodBeats: {
     discipline: [
-      "The move is obvious.\nYou are stalling.",
+      "You already know the next step.\nYou are avoiding the cost of doing it.",
       "Less talk.\nOne cut.",
       "Your rules already know."
     ],

@@ -7,6 +7,8 @@
 const { buildEnergyRead } = require("../companion/energyEngine");
 const { loadMemoryHierarchy } = require("../companion/memoryHierarchy");
 const { getSession } = require("../session/sessionStore");
+const { analyzeUserState } = require("../core/responseEngine");
+const { resolveContextualEnergyLens } = require("../companion/contextualEnergy");
 
 /**
  * @param {string} [arg]
@@ -78,12 +80,14 @@ function parseNaturalEnergyLens(text) {
  * @param {Lang} lang
  */
 async function handleEnergy(message, lang = "en") {
-  const lens = parseSlashEnergyLens(message.text || "");
+  const explicit = parseSlashEnergyLens(message.text || "");
   const uid = message.from?.id ?? message.chat?.id;
   const session = getSession(uid);
   const memory = loadMemoryHierarchy(session);
+  const state = analyzeUserState(message.text || "", session, "energy_question");
+  const lens = resolveContextualEnergyLens(session, state, explicit);
   const { rememberSnippet } = require("./dailyProtocol");
-  const body = buildEnergyRead(new Date(), lang, lens, { memory, userId: uid });
+  const body = buildEnergyRead(new Date(), lang, lens, { memory, userId: uid, state, session });
   return rememberSnippet(uid, session, body);
 }
 
@@ -108,7 +112,9 @@ function buildEnergyFromOpenText(text, lang = "en", userId = null) {
   }
   const session = getSession(userId);
   const memory = loadMemoryHierarchy(session);
-  return buildEnergyRead(new Date(), lang, lens, { memory, userId });
+  const state = analyzeUserState(text, session, "energy_question");
+  const resolved = resolveContextualEnergyLens(session, state, lens);
+  return buildEnergyRead(new Date(), lang, resolved, { memory, userId, state, session });
 }
 
 module.exports = {

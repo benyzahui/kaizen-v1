@@ -174,5 +174,46 @@ module.exports = {
     "Disciplina e reducerea trădării de sine.",
     "Pierderile de energie distrug mai multe viitoruri decât lipsa talentului.",
     "Standardele sunt ce faci când nimeni nu aplaudă."
-  ]
+  ],
+
+  groundedVoiceAlts: [
+    "Sună mai degrabă a supraîncărcare decât lene.",
+    "Prea multe lucruri rulează simultan în tine.",
+    "Nu pari slab — pari că ai tras fără pauză.",
+    "Nu plan nou. Reset nervos mai întâi.",
+    "Corpul a semnalat înainte de ego."
+  ],
+
+  oneLineBeats: [
+    "Azi nu demonstra. Stabilizează.",
+    "Cel mai simplu pas acum e cel mai puternic.",
+    "Un bloc onest. Apoi stop."
+  ],
+
+  threadReturn: {
+    generic: [
+      "Înapoi.\nCap mai clar sau încă zgomot?",
+      "Ai revenit — ce s-a schimbat?"
+    ],
+    run: [
+      "Și?\nMai ușor în cap sau încă zgomotos?",
+      "După alergare — corpul a coborât mintea?"
+    ],
+    workout: [
+      "Gata?\nCorpul a tras mintea un pic jos?",
+      "Înapoi — mai puternic sau obosit bine?"
+    ],
+    walk: [
+      "Înapoi.\nPlimbarea a cumpărat calm?",
+      "Revenit — aer sau încă încurcat?"
+    ],
+    breath: [
+      "Înapoi.\nRespirația mai moale?",
+      "Revenit — puțin mai mult spațiu?"
+    ],
+    trade: [
+      "Înapoi.\nDisciplina încă activă?",
+      "Pre-sesiune — reguli clare?"
+    ]
+  }
 };

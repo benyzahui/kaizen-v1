@@ -122,6 +122,7 @@ function emptySession() {
     accountabilitySince: null,
     lastAccountabilityPromise: null,
     lastAccountabilityAt: null,
+    lastThreadActivity: null,
     lastAt: Date.now()
   };
 }
@@ -269,6 +270,8 @@ function recordInteraction(userId, ev) {
   const structPatch = recordStructure(s, String(ev.reply || ""));
   const { trackAssistantReply } = require("../conversation/responseVariationEngine");
   const variationPatch = trackAssistantReply(s, String(ev.reply || ""));
+  const { extractThreadActivity } = require("../companion/threadContinuityEngine");
+  const threadAct = extractThreadActivity(ev.text);
 
   store.set(id, {
     ...s,
@@ -296,6 +299,7 @@ function recordInteraction(userId, ev) {
     recentCoachSnippets,
     recentCommands,
     conversationState: convState,
+    ...(threadAct ? { lastThreadActivity: threadAct } : {}),
     lastAt: Date.now()
   });
 }

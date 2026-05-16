@@ -80,9 +80,9 @@ module.exports = {
   },
 
   structureRewrites: [
-    "Acum nu ai nevoie de mai mult gândit.\nAi nevoie de o mișcare onestă.",
-    "Pasul e deja evident.\nAmâni pentru că costă ego.",
-    "Mai puțină narațiune. Mai mult contact cu realitatea.",
-    "Nu mai întreba ce să faci.\nFă ce eviți."
+    "Sună mai degrabă a supraîncărcare decât lene.",
+    "Prea multe lucruri rulează simultan în tine.",
+    "Corpul a semnalat înainte să admită ego-ul.",
+    "Nu plan nou — reset nervos mai întâi."
   ]
 };

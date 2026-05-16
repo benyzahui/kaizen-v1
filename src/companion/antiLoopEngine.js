@@ -28,7 +28,9 @@ function stripHardBannedPhrases(body, lang) {
   for (const re of HARD_BANNED) {
     if (re.test(b)) {
       const key = Object.keys(alts).find((k) => re.source.includes(k.split(".")[0]));
-      const alt = key ? alts[key] : pickSeeded(r.structureRewrites || ["Move one inch."], re.source);
+      const alt = key
+        ? alts[key]
+        : pickSeeded(r.groundedVoiceAlts || r.structureRewrites || ["One honest step."], re.source);
       b = b.replace(re, alt);
     }
   }
@@ -42,6 +44,9 @@ function stripHardBannedPhrases(body, lang) {
  * @param {object} r responses bundle
  */
 function applyAntiLoop(ctx, body, category, r) {
+  if (category === "thread_continuity" || category === "micro_reward") {
+    return stripHardBannedPhrases(body, ctx.lang);
+  }
   let b = stripHardBannedPhrases(body, ctx.lang);
   const sessionLike = {
     responseStructures: ctx.memory?.short?.responseStructures || [],
@@ -50,7 +55,7 @@ function applyAntiLoop(ctx, body, category, r) {
 
   const struct = extractStructure(b);
   if (isStructureRepeat(sessionLike, struct) || hasWeakQuestionPattern(b)) {
-    const rewrites = r.structureRewrites || [];
+    const rewrites = r.groundedVoiceAlts || r.structureRewrites || [];
     if (rewrites.length) {
       b = pickSeeded(rewrites, `${category}_${sessionLike.messages.length}_loop`);
     }
