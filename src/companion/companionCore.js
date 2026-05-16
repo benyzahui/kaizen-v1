@@ -34,12 +34,16 @@ const {
 const { applyTimePresence } = require("./timePresenceEngine");
 const { formatPremiumMessage } = require("./messageFormat");
 const { applyDepthScale } = require("./responseDepth");
+const { maybeDragonWhisper } = require("./dragonPresence");
 
 const SKIP_MEMORY_CATEGORIES = new Set([
   "onboarding",
   "language_switch",
   "companion_checkin",
-  "cooldown"
+  "cooldown",
+  "micro_reward",
+  "accountability_setup",
+  "accountability_followup"
 ]);
 
 const EMBEDDED_CMD_RE = /\n→\s*\/\w+(@\w+)?\s*$/gim;
@@ -132,6 +136,10 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
   }
 
   b = applyAntiLoop(ctx, b, category, r);
+
+  const dragon = maybeDragonWhisper(ctx.lang, category, `${category}_${ctx.userId}`);
+  if (dragon) b = lines(b, "", dragon);
+
   b = formatPremiumMessage(b);
 
   if (detectLaneWandering(s, category)) {

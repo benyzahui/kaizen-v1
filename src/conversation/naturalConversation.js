@@ -24,7 +24,7 @@ function isSevereCrisis(text) {
 }
 
 function isNaturalEmotional(text) {
-  return /(stressz|stresszes|nyomaszt|kifáradt|kimerült|fáradt|szét|széthúz|nem tudom mit|mit csináljak|elvesztett|overwhelmed|exhausted|burned out|don't know what|scattered|túl sok minden|too much at once|levert|túlpörög)/i.test(
+  return /(stressz|stresszes|nyomaszt|kifáradt|kimerült|fáradt|szét|széthúz|szét vagyok|csúszva|nem tudom mit|mit csináljak|elvesztett|overwhelmed|exhausted|burned out|don't know what|scattered|túl sok minden|too much at once|levert|túlpörög|nagyon stressz)/i.test(
     String(text || "")
   );
 }

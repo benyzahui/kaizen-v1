@@ -1,5 +1,5 @@
 /**
- * /guide and /map — user-facing help (copy in i18n onboarding bundle).
+ * /guide and /map — premium grouped layout (not a command wall).
  */
 
 const { lines } = require("../personality/kaizenVoice");
@@ -10,7 +10,14 @@ const { getResponses } = require("../i18n/getResponses");
  */
 function buildGuideReply(lang) {
   const r = getResponses(lang);
-  return r.guideBody;
+  if (r.guideBody) return r.guideBody;
+
+  const sections = r.guideSections || [];
+  const parts = sections.map((s) =>
+    lines(`${s.emoji} ${s.title}`, s.commands)
+  );
+  parts.push("", r.guideNaturalFooter || "You can always speak naturally too.");
+  return parts.join("\n\n");
 }
 
 /**

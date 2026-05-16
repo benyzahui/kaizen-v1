@@ -118,6 +118,10 @@ function emptySession() {
     focusLocked: false,
     presenceMemory: null,
     lastCompanionCheckin: 0,
+    accountabilityMode: false,
+    accountabilitySince: null,
+    lastAccountabilityPromise: null,
+    lastAccountabilityAt: null,
     lastAt: Date.now()
   };
 }

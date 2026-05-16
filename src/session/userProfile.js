@@ -49,7 +49,12 @@ const DEFAULT_USER_PROFILE = {
   /** HH:MM local evening target */
   eveningTime: "21:00",
   /** IANA tz or offset string */
-  timezone: null
+  timezone: null,
+
+  accountabilityMode: false,
+  accountabilitySince: null,
+  lastAccountabilityPromise: null,
+  lastAccountabilityAt: null
 };
 
 /**

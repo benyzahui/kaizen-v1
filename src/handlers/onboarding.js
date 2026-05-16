@@ -32,7 +32,7 @@ function startOnboarding(userId) {
     onboardingActive: true,
     onboardingCompleted: false,
     onboardingSkipped: false,
-    onboardingStep: 0,
+    onboardingStep: FC_NATURAL,
     meetKaiZenCompleted: false,
     lastAssistantPrints: [],
     comfortOpenerUses: 0,

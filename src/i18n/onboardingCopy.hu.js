@@ -1,13 +1,22 @@
 /** Hungarian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcCinematicStart: [
+    "⚔️ KaiZen aktiválva.",
+    "",
+    "Nem arra épültem, hogy szórakoztassalak.",
+    "Hanem hogy visszavezesselek az igazításba.",
+    "",
+    "A kis fegyelmezett lépések újraformálják az identitást."
+  ].join("\n"),
+
   fcActivation: [
     "⚔️ KaiZen aktiválva.",
     "",
-    "Elite Zone · Dragon Path társ — fegyelem, test, elme, energia, üzlet, trading.",
-    "Nem véletlen AI chat. Nem motivációs zaj.",
+    "Nem arra épültem, hogy szórakoztassalak.",
+    "Hanem hogy visszavezesselek az igazításba.",
     "",
-    "Küldj egy sort, ha készen állsz."
+    "A kis fegyelmezett lépések újraformálják az identitást."
   ].join("\n"),
 
   fcIntro: [
@@ -22,11 +31,23 @@ module.exports = {
   ].join("\n"),
 
   fcAskNaturalIntro: [
-    "Mutatkozz be természetesen — nem űrlap.",
+    "Mielőtt struktúrát építünk:",
+    "ki vagy a zaj alatt mostanában?",
     "",
-    "Ki vagy, mi hozott ide, min dolgozol most?",
-    "A nyelvet is innen érzékelem (magyar / english / română)."
+    "Vagy mondd, mit próbálsz újraépíteni — elme, test, fegyelem, üzlet, irány.",
+    "Írj természetesen. A nyelvet is innen érzékelem."
   ].join("\n"),
+
+  fcAskFocusSoft: [
+    "Min kell most a legtöbb védelem?",
+    "Elme · test · fegyelem · üzlet · trading · vagy mind egyszerre?",
+    "",
+    "Egy szó vagy egy rövid őszinte sor — nem űrlap."
+  ].join("\n"),
+
+  fcFocusInvalidSoft: "Mondd a saját szavaiddal — elég egy sáv.",
+
+  fcHeardIntroSoft: "Hallottalak. Még egy horgony:",
 
   fcNaturalTooShort: "Egy kicsit több — pár őszinte mondat elég.",
 
@@ -301,27 +322,91 @@ module.exports = {
   profileNotSet: "—",
 
   guideBody: [
-    "Hogyan használd KaiZent (egyszerűen):",
+    "⚔ Napi ritmus",
+    "/pulse /focus /mirror",
     "",
-    "Reggel — nap nyitása:",
-    "/morning",
+    "🧠 Túlterhelésnél",
+    "/reset /breathe /ground",
     "",
-    "Napi struktúra — egy képernyő:",
-    "/today",
+    "📈 Trading fegyelem",
+    "/trade /risk /cooldown",
     "",
-    "Energia — gyakorlati, nem misztikus:",
-    "/energy",
+    "💪 Test",
+    "/train /walk /sleep",
     "",
-    "Túlterhelés — idegrendszer reset:",
-    "/reset",
+    "🌘 Energia",
+    "/energy /emotion /clarity",
     "",
-    "Este — tiszta zárás:",
-    "/mirror",
+    "Mindig írhatsz természetesen is.",
     "",
-    "Írhatsz természetesen is. Coach hang, nem menü.",
-    "Teljes parancslista csak kérésre: /map",
-    "Nyelv: /language"
+    "Teljes térkép csak ha kéred: /map · Nyelv: /language"
   ].join("\n"),
+
+  accountabilityOn:
+    "Felelősség bekapcsolva.\nÉszreveszem, amit mondasz, hogy megteszed — és őszintén kérdezek, ha elcsúszol.\nNincs spam. Nincs hamis hype.",
+
+  accountabilityOff: "Felelősség szünetel. Bármikor visszakapcsolhatod.",
+
+  accountabilityFollowUps: [
+    "Tegnap azt mondtad: {promise}\nMegtörtént — vagy csak a fejed futott?",
+    "Korábban neveztél egy lépést: {promise}\nStátusz — kész, részben, vagy elkerülted?"
+  ],
+
+  accountabilityAvoidance: [
+    "Az elkerülésnek van textúrája — tudod, melyik ez most.",
+    "Egy őszinte sor: mi blokkolta a mozdulatot?",
+    "A fejedben lévő történet hangosabb, mint a tett.\nMi a legkisebb verzió, amit ma még megteszel?"
+  ],
+
+  microRewards: [
+    "Jó.\nA kis ismétlések újraformálják az identitást.",
+    "Ez többet számít, mint egy újabb motivációs videó.",
+    "Megcsináltad a fizikai munkát — az elme lassabban követ. Tiszteld."
+  ],
+
+  dragonWhispers: [
+    "A szétszórt energia lassan megeszi az erőt.",
+    "A fókusz: védett tűz — nem minden érdemel oxigént.",
+    "A kovács csak akkor dolgozik, ha a hőben maradsz elég ideig."
+  ],
+
+  naturalIntentOverload: [
+    [
+      "Érződik a túlterhelés.",
+      "Nem gyengeség — túl sok nyitott kör egyszerre.",
+      "Egy sáv. Egy blokk. A többi vár.",
+      "Most a fejed hangosabb — vagy már rendeződik?"
+    ].join("\n\n")
+  ],
+
+  naturalIntentFocus: [
+    [
+      "Szétcsúszva lenni állapot — nem identitás.",
+      "Zárd a felesleges tabokat. Egy feladat, huszonöt perc.",
+      "Mi az az egy szál, amit ma védeni érdemes?"
+    ].join("\n\n")
+  ],
+
+  naturalIntentTrading: [
+    [
+      "Session előtt: fegyelem az impulzus előtt.",
+      "Kockázat belépés előtt. Test rendezve a chart előtt.",
+      "Egy szabály, amit ebben a sessionben nem törünk?"
+    ].join("\n\n")
+  ],
+
+  naturalIntentClarity: [
+    [
+      "A tisztánlátás kivonás.",
+      "Mit hagynál abba, ha egy órára komoly lennél?",
+      "Egy döntés — ne az egész élet."
+    ].join("\n\n")
+  ],
+
+  eliteZonePrinciples: [
+    "Elite Zone: először idegrendszer, aztán fegyelem, aztán végrehajtás.",
+    "Nincs mérgező hustle. Nincs hamis spiritualitás. Földhöz ragadt átalakulás."
+  ],
 
   mapBody: [
     "KaiZen parancstérkép (lényeg):",

@@ -24,7 +24,11 @@ const SKIP_PRESENCE = new Set([
   "focus_drift",
   "body_energy",
   "reflective_open",
-  "companion_checkin"
+  "companion_checkin",
+  "micro_reward",
+  "accountability_setup",
+  "accountability_followup",
+  "natural_conversation"
 ]);
 
 /**

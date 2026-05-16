@@ -64,6 +64,19 @@ function detectNaturalIntent(text, classifyCategory, _session) {
 
   const low = String(text || "").toLowerCase();
 
+  if (/(kimegyek futni|megyek futni|going for a run|megyek edzeni)/i.test(low)) {
+    return { intent: "body_action" };
+  }
+  if (/(nagyon stressz|very stressed|túl stressz|prea stresat)/i.test(low)) {
+    return { intent: "nervous_overload" };
+  }
+  if (/(elvesztettem a fókuszt|lost focus|szét vagyok csúszva)/i.test(low)) {
+    return { intent: "clarity_support" };
+  }
+  if (/(trade előtt|before (the )?trade|pre.?market)/i.test(low)) {
+    return { intent: "trading_discipline" };
+  }
+
   if (
     /\b(procrastinat|halogat|halogatok|am[aâ]n|amân|avoiding\s+the\s+work|keep\s+putting\s+off)\b/i.test(
       low

@@ -35,6 +35,13 @@ const { resolveNaturalLanguageRequest } = require("../i18n/languageLock");
 const { buildNaturalConversation } = require("../conversation/naturalConversation");
 const { tryCompanionCheckIn } = require("../companion/companionInitiation");
 const { tryShortActionReply } = require("../companion/responseDepth");
+const { routeNaturalIntent } = require("../companion/naturalIntentRouter");
+const { tryMicroReward } = require("../companion/microRewards");
+const {
+  detectAccountabilityToggle,
+  applyAccountabilityToggle,
+  tryAccountabilityFollowUp
+} = require("../companion/accountabilityMode");
 
 const COACH_HEAVY = new Set([
   "emotional_reflection",
@@ -147,6 +154,49 @@ async function handleOpenConversation(message, lang, session) {
         suggestedAction: "/reset"
       };
     }
+  }
+
+  const accToggle = detectAccountabilityToggle(text);
+  if (accToggle) {
+    const reply = applyAccountabilityToggle(userId, accToggle, lang);
+    const companionCtx = prepareCompanionContext(userId, text, session, lang, "accountability_setup");
+    return emitOpen(companionCtx, "accountability_setup", reply, r, null);
+  }
+
+  const accFollow = tryAccountabilityFollowUp(session, text, lang, userId);
+  if (accFollow) {
+    const companionCtx = prepareCompanionContext(
+      userId,
+      text,
+      session,
+      lang,
+      accFollow.category
+    );
+    return emitOpen(companionCtx, accFollow.category, accFollow.body, r, null);
+  }
+
+  const micro = tryMicroReward(text, lang, userId);
+  if (micro) {
+    const companionCtx = prepareCompanionContext(userId, text, session, lang, micro.category);
+    return emitOpen(companionCtx, micro.category, micro.body, r, null);
+  }
+
+  const naturalIntent = routeNaturalIntent(text, lang, session, userId);
+  if (naturalIntent) {
+    const companionCtx = prepareCompanionContext(
+      userId,
+      text,
+      session,
+      lang,
+      naturalIntent.category
+    );
+    return emitOpen(
+      companionCtx,
+      naturalIntent.category,
+      naturalIntent.body,
+      r,
+      naturalIntent.suggestedCommand ?? null
+    );
   }
 
   const shortAction = tryShortActionReply(text, lang, userId);

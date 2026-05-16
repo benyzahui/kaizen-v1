@@ -79,11 +79,19 @@ function classifyMessage(text) {
   }
 
   if (
-    /\b(scattered|distracted|can't focus|cant focus|brain fog|foggy|jumping between|switching tabs|tab hoard|unfocused|attention split|mind racing|szétszórt|nem tudok koncentrálni|dispers|fragmentat|nu mă pot concentra)\b/i.test(
+    /\b(scattered|distracted|can't focus|cant focus|brain fog|foggy|jumping between|switching tabs|tab hoard|unfocused|attention split|mind racing|szétszórt|nem tudok koncentrálni|dispers|fragmentat|nu mă pot concentra|szét vagyok csúszva|elvesztettem a fókuszt|lost focus|am pierdut focus)\b/i.test(
       t
     )
   ) {
     return "focus_drift";
+  }
+
+  if (/(trade előtt|before (the )?trade|înainte de trade|pre.?market|kereskedés előtt)/i.test(t)) {
+    return "trading_context";
+  }
+
+  if (/(nagyon stressz|very stressed|prea stresat|túl stressz)/i.test(t) && t.length < 200) {
+    return "emotional_reflection";
   }
 
   if (

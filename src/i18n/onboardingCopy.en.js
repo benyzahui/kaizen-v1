@@ -1,21 +1,42 @@
 /** English copy — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcCinematicStart: [
+    "⚔️ KaiZen activated.",
+    "",
+    "I am not built to entertain you.",
+    "I am built to help you return to alignment.",
+    "",
+    "Small disciplined actions reshape identity."
+  ].join("\n"),
+
   fcActivation: [
     "⚔️ KaiZen activated.",
     "",
-    "Elite Zone · Dragon Path companion — discipline, body, mind, energy, business, trading.",
-    "Not random AI chat. Not motivation noise.",
+    "I am not built to entertain you.",
+    "I am built to help you return to alignment.",
     "",
-    "Send one line when you are ready."
+    "Small disciplined actions reshape identity."
   ].join("\n"),
 
   fcAskNaturalIntro: [
-    "Introduce yourself naturally — not a form.",
+    "Before we build structure:",
+    "who are you under the noise lately?",
     "",
-    "Who you are, what brought you here, what you are working on.",
-    "I will detect your language from how you write."
+    "Or say what you are trying to rebuild — mind, body, discipline, business, direction.",
+    "Write naturally. I read language from how you speak."
   ].join("\n"),
+
+  fcAskFocusSoft: [
+    "What needs the most guard right now?",
+    "Mind · body · discipline · business · trading · or all at once?",
+    "",
+    "One word or a short honest line — no form."
+  ].join("\n"),
+
+  fcFocusInvalidSoft: "Say it in your own words — one lane is enough.",
+
+  fcHeardIntroSoft: "Heard you. One more anchor:",
 
   fcNaturalTooShort: "A little more — a few honest sentences is enough.",
 
@@ -30,16 +51,6 @@ module.exports = {
     "Structured presence — morning to evening.",
     "",
     "Send one line when you are ready to begin setup."
-  ].join("\n"),
-
-  fcActivation: [
-    "⚡ KaiZen activated.",
-    "",
-    "Something just came online — not a chatbot.",
-    "A daily companion for discipline, clarity, and honest execution.",
-    "",
-    "Breathe once.",
-    "Send any line when you are ready."
   ].join("\n"),
 
   fcLangPick: [
@@ -331,27 +342,90 @@ module.exports = {
   profileNotSet: "—",
 
   guideBody: [
-    "How to use KaiZen (simple):",
+    "⚔ Daily rhythm",
+    "/pulse /focus /mirror",
     "",
-    "Morning — open the day:",
-    "/morning",
+    "🧠 When overloaded",
+    "/reset /breathe /ground",
     "",
-    "Day structure — one screen:",
-    "/today",
+    "📈 Trading discipline",
+    "/trade /risk /cooldown",
     "",
-    "Energy read — practical, not mystical:",
-    "/energy",
+    "💪 Body",
+    "/train /walk /sleep",
     "",
-    "Overload — nervous system reset:",
-    "/reset",
+    "🌘 Energy",
+    "/energy /emotion /clarity",
     "",
-    "Evening — close clean:",
-    "/mirror",
+    "You can always speak naturally too.",
     "",
-    "You can also write naturally. I answer like a coach, not a menu.",
-    "Full command list only when you ask: /map",
-    "Language: /language"
+    "Full map only if you want it: /map · Language: /language"
   ].join("\n"),
+
+  accountabilityOn:
+    "Accountability on.\nI will notice what you say you will do — and ask honestly when you drift.\nNo spam. No fake hype.",
+
+  accountabilityOff: "Accountability paused. You can turn it back on anytime.",
+
+  accountabilityFollowUps: [
+    "Yesterday you said: {promise}\nDid it happen — or only your head ran?",
+    "You named a move earlier: {promise}\nStatus — done, partial, or avoided?"
+  ],
+
+  accountabilityAvoidance: [
+    "Avoidance has a texture — you know which one this is.\nOne honest line: what blocked the move?",
+    "The story in your head is louder than the action.\nWhat is the smallest version you will still do today?"
+  ],
+
+  microRewards: [
+    "Good.\nSmall repetitions rebuild identity.",
+    "That matters more than another motivational video.",
+    "You did the physical work — the mind follows slower. Respect that."
+  ],
+
+  dragonWhispers: [
+    "Scattered energy slowly eats strength.",
+    "Focus is protected fire — not everything deserves oxygen.",
+    "The forge only works when you stay in the heat long enough."
+  ],
+
+  naturalIntentOverload: [
+    [
+      "Overload is showing.",
+      "Not weakness — too many open loops at once.",
+      "One lane. One block. The rest waits.",
+      "Is your head louder right now — or already settling?"
+    ].join("\n\n")
+  ],
+
+  naturalIntentFocus: [
+    [
+      "Pulled apart is a state — not your identity.",
+      "Close extra tabs. One task, twenty-five minutes.",
+      "What is the one thread worth protecting today?"
+    ].join("\n\n")
+  ],
+
+  naturalIntentTrading: [
+    [
+      "Pre-session: discipline before impulse.",
+      "Risk defined before entry. Body regulated before charts.",
+      "One rule you will not break this session?"
+    ].join("\n\n")
+  ],
+
+  naturalIntentClarity: [
+    [
+      "Clarity is subtraction.",
+      "What would you stop doing if you were serious for one hour?",
+      "Name one decision — not the whole life."
+    ].join("\n\n")
+  ],
+
+  eliteZonePrinciples: [
+    "Elite Zone: nervous system first, then discipline, then execution.",
+    "No toxic hustle. No fake spirituality. Grounded transformation."
+  ],
 
   mapBody: [
     "KaiZen command map (essentials):",

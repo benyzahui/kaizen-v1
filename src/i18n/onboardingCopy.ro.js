@@ -1,21 +1,42 @@
 /** Romanian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcCinematicStart: [
+    "⚔️ KaiZen activat.",
+    "",
+    "Nu sunt construit să te distrez.",
+    "Sunt construit să te ajut să revii la aliniere.",
+    "",
+    "Acțiunile mici disciplinate refac identitatea."
+  ].join("\n"),
+
   fcActivation: [
     "⚔️ KaiZen activat.",
     "",
-    "Companion Elite Zone · Dragon Path — disciplină, corp, minte, energie, business, trading.",
-    "Nu e chat AI la întâmplare. Nu zgomot motivațional.",
+    "Nu sunt construit să te distrez.",
+    "Sunt construit să te ajut să revii la aliniere.",
     "",
-    "Trimite o linie când ești gata."
+    "Acțiunile mici disciplinate refac identitatea."
   ].join("\n"),
 
   fcAskNaturalIntro: [
-    "Prezintă-te natural — nu formular.",
+    "Înainte să construim structură:",
+    "cine ești sub zgomotul din ultima vreme?",
     "",
-    "Cine ești, ce te-a adus aici, la ce lucrezi acum?",
-    "Limba o detectez din cum scrii."
+    "Sau spune ce încerci să reconstruiești — minte, corp, disciplină, business, direcție.",
+    "Scrie natural. Limba o citesc din cum vorbești."
   ].join("\n"),
+
+  fcAskFocusSoft: [
+    "Ce are nevoie de cea mai multă protecție acum?",
+    "Minte · corp · disciplină · business · trading · sau tot odată?",
+    "",
+    "Un cuvânt sau o linie scurtă — fără formular."
+  ].join("\n"),
+
+  fcFocusInvalidSoft: "Spune cu cuvintele tale — un singur fir e suficient.",
+
+  fcHeardIntroSoft: "Te-am auzit. Încă o ancoră:",
 
   fcNaturalTooShort: "Puțin mai mult — câteva propoziții oneste sunt suficiente.",
 
@@ -30,15 +51,6 @@ module.exports = {
     "Prezență structurată — de dimineață până seara.",
     "",
     "Trimite o linie când ești gata pentru setup."
-  ].join("\n"),
-  fcActivation: [
-    "⚡ KaiZen activat.",
-    "",
-    "Ceva s-a aprins — nu chatbot.",
-    "Companion zilnic: disciplină, claritate, execuție onestă.",
-    "",
-    "O respirație.",
-    "Trimite o linie când ești gata."
   ].join("\n"),
   fcLangPick: [
     "Limba — alege (se schimbă doar cu /language):",
@@ -309,27 +321,91 @@ module.exports = {
   profileNotSet: "—",
 
   guideBody: [
-    "Cum folosești KaiZen (simplu):",
+    "⚔ Ritm zilnic",
+    "/pulse /focus /mirror",
     "",
-    "Dimineață — deschide ziua:",
-    "/morning",
+    "🧠 Când ești supraîncărcat",
+    "/reset /breathe /ground",
     "",
-    "Structura zilei — un ecran:",
-    "/today",
+    "📈 Disciplină trading",
+    "/trade /risk /cooldown",
     "",
-    "Energie — practic, nu mistic:",
-    "/energy",
+    "💪 Corp",
+    "/train /walk /sleep",
     "",
-    "Supraîncărcare — reset sistem nervos:",
-    "/reset",
+    "🌘 Energie",
+    "/energy /emotion /clarity",
     "",
-    "Seară — închide curat:",
-    "/mirror",
+    "Poți vorbi mereu natural.",
     "",
-    "Poți scrie natural. Răspund ca un coach, nu ca un meniu.",
-    "Lista completă doar la cerere: /map",
-    "Limbă: /language"
+    "Hartă completă doar dacă vrei: /map · Limbă: /language"
   ].join("\n"),
+
+  accountabilityOn:
+    "Responsabilitate activată.\nObserv ce spui că vei face — și întreb onest când deviezi.\nFără spam. Fără hype fals.",
+
+  accountabilityOff: "Responsabilitate în pauză. O poți reporni oricând.",
+
+  accountabilityFollowUps: [
+    "Ieri ai spus: {promise}\nS-a întâmplat — sau doar capul a alergat?",
+    "Ai numit un pas mai devreme: {promise}\nStatus — făcut, parțial, sau evitat?"
+  ],
+
+  accountabilityAvoidance: [
+    "Evitarea are o textură — știi care e acum.",
+    "O linie onestă: ce a blocat mișcarea?",
+    "Povestea din cap e mai tare decât acțiunea.\nCare e cea mai mică versiune pe care o faci azi?"
+  ],
+
+  microRewards: [
+    "Bine.\nRepetițiile mici refac identitatea.",
+    "Contează mai mult decât încă un video motivațional.",
+    "Ai făcut munca fizică — mintea urmează mai lent. Respectă asta."
+  ],
+
+  dragonWhispers: [
+    "Energia risipită îți mănâncă treptat puterea.",
+    "Focul protejat — nu tot merită oxigen.",
+    "Focul de fier lucrează doar dacă rămâi în căldură destul."
+  ],
+
+  naturalIntentOverload: [
+    [
+      "Se simte supraîncărcarea.",
+      "Nu e slăbiciune — prea multe bucle deschise.",
+      "Un fir. Un bloc. Restul așteaptă.",
+      "Capul e mai zgomotos acum — sau deja se așază?"
+    ].join("\n\n")
+  ],
+
+  naturalIntentFocus: [
+    [
+      "Să fii împrăștiat e stare — nu identitate.",
+      "Închide tab-urile extra. O sarcină, douăzeci și cinci de minute.",
+      "Care e firul unic de protejat azi?"
+    ].join("\n\n")
+  ],
+
+  naturalIntentTrading: [
+    [
+      "Pre-sesiune: disciplină înainte de impuls.",
+      "Risc definit înainte de intrare. Corp reglat înainte de chart.",
+      "O regulă pe care nu o spargi în sesiunea asta?"
+    ].join("\n\n")
+  ],
+
+  naturalIntentClarity: [
+    [
+      "Claritatea e scădere.",
+      "Ce ai opri dacă ai fi serios o oră?",
+      "O decizie — nu toată viața."
+    ].join("\n\n")
+  ],
+
+  eliteZonePrinciples: [
+    "Elite Zone: mai întâi sistemul nervos, apoi disciplina, apoi execuția.",
+    "Fără hustle toxic. Fără spiritualitate falsă. Transformare ancorată."
+  ],
 
   mapBody: [
     "Harta comenzi KaiZen (esențial):",
