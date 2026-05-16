@@ -27,6 +27,23 @@ const {
   conversationModePatch
 } = require("./conversationModes");
 
+const EMBEDDED_CMD_RE = /\n→\s*\/\w+(@\w+)?\s*$/gim;
+const COMP_NEXT_CMD_RE = /\n[^\n]*\/(energy|mode|focus|reset|guide|commands)\s*$/gim;
+
+/**
+ * One next step: strip duplicate command lines before adding a single hint.
+ * @param {string} body
+ * @param {{ suggestedCommand?: string|null }} opts
+ */
+function enforceSingleNextStep(body, opts = {}) {
+  let b = String(body || "").trim();
+  b = b.replace(EMBEDDED_CMD_RE, "").trim();
+  if (opts.suggestedCommand) {
+    b = b.replace(COMP_NEXT_CMD_RE, "").trim();
+  }
+  return b;
+}
+
 /**
  * @param {string|number} userId
  * @param {string} text
@@ -72,14 +89,14 @@ function prepareCompanionContext(userId, text, session, lang, classifyCategory) 
  * @param {{ skipPresence?: boolean, skipRhythm?: boolean, withAdaptive?: Function }} [opts]
  */
 function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
-  let b = rawBody;
+  let b = enforceSingleNextStep(rawBody, opts);
   const s = ctx.session || {
     messages: ctx.memory.short.turns,
     lastCategory: ctx.memory.short.lastCategory,
     responseStructures: ctx.memory.short.responseStructures
   };
 
-  b = applyEmotionalPacing(b, ctx.lang, s, ctx.plan);
+  b = applyEmotionalPacing(b, ctx.lang, s, ctx.plan, ctx.conversationMode, category);
 
   if (!opts.skipPresence) {
     b = applyPresence(b, ctx, category);
@@ -118,5 +135,6 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
 module.exports = {
   prepareCompanionContext,
   finalizeCompanionReply,
+  enforceSingleNextStep,
   patchSessionMemory
 };

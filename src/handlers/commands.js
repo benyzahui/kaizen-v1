@@ -1,8 +1,8 @@
 /**
- * Command-only routing. Open conversation is in telegram-webhook.js.
+ * Command-only routing — see src/core/kaizenPipeline.js for inbound order.
  *
- * Architecture: one switch per release keeps command surface explicit and testable.
- * Add new slash flows here; keep long prose in i18n responses, not in routing.
+ * Stabilized surface (tested): /start /guide /map /today /morning /energy
+ * /reset /mirror /language /status
  */
 
 const { resolveLang, fromTelegramCode } = require("../i18n/languageDetect");
@@ -16,7 +16,6 @@ const {
   handleResetCommand
 } = require("./planTracking");
 const { buildStatusReply } = require("./status");
-const { buildHelpReply } = require("./help");
 const { buildGuideReply } = require("./guide");
 const {
   startOnboarding,
@@ -121,7 +120,7 @@ async function routeCommandMessage(message, session) {
       reply = buildProfileReply(session, lang);
       break;
     case "/help":
-      reply = buildHelpReply(lang, session);
+      reply = buildGuideReply(lang);
       break;
     case "/commands":
       reply = r.tCommandsCategorized;
@@ -156,6 +155,11 @@ async function routeCommandMessage(message, session) {
     case "/daily":
       reply = buildDailyReply(message, session, lang);
       break;
+    case "/today": {
+      const { handleTrainingCommand } = require("./dragonTraining");
+      reply = handleTrainingCommand("/today", message, session, lang);
+      break;
+    }
 
     /* ── Dragon Path ── */
     case "/path":

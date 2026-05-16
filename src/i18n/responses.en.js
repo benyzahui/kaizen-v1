@@ -165,6 +165,10 @@ module.exports = {
     return `Saved: ${label}. Replies follow this setting.`;
   },
 
+  pipelineEmptyText: "Send a message when you are ready.",
+  langAlreadyActive: "Already in English. To switch: /language",
+  langChangeViaCommand: "Language is locked to your profile. To switch:",
+
   unknown:
     "I did not catch that command. Use /help and continue calmly.",
 

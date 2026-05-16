@@ -193,6 +193,10 @@ module.exports = {
     return `Salvat: ${label}. Răspunsurile urmează această setare.`;
   },
 
+  pipelineEmptyText: "Scrie când ești gata.",
+  langAlreadyActive: "Deja vorbim română. Schimbare: /language",
+  langChangeViaCommand: "Limba e blocată în profil. Pentru schimbare:",
+
   unknown: "Nu am înțeles comanda. Scrie /help, fără grabă.",
 
   recoveryTimeoutReply:

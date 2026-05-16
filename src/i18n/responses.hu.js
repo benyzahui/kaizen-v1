@@ -193,6 +193,10 @@ module.exports = {
     return `Mentve: ${label}. Ezután ehhez igazítom a válaszokat.`;
   },
 
+  pipelineEmptyText: "Írj, amikor készen állsz.",
+  langAlreadyActive: "Már magyarul beszélünk. Váltás: /language",
+  langChangeViaCommand: "A nyelv a profilodhoz van rögzítve. Váltás:",
+
   unknown: "Nem értettem a parancsot. Nyugodtan: /help",
 
   recoveryTimeoutReply:

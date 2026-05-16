@@ -21,21 +21,17 @@ const {
   isTripleSameEmotionalText,
   updateSession
 } = require("../session/sessionStore");
-const { appendAdaptiveLine } = require("../companion/adaptive");
 const { buildEnergyFromOpenText } = require("./energyHandler");
 const { pickUnseenVariant } = require("../conversation/responseVariation");
 const { processCompanionOpenText } = require("../core/modeEngine");
 const { composeBrainPriority } = require("../brain/coachBrain");
-const { detectLanguageSwitchIntent } = require("../brain/intentEngine");
 const {
   adjustSeriousness,
   getAvoidanceMirror
 } = require("../core/seriousnessEngine");
-const {
-  prepareCompanionContext,
-  finalizeCompanionReply
-} = require("../companion/companionCore");
-const { SKIP_PRESENCE } = require("../companion/presenceSystem");
+const { prepareCompanionContext } = require("../companion/companionCore");
+const { packOpenReply } = require("./openReply");
+const { resolveNaturalLanguageRequest } = require("../i18n/languageLock");
 
 const COACH_HEAVY = new Set([
   "emotional_reflection",
@@ -55,51 +51,17 @@ function lastTwoCoachHeavy(session) {
   );
 }
 
-function wrapAdaptive(session, lang, text, category, replyBody) {
-  return replyBody + appendAdaptiveLine(session, lang, text, category);
-}
-
 /**
- * @param {object|null} companionCtx from prepareCompanionContext
+ * @param {object|null} companionCtx
+ * @param {string|null} suggestedCommand
  */
-function finalizeCoaching(
-  userId,
-  session,
-  lang,
-  text,
-  category,
-  body,
-  r,
-  companionCtx = null,
-  suggestedCommand = null
-) {
-  if (!companionCtx) return body;
-  return finalizeCompanionReply(companionCtx, category, body, r, {
-    skipPresence: SKIP_PRESENCE.has(category),
-    skipRhythm: true,
-    suggestedCommand,
-    skipCommandHint: !suggestedCommand
-  });
-}
-
-/** Shorter open replies — no adaptive coaching suffix. */
-function finalizeLite(
-  userId,
-  session,
-  lang,
-  text,
-  category,
-  body,
-  r,
-  companionCtx = null,
-  suggestedCommand = null
-) {
-  if (!companionCtx) return body;
-  return finalizeCompanionReply(companionCtx, category, body, r, {
-    skipPresence: SKIP_PRESENCE.has(category),
-    skipRhythm: true,
-    suggestedCommand,
-    skipCommandHint: !suggestedCommand
+function emitOpen(companionCtx, category, body, r, suggestedCommand = null) {
+  return packOpenReply({
+    category,
+    body,
+    r,
+    companionCtx,
+    suggestedCommand
   });
 }
 
@@ -132,26 +94,6 @@ async function handleOpenConversation(message, lang, session) {
   const userId = message.from?.id ?? message.chat?.id;
   const text = String(message.text || "").trim();
   const r = getResponses(lang);
-
-  const langSwitch = detectLanguageSwitchIntent(text);
-  if (langSwitch?.lang) {
-    updateSession(userId, {
-      preferredLanguage: langSwitch.lang,
-      lang: langSwitch.lang
-    });
-    const r2 = getResponses(langSwitch.lang);
-    logOpen({
-      lang: langSwitch.lang,
-      category: "language_switch",
-      handler: "brain.intentEngine.language_switch",
-      textPreview: text.slice(0, 80)
-    });
-    return {
-      reply: r2.brainLangSwitchConfirm,
-      category: "language_switch",
-      suggestedAction: null
-    };
-  }
 
   if (isInCooldown(userId)) {
     logOpen({
@@ -207,6 +149,23 @@ async function handleOpenConversation(message, lang, session) {
   const category = classifyMessage(text);
   const companionCtx = prepareCompanionContext(userId, text, session, lang, category);
 
+  const langReq = resolveNaturalLanguageRequest(userId, text, session, lang);
+  if (langReq) {
+    logOpen({
+      lang,
+      category: "language_switch",
+      handler: "languageLock.resolveNaturalLanguageRequest",
+      textPreview: text.slice(0, 80)
+    });
+    return emitOpen(
+      companionCtx,
+      langReq.category,
+      langReq.reply,
+      r,
+      langReq.suggestedAction
+    );
+  }
+
   // Seriousness tracking — adjust score before brain routing so mirror can fire.
   const coachState = companionCtx.state.coachState;
   const seriousnessScore = adjustSeriousness(userId, session, coachState);
@@ -234,20 +193,13 @@ async function handleOpenConversation(message, lang, session) {
       handler: "brain.composeBrainPriority",
       textPreview: text.slice(0, 80)
     });
-    return {
-      reply: finalizeLite(
-        userId,
-        session,
-        lang,
-        text,
-        brainEarly.category,
-        brainEarly.reply,
-        r,
-        companionCtx
-      ),
-      category: brainEarly.category,
-      suggestedAction: brainEarly.suggestedAction ?? null
-    };
+    return emitOpen(
+      companionCtx,
+      brainEarly.category,
+      brainEarly.reply,
+      r,
+      brainEarly.suggestedAction ?? null
+    );
   }
 
   if (isTripleSameEmotionalText(session, text, category)) {
@@ -286,11 +238,13 @@ async function handleOpenConversation(message, lang, session) {
       handler: "modeEngine.processCompanionOpenText",
       textPreview: text.slice(0, 80)
     });
-    return {
-      reply: finalizeLite(userId, session, lang, text, companion.category, companion.reply, r, companionCtx),
-      category: companion.category,
-      suggestedAction: companion.suggestedAction ?? null
-    };
+    return emitOpen(
+      companionCtx,
+      companion.category,
+      companion.reply,
+      r,
+      companion.suggestedAction ?? null
+    );
   }
 
   if (category === "casual_greeting") {
@@ -305,11 +259,7 @@ async function handleOpenConversation(message, lang, session) {
         ? r.casualThanksLines
         : r.casualGreetingLines;
     const body = pickUnseenVariant(session, userId, pool);
-    return {
-      reply: finalizeLite(userId, session, lang, text, category, body, r, companionCtx),
-      category: "casual_greeting",
-      suggestedAction: "/pulse"
-    };
+    return emitOpen(companionCtx, category, body, r, null);
   }
 
   if (category === "light_conversation") {
@@ -320,11 +270,7 @@ async function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     const body = pickUnseenVariant(session, userId, r.lightConversationLines);
-    return {
-      reply: finalizeLite(userId, session, lang, text, category, body, r, companionCtx),
-      category: "light_conversation",
-      suggestedAction: "/guide"
-    };
+    return emitOpen(companionCtx, category, body, r, null);
   }
 
   if (category === "easter_creator") {
@@ -334,11 +280,7 @@ async function handleOpenConversation(message, lang, session) {
       handler: "responses.creatorEasterReply",
       textPreview: text.slice(0, 80)
     });
-    return {
-      reply: finalizeCoaching(userId, session, lang, text, category, r.creatorEasterReply, r, companionCtx),
-      category: "easter_creator",
-      suggestedAction: "/guide"
-    };
+    return emitOpen(companionCtx, category, r.creatorEasterReply, r, "/guide");
   }
 
   if (category === "help_intent") {
@@ -348,11 +290,7 @@ async function handleOpenConversation(message, lang, session) {
       handler: "brain.brainCommandHelpLite",
       textPreview: text.slice(0, 80)
     });
-    return {
-      reply: finalizeLite(userId, session, lang, text, category, r.brainCommandHelpLite, r),
-      category: "help_intent",
-      suggestedAction: "/commands"
-    };
+    return emitOpen(companionCtx, category, r.brainCommandHelpLite, r, "/guide");
   }
 
   if (category === "energy_question") {
@@ -362,13 +300,8 @@ async function handleOpenConversation(message, lang, session) {
       handler: "energyHandler.buildEnergyFromOpenText",
       textPreview: text.slice(0, 80)
     });
-    const body = buildEnergyFromOpenText(text, lang);
-    const framed = lines(r.brainEnergyPrimaryLead, "", body);
-    return {
-      reply: finalizeLite(userId, session, lang, text, category, framed, r),
-      category: "energy_question",
-      suggestedAction: "/energy"
-    };
+    const body = buildEnergyFromOpenText(text, lang, userId);
+    return emitOpen(companionCtx, category, body, r, "/energy");
   }
 
   if (category === "clarity_protocol") {
@@ -378,11 +311,7 @@ async function handleOpenConversation(message, lang, session) {
       handler: "responses.clarityIntentReply",
       textPreview: text.slice(0, 80)
     });
-    return {
-      reply: finalizeCoaching(userId, session, lang, text, category, r.clarityIntentReply, r, companionCtx),
-      category: "clarity_protocol",
-      suggestedAction: "/clarity"
-    };
+    return emitOpen(companionCtx, category, r.clarityIntentReply, r, "/focus");
   }
 
   if (category === "chaos_loop") {
@@ -392,20 +321,13 @@ async function handleOpenConversation(message, lang, session) {
       handler: "responses.chaosSoftReply",
       textPreview: text.slice(0, 80)
     });
-    return {
-      reply: finalizeCoaching(
-        userId,
-        session,
-        lang,
-        text,
-        "chaos_loop",
-        withContinuity(session, category, r.chaosSoftReply, r),
-        r,
-        companionCtx
-      ),
-      category: "chaos_loop",
-      suggestedAction: "/reset"
-    };
+    return emitOpen(
+      companionCtx,
+      "chaos_loop",
+      withContinuity(session, category, r.chaosSoftReply, r),
+      r,
+      "/reset"
+    );
   }
 
   if (category === "trading_impulse") {
@@ -415,20 +337,13 @@ async function handleOpenConversation(message, lang, session) {
       handler: "responses.tradingGuardrail",
       textPreview: text.slice(0, 80)
     });
-    return {
-      reply: finalizeCoaching(
-        userId,
-        session,
-        lang,
-        text,
-        "trading_impulse",
-        withContinuity(session, category, r.tradingGuardrail, r),
-        r,
-        companionCtx
-      ),
-      category: "trading_impulse",
-      suggestedAction: "/trade"
-    };
+    return emitOpen(
+      companionCtx,
+      "trading_impulse",
+      withContinuity(session, category, r.tradingGuardrail, r),
+      r,
+      "/trade"
+    );
   }
 
   if (category === "trading_context") {
@@ -439,11 +354,7 @@ async function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     const body = pickUnseenVariant(session, userId, r.tradingContextBodies);
-    return {
-      reply: finalizeCoaching(userId, session, lang, text, category, body, r, companionCtx),
-      category: "trading_context",
-      suggestedAction: "/trade"
-    };
+    return emitOpen(companionCtx, category, body, r, null);
   }
 
   if (category === "focus_drift") {
@@ -464,11 +375,7 @@ async function handleOpenConversation(message, lang, session) {
       withContinuity(session, category, base, r),
       r
     );
-    return {
-      reply: finalizeCoaching(userId, session, lang, text, category, body, r, companionCtx),
-      category: "focus_drift",
-      suggestedAction: "/focus"
-    };
+    return emitOpen(companionCtx, category, body, r, "/focus");
   }
 
   if (category === "body_energy") {
@@ -484,11 +391,7 @@ async function handleOpenConversation(message, lang, session) {
       withContinuity(session, category, r.categories.body_energy, r),
       r
     );
-    return {
-      reply: finalizeCoaching(userId, session, lang, text, category, body, r, companionCtx),
-      category: "body_energy",
-      suggestedAction: "/body"
-    };
+    return emitOpen(companionCtx, category, body, r, "/body");
   }
 
   if (category === "reflective_open") {
@@ -501,18 +404,10 @@ async function handleOpenConversation(message, lang, session) {
     let body;
     if (lastTwoCoachHeavy(session) && r.pacingReflectiveShortlines?.length) {
       body = pickUnseenVariant(session, userId, r.pacingReflectiveShortlines);
-      return {
-        reply: finalizeLite(userId, session, lang, text, category, body, r, companionCtx),
-        category: "reflective_open",
-        suggestedAction: "/focus"
-      };
+      return emitOpen(companionCtx, category, body, r, null);
     }
     body = pickUnseenVariant(session, userId, r.reflectivePrompts);
-    return {
-      reply: finalizeCoaching(userId, session, lang, text, category, body, r, companionCtx),
-      category: "reflective_open",
-      suggestedAction: "/clarity"
-    };
+    return emitOpen(companionCtx, category, body, r, null);
   }
 
   let body =
@@ -533,7 +428,6 @@ async function handleOpenConversation(message, lang, session) {
       r.emotionalReflectionVariants || [r.categories.emotional_reflection]
     );
     body = maybeVaryReply(session, category, withContinuity(session, category, body, r), r);
-    if (r.openHintEmotional) body = body + r.openHintEmotional;
   } else {
     body = maybeVaryReply(session, category, withContinuity(session, category, body, r), r);
   }
@@ -565,11 +459,7 @@ async function handleOpenConversation(message, lang, session) {
 
   const cmd = suggestedByCat[category] ?? null;
 
-  return {
-    reply: finalizeCoaching(userId, session, lang, text, category, body, r, companionCtx, cmd),
-    category,
-    suggestedAction: cmd
-  };
+  return emitOpen(companionCtx, category, body, r, cmd);
 }
 
 module.exports = { classifyMessage, handleOpenConversation };

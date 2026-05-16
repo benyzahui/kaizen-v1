@@ -75,17 +75,33 @@ function capWallLength(text, maxLines = MAX_LINES_OPEN, maxChars = MAX_CHARS_OPE
  * @param {object} session
  * @param {object} plan from selectResponsePlan
  */
-function applyEmotionalPacing(body, lang, session, plan) {
+const REFLECTIVE_MODES = new Set(["MODE_REFLECTIVE", "MODE_RECOVERY"]);
+
+/**
+ * @param {string} body
+ * @param {'en'|'hu'|'ro'} lang
+ * @param {object} session
+ * @param {object} plan
+ * @param {string} [conversationMode]
+ * @param {string} [category]
+ */
+function applyEmotionalPacing(body, lang, session, plan, conversationMode, category) {
   let b = body;
   const qPressure = recentQuestionPressure(session);
+  const reflective =
+    REFLECTIVE_MODES.has(conversationMode) ||
+    category === "reflective_open" ||
+    category === "emotional_reflection";
 
-  if (qPressure >= 2 || plan?.action !== "ask") {
+  if (qPressure >= 2 || plan?.action !== "ask" || !reflective) {
     b = softenTherapyQuestions(b, lang);
     b = stripTherapyFraming(b);
   }
 
   if (plan?.length === "short" || plan?.pressure === "high") {
     b = capWallLength(b, 6, 380);
+  } else if (!reflective) {
+    b = capWallLength(b, 6, 420);
   } else {
     b = capWallLength(b);
   }

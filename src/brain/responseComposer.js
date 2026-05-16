@@ -28,15 +28,10 @@ function applyHumor(session, userId, intent, coreBody, lang) {
   return lines(lead, "", coreBody);
 }
 
-function energyReply(text, lang, r, prefixLine) {
-  const body = buildEnergyFromOpenText(text, lang);
-  return lines(
-    prefixLine,
-    "",
-    body,
-    "",
-    `${r.compNextPrefix} /energy`.trim()
-  );
+function energyReply(text, lang, userId, prefixLine) {
+  const body = buildEnergyFromOpenText(text, lang, userId);
+  if (prefixLine) return lines(prefixLine, "", body);
+  return body;
 }
 
 /**
@@ -46,25 +41,11 @@ async function composeBrainPriority(userId, text, lang, session, classifyCategor
   const natural = detectNaturalIntent(text, classifyCategory, session);
   const r = getResponses(lang);
 
-  if (natural.intent === "language_switch" && natural.lang) {
-    updateSession(userId, {
-      preferredLanguage: natural.lang,
-      lang: natural.lang,
-      ...humorIdlePatch(session)
-    });
-    const r2 = getResponses(natural.lang);
-    return {
-      reply: r2.brainLangSwitchConfirm,
-      category: "language_switch",
-      suggestedAction: null
-    };
-  }
-
   if (session.awaitingWhyHere && session.onboardingCompleted) {
     updateSession(userId, { awaitingWhyHere: false, ...humorIdlePatch(session) });
 
     if (natural.intent === "energy_read") {
-      const core = energyReply(text, lang, r, r.brainWhyEnergyAnchor);
+      const core = energyReply(text, lang, userId, r.brainWhyEnergyAnchor);
       return {
         reply: core,
         category: "energy_question",
@@ -134,7 +115,7 @@ async function composeBrainPriority(userId, text, lang, session, classifyCategor
     !session.companionActive
   ) {
     updateSession(userId, humorIdlePatch(session));
-    const core = energyReply(text, lang, r, r.brainEnergyPrimaryLead);
+    const core = energyReply(text, lang, userId, r.brainEnergyPrimaryLead);
     return {
       reply: core,
       category: "energy_question",
