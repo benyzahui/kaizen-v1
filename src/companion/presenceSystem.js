@@ -23,7 +23,8 @@ const SKIP_PRESENCE = new Set([
   "emotional_reflection",
   "focus_drift",
   "body_energy",
-  "reflective_open"
+  "reflective_open",
+  "companion_checkin"
 ]);
 
 /**
@@ -46,12 +47,26 @@ function applyPresence(body, ctx, category) {
     skipLead
   );
 
+  const r = getResponses(lang);
   if (state.useHumor && state.seriousness >= 40) {
-    const r = getResponses(lang);
     const quips = r.presenceQuips || [];
-    if (quips.length && Math.random() < 0.22) {
+    if (quips.length && Math.random() < 0.18) {
       const q = pickSeeded(quips, `${category}_${memory.short.turns.length}`);
       out = lines(q, "", out);
+    }
+  }
+
+  if (state.scatter >= 4 && Math.random() < 0.12) {
+    const sarcasm = r.sarcasmRare || [];
+    if (sarcasm.length) {
+      out = lines(pickSeeded(sarcasm, `sar_${category}`), "", out);
+    }
+  }
+
+  if (Math.random() < 0.1 && category !== "trading_context") {
+    const elite = r.eliteWhispers || [];
+    if (elite.length) {
+      out = lines(out, "", pickSeeded(elite, `elite_${state.mentorMode}`));
     }
   }
 

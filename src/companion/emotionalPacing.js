@@ -105,8 +105,10 @@ function applyEmotionalPacing(body, lang, session, plan, conversationMode, categ
     b = stripTherapyFraming(b);
   }
 
-  if (plan?.length === "short" || plan?.pressure === "high") {
-    b = capWallLength(b, 6, 380);
+  if (plan?.depth === "short" || plan?.length === "short" || plan?.pressure === "high") {
+    b = capWallLength(b, 4, 280);
+  } else if (plan?.depth === "deep" && reflective) {
+    b = capWallLength(b, 10, 680);
   } else if (!reflective) {
     b = capWallLength(b, 6, 420);
   } else {

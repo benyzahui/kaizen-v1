@@ -26,6 +26,21 @@ const {
   resolveConversationMode,
   conversationModePatch
 } = require("./conversationModes");
+const {
+  buildPresenceSnapshot,
+  presenceMemoryPatch,
+  maybePresenceMemoryLine
+} = require("./presenceMemory");
+const { applyTimePresence } = require("./timePresenceEngine");
+const { formatPremiumMessage } = require("./messageFormat");
+const { applyDepthScale } = require("./responseDepth");
+
+const SKIP_MEMORY_CATEGORIES = new Set([
+  "onboarding",
+  "language_switch",
+  "companion_checkin",
+  "cooldown"
+]);
 
 const EMBEDDED_CMD_RE = /\n→\s*\/\w+(@\w+)?\s*$/gim;
 const COMP_NEXT_CMD_RE = /\n[^\n]*\/(energy|mode|focus|reset|guide|commands)\s*$/gim;
@@ -61,9 +76,11 @@ function prepareCompanionContext(userId, text, session, lang, classifyCategory) 
   const plan = selectResponsePlan(state, memory, rhythm);
   const conversationMode = resolveConversationMode(state, classifyCategory);
 
+  const presenceSnap = buildPresenceSnapshot(session, state, text, classifyCategory);
   updateSession(userId, {
     ...engineSessionPatch(state),
     ...conversationModePatch(conversationMode),
+    ...presenceMemoryPatch(presenceSnap),
     sessionEmotionalTrend: memory.session.emotionalTrend,
     rhythmPhase: rhythm.phase
   });
@@ -96,13 +113,26 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     responseStructures: ctx.memory.short.responseStructures
   };
 
+  const depth = ctx.plan?.depth || ctx.state?.responseDepth || "medium";
+  b = applyDepthScale(b, depth);
   b = applyEmotionalPacing(b, ctx.lang, s, ctx.plan, ctx.conversationMode, category);
 
+  const memLine = maybePresenceMemoryLine(
+    ctx.session || s,
+    ctx.lang,
+    `${category}_${s.messages?.length || 0}`
+  );
+  if (memLine && !SKIP_MEMORY_CATEGORIES.has(category)) {
+    b = lines(memLine, "", b);
+  }
+
   if (!opts.skipPresence) {
+    b = applyTimePresence(b, ctx, category);
     b = applyPresence(b, ctx, category);
   }
 
   b = applyAntiLoop(ctx, b, category, r);
+  b = formatPremiumMessage(b);
 
   if (detectLaneWandering(s, category)) {
     updateSession(ctx.userId, { focusLocked: true });
