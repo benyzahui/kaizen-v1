@@ -88,11 +88,16 @@ function resolveLanguageWithSession(text, session) {
 
   const sess = session?.lang;
   if (sess === "hu" || sess === "ro" || sess === "en") {
-    if (!session?.onboardingCompleted && dom >= 7 && detected !== sess) {
-      return detected;
+    if (!session?.onboardingCompleted && hasStrongNonEnglishSignal(t)) {
+      return detectLanguage(t);
     }
     return sess;
   }
+
+  if (session?.onboardingActive && hasStrongNonEnglishSignal(t)) {
+    return detectLanguage(t);
+  }
+
   return detected;
 }
 

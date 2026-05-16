@@ -1,6 +1,26 @@
 /** Romanian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcActivation: [
+    "⚔️ KaiZen activat.",
+    "",
+    "Companion Elite Zone · Dragon Path — disciplină, corp, minte, energie, business, trading.",
+    "Nu e chat AI la întâmplare. Nu zgomot motivațional.",
+    "",
+    "Trimite o linie când ești gata."
+  ].join("\n"),
+
+  fcAskNaturalIntro: [
+    "Prezintă-te natural — nu formular.",
+    "",
+    "Cine ești, ce te-a adus aici, la ce lucrezi acum?",
+    "Limba o detectez din cum scrii."
+  ].join("\n"),
+
+  fcNaturalTooShort: "Puțin mai mult — câteva propoziții oneste sunt suficiente.",
+
+  fcHeardIntro: "Te-am auzit. Focusul principal acum:",
+
   fcIntro: [
     "⚔️ KaiZen — Elite Zone · Dragon Path",
     "",

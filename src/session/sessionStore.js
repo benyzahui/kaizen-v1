@@ -261,10 +261,13 @@ function recordInteraction(userId, ev) {
       ? [...(s.recentCommands || []), String(ev.command).trim()].slice(-8)
       : s.recentCommands || [];
   const structPatch = recordStructure(s, String(ev.reply || ""));
+  const { trackAssistantReply } = require("../conversation/responseVariationEngine");
+  const variationPatch = trackAssistantReply(s, String(ev.reply || ""));
 
   store.set(id, {
     ...s,
     ...structPatch,
+    ...variationPatch,
     lang: ev.lang || s.lang,
     lastEmotion:
       ev.category === "chaos_loop" ||

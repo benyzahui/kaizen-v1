@@ -18,7 +18,12 @@ const SKIP_PRESENCE = new Set([
   "help_intent",
   "energy_question",
   "onboarding",
-  "casual_greeting"
+  "casual_greeting",
+  "natural_conversation",
+  "emotional_reflection",
+  "focus_drift",
+  "body_energy",
+  "reflective_open"
 ]);
 
 /**

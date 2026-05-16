@@ -29,5 +29,89 @@ module.exports = {
     "one fact. one intent": "Egy igaz sor. Aztán cselekvés.",
     "hold. then step": "Mozogj. Egy centit.",
     "stay in the lane": "Tartsd a nap gerincét."
+  },
+
+  variationOpenings: [
+    "Érzem a túlpörgést.",
+    "A rendszered túl sok kört nyitott egyszerre.",
+    "Ez nem gyengeség — telítettség.",
+    "Most nem új motiváció kell.",
+    "A káosz egyik kedvenc trükkje: elhiteti, hogy minden sürgős."
+  ],
+
+  variationEndings: [
+    "Egy sor elég.",
+    "Maradj ennél a tényénél.",
+    "Aztán egy lépés — nem több.",
+    "Holnap is itt leszek."
+  ],
+
+  templatePhraseAlts: [
+    "A tested túlterhelést jelez.",
+    "Túl sok aktív sáv egyszerre.",
+    "Csökkentés kell, nem erőlködés.",
+    "Egy blokk. Huszonöt perc."
+  ],
+
+  humanRhythmLines: [
+    "Nem vagy gép.",
+    "A rendszer túl sok lapot nyitott meg egyszerre.",
+    "Most alvás és víz — nem új terv.",
+    "Ez telítettség, nem motivációhiány."
+  ],
+
+  threadContinuity: [
+    "Tegnap is erről volt szó — ma tisztább a fejed, vagy még zajos?",
+    "Folytatjuk: még mindig ugyanaz a nyomás, vagy változott valami?",
+    "A legutóbbi üzenetedben sok volt a zaj — ma hol állsz?"
+  ],
+
+  humanPresence: {
+    stress: [
+      [
+        "Érzem a túlpörgést.",
+        "Nem motivációhiány — túl sok nyitott kör egyszerre.",
+        "Ma ne új rendszert építs. Csak stabilizáld az egyiket.",
+        "Mi az az egy dolog, ami ha ma rendeződik, csökken benned a zaj?"
+      ].join("\n\n"),
+      [
+        "A tested túlterhelést jelez.",
+        "Ez telítettség — nem gyengeség.",
+        "Egy sáv. Egy blokk. A többit ma nem nyitod.",
+        "Melyik kör fáj most a legjobban — egy szóval?"
+      ].join("\n\n")
+    ],
+    tired: [
+      [
+        "Kifáradtság van — nem lustaság.",
+        "Most nem új motiváció kell. Alvás és víz.",
+        "Ma a minimum is győzelem: egy blokk, aztán pihenés.",
+        "Mi volt az utolsó rendes étkezésed és alvásod — őszintén?"
+      ].join("\n\n")
+    ],
+    lost: [
+      [
+        "Elveszettnek hangzik — nem hülyeség.",
+        "Túl sok irány egyszerre üresíti ki a döntést.",
+        "Ma ne old meg az életed. Egy következő lépés elég.",
+        "Ha ma csak egy dolgot rendeznél — mi lenne az?"
+      ].join("\n\n")
+    ],
+    scattered: [
+      [
+        "Széthúzott állapot.",
+        "Az agyad intenzitást akar. A rendszered stabilitást.",
+        "Zárd a felesleges tabokat. Egy feladat, huszonöt perc.",
+        "Melyik projekt nyom most a legjobban?"
+      ].join("\n\n")
+    ],
+    general: [
+      [
+        "Itt vagyok.",
+        "Lassíts — nem kell tökéletes válasz.",
+        "Egy őszinte lépés ma elég.",
+        "Mi a legfontosabb most — egy mondatban?"
+      ].join("\n\n")
+    ]
   }
 };

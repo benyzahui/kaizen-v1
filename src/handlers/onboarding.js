@@ -13,7 +13,8 @@ const {
   processFirstContact,
   FC_STRUCTURE_START,
   FC_FOCUS,
-  FC_LANG
+  FC_NATURAL,
+  FC_NAME
 } = require("../companion/firstContactEngine");
 
 const STRUCTURE = FC_STRUCTURE_START;
@@ -252,12 +253,12 @@ function processOnboardingReply(userId, text, session, lang) {
 
   if (step > FC_FOCUS && step < FC_STRUCTURE_START) {
     const r2 = getResponses(locked);
-    if (session.userName) {
-      updateSession(userId, { onboardingStep: FC_FOCUS });
-      return { reply: r2.fcAskFocus };
-    }
-    updateSession(userId, { onboardingStep: FC_LANG });
-    return { reply: r2.fcLangPick };
+    updateSession(userId, { onboardingStep: FC_NATURAL });
+    return { reply: r2.fcAskNaturalIntro };
+  }
+  if (step === 1 && session.preferredLanguage) {
+    updateSession(userId, { onboardingStep: FC_NATURAL });
+    return { reply: getResponses(locked).fcAskNaturalIntro };
   }
 
   const tangential =

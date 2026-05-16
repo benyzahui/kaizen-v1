@@ -1,6 +1,26 @@
 /** English copy — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcActivation: [
+    "⚔️ KaiZen activated.",
+    "",
+    "Elite Zone · Dragon Path companion — discipline, body, mind, energy, business, trading.",
+    "Not random AI chat. Not motivation noise.",
+    "",
+    "Send one line when you are ready."
+  ].join("\n"),
+
+  fcAskNaturalIntro: [
+    "Introduce yourself naturally — not a form.",
+    "",
+    "Who you are, what brought you here, what you are working on.",
+    "I will detect your language from how you write."
+  ].join("\n"),
+
+  fcNaturalTooShort: "A little more — a few honest sentences is enough.",
+
+  fcHeardIntro: "Heard you. Main focus now:",
+
   fcIntro: [
     "⚔️ KaiZen — Elite Zone · Dragon Path",
     "",

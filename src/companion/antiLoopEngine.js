@@ -9,6 +9,7 @@ const {
   hasWeakQuestionPattern
 } = require("../conversation/structureMemory");
 const { variateIfSameShape } = require("../conversation/antiTemplate");
+const { applyResponseVariation } = require("../conversation/responseVariationEngine");
 const { pickSeeded } = require("../personality/tone");
 const { getResponses } = require("../i18n/getResponses");
 
@@ -64,6 +65,19 @@ function applyAntiLoop(ctx, body, category, r) {
     { ...sessionLike, lastAssistantPrints: fpSession.lastAssistantPrints },
     b,
     r
+  );
+
+  const sess = ctx.session || {};
+  b = applyResponseVariation(
+    {
+      ...sessionLike,
+      recentAssistantOpenings: sess.recentAssistantOpenings,
+      recentAssistantEndings: sess.recentAssistantEndings,
+      recentPhraseHits: sess.recentPhraseHits
+    },
+    b,
+    ctx.lang,
+    `${category}_${sessionLike.messages?.length || 0}`
   );
 
   return b;

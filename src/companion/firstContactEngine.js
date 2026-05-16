@@ -1,17 +1,21 @@
 /**
- * First contact — Elite Zone / Dragon Path onboarding (short path).
- * Language → name → focus → /today. No command dump.
+ * First contact — activation, natural intro, auto language, focus, /today.
  */
 
 const { lines } = require("../personality/kaizenVoice");
 const { getResponses } = require("../i18n/getResponses");
 const { updateSession } = require("../session/sessionStore");
+const {
+  detectLanguage,
+  hasStrongNonEnglishSignal,
+  scoreHungarian,
+  scoreRomanian
+} = require("../i18n/languageDetect");
 
-const FC_INTRO = 0;
-const FC_LANG = 1;
+const FC_WAKE = 0;
+const FC_NATURAL = 1;
 const FC_NAME = 2;
 const FC_FOCUS = 3;
-/** Legacy structure steps never used for new users. */
 const FC_STRUCTURE_START = 99;
 
 const FOCUS_PATH = {
@@ -32,10 +36,6 @@ function parseLanguageToken(raw) {
   return null;
 }
 
-/**
- * @param {string} raw
- * @returns {{ id: keyof FOCUS_PATH, path: string }|null}
- */
 function parseFocusToken(raw) {
   const t = String(raw || "").trim().toLowerCase();
   const n = parseInt(t, 10);
@@ -66,6 +66,32 @@ function lockedLang(session, fallback) {
   return session?.lang || fallback;
 }
 
+function detectAndLockLanguage(userId, text, session) {
+  const detected = detectLanguage(text);
+  const hu = scoreHungarian(text);
+  const ro = scoreRomanian(text);
+  let lang = detected;
+  if (parseLanguageToken(text)) {
+    lang = parseLanguageToken(text);
+  } else if (hasStrongNonEnglishSignal(text)) {
+    lang = hu >= ro ? (hu >= 2 ? "hu" : detected) : ro >= 2 ? "ro" : detected;
+  }
+  updateSession(userId, { preferredLanguage: lang, lang });
+  return lang;
+}
+
+function extractNameFromIntro(text) {
+  const m = String(text || "").match(
+    /(?:vagyok|vagy|I'm|I am|sunt|numele\s+meu|nekem)\s+([A-Za-zÁÉÍÓÖŐÚÜŰáéíóöőúüűĂÂÎȘȚăâîșț]{2,24})/i
+  );
+  if (m) return m[1];
+  const first = String(text || "").trim().split(/\s+/)[0];
+  if (first && first.length >= 2 && first.length <= 16 && !/^\d+$/.test(first)) {
+    if (!/^(én|en|eu|hi|hello|szia|bună)$/i.test(first)) return first;
+  }
+  return null;
+}
+
 function completeFirstContact(userId, name, focusId, path, lang) {
   const r = getResponses(lang);
   const label = r.fcFocusLabels?.[focusId] || focusId;
@@ -88,7 +114,7 @@ function completeFirstContact(userId, name, focusId, path, lang) {
 }
 
 function getFirstContactStart(lang) {
-  return getResponses(lang).fcIntro;
+  return getResponses(lang).fcActivation;
 }
 
 function processFirstContact(userId, text, session, lang) {
@@ -104,25 +130,42 @@ function processFirstContact(userId, text, session, lang) {
     return { reply: r.obSkip };
   }
 
-  if (step === FC_INTRO) {
+  if (step === FC_WAKE) {
     if (raw.length < 1) {
-      return { reply: lines(r.fcIntro, "", r.fcWelcomePrompt) };
+      return { reply: lines(r.fcActivation, "", r.fcWelcomePrompt) };
     }
-    updateSession(userId, { onboardingStep: FC_LANG });
-    return { reply: r.fcLangPick };
+    updateSession(userId, { onboardingStep: FC_NATURAL });
+    return { reply: getResponses(lockedLang(session, lang)).fcAskNaturalIntro };
   }
 
-  if (step === FC_LANG) {
-    const picked = parseLanguageToken(raw);
-    if (!picked) {
-      return { reply: lines(r.fcLangInvalid, "", r.fcLangPick) };
+  if (step === FC_NATURAL) {
+    if (raw.length < 8) {
+      return { reply: r.fcNaturalTooShort || r.fcAskNaturalIntro };
     }
+    const langLocked = detectAndLockLanguage(userId, raw, session);
+    const r2 = getResponses(langLocked);
+    const name = extractNameFromIntro(raw);
+    const purposeNote = raw.slice(0, 400);
     updateSession(userId, {
-      preferredLanguage: picked,
-      lang: picked,
-      onboardingStep: FC_NAME
+      userPurpose: purposeNote,
+      ...(name ? { userName: name } : {})
     });
-    return { reply: getResponses(picked).fcAskName };
+    if (name) {
+      updateSession(userId, { onboardingStep: FC_FOCUS });
+      return {
+        reply: lines(
+          (r2.fcNameAck || "").replace("{name}", name),
+          "",
+          r2.fcHeardIntro || "",
+          "",
+          r2.fcAskFocus
+        )
+      };
+    }
+    updateSession(userId, { onboardingStep: FC_NAME });
+    return {
+      reply: lines(r2.fcHeardIntro || "", "", r2.fcAskName)
+    };
   }
 
   if (step === FC_NAME) {
@@ -162,8 +205,8 @@ function processFirstContact(userId, text, session, lang) {
 }
 
 module.exports = {
-  FC_INTRO,
-  FC_LANG,
+  FC_WAKE,
+  FC_NATURAL,
   FC_NAME,
   FC_FOCUS,
   FC_STRUCTURE_START,
@@ -171,5 +214,6 @@ module.exports = {
   getFirstContactStart,
   processFirstContact,
   parseFocusToken,
-  parseLanguageToken
+  parseLanguageToken,
+  detectAndLockLanguage
 };

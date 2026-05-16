@@ -14,10 +14,24 @@ const { getResponses } = require("../i18n/getResponses");
  * @param {string} category
  * @param {boolean} skipLead
  */
+function threadContinuityLead(session, lang) {
+  const r = getResponses(lang);
+  const topic = session?.lastTopic;
+  const msgs = session?.messages || [];
+  if (!topic || msgs.length < 2) return null;
+  const pool = r.threadContinuity;
+  if (!pool?.length) return null;
+  if (Math.random() > 0.35) return null;
+  return pickSeeded(pool, `thread_${topic.slice(0, 40)}_${msgs.length}`);
+}
+
 function applyModePresence(coreBody, mode, lang, session, category, skipLead = false) {
   const r = getResponses(lang);
   const turns = session?.messages?.length || 0;
   const parts = [];
+
+  const thread = threadContinuityLead(session, lang);
+  if (thread) parts.push(thread, "");
 
   if (!skipLead) {
     const beats = r.modeBeats?.[mode];
@@ -39,4 +53,4 @@ function applyModePresence(coreBody, mode, lang, session, category, skipLead = f
   return lines(...parts.filter(Boolean));
 }
 
-module.exports = { applyModePresence };
+module.exports = { applyModePresence, threadContinuityLead };

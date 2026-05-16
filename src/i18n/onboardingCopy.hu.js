@@ -1,25 +1,37 @@
 /** Hungarian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcActivation: [
+    "⚔️ KaiZen aktiválva.",
+    "",
+    "Elite Zone · Dragon Path társ — fegyelem, test, elme, energia, üzlet, trading.",
+    "Nem véletlen AI chat. Nem motivációs zaj.",
+    "",
+    "Küldj egy sort, ha készen állsz."
+  ].join("\n"),
+
   fcIntro: [
     "⚔️ KaiZen — Elite Zone · Dragon Path",
     "",
     "Napi társad vagyok: fegyelem, tisztánlátás, idegrendszer-stabilitás, őszinte végrehajtás.",
     "",
     "Ez nem véletlen AI chat. Nincs guru-zaj. Nincs motivációs spam.",
-    "Strukturált jelenlét — reggeltől estig.",
+    "Strukturárt jelenlét — reggeltől estig.",
     "",
     "Küldj egy sort, ha készen állsz a beállításra."
   ].join("\n"),
-  fcActivation: [
-    "⚡ KaiZen aktiválva.",
+
+  fcAskNaturalIntro: [
+    "Mutatkozz be természetesen — nem űrlap.",
     "",
-    "Valami élesedett — nem chatbot.",
-    "Napi társ: fegyelem, tisztánlátás, őszinte végrehajtás.",
-    "",
-    "Egy légzés.",
-    "Bármilyen sorral folytatjuk."
+    "Ki vagy, mi hozott ide, min dolgozol most?",
+    "A nyelvet is innen érzékelem (magyar / english / română)."
   ].join("\n"),
+
+  fcNaturalTooShort: "Egy kicsit több — pár őszinte mondat elég.",
+
+  fcHeardIntro: "Hallottalak. Most a fő fókusz:",
+
   fcLangPick: [
     "Nyelv — válassz (csak /language változtatja):",
     "1 — English",

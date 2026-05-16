@@ -100,5 +100,8 @@ module.exports = {
   isStructureRepeat,
   recordStructure,
   openingClass,
-  hasWeakQuestionPattern
+  hasWeakQuestionPattern,
+  firstLine,
+  lastLine,
+  normalizeChunk
 };

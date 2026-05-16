@@ -93,8 +93,15 @@ function applyEmotionalPacing(body, lang, session, plan, conversationMode, categ
     category === "reflective_open" ||
     category === "emotional_reflection";
 
-  if (qPressure >= 2 || plan?.action !== "ask" || !reflective) {
+  const keepOneQuestion =
+    category === "natural_conversation" ||
+    category === "emotional_reflection" ||
+    category === "reflective_open";
+
+  if ((qPressure >= 2 || plan?.action !== "ask" || !reflective) && !keepOneQuestion) {
     b = softenTherapyQuestions(b, lang);
+    b = stripTherapyFraming(b);
+  } else if (!reflective && !keepOneQuestion) {
     b = stripTherapyFraming(b);
   }
 

@@ -35,5 +35,89 @@ module.exports = {
     "hold. then step": "Move. One inch.",
     "stay in the lane": "Keep the spine of the day.",
     "morning lane": "Reggel: test, majd egy sor."
+  },
+
+  variationOpenings: [
+    "Your nervous system sounds overloaded.",
+    "Too many active lanes at once.",
+    "This is not weakness. This is saturation.",
+    "You do not need a new system today.",
+    "Chaos loves to convince you everything is urgent."
+  ],
+
+  variationEndings: [
+    "One line is enough.",
+    "Stay with that fact.",
+    "Then one step — not more.",
+    "I will be here tomorrow."
+  ],
+
+  templatePhraseAlts: [
+    "Your body is asking for reduction, not more force.",
+    "Too many open loops at once.",
+    "Shrink before you push.",
+    "One block. Twenty-five minutes."
+  ],
+
+  humanRhythmLines: [
+    "You are not a machine.",
+    "The system opened too many tabs at once.",
+    "Sleep and water — not a new plan.",
+    "Saturation, not lack of motivation."
+  ],
+
+  threadContinuity: [
+    "Yesterday you said you were pulled apart — clearer today, or still noisy?",
+    "Picking up the thread: same pressure, or did something shift?",
+    "Last message had a lot of noise — where are you now?"
+  ],
+
+  humanPresence: {
+    stress: [
+      [
+        "I feel the overdrive.",
+        "Not lack of motivation — too many open loops at once.",
+        "Do not build a new system today. Stabilize one.",
+        "What is the one thing that, if settled today, lowers the noise inside you?"
+      ].join("\n\n"),
+      [
+        "Your body is signaling overload.",
+        "This is saturation — not weakness.",
+        "One lane. One block. Do not open the rest today.",
+        "Which loop hurts most right now — one word?"
+      ].join("\n\n")
+    ],
+    tired: [
+      [
+        "That is fatigue — not laziness.",
+        "You do not need motivation. Sleep and water.",
+        "Minimum victory today: one block, then rest.",
+        "When did you last eat and sleep properly — honestly?"
+      ].join("\n\n")
+    ],
+    lost: [
+      [
+        "You sound lost — that is not stupidity.",
+        "Too many directions drain decision.",
+        "Do not solve your life today. One next step is enough.",
+        "If you could settle one thing today — what would it be?"
+      ].join("\n\n")
+    ],
+    scattered: [
+      [
+        "Pulled in too many directions.",
+        "Your brain wants intensity. Your system wants stability.",
+        "Close the extra tabs. One task, twenty-five minutes.",
+        "Which project presses hardest right now?"
+      ].join("\n\n")
+    ],
+    general: [
+      [
+        "I am here.",
+        "Slow down — no perfect answer needed.",
+        "One honest step today is enough.",
+        "What matters most right now — one sentence?"
+      ].join("\n\n")
+    ]
   }
 };

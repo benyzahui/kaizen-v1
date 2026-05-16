@@ -32,6 +32,7 @@ const {
 const { prepareCompanionContext } = require("../companion/companionCore");
 const { packOpenReply } = require("./openReply");
 const { resolveNaturalLanguageRequest } = require("../i18n/languageLock");
+const { buildNaturalConversation } = require("../conversation/naturalConversation");
 
 const COACH_HEAVY = new Set([
   "emotional_reflection",
@@ -148,6 +149,17 @@ async function handleOpenConversation(message, lang, session) {
 
   const category = classifyMessage(text);
   const companionCtx = prepareCompanionContext(userId, text, session, lang, category);
+
+  const natural = buildNaturalConversation(text, category, session, lang, userId);
+  if (natural) {
+    logOpen({
+      lang,
+      category: "natural_conversation",
+      handler: "naturalConversation.build",
+      textPreview: text.slice(0, 80)
+    });
+    return emitOpen(companionCtx, "natural_conversation", natural.body, r, null);
+  }
 
   const langReq = resolveNaturalLanguageRequest(userId, text, session, lang);
   if (langReq) {
@@ -326,7 +338,7 @@ async function handleOpenConversation(message, lang, session) {
       "chaos_loop",
       withContinuity(session, category, r.chaosSoftReply, r),
       r,
-      "/reset"
+      null
     );
   }
 
@@ -422,6 +434,10 @@ async function handleOpenConversation(message, lang, session) {
     body = r.categories.unknown_alt;
   }
   if (category === "emotional_reflection") {
+    const nat = buildNaturalConversation(text, category, session, lang, userId);
+    if (nat) {
+      return emitOpen(companionCtx, "natural_conversation", nat.body, r, null);
+    }
     body = pickUnseenVariant(
       session,
       userId,
@@ -440,12 +456,13 @@ async function handleOpenConversation(message, lang, session) {
   });
 
   const suggestedByCat = {
-    emotional_reflection: "/breath",
-    work_focus: "/focus",
-    plan_tracking: "/focus",
-    self_development: "/focus",
-    chaos_loop: "/breath",
-    focus_drift: "/focus",
+    emotional_reflection: null,
+    natural_conversation: null,
+    work_focus: null,
+    plan_tracking: null,
+    self_development: null,
+    chaos_loop: null,
+    focus_drift: null,
     body_energy: "/body",
     energy_question: "/energy",
     trading_impulse: "/trade",
