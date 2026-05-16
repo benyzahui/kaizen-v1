@@ -80,8 +80,11 @@ function parseNaturalEnergyLens(text) {
 async function handleEnergy(message, lang = "en") {
   const lens = parseSlashEnergyLens(message.text || "");
   const uid = message.from?.id ?? message.chat?.id;
-  const memory = loadMemoryHierarchy(getSession(uid));
-  return buildEnergyRead(new Date(), lang, lens, { memory });
+  const session = getSession(uid);
+  const memory = loadMemoryHierarchy(session);
+  const { rememberSnippet } = require("./dailyProtocol");
+  const body = buildEnergyRead(new Date(), lang, lens, { memory, userId: uid });
+  return rememberSnippet(uid, session, body);
 }
 
 /**
@@ -100,9 +103,12 @@ function buildDailyEnergyReply(date = new Date(), lang = "en", lens = "general")
  */
 function buildEnergyFromOpenText(text, lang = "en", userId = null) {
   const lens = parseNaturalEnergyLens(text);
-  const memory =
-    userId != null ? loadMemoryHierarchy(getSession(userId)) : null;
-  return buildEnergyRead(new Date(), lang, lens, memory ? { memory } : null);
+  if (userId == null) {
+    return buildEnergyRead(new Date(), lang, lens, null);
+  }
+  const session = getSession(userId);
+  const memory = loadMemoryHierarchy(session);
+  return buildEnergyRead(new Date(), lang, lens, { memory, userId });
 }
 
 module.exports = {

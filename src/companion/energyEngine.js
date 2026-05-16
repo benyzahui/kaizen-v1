@@ -15,14 +15,13 @@ const { getResponses } = require("../i18n/getResponses");
  */
 function buildEnergyRead(date, lang, lens = "general", ctx = null) {
   const r = getResponses(lang);
-  const core = buildDailyEnergyMessage(date, lang, lens);
+  const seed = ctx?.userId != null ? String(ctx.userId) : "";
+  const core = buildDailyEnergyMessage(date, lang, lens, seed);
   const name = ctx?.memory?.permanent?.userName;
-  const lead =
-    name && r.energyPersonalLead
-      ? r.energyPersonalLead.replace("{name}", name)
-      : r.brainEnergyPrimaryLead || null;
-  if (!lead) return core;
-  return lines(lead, "", core);
+  if (name && r.energyPersonalLead) {
+    return lines(r.energyPersonalLead.replace("{name}", name), "", core);
+  }
+  return core;
 }
 
 module.exports = { buildEnergyRead, buildDailyEnergyMessage };

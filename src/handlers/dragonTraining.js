@@ -64,10 +64,8 @@ function handleTrainingCommand(command, message, session, lang) {
     case "/program":
       return r.tProgramActivated;
     case "/today": {
-      const base = r.tTodayBody;
-      const m = session.currentMission?.trim();
-      if (m) return lines(base, "", `${r.tProfileMissionLine} ${m}`);
-      return base;
+      const { buildTodayReply } = require("./dailyProtocol");
+      return buildTodayReply(session, lang, id);
     }
     case "/mission": {
       if (parts.length) {

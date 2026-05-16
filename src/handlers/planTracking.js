@@ -5,7 +5,6 @@
 
 const { getResponses } = require("../i18n/getResponses");
 const { lines } = require("../personality/kaizenVoice");
-const { formatFullRecovery } = require("./balanceProtocol");
 
 /** @type {Map<string, { work: string, selfDev: string, body: string, trading: string, focus60: string }>} */
 const plans = new Map();
@@ -116,8 +115,11 @@ function handleFocusCommand(message, lang) {
 }
 
 function handleResetCommand(message, lang) {
-  clearPending(uid(message));
-  return formatFullRecovery(lang, { includeLoopIntro: false });
+  const userId = uid(message);
+  clearPending(userId);
+  const { getSession } = require("../session/sessionStore");
+  const { buildResetReply } = require("./dailyProtocol");
+  return buildResetReply(getSession(userId), lang, userId);
 }
 
 /**

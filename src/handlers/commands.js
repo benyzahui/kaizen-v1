@@ -195,9 +195,11 @@ async function routeCommandMessage(message, session) {
     case "/pulse":
       reply = r.pulse;
       break;
-    case "/mirror":
-      reply = r.mirror;
+    case "/mirror": {
+      const { buildMirrorProtocolReply } = require("./dailyProtocol");
+      reply = buildMirrorProtocolReply(message, session, lang);
       break;
+    }
     case "/trade":
       reply = r.trade;
       break;

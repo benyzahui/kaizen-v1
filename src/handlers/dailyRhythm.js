@@ -81,30 +81,8 @@ function recordEveningMirror(userId) {
 /* ------------------------------------------------------------------ */
 
 function buildMorningReply(message, session, lang) {
-  const r = getResponses(lang);
-  const id = uid(message);
-  recordMorningCheckin(id, session);
-
-  const mantra = pickMantra(r, session, id);
-  const energySnippet = buildDailyEnergyMessage(new Date(), lang, "general")
-    .split("\n")
-    .slice(2, 4)
-    .join(" ")
-    .slice(0, 120);
-  const focus = session.currentMission?.trim() || null;
-  const name = session.userName?.trim() || null;
-
-  if (r.rhythmMorning) {
-    return r.rhythmMorning(
-      name,
-      mantra || energySnippet,
-      focus,
-      r.rhythmDangerDefault || "tab overload",
-      r.rhythmBodyDefault || null
-    );
-  }
-
-  return lines(r.tMorningGateTitle || "Morning", "", mantra);
+  const { buildMorningProtocolReply } = require("./dailyProtocol");
+  return buildMorningProtocolReply(message, session, lang);
 }
 
 /* ------------------------------------------------------------------ */

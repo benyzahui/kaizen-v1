@@ -3,9 +3,8 @@
  * Short, readable, screenshot-worthy. Symbolic data used lightly — no fortune telling.
  */
 
-const { lines } = require("../personality/tone");
+const { lines, pickSeeded } = require("../personality/tone");
 const { getUniversalDayVibration } = require("./numerology");
-const { getMoonPhaseContext } = require("./moonPhase");
 const { getEnergyMaps } = require("../i18n/energyLocales");
 const { pickVib, pickTrading, pickBody } = require("../i18n/dailyEnergyStrings");
 
@@ -17,7 +16,7 @@ function sectionLabels(lang) {
       mental: "🧠 Mentális tér",
       body: "🫀 Test",
       work: "💼 Munka / trading",
-      discipline: "🔥 Mai fegyelem",
+      discipline: "🔥 Fegyelem",
       step: "🌱 Egy stabil lépés"
     };
   }
@@ -43,7 +42,7 @@ function sectionLabels(lang) {
   };
 }
 
-function disciplineLine(lang, vib) {
+function disciplineLine(lang, vib, seed = "") {
   const maps = {
     en: [
       "One rule ships before a new plan.",
@@ -62,7 +61,7 @@ function disciplineLine(lang, vib) {
     ]
   };
   const pool = maps[lang] || maps.en;
-  return pool[(vib - 1) % pool.length];
+  return pickSeeded(pool, `${seed}:disc:${vib}`);
 }
 
 function stableStep(lang, action) {
@@ -76,10 +75,14 @@ function stableStep(lang, action) {
  * @param {'en'|'hu'|'ro'} [lang]
  * @param {'general'|'trading'|'body'|'emotion'|'work'} [lens]
  */
-function buildDailyEnergyMessage(date = new Date(), lang = "en", lens = "general") {
+function buildDailyEnergyMessage(
+  date = new Date(),
+  lang = "en",
+  lens = "general",
+  seed = ""
+) {
   const l = lang === "hu" ? "hu" : lang === "ro" ? "ro" : "en";
   const vib = getUniversalDayVibration(date).vibration;
-  const moon = getMoonPhaseContext(date);
   const maps = getEnergyMaps(l);
   const core = pickVib(l, vib);
   const watch = maps.watch[vib] || maps.watch[7];
@@ -90,23 +93,16 @@ function buildDailyEnergyMessage(date = new Date(), lang = "en", lens = "general
   const mentalLine =
     lens === "emotion"
       ? lines(core.emotion, watch)
-      : `${watch}`.split(".")[0];
+      : `${watch}`.split(".")[0].trim();
   const bodyLine = pickBody(l, vib);
   const workLine = pickTrading(l, vib);
-  const moonNote =
-    moon.mode === "api" && moon.displayKey === "api_pending"
-      ? ""
-      : l === "hu"
-        ? " (hold: szimbolikus, nem előrejelzés)"
-        : l === "ro"
-          ? " (simbolic, nu predicție)"
-          : " (moon: symbolic, not prediction)";
+  const daySeed = seed || date.toISOString().slice(0, 10);
 
   return lines(
     h.title,
     "",
     h.tone,
-    toneLine + moonNote,
+    toneLine,
     "",
     h.mental,
     mentalLine,
@@ -118,10 +114,13 @@ function buildDailyEnergyMessage(date = new Date(), lang = "en", lens = "general
     workLine,
     "",
     h.discipline,
-    disciplineLine(l, vib),
+    disciplineLine(l, vib, daySeed),
     "",
     h.step,
-    stableStep(l, action)
+    pickSeeded(
+      [action, ...Object.values(maps.action || {})].filter(Boolean),
+      `${daySeed}:step:${lens}`
+    ) || stableStep(l, action)
   );
 }
 

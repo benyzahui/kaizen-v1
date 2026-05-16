@@ -5,6 +5,7 @@ const presenceCopy = require("./presenceCopy.ro");
 const moodCopy = require("./moodCopy.ro");
 const conversationCopy = require("./conversationCopy.ro");
 const rhythmCompact = require("./rhythmCompact.ro");
+const dailyProtocol = require("./dailyProtocol.ro");
 
 module.exports = {
   start:
@@ -433,6 +434,7 @@ module.exports = {
   ...moodCopy,
   ...conversationCopy,
   ...rhythmCompact,
+  ...dailyProtocol,
   ...trainingProtocol,
   ...onboardingStrings
 };
