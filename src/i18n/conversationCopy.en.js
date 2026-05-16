@@ -119,5 +119,73 @@ module.exports = {
         "What matters most right now — one sentence?"
       ].join("\n\n")
     ]
-  }
+  },
+
+  memoryRefOverload: [
+    "Still carrying the overload from earlier?",
+    "The noise was high last time — did anything settle?"
+  ],
+
+  memoryRefGroundedAfterChaos: [
+    "Good. Yesterday was chaos. Today already sounds more grounded.",
+    "Last thread was heavy — you sound clearer now."
+  ],
+
+  memoryRefMission: [
+    "Still on {mission} — or did the day rewrite the priority?",
+    "{mission} was the line — where are you against it now?"
+  ],
+
+  memoryRefTopic: [
+    "Picking up where we left off — same weight, or lighter?",
+    "That thread is still open in the background — worth naming one move."
+  ],
+
+  timePresence: {
+    morning: [
+      "Protect your first hour.",
+      "Morning is for direction — not inbox archaeology.",
+      "One priority before the world adds noise."
+    ],
+    midday: [
+      "One completed block before new input.",
+      "Midday: close a loop, then open the next.",
+      "Momentum beats more planning right now."
+    ],
+    evening: [
+      "Your nervous system remembers everything you ignore.",
+      "Evening is for honest inventory — not another sprint.",
+      "Downshift is not quitting. It is maintenance."
+    ],
+    late_night: [
+      "Late hours borrow from tomorrow.",
+      "Nothing strategic needs solving at this hour.",
+      "Close one loop, then protect sleep."
+    ]
+  },
+
+  companionCheckIns: [
+    "⚔ Small check-in.\nDid today become clearer or noisier?",
+    "Hydration. Breath. One honest status line.",
+    "Did you move your body today or only your thoughts?",
+    "One line: better, same, or heavier than this morning?"
+  ],
+
+  shortActionReplies: [
+    "Good.\nEasier to reorder the head from the body.\nDo not bring performance — bring rhythm.",
+    "Run/walk — not a lecture.\nTwenty minutes. Phone stays dark.",
+    "Movement first. Meaning can wait."
+  ],
+
+  sarcasmRare: [
+    "Your brain is currently running seventeen tabs.",
+    "Chaos is testing in production again.",
+    "You scheduled overwhelm and showed up on time."
+  ],
+
+  eliteWhispers: [
+    "Discipline is reducing self-betrayal.",
+    "Energy leaks destroy more futures than lack of talent.",
+    "Standards are what you do when nobody applauds."
+  ]
 };

@@ -33,6 +33,8 @@ const { prepareCompanionContext } = require("../companion/companionCore");
 const { packOpenReply } = require("./openReply");
 const { resolveNaturalLanguageRequest } = require("../i18n/languageLock");
 const { buildNaturalConversation } = require("../conversation/naturalConversation");
+const { tryCompanionCheckIn } = require("../companion/companionInitiation");
+const { tryShortActionReply } = require("../companion/responseDepth");
 
 const COACH_HEAVY = new Set([
   "emotional_reflection",
@@ -145,6 +147,26 @@ async function handleOpenConversation(message, lang, session) {
         suggestedAction: "/reset"
       };
     }
+  }
+
+  const shortAction = tryShortActionReply(text, lang, userId);
+  if (shortAction) {
+    const cat = "light_conversation";
+    const companionCtx = prepareCompanionContext(userId, text, session, lang, cat);
+    return emitOpen(companionCtx, cat, shortAction, r, null);
+  }
+
+  const checkIn = tryCompanionCheckIn(session, lang, userId, text);
+  if (checkIn) {
+    updateSession(userId, { lastCompanionCheckin: Date.now() });
+    const companionCtx = prepareCompanionContext(
+      userId,
+      text,
+      session,
+      lang,
+      checkIn.category
+    );
+    return emitOpen(companionCtx, checkIn.category, checkIn.body, r, null);
   }
 
   const category = classifyMessage(text);

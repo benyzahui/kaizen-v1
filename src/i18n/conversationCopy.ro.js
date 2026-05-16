@@ -106,5 +106,73 @@ module.exports = {
         "Ce contează cel mai mult acum — o propoziție?"
       ].join("\n\n")
     ]
-  }
+  },
+
+  memoryRefOverload: [
+    "Încă porți suprasolicitarea de mai devreme?",
+    "Ultima dată era mult zgomot — s-a așezat ceva?"
+  ],
+
+  memoryRefGroundedAfterChaos: [
+    "Bine. Ieri a fost haos. Azi sună mai ancorat.",
+    "Firul era greu — capul e mai clar acum?"
+  ],
+
+  memoryRefMission: [
+    "Încă pe {mission} — sau ziua a rescris prioritatea?",
+    "{mission} era linia — unde ești față de ea?"
+  ],
+
+  memoryRefTopic: [
+    "Continuăm — aceeași greutate, sau mai ușor?",
+    "Firul e încă deschis — merită un pas numit."
+  ],
+
+  timePresence: {
+    morning: [
+      "Protejează prima oră.",
+      "Dimineața e pentru direcție — nu arheologie în inbox.",
+      "O prioritate înainte să adauge lumea zgomot."
+    ],
+    midday: [
+      "Un bloc închis înainte de input nou.",
+      "La prânz: închide o buclă, apoi deschide următoarea.",
+      "Momentum bate încă un plan acum."
+    ],
+    evening: [
+      "Sistemul nervos îți amintește tot ce ignori.",
+      "Seara e inventar onest — nu alt sprint.",
+      "Coborârea nu e renunțare. E întreținere."
+    ],
+    late_night: [
+      "Orele târzii împrumută de mâine.",
+      "Nimic strategic nu trebuie rezolvat acum.",
+      "Închide o buclă, apoi protejează somnul."
+    ]
+  },
+
+  companionCheckIns: [
+    "⚔ Check-in scurt.\nAzi a devenit mai clar sau mai zgomotos?",
+    "Hidratare. Respirație. O linie de status onestă.",
+    "Ai mișcat corpul azi sau doar gândurile?",
+    "O linie: mai bine, la fel, sau mai greu decât dimineața?"
+  ],
+
+  shortActionReplies: [
+    "Bine.\nDin corp e mai ușor să reordonezi capul.\nNu aduce performanță — aduce ritm.",
+    "Alergare/plimbare — nu predica.\nDouăzeci de minute. Telefonul rămâne întunecat.",
+    "Mișcare întâi. Sensul poate aștepta."
+  ],
+
+  sarcasmRare: [
+    "Creierul rulează acum cu șaptesprezece tab-uri.",
+    "Haosul testează din nou în producție.",
+    "Ai programat suprasolicitarea și ai apărut la timp."
+  ],
+
+  eliteWhispers: [
+    "Disciplina e reducerea trădării de sine.",
+    "Pierderile de energie distrug mai multe viitoruri decât lipsa talentului.",
+    "Standardele sunt ce faci când nimeni nu aplaudă."
+  ]
 };

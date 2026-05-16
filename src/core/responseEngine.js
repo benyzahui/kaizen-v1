@@ -9,6 +9,7 @@ const { classifyMessage } = require("../conversation/classify");
 const { detectCoachState } = require("./stateDetector");
 const { detectNaturalIntent } = require("../brain/intentEngine");
 const { getTimeSlot } = require("./timeContext");
+const { resolveResponseDepth } = require("../companion/responseDepth");
 const { getResponses } = require("../i18n/getResponses");
 const { lines } = require("../personality/kaizenVoice");
 const { pickSeeded } = require("../personality/tone");
@@ -152,12 +153,21 @@ function analyzeUserState(text, session, classifyCategory) {
     mentorMode === "recovery_mode" || mentorMode === "grounded_calm" ? 0.85 : 0.7;
   const mysticalRatio = category === "energy_question" ? 0.15 : 0.08;
 
+  const responseDepth = resolveResponseDepth(text, category, {
+    mentorMode,
+    length,
+    emotionalIntensity,
+    scatter,
+    coachState
+  });
+
   return {
     category,
     coachState,
     intent: natural?.intent || null,
     mentorMode,
     length,
+    responseDepth,
     emotionalIntensity,
     energyLevel,
     scatter,
@@ -272,6 +282,9 @@ function selectResponsePlan(state, memory, rhythm) {
     mentorMode: state.mentorMode,
     style: styleMap[state.mentorMode] || "calm_mentor",
     length: state.length,
+    depth:
+      state.responseDepth ||
+      (state.length === "short" ? "short" : "medium"),
     pressure,
     action,
     humorLevel,

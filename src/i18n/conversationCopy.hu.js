@@ -113,5 +113,73 @@ module.exports = {
         "Mi a legfontosabb most — egy mondatban?"
       ].join("\n\n")
     ]
-  }
+  },
+
+  memoryRefOverload: [
+    "Még cipelsz a korábbi túlterhelést?",
+    "Legutóbb sok volt a zaj — rendeződött valami?"
+  ],
+
+  memoryRefGroundedAfterChaos: [
+    "Jó. Tegnap káosz volt. Ma már földöttebb hangzol.",
+    "A szál nehéz volt — most tisztább a fejed?"
+  ],
+
+  memoryRefMission: [
+    "Még mindig: {mission} — vagy átírta a nap?",
+    "{mission} volt a vonal — hol állsz most?"
+  ],
+
+  memoryRefTopic: [
+    "Folytatjuk — ugyanaz a súly, vagy könnyebb?",
+    "A szál még nyitva van — érdemes egy mozdulatot nevezni."
+  ],
+
+  timePresence: {
+    morning: [
+      "Védd az első órádat.",
+      "Reggel irány kell — nem inbox-archeológia.",
+      "Egy prioritás, mielőtt a világ zajt ad."
+    ],
+    midday: [
+      "Egy lezárt blokk, aztán új input.",
+      "Dél: zárd a kört, utána nyisd a következőt.",
+      "Most a lendület számít, nem új terv."
+    ],
+    evening: [
+      "Az idegrendszered mindent megjegyez, amit figyelmen kívül hagysz.",
+      "Este őszinte mérleg — nem új sprint.",
+      "Leeresztés nem feladás. Karbantartás."
+    ],
+    late_night: [
+      "Késő este holnapot kölcsönöz.",
+      "Stratégiai döntés most nem kell.",
+      "Egy kör zárása, aztán alvás."
+    ]
+  },
+
+  companionCheckIns: [
+    "⚔ Apró check-in.\nMa tisztább lett, vagy zajosabb?",
+    "Víz. Lélegzet. Egy őszinte státusz sor.",
+    "Mozgott a tested ma, vagy csak a gondolataid?",
+    "Egy sor: jobb, ugyanaz, vagy nehezebb, mint reggel?"
+  ],
+
+  shortActionReplies: [
+    "Jó.\nTestből könnyebb újra rendezni a fejet.\nNe teljesítményt vigyél — ritmust.",
+    "Futás/séta — nem prédikáció.\nHúsz perc. Telefon sötétben.",
+    "Először mozgás. A jelentés várhat."
+  ],
+
+  sarcasmRare: [
+    "Az agyad jelenleg 17 tabbal fut.",
+    "A káosz megint production environmentben tesztel.",
+    "Beütötted a túlterhelést, és pontosan meg is jelentél."
+  ],
+
+  eliteWhispers: [
+    "A fegyelem az önáratás csökkentése.",
+    "Az energiaszivárgás több jövőt rombol, mint a tehetséghiány.",
+    "A standard az, amit akkor is csinálsz, ha senki nem tapsol."
+  ]
 };

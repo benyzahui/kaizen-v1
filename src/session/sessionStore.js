@@ -116,6 +116,8 @@ function emptySession() {
     lastMantraDate: null,
     lastMirrorDate: null,
     focusLocked: false,
+    presenceMemory: null,
+    lastCompanionCheckin: 0,
     lastAt: Date.now()
   };
 }
