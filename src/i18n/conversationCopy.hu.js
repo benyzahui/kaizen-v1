@@ -844,6 +844,21 @@ module.exports = {
     breath: ["…", "Itt vagyok.", "Hallgatlak."]
   },
 
+  conversationBridges: {
+    topicShift: ["Na.", "Más:", "Egyébként…"],
+    emotionalFollow: [
+      "Még ott vagy ebben?",
+      "Ugyanaz a nyomás, vagy könnyebb?",
+      "Na — jobb, ugyanaz, vagy nehezebb?"
+    ]
+  },
+
+  conversationHumor: [
+    "Az agyad megint sok ablakkal fut?",
+    "Na, klasszikus tab-káosz.",
+    "Értem. Digitális tűzijáték."
+  ],
+
   naturalTransitions: {
     general: ["Egyébként…"],
     stressToBody: ["Más:\na tested hogy van mostanában?"],

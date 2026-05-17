@@ -821,6 +821,21 @@ module.exports = {
     breath: ["…", "I am here.", "I am listening."]
   },
 
+  conversationBridges: {
+    topicShift: ["Yeah.", "Different thread:", "By the way…"],
+    emotionalFollow: [
+      "Still in that thread?",
+      "Same pressure, or a little lighter?",
+      "Better, same, or heavier than before?"
+    ]
+  },
+
+  conversationHumor: [
+    "Brain running too many tabs again?",
+    "Classic tab chaos.",
+    "Got it. Digital fireworks."
+  ],
+
   naturalTransitions: {
     general: ["By the way…", "Wait —"],
     stressToBody: ["Different question:\nhow is your body lately?"],

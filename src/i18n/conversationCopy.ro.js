@@ -808,6 +808,21 @@ module.exports = {
     breath: ["…", "Sunt aici.", "Te ascult."]
   },
 
+  conversationBridges: {
+    topicShift: ["Da.", "Alt fir:", "Apropo…"],
+    emotionalFollow: [
+      "Încă în același fir?",
+      "Aceeași presiune, sau puțin mai ușor?",
+      "Mai bine, la fel, sau mai greu?"
+    ]
+  },
+
+  conversationHumor: [
+    "Creierul rulează din nou multe tab-uri?",
+    "Klasik tab haos.",
+    "Înțeleg. Foc de artificii digital."
+  ],
+
   naturalTransitions: {
     general: ["Apropo…", "Stai —"],
     stressToBody: ["Altceva:\ncum e corpul tău în ultima vreme?"],
