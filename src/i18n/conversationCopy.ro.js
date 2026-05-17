@@ -684,6 +684,14 @@ module.exports = {
     "Nu trebuie să repari totul azi."
   ],
 
+  returnStateClosings: [
+    "Ajunge pentru acum.",
+    "Mergi mai încet.",
+    "Un pas e suficient azi.",
+    "Odihnește-te puțin.",
+    "Mâine tot sunt aici."
+  ],
+
   microHumanityAlive: ["Hm.", "Da.", "Asta e mult.", "Înțeleg.", "Bine."],
 
   naturalEmotionalSupport: [

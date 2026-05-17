@@ -697,6 +697,14 @@ module.exports = {
     "You do not have to fix everything today."
   ],
 
+  returnStateClosings: [
+    "That is enough for now.",
+    "Move a little slower.",
+    "One step is enough today.",
+    "Rest a little.",
+    "I will be here tomorrow too."
+  ],
+
   microHumanityAlive: ["Hm.", "Yeah.", "That is a lot.", "Got it.", "Good."],
 
   naturalEmotionalSupport: [

@@ -718,6 +718,14 @@ module.exports = {
     "Ma nem kell mindent rendbe tenni."
   ],
 
+  returnStateClosings: [
+    "Ez elég most.",
+    "Menj lassabban.",
+    "Egy lépés elég ma.",
+    "Pihenj egy kicsit.",
+    "Holnap is itt leszek."
+  ],
+
   microHumanityAlive: ["Hm.", "Na.", "Na várj.", "Az mondjuk sok.", "Értem.", "Jó."],
 
   naturalEmotionalSupport: [

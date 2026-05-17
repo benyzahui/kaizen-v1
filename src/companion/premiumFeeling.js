@@ -136,5 +136,6 @@ function finalizePremiumFeelingPass(body, ctx, category, alive) {
 module.exports = {
   finalizePremiumFeelingPass,
   applyQuietPremiumEnergy,
-  maybeGroundedWarmth
+  maybeGroundedWarmth,
+  applyPremiumSpacing
 };

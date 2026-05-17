@@ -183,6 +183,7 @@ function applyAtmosphereLayers(body, ctx, category) {
 module.exports = {
   applyAtmosphereTone,
   stripHypeLines,
+  softenRepeatedOpeners,
   maybeStructuredCalm,
   maybeMicroImmersion,
   formatAtmosphereMessage,
