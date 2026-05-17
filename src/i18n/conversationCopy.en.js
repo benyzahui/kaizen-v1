@@ -841,6 +841,21 @@ module.exports = {
     "This sounds more like overload than laziness."
   ],
 
+  comfortableSilence: [
+    "That must have been a lot.",
+    "Got it.",
+    "🌘 Today sounds more like missing rest than missing drive.",
+    "I hear you.",
+    "Yeah."
+  ],
+
+  soulMemoryFlow: [
+    "Last time everything started pulling apart around now too.",
+    "You sound calmer than a few days ago.",
+    "Yesterday everything inside you sounded noisier.",
+    "Same pressure, or a bit lighter?"
+  ],
+
   microHumanityAlive: ["Hm.", "Yeah.", "That is a lot.", "Got it.", "Good."],
 
   naturalEmotionalSupport: [

@@ -874,6 +874,21 @@ module.exports = {
     "Ez most inkább túlterhelésnek hangzik mint lustaságnak."
   ],
 
+  comfortableSilence: [
+    "Az sok lehetett.",
+    "Értem.",
+    "🌘 Ma szerintem inkább pihenés hiányzik.",
+    "Hallom.",
+    "Na."
+  ],
+
+  soulMemoryFlow: [
+    "Múltkor is ilyenkor kezdett széthúzódni minden.",
+    "Most nyugodtabbnak tűnsz mint pár napja.",
+    "Tegnap még sokkal zajosabb volt benned minden.",
+    "Ugyanaz a nyomás, vagy könnyebb lett?"
+  ],
+
   microHumanityAlive: ["Hm.", "Na.", "Na várj.", "Az mondjuk sok.", "Értem.", "Jó."],
 
   naturalEmotionalSupport: [

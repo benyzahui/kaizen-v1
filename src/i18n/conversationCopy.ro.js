@@ -828,6 +828,21 @@ module.exports = {
     "Asta sună mai degrabă a suprasolicitare decât lene."
   ],
 
+  comfortableSilence: [
+    "Asta a fost mult.",
+    "Înțeleg.",
+    "🌘 Azi pare că lipsește odihna, nu motivația.",
+    "Te aud.",
+    "Da."
+  ],
+
+  soulMemoryFlow: [
+    "Data trecută totul a început să se desfacă tot pe la această oră.",
+    "Acum pari mai calm decât acum câteva zile.",
+    "Ieri totul în tine suna mult mai zgomotos.",
+    "Aceeași presiune, sau puțin mai ușor?"
+  ],
+
   microHumanityAlive: ["Hm.", "Da.", "Asta e mult.", "Înțeleg.", "Bine."],
 
   naturalEmotionalSupport: [

@@ -81,6 +81,7 @@ const {
   resolvePresenceTiming
 } = require("./presenceEvolution");
 const { finalizeHumanReturnPass } = require("./humanReturnPass");
+const { finalizeSoulStability } = require("./soulStability");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -496,6 +497,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizeEmotionalAttachment(b, ctx, category, timing);
     b = finalizePresenceEvolution(b, ctx, category, timing);
     b = finalizeHumanReturnPass(b, ctx, category, timing);
+    b = finalizeSoulStability(b, ctx, category, timing);
     b = finalizePremiumAtmosphere(b, ctx, category, timing);
   }
 
