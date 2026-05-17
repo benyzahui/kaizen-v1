@@ -15,9 +15,7 @@ module.exports = {
       .filter(Boolean)
       .join("\n"),
 
-  rhythmMidday:
-    "Prânz.\nAi rămas pe blocul unic?\nDacă nu — taie înapoi. Cinci minute pe task-ul real.",
+  rhythmMidday: "Amiază.\nÎncă pe banda aleasă?",
 
-  rhythmEvening:
-    "Oglinda serii.\nCe a mers cu adevărat azi?\nCoborâre: ecran mai slab, respirație lentă.\nO linie onestă pentru mâine — nu discurs."
+  rhythmEvening: "Seară.\nCoborâre — nu sprint nou."
 };

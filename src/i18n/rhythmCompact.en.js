@@ -18,8 +18,7 @@ module.exports = {
   rhythmDangerDefault: "tab overload",
   rhythmBodyDefault: "water + stand up",
 
-  rhythmMidday: "Midday.\nDrift check: are you still on the one block?\nIf not — cut back. Five minutes on the real task.",
+  rhythmMidday: "Midday.\nStill on the lane you picked?",
 
-  rhythmEvening:
-    "Evening mirror.\nWhat actually landed today?\nDownshift: dim screen, slower breath.\nOne honest line for tomorrow — not a speech."
+  rhythmEvening: "Evening.\nDownshift — not a new sprint."
 };

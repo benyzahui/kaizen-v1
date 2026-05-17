@@ -16,6 +16,11 @@ const { buildDailyEnergyMessage } = require("../energy/dailyEnergy");
 const { pickMantra } = require("./dragonTraining");
 const { getTimeSlot } = require("../core/timeContext");
 const { pickSeeded } = require("../personality/tone");
+const {
+  buildRhythmMorning,
+  buildRhythmMidday,
+  buildRhythmEvening
+} = require("../companion/dailyRhythmLock");
 
 const DRAGON_LEVELS = [
   null,           // 0 unused
@@ -82,8 +87,8 @@ function recordEveningMirror(userId) {
 /* ------------------------------------------------------------------ */
 
 function buildMorningReply(message, session, lang) {
-  const { buildMorningProtocolReply } = require("./dailyProtocol");
-  return buildMorningProtocolReply(message, session, lang);
+  recordMorningCheckin(uid(message), session);
+  return buildRhythmMorning(message, session, lang);
 }
 
 /* ------------------------------------------------------------------ */
@@ -91,12 +96,7 @@ function buildMorningReply(message, session, lang) {
 /* ------------------------------------------------------------------ */
 
 function buildMiddayReply(session, lang) {
-  const r = getResponses(lang);
-  const ritual = r.microRituals?.midday || [];
-  if (ritual.length) {
-    return pickSeeded(ritual, `midday_cmd_${todayKey()}_${session.messages?.length || 0}`);
-  }
-  return r.rhythmMidday || r.tMiddayGateTitle || "Midday check.";
+  return buildRhythmMidday(session, lang);
 }
 
 /* ------------------------------------------------------------------ */
@@ -104,13 +104,8 @@ function buildMiddayReply(session, lang) {
 /* ------------------------------------------------------------------ */
 
 function buildEveningReply(message, session, lang) {
-  const r = getResponses(lang);
   recordEveningMirror(uid(message));
-  const ritual = r.microRituals?.evening || [];
-  if (ritual.length) {
-    return pickSeeded(ritual, `evening_cmd_${todayKey()}_${session.messages?.length || 0}`);
-  }
-  return r.rhythmEvening || r.tEveningGateTitle || "Evening mirror.";
+  return buildRhythmEvening(message, session, lang);
 }
 
 /* ------------------------------------------------------------------ */

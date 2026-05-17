@@ -473,21 +473,43 @@ module.exports = {
     "Tested vagy fejed fáradtabb most?"
   ],
 
-  microRituals: {
+  rhythmLock: {
     morning: [
-      "Reggel: ki vagy ma — és mi az egy irány?",
-      "Ma nem a teljes lista számít.\nEgy blokk, amit megvédesz.",
-      "Reggeli kapu: identitás + egy tiszta irány."
+      "Reggel.\nEgy irány elég ma — nem tíz.",
+      "Mi az egy dolog, amit ma megvédesz?",
+      "Tisztaság először.\nAztán egy blokk."
+    ],
+    morningWithMission: [
+      "Reggel.\nA vonalad ma: {mission}",
+      "Egy irány: {mission}.\nAztán mozgás."
     ],
     midday: [
-      "Dél: még azon a sávon vagy, amit reggel választottál?",
-      "Fókusz-korrekció: egy kör zárása, aztán tovább.",
-      "Most inkább túlterhelés vagy szétszórtság?"
+      "Dél.\nMég azon a sávon vagy?",
+      "Egy kör zárása — aztán tovább.",
+      "Fókusz-korrekció: egy blokk, nem tíz."
     ],
     evening: [
-      "Este: leeresztés, nem új sprint.",
+      "Este.\nLeeresztés — nem új sprint.",
+      "Engedd le a fejet.\nHolnap is itt leszek.",
+      "Mi volt ma az egy stabil mozdulat?"
+    ]
+  },
+
+  microRituals: {
+    morning: [
+      "Reggel.\nEgy irány elég ma.",
+      "Ma egy blokk, amit megvédesz.",
+      "Tisztaság — aztán egy lépés."
+    ],
+    midday: [
+      "Dél.\nMég azon a sávon vagy?",
+      "Egy kör zárása, aztán folytatás.",
+      "Szétszórt vagy túlterhelt? Egy fókusz elég."
+    ],
+    evening: [
+      "Este.\nLeeresztés, nem új sprint.",
       "Mi volt ma az egy stabil blokk?",
-      "Engedd le a fejet — holnapra kölcsönöz, nem ma."
+      "Pihenés — holnap is itt leszek."
     ],
     late_night: [
       "Késő este: egy sor zárás, aztán alvás.",

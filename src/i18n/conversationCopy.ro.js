@@ -439,21 +439,43 @@ module.exports = {
     "Corpul sau capul e mai obosit acum?"
   ],
 
-  microRituals: {
+  rhythmLock: {
     morning: [
-      "Dimineață: cine ești azi — și care e o direcție?",
-      "Azi nu contează lista întreagă.\nUn bloc pe care îl protejezi.",
-      "Poartă de dimineață: identitate + o bandă clară."
+      "Dimineață.\nO direcție e suficientă azi — nu zece.",
+      "Care e un lucru pe care îl protejezi azi?",
+      "Claritate întâi.\nApoi un bloc."
+    ],
+    morningWithMission: [
+      "Dimineață.\nBanda ta azi: {mission}",
+      "O direcție: {mission}.\nApoi mișcare."
     ],
     midday: [
-      "Amiază: încă pe banda aleasă dimineața?",
-      "Corecție focus: închizi un cerc, apoi continui.",
-      "Suprasolicitare sau împrăștiere acum?"
+      "Amiază.\nÎncă pe banda aleasă?",
+      "Închide un cerc — apoi continuă.",
+      "Corecție focus: un bloc, nu zece."
     ],
     evening: [
-      "Seară: coborâre — nu sprint nou.",
+      "Seară.\nCoborâre — nu sprint nou.",
+      "Lasă capul să se odihnească.\nMâine tot sunt aici.",
+      "Care a fost mișcarea stabilă de azi?"
+    ]
+  },
+
+  microRituals: {
+    morning: [
+      "Dimineață.\nO direcție e suficientă azi.",
+      "Un bloc pe care îl protejezi azi.",
+      "Claritate — apoi un pas."
+    ],
+    midday: [
+      "Amiază.\nÎncă pe banda aleasă?",
+      "Închide un cerc, apoi continuă.",
+      "Împrăștiat sau suprasolicitat? Un focus e suficient."
+    ],
+    evening: [
+      "Seară.\nCoborâre — nu sprint nou.",
       "Care a fost blocul stabil de azi?",
-      "Lasă capul — mâine împrumută, nu seara asta."
+      "Odihnă — mâine tot sunt aici."
     ],
     late_night: [
       "Târziu: o linie de închidere, apoi somn.",

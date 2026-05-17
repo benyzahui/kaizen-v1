@@ -18,9 +18,7 @@ module.exports = {
   rhythmDangerDefault: "tab túlterhelés",
   rhythmBodyDefault: "víz + felállás",
 
-  rhythmMidday:
-    "Dél.\nMég azon a sávon vagy?\nHa szétszórt vagy — egy kör zárása, aztán folytatás.",
+  rhythmMidday: "Dél.\nMég azon a sávon vagy?",
 
-  rhythmEvening:
-    "Este.\nMi volt ma az egy stabil blokk?\nLeeresztés — nem új sprint.\nEgy őszinte sor, aztán pihenés."
+  rhythmEvening: "Este.\nLeeresztés — nem új sprint."
 };

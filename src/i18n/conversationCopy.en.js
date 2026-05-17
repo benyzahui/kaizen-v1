@@ -452,21 +452,43 @@ module.exports = {
     "Body tired or head tired right now?"
   ],
 
-  microRituals: {
+  rhythmLock: {
     morning: [
-      "Morning: who are you today — and what is the one direction?",
-      "Today is not the full list.\nOne block you actually protect.",
-      "Morning gate: identity + one clear lane."
+      "Morning.\nOne direction is enough today — not ten.",
+      "What is the one thing you protect today?",
+      "Clarity first.\nThen one block."
+    ],
+    morningWithMission: [
+      "Morning.\nYour lane today: {mission}",
+      "One direction: {mission}.\nThen movement."
     ],
     midday: [
-      "Midday: still on the lane you picked this morning?",
-      "Focus correction: close one loop, then continue.",
-      "Overload or scattered right now?"
+      "Midday.\nStill on the lane you picked?",
+      "Close one loop — then continue.",
+      "Focus correction: one block, not ten."
     ],
     evening: [
-      "Evening: downshift — not a new sprint.",
+      "Evening.\nDownshift — not a new sprint.",
+      "Let the head rest.\nI will be here tomorrow too.",
+      "What was today's one stable move?"
+    ]
+  },
+
+  microRituals: {
+    morning: [
+      "Morning.\nOne direction is enough today.",
+      "One block you actually protect today.",
+      "Clarity — then one step."
+    ],
+    midday: [
+      "Midday.\nStill on the lane you picked?",
+      "Close one loop, then continue.",
+      "Scattered or overloaded? One focus is enough."
+    ],
+    evening: [
+      "Evening.\nDownshift — not a new sprint.",
       "What was today's one stable block?",
-      "Let the head rest — tomorrow borrows, not tonight."
+      "Rest — I will be here tomorrow too."
     ],
     late_night: [
       "Late night: one closing line, then sleep.",
