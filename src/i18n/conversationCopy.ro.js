@@ -675,6 +675,15 @@ module.exports = {
     "Asta e prea multă încărcare deodată."
   ],
 
+  emotionalGrounding: [
+    "Acum nu trebuie un plan nou.",
+    "Asta sună mai degrabă a suprasolicitare.",
+    "Întoarce-te puțin în corp.",
+    "Corpul întâi. Gândurile după.",
+    "Nu e lene — e prea mult deodată.",
+    "Nu trebuie să repari totul azi."
+  ],
+
   microHumanityAlive: ["Hm.", "Da.", "Asta e mult.", "Înțeleg.", "Bine."],
 
   naturalEmotionalSupport: [

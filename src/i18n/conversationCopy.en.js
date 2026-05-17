@@ -688,6 +688,15 @@ module.exports = {
     "This is too much load at once."
   ],
 
+  emotionalGrounding: [
+    "You do not need a new plan right now.",
+    "This sounds more like overload.",
+    "Come back into your body a little.",
+    "Body first. Thoughts after.",
+    "This is not laziness — it is too much at once.",
+    "You do not have to fix everything today."
+  ],
+
   microHumanityAlive: ["Hm.", "Yeah.", "That is a lot.", "Got it.", "Good."],
 
   naturalEmotionalSupport: [

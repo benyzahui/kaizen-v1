@@ -69,6 +69,7 @@ const { finalizeBetaShipLock } = require("./betaShipLock");
 const { finalizeSoulCoherence, COHERENT_FLOW } = require("./soulCoherence");
 const { finalizeBetaSurvival } = require("./betaSurvival");
 const { finalizePresenceLock, resolveEmotionalTiming } = require("./presenceLock");
+const { finalizeBetaImmersionHarden } = require("./betaImmersionHarden");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -476,6 +477,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizeSoulCoherence(b, ctx, category, alive, soulRhythm);
     b = finalizeBetaSurvival(b, ctx, category, alive, soulRhythm);
     b = finalizePresenceLock(b, ctx, category, timing);
+    b = finalizeBetaImmersionHarden(b, ctx, category, timing);
   }
 
   return b;

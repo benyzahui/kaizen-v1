@@ -709,7 +709,16 @@ module.exports = {
     "Ez már túl sok terhelés egyszerre."
   ],
 
-  microHumanityAlive: ["Hm.", "Na.", "Az mondjuk sok.", "Értem.", "Jó."],
+  emotionalGrounding: [
+    "Most nem új terv kell.",
+    "Ez inkább túlterhelésnek hangzik.",
+    "Menj vissza egy kicsit a testedbe.",
+    "Előbb a tested, aztán a gondolat.",
+    "Ez nem lustaság — túl sok egyszerre.",
+    "Ma nem kell mindent rendbe tenni."
+  ],
+
+  microHumanityAlive: ["Hm.", "Na.", "Na várj.", "Az mondjuk sok.", "Értem.", "Jó."],
 
   naturalEmotionalSupport: [
     "Ez most soknak hangzik.",
