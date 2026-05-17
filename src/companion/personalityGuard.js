@@ -5,12 +5,10 @@
 const { pickSeeded } = require("../personality/tone");
 const { getResponses } = require("../i18n/getResponses");
 const { isDragonCringe } = require("./dragonTone");
+const { HYPE_RE } = require("./atmospherePresence");
 
 const BREAKS_IDENTITY_RE =
   /\b(as an AI|language model|I cannot feel|I don't have feelings|motivation guru|alpha male|sigma grind|manifest the universe|you got this king|queen energy)\b/i;
-
-const HYPE_RE =
-  /\b(crush it|beast mode|10x your life|unlock your potential|limitless)\b/i;
 
 const JUDGMENT_RE =
   /\b(you failed|failed your discipline|no excuses|weakness is|te vagy gyenge|kudarcot vallottál|lipsă de disciplină)\b/i;

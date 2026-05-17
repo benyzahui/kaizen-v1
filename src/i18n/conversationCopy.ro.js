@@ -613,6 +613,30 @@ module.exports = {
     general: ["Sunt aici.", "Ești ok așa."]
   },
 
+  premiumAtmosphere: [
+    "Nu încerca să rezolvi tot viitorul azi.",
+    "Un bloc curat e suficient.",
+    "Suprasolicitarea e adesea prea multe cercuri deschise."
+  ],
+
+  structuredCalm: [
+    "Încetinește un grad — nu trebuie să reacționezi la tot acum.",
+    "O respirație. Apoi o decizie.",
+    "Nu intensitate acum — puțin mai jos."
+  ],
+
+  microImmersion: [
+    "Și cum ține corpul tău asta în ultima vreme?",
+    "Ieri sunai mult mai încordat.",
+    "Mai ai rezervă în tine, sau gol?"
+  ],
+
+  atmosphereTransitions: [
+    "O secundă.",
+    "Da.",
+    "Alt unghi:"
+  ],
+
   companionClosings: {
     general: [
       "Nu căra tot muntele azi.\nDoar următorul pas stabil.",

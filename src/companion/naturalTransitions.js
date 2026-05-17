@@ -28,14 +28,15 @@ function maybeNaturalTransition(session, lang, category, text) {
   const last = session.lastCategory;
   if (!last || last === category) return null;
   if ((session.messages || []).length < 3) return null;
-  if (Math.random() > 0.22) return null;
+  if (Math.random() > 0.18) return null;
 
   const r = getResponses(lang);
   const key = transitionKey(last, category);
-  const pool =
-    r.naturalTransitions?.[key] ||
-    r.naturalTransitions?.general ||
-    [];
+  const pool = [
+    ...(r.atmosphereTransitions || []),
+    ...(r.naturalTransitions?.[key] || []),
+    ...(r.naturalTransitions?.general || [])
+  ];
   if (!pool.length) return null;
 
   if (/(stressz|stress|overwhelm|túl)/i.test(text) && key === "general") {

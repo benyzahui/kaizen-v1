@@ -647,6 +647,30 @@ module.exports = {
     general: ["Itt vagyok.", "Rendben vagy így is."]
   },
 
+  premiumAtmosphere: [
+    "Ma ne az egész jövődet próbáld megoldani.",
+    "Elég egy tiszta blokk.",
+    "A túlterhelés néha csak túl sok nyitott kör."
+  ],
+
+  structuredCalm: [
+    "Lassíts egy fokot — nem kell most mindenre reagálni.",
+    "Egy lélegzet. Aztán egy döntés.",
+    "Most nem intenzitás kell — egy kicsit lejjebb."
+  ],
+
+  microImmersion: [
+    "És a tested hogy bírja ezt mostanában?",
+    "Tegnap még sokkal feszesebbnek tűntél.",
+    "Van még benned tartalék, vagy üres?"
+  ],
+
+  atmosphereTransitions: [
+    "Egy másodperc.",
+    "Na.",
+    "Más irány:"
+  ],
+
   companionClosings: {
     general: [
       "Ma ne az egész hegyet cipeld.\nCsak a következő stabil lépést.",

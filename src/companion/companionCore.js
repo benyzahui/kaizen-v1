@@ -54,6 +54,7 @@ const { resolveRhythmMode, applyInternalRhythm, rhythmSessionPatch } = require("
 const { maybeCompanionWarmth, maybePremiumQuiet } = require("./companionWarmth");
 const { maybeMicroReaction } = require("./emotionalMicro");
 const { maybePremiumClosing } = require("./premiumClosing");
+const { applyAtmosphereLayers, formatAtmosphereMessage } = require("./atmospherePresence");
 
 const SKIP_MEMORY_CATEGORIES = new Set([
   "onboarding",
@@ -362,9 +363,11 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     }
   }
 
+  b = applyAtmosphereLayers(b, ctx, category);
   b = applyPersonalityGuard(b, ctx.lang, category);
   b = sanitizeBetaCopy(b);
   b = formatPremiumMessage(b);
+  b = formatAtmosphereMessage(b);
 
   if (detectLaneWandering(s, category)) {
     updateSession(ctx.userId, { focusLocked: true });

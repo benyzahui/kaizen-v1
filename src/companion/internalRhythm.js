@@ -20,7 +20,14 @@ function resolveRhythmMode(state, session, text, category) {
   const last = session?.lastSoulRhythm;
 
   let mode = "breath";
-  if (mirror === "stabilize" || mirror === "soften") mode = Math.random() < 0.45 ? "silent" : "short";
+  const overloaded =
+    session?.presenceMemory?.overloadActive ||
+    session?.presenceMemory?.emotionalState === "overloaded" ||
+    state?.emotionalIntensity >= 6;
+  if (mirror === "stabilize" || mirror === "soften") {
+    if (overloaded) mode = Math.random() < 0.55 ? "silent" : "slow";
+    else mode = Math.random() < 0.45 ? "silent" : "short";
+  }
   else if (mirror === "concise" || mirror === "sharp") mode = "sharp";
   else if (mirror === "slow") mode = "slow";
   else if (mirror === "deepen") mode = "breath";

@@ -626,6 +626,30 @@ module.exports = {
     general: ["I am here.", "You are okay like this."]
   },
 
+  premiumAtmosphere: [
+    "Do not try to solve your whole future today.",
+    "One clean block is enough.",
+    "Overload is often just too many open loops."
+  ],
+
+  structuredCalm: [
+    "Slow down one notch — you do not need to react to everything now.",
+    "One breath. Then one decision.",
+    "Not intensity right now — a little lower."
+  ],
+
+  microImmersion: [
+    "And how is your body holding this lately?",
+    "Yesterday you sounded much more tense.",
+    "Any reserve left inside you, or empty?"
+  ],
+
+  atmosphereTransitions: [
+    "One second.",
+    "Yeah.",
+    "Different angle:"
+  ],
+
   companionClosings: {
     general: [
       "Do not carry the whole mountain today.\nJust the next stable step.",

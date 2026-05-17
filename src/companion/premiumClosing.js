@@ -35,10 +35,15 @@ function maybePremiumClosing(ctx, category, body) {
     category
   );
   const r = getResponses(ctx.lang);
-  const pool =
+  const base =
     r.companionClosings?.[mirror] ||
     r.companionClosings?.general ||
     [];
+  const atmosphere = r.premiumAtmosphere || [];
+  const pool =
+    atmosphere.length && Math.random() < 0.35
+      ? [...base, ...atmosphere]
+      : base;
   if (!pool.length) return null;
 
   const lastLine = b.split(/\n/).pop() || "";

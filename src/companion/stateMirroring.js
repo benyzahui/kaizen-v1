@@ -35,8 +35,8 @@ function resolveMirrorMode(state, session, text, category) {
 }
 
 const MIRROR_CAPS = {
-  stabilize: { maxLines: 3, maxChars: 220, depth: "short" },
-  soften: { maxLines: 3, maxChars: 200, depth: "short" },
+  stabilize: { maxLines: 2, maxChars: 180, depth: "short" },
+  soften: { maxLines: 3, maxChars: 180, depth: "short" },
   concise: { maxLines: 4, maxChars: 260, depth: "short" },
   slow: { maxLines: 5, maxChars: 360, depth: "medium" },
   deepen: { maxLines: 6, maxChars: 420, depth: "medium" },
