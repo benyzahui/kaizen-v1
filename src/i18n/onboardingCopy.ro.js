@@ -457,14 +457,28 @@ module.exports = {
   accountabilityOff: "Responsabilitate în pauză. O poți reporni oricând.",
 
   accountabilityFollowUps: [
-    "Ieri ai spus: {promise}\nS-a întâmplat — sau doar capul a alergat?",
-    "Ai numit un pas mai devreme: {promise}\nStatus — făcut, parțial, sau evitat?"
+    "Ce ți-ai promis ieri?",
+    "Ai spus: {promise}\nS-a întâmplat — sau a fugit ziua?"
   ],
 
+  accountabilitySoul: {
+    followUp: [
+      "Ce ți-ai promis ieri?",
+      "Ai spus: {promise}\nS-a întâmplat — sau doar capul a alergat?"
+    ],
+    nudge: [
+      "Nu câștiga împotriva mea.\nCâștigă împotriva propriei tale devieri.",
+      "Dacă ții un singur lucru azi — care e?"
+    ],
+    avoidance: [
+      "O linie onestă: ce a blocat mișcarea?",
+      "Care e cea mai mică versiune pe care o faci azi?"
+    ]
+  },
+
   accountabilityAvoidance: [
-    "Evitarea are o textură — știi care e acum.",
     "O linie onestă: ce a blocat mișcarea?",
-    "Povestea din cap e mai tare decât acțiunea.\nCare e cea mai mică versiune pe care o faci azi?"
+    "Care e cea mai mică versiune pe care o faci azi?"
   ],
 
   microRewards: [
@@ -474,9 +488,15 @@ module.exports = {
   ],
 
   dragonWhispers: [
-    "Energia risipită îți mănâncă treptat puterea.",
-    "Focul protejat — nu tot merită oxigen.",
-    "Focul de fier lucrează doar dacă rămâi în căldură destul."
+    "Atenția e o resursă mai rară decât timpul.",
+    "Poarta nu se închide — tu decizi ce trece.",
+    "Adâncime mai întâi. Lățime mai târziu."
+  ],
+
+  dragonSoul: [
+    "Atenția e o resursă mai rară decât timpul.",
+    "Protecția nu e zgomot — o bandă clară.",
+    "Calm mai întâi. Intensitate mai târziu."
   ],
 
   naturalIntentOverload: [

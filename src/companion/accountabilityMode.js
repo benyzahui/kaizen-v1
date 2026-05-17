@@ -15,6 +15,10 @@ const ACCOUNTABILITY_OFF =
 const PROMISE_RE =
   /\b(holnap|tomorrow|ma este|tonight|futni|run|edzek|train|alszom|sleep|meditat|journal|napló|trade discipline)\b/i;
 
+function msgsLen(session) {
+  return session?.messages?.length || 0;
+}
+
 /**
  * @param {string} text
  */
@@ -63,14 +67,24 @@ function tryAccountabilityFollowUp(session, text, lang, userId) {
   const last = session.lastAccountabilityPromise;
   const gap = Date.now() - (session.lastAt || 0);
 
-  if (last && gap > 4 * 60 * 60 * 1000 && Math.random() < 0.35) {
-    const pool = r.accountabilityFollowUps || [];
+  if (last && gap > 4 * 60 * 60 * 1000 && Math.random() < 0.28) {
+    const pool = r.accountabilityFollowUps || r.accountabilitySoul?.followUp || [];
     if (!pool.length) return null;
     const line = pickSeeded(pool, `acc_${userId}_${last.slice(0, 20)}`);
     return {
       body: line.replace("{promise}", last.slice(0, 80)),
       category: "accountability_followup"
     };
+  }
+
+  if (session.accountabilityMode && msgsLen(session) >= 3 && Math.random() < 0.1) {
+    const nudge = r.accountabilitySoul?.nudge || r.accountabilityNudges || [];
+    if (nudge.length && raw.length < 100 && !last) {
+      return {
+        body: pickSeeded(nudge, `acc_nudge_${userId}_${msgsLen(session)}`),
+        category: "accountability_followup"
+      };
+    }
   }
 
   const promise = maybeRecordPromise(session, text);
@@ -82,8 +96,8 @@ function tryAccountabilityFollowUp(session, text, lang, userId) {
   }
 
   if (/(didn't|did not|nem |nu am|failed|skipped|halog)/i.test(raw) && last) {
-    const pool = r.accountabilityAvoidance || [];
-    if (pool.length && Math.random() < 0.4) {
+    const pool = r.accountabilitySoul?.avoidance || r.accountabilityAvoidance || [];
+    if (pool.length && Math.random() < 0.32) {
       return {
         body: pickSeeded(pool, `acc_avoid_${userId}`),
         category: "accountability_followup"

@@ -4,6 +4,7 @@
 
 const { pickSeeded } = require("../personality/tone");
 const { getResponses } = require("../i18n/getResponses");
+const { filterDragonPool } = require("./dragonTone");
 
 const SKIP = new Set([
   "onboarding",
@@ -20,9 +21,9 @@ const SKIP = new Set([
  */
 function maybeDragonWhisper(lang, category, seed = "") {
   if (SKIP.has(category)) return null;
-  if (Math.random() > 0.06) return null;
+  if (Math.random() > 0.05) return null;
   const r = getResponses(lang);
-  const pool = r.dragonWhispers || [];
+  const pool = filterDragonPool(r.dragonWhispers || r.dragonSoul || []);
   if (!pool.length) return null;
   return pickSeeded(pool, seed || `dragon_${category}`);
 }

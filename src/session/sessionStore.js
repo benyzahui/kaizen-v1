@@ -127,6 +127,7 @@ function emptySession() {
     freshUserMessageCount: 0,
     freshPhrasesUsed: [],
     microWowsUsed: [],
+    lastSoulRhythm: null,
     lastAt: Date.now()
   };
 }

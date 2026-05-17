@@ -4,6 +4,7 @@
 
 const { pickSeeded } = require("../personality/tone");
 const { getResponses } = require("../i18n/getResponses");
+const { isDragonCringe } = require("./dragonTone");
 
 const BREAKS_IDENTITY_RE =
   /\b(as an AI|language model|I cannot feel|I don't have feelings|motivation guru|alpha male|sigma grind|manifest the universe|you got this king|queen energy)\b/i;
@@ -25,6 +26,7 @@ function applyPersonalityGuard(body, lang, category) {
     if (!l) return true;
     if (BREAKS_IDENTITY_RE.test(l)) return false;
     if (HYPE_RE.test(l) && category !== "onboarding") return false;
+    if (isDragonCringe(l) && category !== "onboarding") return false;
     return true;
   });
 

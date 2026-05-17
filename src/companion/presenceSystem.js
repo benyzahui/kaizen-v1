@@ -6,6 +6,7 @@ const { lines } = require("../personality/kaizenVoice");
 const { pickSeeded } = require("../personality/tone");
 const { getResponses } = require("../i18n/getResponses");
 const { applyModePresence } = require("./modePresence");
+const { isDragonCringe } = require("./dragonTone");
 
 const SKIP_PRESENCE = new Set([
   "cooldown",
@@ -70,11 +71,12 @@ function applyPresence(body, ctx, category) {
   }
 
   if (
-    Math.random() < 0.04 &&
+    Math.random() < 0.03 &&
     category !== "trading_context" &&
-    category !== "reflective_open"
+    category !== "reflective_open" &&
+    category !== "natural_conversation"
   ) {
-    const elite = r.eliteWhispers || [];
+    const elite = (r.eliteWhispers || []).filter((l) => !isDragonCringe(l));
     if (elite.length) {
       out = lines(out, "", pickSeeded(elite, `elite_${state.mentorMode}`));
     }

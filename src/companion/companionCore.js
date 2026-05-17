@@ -50,6 +50,9 @@ const { pickDynamicOpening } = require("./dynamicOpenings");
 const { maybePresenceCallback } = require("./presenceCallbacks");
 const { maybeMicroWow, trackMicroWow } = require("./microWow");
 const { maybeNaturalTransition } = require("./naturalTransitions");
+const { resolveRhythmMode, applyInternalRhythm, rhythmSessionPatch } = require("./internalRhythm");
+const { maybeCompanionWarmth } = require("./companionWarmth");
+const { maybePremiumClosing } = require("./premiumClosing");
 
 const SKIP_MEMORY_CATEGORIES = new Set([
   "onboarding",
@@ -133,7 +136,20 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
   const fresh = isFreshUserExperience(ctx.session || {});
   let presenceLayers = 0;
 
+  const soulRhythm = resolveRhythmMode(
+    ctx.state,
+    ctx.session || {},
+    ctx.lastUserText || "",
+    category
+  );
+
   if (!fresh && category !== "onboarding") {
+    if (soulRhythm.mode === "silent") {
+      presenceLayers = 0;
+    } else if (soulRhythm.mirror === "soften" || soulRhythm.mirror === "stabilize") {
+      presenceLayers = Math.min(presenceLayers, 1);
+    }
+
     const opening = pickDynamicOpening(ctx, category);
     if (opening && presenceLayers < 2) {
       b = lines(opening, "", b);
@@ -187,7 +203,14 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     };
   }
 
-  const depth = ctx.plan?.depth || ctx.state?.responseDepth || "medium";
+  if (ctx.plan && !fresh) {
+    ctx.plan = {
+      ...ctx.plan,
+      depth: soulRhythm.caps.depth || ctx.plan.depth
+    };
+  }
+
+  const depth = soulRhythm.caps.depth || ctx.plan?.depth || ctx.state?.responseDepth || "medium";
   b = applyDepthScale(b, depth);
   b = applyEmotionalPacing(
     b,
@@ -277,6 +300,32 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
 
   if (!fresh && category !== "onboarding") {
     b = applyHumanCadence(b, ctx.lang, category, `${category}_${ctx.userId}`);
+    b = applyInternalRhythm(
+      b,
+      soulRhythm,
+      ctx.lang,
+      `soul_${category}_${ctx.userId}`
+    );
+    if (ctx.userId) {
+      updateSession(ctx.userId, rhythmSessionPatch(soulRhythm.mode));
+    }
+  }
+
+  if (!fresh && category !== "onboarding") {
+    const warmth = maybeCompanionWarmth(
+      ctx.state,
+      ctx.session || s,
+      ctx.lang,
+      category,
+      ctx.lastUserText || ""
+    );
+    if (warmth && b.split(/\n/).length < 6) {
+      b = lines(b, "", warmth);
+    }
+    const closing = maybePremiumClosing(ctx, category, b);
+    if (closing) {
+      b = lines(b, "", closing);
+    }
   }
 
   b = applyPersonalityGuard(b, ctx.lang, category);

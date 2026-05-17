@@ -480,13 +480,28 @@ module.exports = {
   accountabilityOff: "Accountability paused. You can turn it back on anytime.",
 
   accountabilityFollowUps: [
-    "Yesterday you said: {promise}\nDid it happen — or only your head ran?",
-    "You named a move earlier: {promise}\nStatus — done, partial, or avoided?"
+    "What did you promise yourself yesterday?",
+    "You said: {promise}\nDid it land — or did the day just run?"
   ],
 
+  accountabilitySoul: {
+    followUp: [
+      "What did you promise yourself yesterday?",
+      "You said: {promise}\nDid it happen — or only your head ran?"
+    ],
+    nudge: [
+      "Do not win against me.\nWin against your own drift.",
+      "If you hold only one thing today — which one?"
+    ],
+    avoidance: [
+      "One honest line: what blocked the move?",
+      "What is the smallest version you still do today?"
+    ]
+  },
+
   accountabilityAvoidance: [
-    "Avoidance has a texture — you know which one this is.\nOne honest line: what blocked the move?",
-    "The story in your head is louder than the action.\nWhat is the smallest version you will still do today?"
+    "One honest line: what blocked the move?",
+    "What is the smallest version you still do today?"
   ],
 
   microRewards: [
@@ -496,9 +511,15 @@ module.exports = {
   ],
 
   dragonWhispers: [
-    "Scattered energy slowly eats strength.",
-    "Focus is protected fire — not everything deserves oxygen.",
-    "The forge only works when you stay in the heat long enough."
+    "Attention is a scarcer resource than time.",
+    "The gate does not close — you decide what passes through.",
+    "Depth first. Width later."
+  ],
+
+  dragonSoul: [
+    "Attention is a scarcer resource than time.",
+    "Protection is not noise — one clear lane.",
+    "Calm first. Intensity later."
   ],
 
   naturalIntentOverload: [

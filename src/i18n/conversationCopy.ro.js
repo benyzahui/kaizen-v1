@@ -378,6 +378,44 @@ module.exports = {
     ]
   },
 
+  companionWarmth: {
+    saidAloud: [
+      "Bine că ai spus asta.",
+      "E omenește — înțeleg.",
+      "Te aud — nu judec."
+    ],
+    emotional: [
+      "Nu trebuie să fii perfect acum.",
+      "E greu — e ok să simți asta."
+    ],
+    tired: ["Corpul poate vorbi înaintea așteptărilor azi."],
+    shame: ["Rușinea e adesea așteptare prea mare — nu slăbiciune."],
+    general: ["Sunt aici.", "Ești ok așa."]
+  },
+
+  companionClosings: {
+    general: [
+      "Nu căra tot muntele azi.\nDoar următorul pas stabil.",
+      "Un bloc curat e suficient azi.",
+      "Întoarce-te puțin în corp."
+    ],
+    stabilize: [
+      "O bandă.\nRestul nu le deschizi azi.",
+      "Un pas stabil e suficient azi."
+    ],
+    soften: [
+      "Nimic de demonstrat azi.\nOdihna face parte din sistem.",
+      "Un bloc curat — apoi somn."
+    ],
+    concise: ["Un bloc. Apoi raport.", "Acțiune acum — nu discurs."],
+    slow: ["Lasă să aterizeze.\nContinuăm mâine.", "O linie onestă e suficientă azi."],
+    deepen: ["O direcție adânc — nu zece suprafețe.", "Ține linia. Un pas."]
+  },
+
+  soulRhythmBeats: {
+    breath: ["…", "Sunt aici.", "Te ascult."]
+  },
+
   naturalTransitions: {
     general: ["Apropo…", "Stai —"],
     stressToBody: ["Altceva:\ncum e corpul tău în ultima vreme?"],

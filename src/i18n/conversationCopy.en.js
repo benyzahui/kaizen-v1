@@ -391,6 +391,44 @@ module.exports = {
     ]
   },
 
+  companionWarmth: {
+    saidAloud: [
+      "Good that you said it out loud.",
+      "That is human — understandable.",
+      "I hear you — not judging."
+    ],
+    emotional: [
+      "You do not need to be perfect right now.",
+      "This is heavy — it is okay to feel it."
+    ],
+    tired: ["Your body may speak before your expectations today."],
+    shame: ["Shame often sits behind expectations that are too high — not weakness."],
+    general: ["I am here.", "You are okay like this."]
+  },
+
+  companionClosings: {
+    general: [
+      "Do not carry the whole mountain today.\nJust the next stable step.",
+      "One clean block is enough for today.",
+      "Go back into your body a little."
+    ],
+    stabilize: [
+      "One lane.\nDo not open the rest today.",
+      "One stable step is enough for today."
+    ],
+    soften: [
+      "Nothing to prove today.\nRest is part of the system.",
+      "One clean block — then sleep."
+    ],
+    concise: ["One block. Then report.", "Action now — not speech."],
+    slow: ["Let it land.\nWe continue tomorrow.", "One honest line is enough for today."],
+    deepen: ["One direction deep — not ten surfaces.", "Hold the line. One step."]
+  },
+
+  soulRhythmBeats: {
+    breath: ["…", "I am here.", "I am listening."]
+  },
+
   naturalTransitions: {
     general: ["By the way…", "Wait —"],
     stressToBody: ["Different question:\nhow is your body lately?"],

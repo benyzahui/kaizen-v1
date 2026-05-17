@@ -458,14 +458,28 @@ module.exports = {
   accountabilityOff: "Felelősség szünetel. Bármikor visszakapcsolhatod.",
 
   accountabilityFollowUps: [
-    "Tegnap azt mondtad: {promise}\nMegtörtént — vagy csak a fejed futott?",
-    "Korábban neveztél egy lépést: {promise}\nStátusz — kész, részben, vagy elkerülted?"
+    "Mit ígértél magadnak tegnap?",
+    "Azt mondtad: {promise}\nMegvolt — vagy csak elfutott a nap?"
   ],
 
+  accountabilitySoul: {
+    followUp: [
+      "Mit ígértél magadnak tegnap?",
+      "Azt mondtad: {promise}\nMegtörtént — vagy csak a fejed futott?"
+    ],
+    nudge: [
+      "Ne engem győzz meg.\nMagadat.",
+      "Ha ma csak egy dolgot tartasz meg — melyik legyen?"
+    ],
+    avoidance: [
+      "Egy őszinte sor: mi blokkolta a mozdulatot?",
+      "Mi a legkisebb verzió, amit ma még megteszel?"
+    ]
+  },
+
   accountabilityAvoidance: [
-    "Az elkerülésnek van textúrája — tudod, melyik ez most.",
     "Egy őszinte sor: mi blokkolta a mozdulatot?",
-    "A fejedben lévő történet hangosabb, mint a tett.\nMi a legkisebb verzió, amit ma még megteszel?"
+    "Mi a legkisebb verzió, amit ma még megteszel?"
   ],
 
   microRewards: [
@@ -475,9 +489,15 @@ module.exports = {
   ],
 
   dragonWhispers: [
-    "A szétszórt energia lassan megeszi az erőt.",
-    "A fókusz: védett tűz — nem minden érdemel oxigént.",
-    "A kovács csak akkor dolgozik, ha a hőben maradsz elég ideig."
+    "A figyelem ritkább erőforrás, mint az idő.",
+    "A kapu nem záródik — te döntöd el, min megy át.",
+    "Mélység előbb. Szélesség később."
+  ],
+
+  dragonSoul: [
+    "A figyelem ritkább erőforrás, mint az idő.",
+    "Védelem nem zaj — egy tiszta sáv.",
+    "Nyugalom előbb. Intenzitás később."
   ],
 
   naturalIntentOverload: [

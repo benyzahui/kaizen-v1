@@ -385,6 +385,44 @@ module.exports = {
     ]
   },
 
+  companionWarmth: {
+    saidAloud: [
+      "Jó hogy ezt kimondtad.",
+      "Ez emberileg érthető.",
+      "Hallom — nem ítéllek."
+    ],
+    emotional: [
+      "Nem kell most tökéletesnek lenned.",
+      "Ez most nehéz — rendben van, hogy így érzed."
+    ],
+    tired: ["A tested ma előbb szól, mint az elvárásod."],
+    shame: ["A szégyen gyakran túl magas elvárás — nem gyengeség."],
+    general: ["Itt vagyok.", "Rendben vagy így is."]
+  },
+
+  companionClosings: {
+    general: [
+      "Ma ne az egész hegyet cipeld.\nCsak a következő stabil lépést.",
+      "Elég egy tiszta blokk mára.",
+      "Menj vissza a testedbe egy kicsit."
+    ],
+    stabilize: [
+      "Egy sáv.\nA többi ma nem nyitod.",
+      "Elég egy stabil lépés mára."
+    ],
+    soften: [
+      "Ma nem bizonyítani kell.\nPihenni is része a rendszernek.",
+      "Elég egy tiszta blokk — aztán alvás."
+    ],
+    concise: ["Egy blokk. Aztán jelents.", "Most cselekvés — nem beszéd."],
+    slow: ["Hagyd landolni.\nHolnap folytatjuk.", "Egy őszinte sor elég mára."],
+    deepen: ["Egy irány mélyen — nem tíz felületen.", "Tartsd a vonalat. Egy lépés."]
+  },
+
+  soulRhythmBeats: {
+    breath: ["…", "Itt vagyok.", "Hallgatlak."]
+  },
+
   naturalTransitions: {
     general: ["Egyébként…", "Na várj."],
     stressToBody: ["Más:\na tested hogy van mostanában?"],
