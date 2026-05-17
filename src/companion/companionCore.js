@@ -67,6 +67,7 @@ const { finalizeHumanFirstPass } = require("./humanFirstCompanion");
 const { finalizePremiumFeelingPass } = require("./premiumFeeling");
 const { finalizeBetaShipLock } = require("./betaShipLock");
 const { finalizeSoulCoherence, COHERENT_FLOW } = require("./soulCoherence");
+const { finalizeBetaSurvival } = require("./betaSurvival");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -473,6 +474,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
 
   if (!fresh && category !== "onboarding") {
     b = finalizeSoulCoherence(b, ctx, category, alive, soulRhythm);
+    b = finalizeBetaSurvival(b, ctx, category, alive, soulRhythm);
   }
 
   return b;
