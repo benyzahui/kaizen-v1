@@ -491,6 +491,38 @@ module.exports = {
     "Corpul sau capul e mai obosit acum?"
   ],
 
+  dailyReturnRhythm: {
+    morning: [
+      "Dimineață.\nO direcție e suficientă — nu zece.",
+      "Care e un lucru pe care îl protejezi azi în tine?",
+      "Claritate întâi.\nApoi un pas.",
+      "Nu trebuie să rezolvi tot azi — o direcție e suficientă."
+    ],
+    midday: [
+      "Amiază.\nÎncă pe banda ta, sau împrăștiat?",
+      "Închide un cerc — apoi continuă.",
+      "Corecție focus: un bloc e suficient.",
+      "Împrăștiat sau suprasolicitat? O direcție acum."
+    ],
+    evening: [
+      "Seară.\nCoborâre — nu sprint nou.",
+      "Lasă capul să se odihnească.\nMâine tot sunt aici.",
+      "Care a fost momentul uman de azi?",
+      "Odihna nu e renunțare — e întreținere."
+    ],
+    late_night: [
+      "E târziu.\nNu trebuie să închizi tot azi.",
+      "O respirație.\nApoi odihnă.",
+      "Te ascult — nu trebuie răspuns perfect.",
+      "Prezență moale e suficientă acum — nu strategie."
+    ],
+    dayReturn: [
+      "Ești din nou aici — bine.",
+      "Putem continua încet.",
+      "Ieri a putut fi greu. Un pas e suficient azi."
+    ]
+  },
+
   rhythmLock: {
     morning: [
       "Dimineață.\nO direcție e suficientă azi — nu zece.",

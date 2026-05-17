@@ -537,6 +537,38 @@ module.exports = {
     "Tested vagy fejed fáradtabb most?"
   ],
 
+  dailyReturnRhythm: {
+    morning: [
+      "Reggel.\nEgy irány elég — nem tíz.",
+      "Mi az egy dolog, amit ma megvédesz magadban?",
+      "Tisztaság először.\nAztán egy lépés.",
+      "Ma nem kell mindent megoldani — egy irány elég."
+    ],
+    midday: [
+      "Dél.\nMég azon a sávon vagy, vagy szétszórt?",
+      "Egy kör zárása — aztán tovább.",
+      "Fókusz-korrekció: egy blokk elég.",
+      "Szétszórt vagy túlterhelt? Egy irány most."
+    ],
+    evening: [
+      "Este.\nLeeresztés — nem új sprint.",
+      "Engedd le a fejet.\nHolnap is itt leszek.",
+      "Mi volt ma az egy emberi pillanat?",
+      "Pihenés nem feladás — karbantartás."
+    ],
+    late_night: [
+      "Késő van.\nNem kell ma mindent lezárni.",
+      "Egy lélegzet.\nAztán pihenés.",
+      "Hallgatlak — nem kell tökéletes válasz.",
+      "Most puha jelenlét elég — nem stratégia."
+    ],
+    dayReturn: [
+      "Újra itt vagy — jó.",
+      "Folytatjuk nyugodtan.",
+      "Tegnap nehéz lehetett. Ma elég egy lépés."
+    ]
+  },
+
   rhythmLock: {
     morning: [
       "Reggel.\nEgy irány elég ma — nem tíz.",

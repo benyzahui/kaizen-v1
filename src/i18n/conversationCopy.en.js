@@ -504,6 +504,38 @@ module.exports = {
     "Body tired or head tired right now?"
   ],
 
+  dailyReturnRhythm: {
+    morning: [
+      "Morning.\nOne direction is enough — not ten.",
+      "What is the one thing you protect inside today?",
+      "Clarity first.\nThen one step.",
+      "You do not have to solve everything today — one direction is enough."
+    ],
+    midday: [
+      "Midday.\nStill on your lane, or scattered?",
+      "Close one loop — then continue.",
+      "Focus correction: one block is enough.",
+      "Scattered or overloaded? One direction now."
+    ],
+    evening: [
+      "Evening.\nDownshift — not a new sprint.",
+      "Let the head rest.\nI will be here tomorrow too.",
+      "What was today's one human moment?",
+      "Rest is not quitting — it is maintenance."
+    ],
+    late_night: [
+      "It is late.\nYou do not have to close everything today.",
+      "One breath.\nThen rest.",
+      "I am listening — no perfect answer needed.",
+      "Soft presence is enough now — not strategy."
+    ],
+    dayReturn: [
+      "You are back — good.",
+      "We can continue gently.",
+      "Yesterday may have been heavy. One step is enough today."
+    ]
+  },
+
   rhythmLock: {
     morning: [
       "Morning.\nOne direction is enough today — not ten.",

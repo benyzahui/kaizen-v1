@@ -210,6 +210,7 @@ function blendEmotionalDailyRhythm(body, slot, lang, session) {
 
   const r = getResponses(lang);
   const pool =
+    r.dailyReturnRhythm?.[slot] ||
     r.emotionalDailyRhythm?.[slot] ||
     r.timePresence?.[slot === "late_night" ? "late_night" : slot] ||
     [];

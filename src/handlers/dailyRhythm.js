@@ -19,7 +19,8 @@ const { pickSeeded } = require("../personality/tone");
 const {
   buildRhythmMorning,
   buildRhythmMidday,
-  buildRhythmEvening
+  buildRhythmEvening,
+  buildLateNightGrounding
 } = require("../companion/dailyRhythmLock");
 
 const DRAGON_LEVELS = [
@@ -120,7 +121,12 @@ function buildDailyReply(message, session, lang) {
   let slotBlock = "";
   if (slot === "morning") slotBlock = r.tDailySlotMorning;
   else if (slot === "midday") slotBlock = r.tDailySlotMidday;
-  else if (slot === "evening" || slot === "late_night") slotBlock = r.tDailySlotEvening;
+  else if (slot === "late_night") {
+    slotBlock =
+      buildLateNightGrounding(session, lang) ||
+      r.dailyReturnRhythm?.late_night?.[0] ||
+      r.tDailySlotEvening;
+  } else if (slot === "evening") slotBlock = r.tDailySlotEvening;
 
   return lines(
     r.tDailyTitle,
@@ -200,6 +206,7 @@ module.exports = {
   buildPathReply,
   buildLevelReply,
   buildStreakReply,
+  buildLateNightGrounding,
   recordMorningCheckin,
   recordEveningMirror,
   levelName

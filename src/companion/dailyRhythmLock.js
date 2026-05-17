@@ -7,6 +7,12 @@ const { pickSeeded } = require("../personality/tone");
 const { getResponses } = require("../i18n/getResponses");
 const { dedupeLines } = require("./humanVoiceGuard");
 const { blendEmotionalDailyRhythm } = require("./emotionalAttachment");
+const {
+  finalizeDailyReturnReply,
+  pickDailyReturnLine,
+  resolveEveningSlot,
+  buildLateNightGrounding
+} = require("./dailyReturnExperience");
 
 const HYPE_RE =
   /\b(crush it|you got this|beast mode|10x|unlock|hustle|no excuses|győzd le|warrior|elite zone)\b/i;
@@ -42,23 +48,9 @@ function finalizeRhythmReply(body, slot, lang, session) {
     return true;
   });
 
-  const maxLines = slot === "morning" ? 3 : 2;
-  if (parts.length > maxLines) parts = parts.slice(0, maxLines);
-
   let b = dedupeLines(parts.join("\n"));
-  if (b.length > 220) {
-    b = parts.slice(0, 2).join("\n");
-  }
-
-  if (!b) {
-    const r = getResponses(lang);
-    const fallback = r.rhythmLock?.[slot] || r.microRituals?.[slot] || [];
-    if (fallback.length) {
-      b = pickSeeded(fallback, `rhythm_fb_${slot}_${session?.userId || "0"}`);
-    }
-  }
-
-  return b.trim();
+  const rhythmSlot = slot === "evening" ? resolveEveningSlot(session) : slot;
+  return finalizeDailyReturnReply(b, rhythmSlot, lang, session);
 }
 
 /**
@@ -67,21 +59,11 @@ function finalizeRhythmReply(body, slot, lang, session) {
  * @param {'en'|'hu'|'ro'} lang
  */
 function buildRhythmMorning(message, session, lang) {
-  const r = getResponses(lang);
   const uid = String(message?.from?.id ?? message?.chat?.id ?? "0");
-  const mission = session?.currentMission?.trim();
-
-  let pool = r.rhythmLock?.morning || r.microRituals?.morning || [];
-  if (mission && r.rhythmLock?.morningWithMission?.length) {
-    pool = r.rhythmLock.morningWithMission.map((line) =>
-      line.replace(/\{mission\}/g, mission)
-    );
-  }
 
   const body =
-    pool.length > 0
-      ? pickSeeded(pool, `rhythm_m_${todayKey()}_${uid}`)
-      : "Reggel.\nEgy irány elég ma.";
+    pickDailyReturnLine("morning", lang, { ...session, userId: uid }) ||
+    "Reggel.\nEgy irány elég ma.";
 
   const blended = blendEmotionalDailyRhythm(body, "morning", lang, session);
   return finalizeRhythmReply(blended, "morning", lang, session);
@@ -94,12 +76,11 @@ function buildRhythmMorning(message, session, lang) {
 function buildRhythmMidday(session, lang) {
   const r = getResponses(lang);
   const uid = String(session?.userId || session?.messages?.length || "0");
-  const pool = r.rhythmLock?.midday || r.microRituals?.midday || [];
 
   const body =
-    pool.length > 0
-      ? pickSeeded(pool, `rhythm_md_${todayKey()}_${uid}`)
-      : r.rhythmMidday || "Dél.\nMég azon a sávon vagy?";
+    pickDailyReturnLine("midday", lang, { ...session, userId: uid }) ||
+    r.rhythmMidday ||
+    "Dél.\nMég azon a sávon vagy?";
 
   const blended = blendEmotionalDailyRhythm(body, "midday", lang, session);
   return finalizeRhythmReply(blended, "midday", lang, session);
@@ -113,14 +94,15 @@ function buildRhythmMidday(session, lang) {
 function buildRhythmEvening(message, session, lang) {
   const r = getResponses(lang);
   const uid = String(message?.from?.id ?? message?.chat?.id ?? "0");
-  const pool = r.rhythmLock?.evening || r.microRituals?.evening || [];
-
+  const eveningSlot = resolveEveningSlot(session);
   const body =
-    pool.length > 0
-      ? pickSeeded(pool, `rhythm_ev_${todayKey()}_${uid}`)
-      : r.rhythmEvening || "Este.\nLeeresztés — nem új sprint.";
+    pickDailyReturnLine(eveningSlot, lang, { ...session, userId: uid }) ||
+    r.rhythmEvening ||
+    (eveningSlot === "late_night"
+      ? "Késő van.\nNem kell ma mindent lezárni."
+      : "Este.\nLeeresztés — nem új sprint.");
 
-  const blended = blendEmotionalDailyRhythm(body, "evening", lang, session);
+  const blended = blendEmotionalDailyRhythm(body, eveningSlot, lang, session);
   return finalizeRhythmReply(blended, "evening", lang, session);
 }
 
@@ -128,5 +110,6 @@ module.exports = {
   buildRhythmMorning,
   buildRhythmMidday,
   buildRhythmEvening,
+  buildLateNightGrounding,
   finalizeRhythmReply
 };
