@@ -45,6 +45,12 @@ const {
 } = require("./dailyRhythm");
 const { buildZoneReply } = require("./trainingZones");
 const { recordCompletedRitual } = require("../core/seriousnessEngine");
+const {
+  requiresOnboardingGate,
+  isSafeOnboardingCommand,
+  resolveOnboardingLang,
+  onboardingCommandRedirect
+} = require("../companion/onboardingGate");
 
 const PROGRAM_WRAP = new Set([
   "/program",
@@ -89,9 +95,20 @@ function ritualFromResponses(r, command) {
  */
 async function routeCommandMessage(message, session) {
   const text = message.text || "";
-  const lang = resolveLang(message, text, session);
-  const r = getResponses(lang);
   const command = extractCommand(text);
+  const lang = resolveOnboardingLang(session, message, text);
+  const r = getResponses(lang);
+
+  if (requiresOnboardingGate(session) && !isSafeOnboardingCommand(command)) {
+    logRoute({
+      path: "command",
+      lang,
+      command,
+      handler: "onboarding_gate",
+      textPreview: String(text).slice(0, 80)
+    });
+    return onboardingCommandRedirect(lang, command);
+  }
 
   let handler = command;
   let reply;

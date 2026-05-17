@@ -106,6 +106,18 @@ async function handleOpenConversation(message, lang, session) {
   const text = String(message.text || "").trim();
   const r = getResponses(lang);
 
+  if (!session.onboardingCompleted) {
+    const { processOnboardingReply } = require("./onboarding");
+    const { resolveOnboardingLang, onboardingContinuePrompt } = require("../companion/onboardingGate");
+    const locked = resolveOnboardingLang(session, message, text);
+    const ob = processOnboardingReply(userId, text, session, locked);
+    return {
+      reply: ob?.reply || onboardingContinuePrompt(locked),
+      category: "onboarding",
+      suggestedAction: null
+    };
+  }
+
   if (isInCooldown(userId)) {
     logOpen({
       lang,

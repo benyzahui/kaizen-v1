@@ -76,6 +76,11 @@ function resolveLanguageWithSession(text, session) {
     return pref;
   }
 
+  // During onboarding: never drift once preferredLanguage is set.
+  if (!session?.onboardingCompleted && (pref === "hu" || pref === "ro" || pref === "en")) {
+    return pref;
+  }
+
   if (pref === "hu" || pref === "ro" || pref === "en") {
     return pref;
   }

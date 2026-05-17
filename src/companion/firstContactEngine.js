@@ -126,7 +126,7 @@ function getFirstContactStart(lang) {
 function processFirstContact(userId, text, session, lang) {
   const step = Number(session.onboardingStep) || 0;
   if (step >= FC_STRUCTURE_START) return null;
-  if (!session.onboardingActive || session.onboardingCompleted) return null;
+  if (session.onboardingCompleted) return null;
 
   const r = getResponses(lockedLang(session, lang));
   const raw = String(text || "").trim();

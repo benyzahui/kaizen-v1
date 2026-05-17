@@ -87,7 +87,17 @@ module.exports = {
     "Fő sáv: {focus}.",
     "Ehhez igazítom a válaszokat — nem általános chat."
   ].join("\n"),
-  fcCompleteNext: "Következő lépés: /today — a napod egy képernyőn.",
+  fcCompleteNext:
+    "Bent vagy. Ha kell a parancstérkép: /guide\nAzután írj természetesen — menü nélkül is.",
+
+  obGateCommandBlocked:
+    "Még aktiválás alatt vagy — a {command} a beállítás után nyílik.\nFejezd be a bemutatkozást, vagy /skip minimál módhoz.\nMost: /start · /language · /guide · /skip",
+
+  obGateContinueSetup:
+    "Maradj még az aktiválásnál.\nMutatkozz be a saját szavaiddal — ki vagy és mit építesz újra.",
+
+  obGateSkippedResume:
+    "A beállítás szünetel. Rendes belépéshez: /start újra.\nVagy folytasd a bemutatkozást egy őszinte bekezdésben.",
   fcWelcomeAtmosphere: [
     "Megtaláltad a kaput.",
     "",

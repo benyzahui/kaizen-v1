@@ -75,11 +75,7 @@ function hasCompletedProfile(session) {
  * @param {object} session
  */
 function shouldInterceptOpenText(session) {
-  return (
-    Boolean(session?.onboardingActive) &&
-    !session?.onboardingCompleted &&
-    !session?.onboardingSkipped
-  );
+  return !session?.onboardingCompleted;
 }
 
 module.exports = {

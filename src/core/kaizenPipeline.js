@@ -26,7 +26,15 @@ const {
 } = require("../handlers/commands");
 const { handleOpenConversation } = require("../handlers/openConversation");
 const { processOnboardingReply } = require("../handlers/onboarding");
-const { shouldInterceptOpenText } = require("../session/userProfile");
+const {
+  requiresOnboardingGate,
+  isSafeOnboardingCommand,
+  lockLanguageFromFirstMessage,
+  resolveOnboardingLang,
+  ensureOnboardingActive,
+  onboardingCommandRedirect,
+  onboardingContinuePrompt
+} = require("../companion/onboardingGate");
 const { tryConsumeFocusReply } = require("../handlers/planTracking");
 const { conversation: logConversation } = require("../logging/log");
 
@@ -56,32 +64,43 @@ async function processIncomingMessage(message) {
     };
   }
 
+  let session = getSession(userId);
+
   if (isCommandText(text)) {
-    const session = getSession(userId);
-    const lang = resolveLang(message, text, session);
     const command = extractCommand(text);
-    const reply = await routeCommandMessage(message, session);
+    if (requiresOnboardingGate(session) && !isSafeOnboardingCommand(command)) {
+      const lang = resolveOnboardingLang(session, message, trimmed);
+      return {
+        reply: onboardingCommandRedirect(lang, command),
+        branch: "onboarding_gate_command",
+        lang,
+        category: "onboarding",
+        command
+      };
+    }
+    const lang = resolveOnboardingLang(session, message, trimmed);
+    const reply = await routeCommandMessage(message, getSession(userId));
     return { reply, branch: "command", lang, category: null, command };
   }
 
-  let session = getSession(userId);
-  let lang = resolveLanguageWithSession(trimmed, session);
+  if (requiresOnboardingGate(session)) {
+    lockLanguageFromFirstMessage(userId, trimmed, session);
+    session = ensureOnboardingActive(userId);
+    const lang = resolveOnboardingLang(session, message, trimmed);
 
-  if (shouldInterceptOpenText(session)) {
     const ob = processOnboardingReply(userId, trimmed, session, lang);
-    if (ob?.reply) {
-      return {
-        reply: ob.reply,
-        branch: "onboarding",
-        lang,
-        category: "onboarding",
-        command: null
-      };
-    }
+    return {
+      reply: ob?.reply || onboardingContinuePrompt(lang),
+      branch: "onboarding",
+      lang,
+      category: "onboarding",
+      command: null
+    };
   }
 
+  lockLanguageFromFirstMessage(userId, trimmed, session);
   session = getSession(userId);
-  lang = resolveLanguageWithSession(trimmed, session);
+  const lang = resolveLanguageWithSession(trimmed, session);
 
   const focused = tryConsumeFocusReply(message, lang);
   if (focused) {

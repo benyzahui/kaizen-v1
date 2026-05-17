@@ -16,6 +16,11 @@ const {
   FC_NATURAL,
   FC_NAME
 } = require("../companion/firstContactEngine");
+const {
+  resolveOnboardingLang,
+  ensureOnboardingActive,
+  onboardingContinuePrompt
+} = require("../companion/onboardingGate");
 
 const STRUCTURE = FC_STRUCTURE_START;
 
@@ -230,21 +235,27 @@ function buildProfileReply(session, lang) {
  * @returns {{ reply: string }|null} null = not handled here
  */
 function processOnboardingReply(userId, text, session, lang) {
-  if (!session.onboardingActive || session.onboardingCompleted) return null;
-  if (session.onboardingSkipped) return null;
+  if (session.onboardingCompleted) return null;
 
-  const r = getResponses(lang);
-  const raw = String(text || "").trim();
-  if (/^(skip|later|később|mai târziu|not now)\b/i.test(raw)) {
-    return { reply: skipOnboarding(userId, lang) };
+  session = ensureOnboardingActive(userId);
+  const locked = resolveOnboardingLang(session, null, text);
+
+  if (session.onboardingSkipped) {
+    const rSkip = getResponses(locked);
+    return {
+      reply: lines(
+        rSkip.obGateSkippedResume || rSkip.helpTipOnboarding,
+        "",
+        rSkip.obGateContinueSetup || ""
+      )
+    };
   }
 
-  const locked =
-    session.preferredLanguage === "hu" ||
-    session.preferredLanguage === "ro" ||
-    session.preferredLanguage === "en"
-      ? session.preferredLanguage
-      : lang;
+  const r = getResponses(locked);
+  const raw = String(text || "").trim();
+  if (/^(skip|later|később|mai târziu|not now)\b/i.test(raw)) {
+    return { reply: skipOnboarding(userId, locked) };
+  }
 
   const fc = processFirstContact(userId, raw, session, locked);
   if (fc) return fc;
@@ -337,11 +348,11 @@ function processOnboardingReply(userId, text, session, lang) {
       meetKaiZenCompleted: true
     });
     const s = getSession(userId);
-    const locked = s.preferredLanguage || s.lang || lang;
-    return { reply: formatSummary(s, locked) };
+    const lockedFin = s.preferredLanguage || s.lang || locked;
+    return { reply: formatSummary(s, lockedFin) };
   }
 
-  return null;
+  return { reply: onboardingContinuePrompt(locked) };
 }
 
 module.exports = {

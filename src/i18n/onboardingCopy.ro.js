@@ -86,7 +86,17 @@ module.exports = {
     "Sfera principală: {focus}.",
     "Răspunsurile rămân ancorate în asta — nu chat generic."
   ].join("\n"),
-  fcCompleteNext: "Pasul următor: /today — structura zilei pe un ecran.",
+  fcCompleteNext:
+    "Ești înăuntru. Când vrei harta comenzilor: /guide\nApoi vorbește natural — fără meniu obligatoriu.",
+
+  obGateCommandBlocked:
+    "Încă în activare — {command} se deschide după setup.\nTermină introducerea, sau /skip pentru mod minimal.\nAcum: /start · /language · /guide · /skip",
+
+  obGateContinueSetup:
+    "Rămâi la activare încă puțin.\nPrezintă-te cu cuvintele tale — cine ești și ce reconstruiești.",
+
+  obGateSkippedResume:
+    "Setup-ul e în pauză. Pentru intrare corectă: /start din nou.\nSau continuă introducerea într-un paragraf onest.",
   fcWelcomeAtmosphere: [
     "Ai găsit poarta.",
     "",

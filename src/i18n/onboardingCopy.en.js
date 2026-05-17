@@ -93,7 +93,17 @@ module.exports = {
     "I will keep replies grounded in that — not generic chat."
   ].join("\n"),
 
-  fcCompleteNext: "Next step: /today — your day structure in one screen.",
+  fcCompleteNext:
+    "You are in. When you want the command map: /guide\nThen speak naturally — no menu required.",
+
+  obGateCommandBlocked:
+    "Still in activation — {command} opens after setup.\nFinish your introduction, or /skip for minimal mode.\nSafe now: /start · /language · /guide · /skip",
+
+  obGateContinueSetup:
+    "Stay with activation for a moment.\nIntroduce yourself in your own words — who you are and what you are rebuilding.",
+
+  obGateSkippedResume:
+    "Setup was paused. To enter properly, send /start again.\nOr continue your introduction in one honest paragraph.",
 
   fcWelcomeAtmosphere: [
     "You found the gate.",
