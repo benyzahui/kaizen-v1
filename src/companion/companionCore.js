@@ -68,6 +68,7 @@ const { finalizePremiumFeelingPass } = require("./premiumFeeling");
 const { finalizeBetaShipLock } = require("./betaShipLock");
 const { finalizeSoulCoherence, COHERENT_FLOW } = require("./soulCoherence");
 const { finalizeBetaSurvival } = require("./betaSurvival");
+const { finalizePresenceLock, resolveEmotionalTiming } = require("./presenceLock");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -180,16 +181,14 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
   const alive = resolveAliveContext(ctx, soulRhythm, category);
   const prepCap = maxPrepLayers(alive.texture);
 
-  if (!fresh && category !== "onboarding") {
+  if (!fresh && category !== "onboarding" && !COHERENT_FLOW.has(category)) {
     if (soulRhythm.mode === "silent") {
       presenceLayers = 0;
     } else if (soulRhythm.mirror === "soften" || soulRhythm.mirror === "stabilize") {
       presenceLayers = Math.min(presenceLayers, prepCap);
     }
 
-    const skipOpening =
-      LATE_LAYER_SKIP.has(category) && (ctx.state?.emotionalIntensity || 0) >= 4;
-    const opening = skipOpening ? null : pickDynamicOpening(ctx, category);
+    const opening = pickDynamicOpening(ctx, category);
     if (opening && presenceLayers < prepCap) {
       b = lines(opening, "", b);
       presenceLayers += 1;
@@ -461,7 +460,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = lines(b, "", `→ ${opts.suggestedCommand}`);
   }
 
-  if (ctx.plan.appendRhythm && !opts.skipRhythm) {
+  if (ctx.plan.appendRhythm && !opts.skipRhythm && !COHERENT_FLOW.has(category)) {
     const tail = rhythmTailIfNeeded(ctx.rhythm, ctx.lang);
     if (tail) b = lines(b, "", tail);
   }
@@ -473,8 +472,10 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
   }
 
   if (!fresh && category !== "onboarding") {
+    const timing = resolveEmotionalTiming(ctx, category);
     b = finalizeSoulCoherence(b, ctx, category, alive, soulRhythm);
     b = finalizeBetaSurvival(b, ctx, category, alive, soulRhythm);
+    b = finalizePresenceLock(b, ctx, category, timing);
   }
 
   return b;
