@@ -64,6 +64,7 @@ const {
 } = require("./alivePresence");
 const { finalizePremiumPass } = require("./premiumCompanion");
 const { finalizeHumanFirstPass } = require("./humanFirstCompanion");
+const { finalizePremiumFeelingPass } = require("./premiumFeeling");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -183,7 +184,9 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
       presenceLayers = Math.min(presenceLayers, prepCap);
     }
 
-    const opening = pickDynamicOpening(ctx, category);
+    const skipOpening =
+      LATE_LAYER_SKIP.has(category) && (ctx.state?.emotionalIntensity || 0) >= 4;
+    const opening = skipOpening ? null : pickDynamicOpening(ctx, category);
     if (opening && presenceLayers < prepCap) {
       b = lines(opening, "", b);
       presenceLayers += 1;
@@ -395,6 +398,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizeAlivePass(b, ctx, category, alive);
     b = finalizePremiumPass(b, ctx, category, alive, soulRhythm);
     b = finalizeHumanFirstPass(b, ctx, category, alive, soulRhythm);
+    b = finalizePremiumFeelingPass(b, ctx, category, alive);
   }
 
   const skipPremiumTail = LATE_LAYER_SKIP.has(category) || CRISIS_TAIL_SKIP.has(category);

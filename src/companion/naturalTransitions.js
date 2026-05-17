@@ -28,7 +28,14 @@ function maybeNaturalTransition(session, lang, category, text) {
   const last = session.lastCategory;
   if (!last || last === category) return null;
   if ((session.messages || []).length < 3) return null;
-  if (Math.random() > 0.08) return null;
+  const flowCats = new Set([
+    "natural_conversation",
+    "life_flow",
+    "relational_flow",
+    "light_conversation"
+  ]);
+  if (flowCats.has(category) && flowCats.has(last)) return null;
+  if (Math.random() > 0.06) return null;
 
   const r = getResponses(lang);
   const key = transitionKey(last, category);

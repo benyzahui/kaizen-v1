@@ -697,6 +697,13 @@ module.exports = {
     "You do not have to react to everything today."
   ],
 
+  groundedWarmth: [
+    "That sounds heavy right now.",
+    "Good that you did not push this down.",
+    "I hear you — it does not need perfect words now.",
+    "That is human. It does not need fixing right now."
+  ],
+
   microPresencePremium: [
     "Yeah.",
     "Got it.",

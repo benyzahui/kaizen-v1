@@ -684,6 +684,13 @@ module.exports = {
     "Nu trebuie să reacționezi la tot azi."
   ],
 
+  groundedWarmth: [
+    "Asta sună greu acum.",
+    "Bine că n-ai înăbușit asta.",
+    "Te aud — nu trebuie formulate perfect acum.",
+    "E omenește. Nu trebuie reparat acum."
+  ],
+
   microPresencePremium: [
     "Da.",
     "Înțeleg.",

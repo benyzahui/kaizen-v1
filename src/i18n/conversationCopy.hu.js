@@ -718,6 +718,13 @@ module.exports = {
     "Nem kell ma mindenre reagálni."
   ],
 
+  groundedWarmth: [
+    "Ez most nehéznek hangzik.",
+    "Jó hogy ezt nem nyomtad el.",
+    "Hallom — nem kell most tökéletesen megfogalmazni.",
+    "Ez emberi. Nem kell rendbe tenni most."
+  ],
+
   microPresencePremium: [
     "Na.",
     "Értem.",
