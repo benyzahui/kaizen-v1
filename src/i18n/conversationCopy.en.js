@@ -377,6 +377,39 @@ module.exports = {
     "Chaos is live again."
   ],
 
+  emotionalFamiliarity: [
+    "Last time your focus started scattering around this hour too.",
+    "You sound calmer than a few days ago.",
+    "Yesterday everything inside you sounded much noisier.",
+    "Same pressure, or a little lighter?"
+  ],
+
+  humanWarmth: [
+    "Good that you did not keep this inside.",
+    "That is completely human and understandable right now.",
+    "You do not have to be perfect today."
+  ],
+
+  microAttachmentMoments: [
+    "Yeah. That sounds like clearer energy now.",
+    "Finally it is not only your head talking.",
+    "🌱 That already sounds like a steadier step."
+  ],
+
+  presenceOnlyBeats: [
+    "That must have been hard.",
+    "Feels like you carried this a long time.",
+    "I hear you.",
+    "I am here."
+  ],
+
+  emotionalDailyRhythm: {
+    morning: ["Morning activation — one direction, not ten.", "Clarity first. Then movement."],
+    midday: ["Midday: grounding and one focus correction.", "Close one loop — then continue."],
+    evening: ["Evening downshift — nervous system off.", "Let the head rest. I will be here tomorrow."],
+    late_night: ["Late night: soft presence, not strategy.", "One breath. Then sleep."]
+  },
+
   emotionalContinuity: {
     groundedAfterOverload: [
       "Yesterday you still sounded pulled apart. Today you sound a bit clearer.",

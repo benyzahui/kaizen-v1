@@ -6,6 +6,7 @@
 const { pickSeeded } = require("../personality/tone");
 const { getResponses } = require("../i18n/getResponses");
 const { dedupeLines } = require("./humanVoiceGuard");
+const { blendEmotionalDailyRhythm } = require("./emotionalAttachment");
 
 const HYPE_RE =
   /\b(crush it|you got this|beast mode|10x|unlock|hustle|no excuses|győzd le|warrior|elite zone)\b/i;
@@ -82,7 +83,8 @@ function buildRhythmMorning(message, session, lang) {
       ? pickSeeded(pool, `rhythm_m_${todayKey()}_${uid}`)
       : "Reggel.\nEgy irány elég ma.";
 
-  return finalizeRhythmReply(body, "morning", lang, session);
+  const blended = blendEmotionalDailyRhythm(body, "morning", lang, session);
+  return finalizeRhythmReply(blended, "morning", lang, session);
 }
 
 /**
@@ -99,7 +101,8 @@ function buildRhythmMidday(session, lang) {
       ? pickSeeded(pool, `rhythm_md_${todayKey()}_${uid}`)
       : r.rhythmMidday || "Dél.\nMég azon a sávon vagy?";
 
-  return finalizeRhythmReply(body, "midday", lang, session);
+  const blended = blendEmotionalDailyRhythm(body, "midday", lang, session);
+  return finalizeRhythmReply(blended, "midday", lang, session);
 }
 
 /**
@@ -117,7 +120,8 @@ function buildRhythmEvening(message, session, lang) {
       ? pickSeeded(pool, `rhythm_ev_${todayKey()}_${uid}`)
       : r.rhythmEvening || "Este.\nLeeresztés — nem új sprint.";
 
-  return finalizeRhythmReply(body, "evening", lang, session);
+  const blended = blendEmotionalDailyRhythm(body, "evening", lang, session);
+  return finalizeRhythmReply(blended, "evening", lang, session);
 }
 
 module.exports = {

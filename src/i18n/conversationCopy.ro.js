@@ -364,6 +364,39 @@ module.exports = {
     "Haosul rulează live din nou."
   ],
 
+  emotionalFamiliarity: [
+    "Data trecută focusul ți-a început să se împrăștie tot pe la această oră.",
+    "Acum pari mai calm decât acum câteva zile.",
+    "Ieri totul în tine suna mult mai zgomotos.",
+    "Aceeași presiune, sau puțin mai ușor?"
+  ],
+
+  humanWarmth: [
+    "Bine că n-ai ținut asta înăuntru.",
+    "Asta e complet omenește de înțeles acum.",
+    "Nu trebuie să fii perfect azi."
+  ],
+
+  microAttachmentMoments: [
+    "Da. Asta sună ca energie mai clară acum.",
+    "În sfârșit nu doar capul vorbește.",
+    "🌱 Asta sună deja ca un pas mai stabil."
+  ],
+
+  presenceOnlyBeats: [
+    "Asta a fost greu.",
+    "Se simte că ai dus asta mult timp.",
+    "Te aud.",
+    "Sunt aici."
+  ],
+
+  emotionalDailyRhythm: {
+    morning: ["Dimineață: activare — o direcție, nu zece.", "Claritate întâi. Apoi mișcare."],
+    midday: ["Amiază: ancorare și o corecție de focus.", "Închide un cerc — apoi continuă."],
+    evening: ["Seară: coborâre — sistem nervos off.", "Lasă capul. Mâine tot sunt aici."],
+    late_night: ["Târziu: prezență moale, nu strategie.", "O respirație. Apoi somn."]
+  },
+
   emotionalContinuity: {
     groundedAfterOverload: [
       "Ieri încă sunai rupt. Azi pari puțin mai clar.",

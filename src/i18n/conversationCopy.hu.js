@@ -398,6 +398,51 @@ module.exports = {
     "A káosz megint élesben fut."
   ],
 
+  emotionalFamiliarity: [
+    "Múltkor is ilyenkor kezdett széthúzódni a fókuszod.",
+    "Most nyugodtabbnak tűnsz mint pár napja.",
+    "Tegnap még sokkal zajosabb volt benned minden.",
+    "Ugyanaz a nyomás, vagy könnyebb lett?"
+  ],
+
+  humanWarmth: [
+    "Jó hogy ezt nem tartottad bent.",
+    "Ez most emberileg teljesen érthető.",
+    "Nem kell ma tökéletesnek lenned."
+  ],
+
+  microAttachmentMoments: [
+    "Na. Ez most tisztább energiának tűnik.",
+    "Most végre nem csak az agyad beszél.",
+    "🌱 Ez már inkább stabil lépés."
+  ],
+
+  presenceOnlyBeats: [
+    "Az kemény lehetett.",
+    "Érződik hogy sokáig cipelted ezt.",
+    "Hallom.",
+    "Itt vagyok."
+  ],
+
+  emotionalDailyRhythm: {
+    morning: [
+      "Reggel aktiválás — egy irány, nem tíz.",
+      "Tisztaság először. Aztán mozgás."
+    ],
+    midday: [
+      "Dél: földözés és egy fókusz-korrekció.",
+      "Egy kör zárása — aztán tovább."
+    ],
+    evening: [
+      "Este leeresztés — idegrendszer le.",
+      "Engedd le a fejet. Holnap is itt leszek."
+    ],
+    late_night: [
+      "Késő este: puha jelenlét, nem stratégia.",
+      "Egy lélegzet. Aztán alvás."
+    ]
+  },
+
   emotionalContinuity: {
     groundedAfterOverload: [
       "Tegnap még teljesen széthúzott voltál. Most már valamivel tisztábbnak tűnsz.",

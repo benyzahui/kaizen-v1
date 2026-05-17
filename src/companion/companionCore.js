@@ -75,6 +75,7 @@ const { finalizeHumanDepthRefinement } = require("./humanDepthRefinement");
 const { finalizeNaturalConversationMaster } = require("./naturalConversationMaster");
 const { finalizePremiumAtmosphere } = require("./premiumAtmosphereFinal");
 const { finalizeWowExperience } = require("./wowExperience");
+const { finalizeEmotionalAttachment } = require("./emotionalAttachment");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -487,6 +488,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizeHumanDepthRefinement(b, ctx, category, timing);
     b = finalizeNaturalConversationMaster(b, ctx, category, timing);
     b = finalizeWowExperience(b, ctx, category, timing, alive);
+    b = finalizeEmotionalAttachment(b, ctx, category, timing);
     b = finalizePremiumAtmosphere(b, ctx, category, timing);
   }
 
