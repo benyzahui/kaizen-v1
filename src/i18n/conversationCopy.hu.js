@@ -566,6 +566,37 @@ module.exports = {
     default: ["Itt vagyok. Egy lépés elég."]
   },
 
+  wowDynamicOpenings: {
+    morning: [
+      "Reggel van.\nNe az egész jövődet próbáld ma megoldani.",
+      "Egy irány elég — nem tíz blokk."
+    ],
+    lateNight: [
+      "Még mindig pörög az agyad?",
+      "Késő este.\nLezárás, nem új sprint a fejben."
+    ],
+    afterStress: [
+      "A tested hogy bírja most ezt a tempót?",
+      "Ez most inkább túlterhelésnek hangzik."
+    ],
+    afterProgress: [
+      "Ez már stabilabb energiának tűnik.",
+      "Jó. Ez már mozdulat — nem csak gondolat."
+    ]
+  },
+
+  wowSurprises: [
+    "Az agyad jelenleg több tabbal fut mint a Chrome.",
+    "Most nem új ötletek hiányoznak.\nHanem energia a meglévőkhöz.",
+    "Ez most inkább túlterhelésnek hangzik mint lustaságnak."
+  ],
+
+  wowCompanionMoments: [
+    "Jó hogy ezt kimondtad.",
+    "Na. Ez most őszintébbnek hangzik.",
+    "Érződik hogy régóta húzod."
+  ],
+
   dynamicOpenings: {
     morning: [
       "Reggel van.\nNe az egész életedet próbáld ma megoldani.\nCsak állj bele tisztán az első blokkba.",

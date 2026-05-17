@@ -545,6 +545,37 @@ module.exports = {
     default: ["I'm here. One step is enough."]
   },
 
+  wowDynamicOpenings: {
+    morning: [
+      "It is morning.\nDo not try to solve your whole future today.",
+      "One direction is enough — not ten blocks."
+    ],
+    lateNight: [
+      "Is your head still spinning?",
+      "Late night.\nClose a loop — not a new sprint in your head."
+    ],
+    afterStress: [
+      "How is your body holding this pace right now?",
+      "This sounds more like overload than laziness."
+    ],
+    afterProgress: [
+      "This already sounds like steadier energy.",
+      "Good. That is movement — not just thought."
+    ]
+  },
+
+  wowSurprises: [
+    "Your brain is running more tabs than Chrome right now.",
+    "What is missing is not new ideas.\nIt is energy for what you already have open.",
+    "This sounds more like overload than laziness."
+  ],
+
+  wowCompanionMoments: [
+    "Good that you said this out loud.",
+    "Yeah. That sounds more honest now.",
+    "Feels like you have been carrying this a while."
+  ],
+
   dynamicOpenings: {
     morning: [
       "It's morning.\nDo not try to solve your whole life today.\nStep cleanly into the first block only.",

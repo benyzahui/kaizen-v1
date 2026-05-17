@@ -532,6 +532,37 @@ module.exports = {
     default: ["Sunt aici. Un pas e suficient."]
   },
 
+  wowDynamicOpenings: {
+    morning: [
+      "E dimineață.\nNu încerca să rezolvi tot viitorul azi.",
+      "O direcție e suficientă — nu zece blocuri."
+    ],
+    lateNight: [
+      "Încă îți învârte capul?",
+      "Târziu.\nÎnchide un cerc — nu un sprint nou în cap."
+    ],
+    afterStress: [
+      "Cum ține corpul tău ritmul ăsta acum?",
+      "Asta sună mai degrabă a suprasolicitare."
+    ],
+    afterProgress: [
+      "Asta sună deja ca energie mai stabilă.",
+      "Bine. Asta e mișcare — nu doar gând."
+    ]
+  },
+
+  wowSurprises: [
+    "Creierul rulează mai multe tab-uri decât Chrome acum.",
+    "Nu lipsesc idei noi.\nCi energie pentru ce ai deja deschis.",
+    "Asta sună mai degrabă a suprasolicitare decât lene."
+  ],
+
+  wowCompanionMoments: [
+    "Bine că ai spus asta cu voce tare.",
+    "Da. Asta sună mai onest acum.",
+    "Se simte că o duci de mult."
+  ],
+
   dynamicOpenings: {
     morning: [
       "E dimineață.\nNu încerca să rezolvi toată viața azi.\nIntră curat în primul bloc.",
