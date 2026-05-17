@@ -73,6 +73,7 @@ const { finalizeBetaImmersionHarden } = require("./betaImmersionHarden");
 const { finalizeFinalBetaFeeling } = require("./finalBetaFeeling");
 const { finalizeHumanDepthRefinement } = require("./humanDepthRefinement");
 const { finalizeNaturalConversationMaster } = require("./naturalConversationMaster");
+const { finalizePremiumAtmosphere } = require("./premiumAtmosphereFinal");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -484,6 +485,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizeFinalBetaFeeling(b, ctx, category, timing, alive);
     b = finalizeHumanDepthRefinement(b, ctx, category, timing);
     b = finalizeNaturalConversationMaster(b, ctx, category, timing);
+    b = finalizePremiumAtmosphere(b, ctx, category, timing);
   }
 
   return b;
