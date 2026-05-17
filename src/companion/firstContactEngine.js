@@ -12,6 +12,10 @@ const {
   scoreRomanian
 } = require("../i18n/languageDetect");
 const { extractInvisibleProfile } = require("./invisibleProfile");
+const {
+  buildWowMoment,
+  pickFreshVariant
+} = require("./freshUserExperience");
 
 const FC_WAKE = 0;
 const FC_NATURAL = 1;
@@ -93,7 +97,7 @@ function extractNameFromIntro(text) {
   return null;
 }
 
-function completeFirstContact(userId, name, focusId, path, lang) {
+function completeFirstContact(userId, name, focusId, path, lang, opts = {}) {
   const r = getResponses(lang);
   const label = r.fcFocusLabels?.[focusId] || focusId;
   updateSession(userId, {
@@ -104,23 +108,22 @@ function completeFirstContact(userId, name, focusId, path, lang) {
     onboardingCompleted: true,
     onboardingActive: false,
     onboardingSkipped: false,
-    onboardingStep: FC_STRUCTURE_START
+    onboardingStep: FC_STRUCTURE_START,
+    activationMode: false
   });
   const n = name || "";
-  return lines(
-    (r.fcComplete || "").replace("{name}", n).replace("{focus}", label),
-    "",
-    r.fcCompleteNext
-  );
+  const body = (r.fcCompleteCalm || r.fcComplete || "")
+    .replace("{name}", n)
+    .replace("{focus}", label);
+  const parts = [];
+  if (opts.wow) parts.push(opts.wow);
+  parts.push(body, "", r.fcCompleteNext);
+  return lines(...parts.filter(Boolean));
 }
 
 function getFirstContactStart(lang) {
   const r = getResponses(lang);
-  return lines(
-    r.fcCinematicStart || r.fcActivation,
-    "",
-    r.fcAskNaturalIntro
-  );
+  return r.fcActivationFull || lines(r.fcCinematicStart || r.fcActivation, "", r.fcAskNaturalIntro);
 }
 
 function processFirstContact(userId, text, session, lang) {
@@ -160,21 +163,19 @@ function processFirstContact(userId, text, session, lang) {
       ...(name ? { userName: name } : {})
     });
 
-    if (invisible.confident && invisible.path) {
-      const focusId = invisible.focusId || "mixed";
-      const path =
-        invisible.path ||
-        { mind: "emotional", body: "physical", energy: "spiritual", trading: "trading", business: "business", mixed: "mixed" }[
-          focusId
-        ];
+    const sessionNow = { ...session, preferredLanguage: langLocked };
+    const wow = buildWowMoment(invisible, langLocked, sessionNow);
+    const heard = pickFreshVariant(
+      sessionNow,
+      r2.freshHeardCalm || [r2.fcHeardIntroSoft || "I hear you."],
+      "heard"
+    );
+
+    if (invisible.focusId && name) {
+      const focusId = invisible.focusId;
+      const path = invisible.path || FOCUS_PATH[focusId] || "mixed";
       return {
-        reply: completeFirstContact(
-          userId,
-          name || session.userName,
-          focusId,
-          path,
-          langLocked
-        )
+        reply: completeFirstContact(userId, name, focusId, path, langLocked, { wow })
       };
     }
 
@@ -182,17 +183,21 @@ function processFirstContact(userId, text, session, lang) {
       updateSession(userId, { onboardingStep: FC_FOCUS });
       return {
         reply: lines(
-          (r2.fcNameAck || "").replace("{name}", name),
+          wow || (r2.fcNameAck || "").replace("{name}", name),
           "",
-          r2.fcHeardIntroSoft || r2.fcHeardIntro || "",
+          heard,
           "",
-          r2.fcAskFocusSoft || r2.fcAskFocus
+          r2.fcAskAlignmentSoft || r2.fcAskFocusSoft || r2.fcAskNaturalIntro
         )
       };
     }
     updateSession(userId, { onboardingStep: FC_NAME });
     return {
-      reply: lines(r2.fcHeardIntroSoft || r2.fcHeardIntro || "", "", r2.fcAskName)
+      reply: lines(
+        wow || heard,
+        "",
+        r2.fcAskName || r2.fcAskNaturalIntro
+      )
     };
   }
 

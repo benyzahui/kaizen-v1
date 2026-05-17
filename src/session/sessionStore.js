@@ -123,6 +123,9 @@ function emptySession() {
     lastAccountabilityPromise: null,
     lastAccountabilityAt: null,
     lastThreadActivity: null,
+    activationMode: false,
+    freshUserMessageCount: 0,
+    freshPhrasesUsed: [],
     lastAt: Date.now()
   };
 }

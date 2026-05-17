@@ -21,6 +21,7 @@ const {
   ensureOnboardingActive,
   onboardingContinuePrompt
 } = require("../companion/onboardingGate");
+const { enterActivationMode } = require("../companion/freshUserExperience");
 
 const STRUCTURE = FC_STRUCTURE_START;
 
@@ -46,6 +47,7 @@ function startOnboarding(userId) {
     recentCommands: [],
     conversationState: null
   });
+  enterActivationMode(userId);
 }
 
 /**

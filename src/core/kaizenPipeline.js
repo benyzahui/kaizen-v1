@@ -151,6 +151,12 @@ async function processAndRecordMessage(message) {
   }
   recordInteraction(userId, payload);
 
+  const after = getSession(userId);
+  const { trackFreshAssistantReply, isFreshUserExperience } = require("../companion/freshUserExperience");
+  if (isFreshUserExperience(after)) {
+    trackFreshAssistantReply(userId, after, result.reply);
+  }
+
   logConversation(
     JSON.stringify({
       path: "pipeline",

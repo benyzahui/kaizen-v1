@@ -8,8 +8,9 @@ const { getResponses } = require("../i18n/getResponses");
 /**
  * @param {'en'|'hu'|'ro'} lang
  */
-function buildGuideReply(lang) {
+function buildGuideReply(lang, session = null) {
   const r = getResponses(lang);
+  if (r.guideCompactBody) return r.guideCompactBody;
   if (r.guideBody) return r.guideBody;
 
   const sections = r.guideSections || [];

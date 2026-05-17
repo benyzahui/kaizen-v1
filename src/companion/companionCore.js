@@ -36,6 +36,7 @@ const { formatPremiumMessage } = require("./messageFormat");
 const { applyDepthScale } = require("./responseDepth");
 const { maybeDragonWhisper } = require("./dragonPresence");
 const { applyHumanVoiceGuard } = require("./humanVoiceGuard");
+const { isFreshUserExperience } = require("./freshUserExperience");
 const { shouldUseOneLinePacing, applyOneLinePacing } = require("./oneLinePacing");
 const { maybeThreadLead } = require("./threadContinuityEngine");
 
@@ -131,30 +132,46 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     ctx.lang,
     `${category}_${s.messages?.length || 0}`
   );
-  if (memLine && !SKIP_MEMORY_CATEGORIES.has(category)) {
+  const fresh = isFreshUserExperience(ctx.session || s);
+
+  if (memLine && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh) {
     b = lines(memLine, "", b);
   }
 
   const threadLead = maybeThreadLead(ctx.session || s, ctx.lang);
-  if (threadLead && !SKIP_MEMORY_CATEGORIES.has(category) && category !== "thread_continuity") {
+  if (
+    threadLead &&
+    !SKIP_MEMORY_CATEGORIES.has(category) &&
+    category !== "thread_continuity" &&
+    !fresh
+  ) {
     b = lines(threadLead, "", b);
   }
 
-  if (!opts.skipPresence) {
+  if (!opts.skipPresence && !fresh) {
     b = applyTimePresence(b, ctx, category);
     b = applyPresence(b, ctx, category);
   }
 
-  b = applyAntiLoop(ctx, b, category, r);
+  if (!fresh) {
+    b = applyAntiLoop(ctx, b, category, r);
+  } else {
+    b = applyHumanVoiceGuard(b, ctx.lang, `${category}_fresh`);
+  }
 
-  if (shouldUseOneLinePacing(ctx.lastUserText, ctx.state, category)) {
+  if (
+    !fresh &&
+    category !== "onboarding" &&
+    shouldUseOneLinePacing(ctx.lastUserText, ctx.state, category)
+  ) {
     b = applyOneLinePacing(b, ctx.lang, `${category}_${ctx.userId}`);
   }
 
-  b = applyHumanVoiceGuard(b, ctx.lang, `${category}_${ctx.userId}`);
-
-  const dragon = maybeDragonWhisper(ctx.lang, category, `${category}_${ctx.userId}`);
-  if (dragon && b.split(/\n/).length < 6) b = lines(b, "", dragon);
+  if (!fresh) {
+    b = applyHumanVoiceGuard(b, ctx.lang, `${category}_${ctx.userId}`);
+    const dragon = maybeDragonWhisper(ctx.lang, category, `${category}_${ctx.userId}`);
+    if (dragon && b.split(/\n/).length < 6) b = lines(b, "", dragon);
+  }
 
   b = formatPremiumMessage(b);
 

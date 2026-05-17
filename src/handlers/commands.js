@@ -137,7 +137,7 @@ async function routeCommandMessage(message, session) {
       reply = buildProfileReply(session, lang);
       break;
     case "/help":
-      reply = buildGuideReply(lang);
+      reply = buildGuideReply(lang, getSession(uid(message)));
       break;
     case "/commands":
       reply = r.tCommandsCategorized;
@@ -204,7 +204,7 @@ async function routeCommandMessage(message, session) {
       recordCompletedRitual(uid(message), getSession(uid(message)));
       break;
     case "/guide":
-      reply = buildGuideReply(lang);
+      reply = buildGuideReply(lang, getSession(uid(message)));
       break;
     case "/energy":
       reply = await handleEnergy(message, lang);

@@ -50,6 +50,26 @@ function inferIntensity(text) {
   return "balanced";
 }
 
+function inferEmotionalTone(text) {
+  const low = String(text || "").toLowerCase();
+  if (/(exhausted|kimerült|epuizat|burned|burnout)/.test(low)) return "tired";
+  if (/(overwhelm|chaos|szétes|stress|stressed|panic)/.test(low)) return "overloaded";
+  if (/(lost|confused|elvesztett|nem tudom)/.test(low)) return "lost";
+  if (/(ready|focused|motivated|clear)/.test(low)) return "steady";
+  return "neutral";
+}
+
+function inferChaosLevel(text) {
+  const low = String(text || "").toLowerCase();
+  let s = 0;
+  if (/(too many|túl sok|prea multe|tabs|chaos|szétes)/.test(low)) s += 2;
+  if (/(overwhelm|scatter|szétszórt)/.test(low)) s += 2;
+  if (/(also|és|and also|meg)/.test(low) && low.length > 80) s += 1;
+  if (s >= 3) return "high";
+  if (s >= 1) return "medium";
+  return "low";
+}
+
 function inferMission(text) {
   const m = String(text || "").match(
     /(?:working on|building|trying to|rebuild|ship|finish|launch|fókusz|dolgozom|lucrez la)\s+(.{8,120})/i
@@ -96,11 +116,20 @@ function extractInvisibleProfile(text) {
   if (intensity) patch.userIntensityPreference = intensity;
   if (goal && goal.length < 120) patch.currentMission = goal.slice(0, 120);
 
+  const emotionalTone = inferEmotionalTone(raw);
+  const chaosLevel = inferChaosLevel(raw);
+
+  if (emotionalTone === "overloaded" || chaosLevel === "high") {
+    patch.userMainObstacle = patch.userMainObstacle || "emotional_chaos";
+  }
+
   return {
     patch,
     focusId: focus?.id || null,
     path,
-    confident: Boolean(focus || (path && raw.length > 40))
+    emotionalTone,
+    chaosLevel,
+    confident: Boolean(focus && raw.length >= 25) || (path && raw.length >= 100 && focus)
   };
 }
 
@@ -109,5 +138,7 @@ module.exports = {
   inferPathFromText,
   inferObstacle,
   inferIntensity,
-  inferMission
+  inferMission,
+  inferEmotionalTone,
+  inferChaosLevel
 };

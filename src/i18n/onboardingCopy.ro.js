@@ -1,13 +1,35 @@
 /** Romanian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcActivationFull: [
+    "⚔️ KaiZen activat.",
+    "",
+    "Nu bot motivațional.",
+    "Nu terapeut.",
+    "Nu mașină de productivitate.",
+    "",
+    "Ajut oamenii să:",
+    "· reconstruiască disciplina",
+    "· stabilizeze sistemul nervos",
+    "· ascuțească focusul",
+    "· protejeze energia",
+    "· revină la structură",
+    "",
+    "Acțiunile mici repetate refac identitatea.",
+    "",
+    "Înainte să construim ritmul:",
+    "spune sincer —",
+    "ce simți cel mai dezaliniat acum?"
+  ].join("\n"),
+
   fcCinematicStart: [
     "⚔️ KaiZen activat.",
     "",
-    "Nu sunt construit să te distrez.",
-    "Sunt construit să te ajut să revii la aliniere.",
+    "Nu bot motivațional. Nu terapeut. Nu mașină de productivitate.",
     "",
-    "Acțiunile mici disciplinate refac identitatea."
+    "Disciplină, sistem nervos, focus, energie, structură.",
+    "",
+    "Acțiunile mici repetate refac identitatea."
   ].join("\n"),
 
   fcActivation: [
@@ -86,8 +108,70 @@ module.exports = {
     "Sfera principală: {focus}.",
     "Răspunsurile rămân ancorate în asta — nu chat generic."
   ].join("\n"),
+  fcAskAlignmentSoft:
+    "Dacă un lucru e cel mai dezaliniat acum — spune-l într-o linie scurtă. Fără formular.",
+
+  fcCompleteCalm: [
+    "Bine, {name}.",
+    "",
+    "Am destul semnal să mergem calm.",
+    "Fir principal acum: {focus}.",
+    "",
+    "Fără presiune azi — structură întâi."
+  ].join("\n"),
+
+  freshHeardCalm: [
+    "Te-am auzit. E suficient acum.",
+    "Mulțumesc — semnal primit.",
+    "Clar. Urmăresc ce ai spus."
+  ],
+
+  freshWowOverload: [
+    "Sună a supraîncărcare — nu lene.",
+    "Prea multe bucle deschise. Aud asta."
+  ],
+
+  freshWowTired: [
+    "Corpul a semnalat înainte de ego.",
+    "Oboseală — nu eșec."
+  ],
+
+  freshWowTrading: [
+    "Presiune de trading — disciplină strânsă acolo.",
+    "Energie de piață — reguli înainte de impuls."
+  ],
+
+  freshWowBusiness: [
+    "Execuție și sarcină de business — am auzit.",
+    "Mod construcție. Scope îngust."
+  ],
+
+  freshWowGeneral: [
+    "Urmăresc tonul și direcția.",
+    "Ceva din ce ai scris a aterizat."
+  ],
+
   fcCompleteNext:
-    "Ești înăuntru. Când vrei harta comenzilor: /guide\nApoi vorbește natural — fără meniu obligatoriu.",
+    "Când vrei harta: /guide\nApoi vorbește natural.",
+
+  guideCompactBody: [
+    "⚔ Ritm zilnic",
+    "/pulse · /focus · /mirror",
+    "",
+    "🧠 Supraîncărcare",
+    "/reset · /breathe",
+    "",
+    "📈 Trading",
+    "/trade · /risk",
+    "",
+    "💪 Corp",
+    "/walk · /sleep",
+    "",
+    "🌘 Energie",
+    "/energy · /clarity",
+    "",
+    "Vorbește natural. Listă completă: /map"
+  ].join("\n"),
 
   obGateCommandBlocked:
     "Încă în activare — {command} se deschide după setup.\nTermină introducerea, sau /skip pentru mod minimal.\nAcum: /start · /language · /guide · /skip",

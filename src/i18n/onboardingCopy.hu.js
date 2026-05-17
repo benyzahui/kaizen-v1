@@ -1,13 +1,35 @@
 /** Hungarian — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcActivationFull: [
+    "⚔️ KaiZen aktiválva.",
+    "",
+    "Nem motivációs bot.",
+    "Nem terapeuta.",
+    "Nem produktivitás-gép.",
+    "",
+    "Embereknek segítek:",
+    "· fegyelem újraépítése",
+    "· idegrendszer stabilizálása",
+    "· fókusz élesítése",
+    "· energia védelme",
+    "· struktúrához visszatérés",
+    "",
+    "A kis, ismételt cselekvések újraformálják az identitást.",
+    "",
+    "Mielőtt felépítjük a ritmusod:",
+    "mondd őszintén —",
+    "mi érzed most a legjobban kilógónak?"
+  ].join("\n"),
+
   fcCinematicStart: [
     "⚔️ KaiZen aktiválva.",
     "",
-    "Nem arra épültem, hogy szórakoztassalak.",
-    "Hanem hogy visszavezesselek az igazításba.",
+    "Nem motivációs bot. Nem terapeuta. Nem produktivitás-gép.",
     "",
-    "A kis fegyelmezett lépések újraformálják az identitást."
+    "Fegyelem, idegrendszer, fókusz, energia, struktúra.",
+    "",
+    "A kis ismételt lépések újraformálják az identitást."
   ].join("\n"),
 
   fcActivation: [
@@ -87,8 +109,70 @@ module.exports = {
     "Fő sáv: {focus}.",
     "Ehhez igazítom a válaszokat — nem általános chat."
   ].join("\n"),
+  fcAskAlignmentSoft:
+    "Ha egy dolog a legkilógóbb most — nevezd meg egy rövid sorban. Nem űrlap.",
+
+  fcCompleteCalm: [
+    "Rendben, {name}.",
+    "",
+    "Elég jel van ahhoz, hogy nyugodtan menjünk.",
+    "Fő sáv most: {focus}.",
+    "",
+    "Ma nincs nyomás — először struktúra."
+  ].join("\n"),
+
+  freshHeardCalm: [
+    "Hallottalak. Most ez elég.",
+    "Köszönöm — megvan a jel.",
+    "Értem. Követem, amit mondtál."
+  ],
+
+  freshWowOverload: [
+    "Ez túlterhelésnek hangzik — nem lustaságnak.",
+    "Túl sok nyitott kör. Hallom."
+  ],
+
+  freshWowTired: [
+    "A tested előbb jelez, mint az egód.",
+    "Fáradtság van — nem kudarc."
+  ],
+
+  freshWowTrading: [
+    "Trading nyomás benne van. Ott szoros lesz a fegyelem.",
+    "Piaci energia — szabály az impulzus előtt."
+  ],
+
+  freshWowBusiness: [
+    "Végrehajtás és üzleti teher — hallottam.",
+    "Építő mód. Szűk scope."
+  ],
+
+  freshWowGeneral: [
+    "Követem a hangnemet és irányt.",
+    "Valami abból, amit írtál, megérkezett."
+  ],
+
   fcCompleteNext:
-    "Bent vagy. Ha kell a parancstérkép: /guide\nAzután írj természetesen — menü nélkül is.",
+    "Ha kell a térkép: /guide\nAzután írj természetesen.",
+
+  guideCompactBody: [
+    "⚔ Napi ritmus",
+    "/pulse · /focus · /mirror",
+    "",
+    "🧠 Túlterhelés",
+    "/reset · /breathe",
+    "",
+    "📈 Trading",
+    "/trade · /risk",
+    "",
+    "💪 Test",
+    "/walk · /sleep",
+    "",
+    "🌘 Energia",
+    "/energy · /clarity",
+    "",
+    "Írhatsz természetesen. Teljes lista: /map"
+  ].join("\n"),
 
   obGateCommandBlocked:
     "Még aktiválás alatt vagy — a {command} a beállítás után nyílik.\nFejezd be a bemutatkozást, vagy /skip minimál módhoz.\nMost: /start · /language · /guide · /skip",

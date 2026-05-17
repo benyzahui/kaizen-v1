@@ -1,13 +1,37 @@
 /** English copy — onboarding, guide, anti-loop (merged into responses bundle). */
 
 module.exports = {
+  fcActivationFull: [
+    "⚔️ KaiZen activated.",
+    "",
+    "Not a motivational bot.",
+    "Not a therapist.",
+    "Not a productivity machine.",
+    "",
+    "I help people:",
+    "· rebuild discipline",
+    "· stabilize the nervous system",
+    "· sharpen focus",
+    "· protect energy",
+    "· return to structure",
+    "",
+    "Small actions repeated consistently reshape identity.",
+    "",
+    "Before we build your rhythm:",
+    "tell me honestly —",
+    "what currently feels the most out of alignment?"
+  ].join("\n"),
+
   fcCinematicStart: [
     "⚔️ KaiZen activated.",
     "",
-    "I am not built to entertain you.",
-    "I am built to help you return to alignment.",
+    "Not a motivational bot.",
+    "Not a therapist.",
+    "Not a productivity machine.",
     "",
-    "Small disciplined actions reshape identity."
+    "I help people rebuild discipline, stabilize the nervous system, sharpen focus, protect energy, and return to structure.",
+    "",
+    "Small actions repeated consistently reshape identity."
   ].join("\n"),
 
   fcActivation: [
@@ -93,8 +117,70 @@ module.exports = {
     "I will keep replies grounded in that — not generic chat."
   ].join("\n"),
 
+  fcAskAlignmentSoft:
+    "If one thing is most out of alignment right now — name it in a short line. No form.",
+
+  fcCompleteCalm: [
+    "Good, {name}.",
+    "",
+    "I have enough to walk with you calmly.",
+    "Primary lane for now: {focus}.",
+    "",
+    "No pressure today — structure first, push later."
+  ].join("\n"),
+
+  freshHeardCalm: [
+    "I hear you. That is enough for now.",
+    "Thank you — signal received.",
+    "Clear. I am tracking what you said."
+  ],
+
+  freshWowOverload: [
+    "That reads like overload — not laziness.",
+    "Too many open loops at once. I hear that."
+  ],
+
+  freshWowTired: [
+    "Sounds like your body flagged before your mind admitted it.",
+    "Fatigue is showing — not failure."
+  ],
+
+  freshWowTrading: [
+    "Trading pressure is in the picture. We can keep discipline tight there.",
+    "Market energy noted — rules before impulse."
+  ],
+
+  freshWowBusiness: [
+    "Execution and business load — heard.",
+    "Building mode. We will keep scope narrow."
+  ],
+
+  freshWowGeneral: [
+    "I am tracking tone and direction from what you wrote.",
+    "Something in what you said landed — we can sharpen it as we go."
+  ],
+
   fcCompleteNext:
-    "You are in. When you want the command map: /guide\nThen speak naturally — no menu required.",
+    "When you want the map: /guide\nThen speak naturally — no menu required.",
+
+  guideCompactBody: [
+    "⚔ Daily rhythm",
+    "/pulse · /focus · /mirror",
+    "",
+    "🧠 When overloaded",
+    "/reset · /breathe",
+    "",
+    "📈 Trading",
+    "/trade · /risk",
+    "",
+    "💪 Body",
+    "/walk · /sleep",
+    "",
+    "🌘 Energy",
+    "/energy · /clarity",
+    "",
+    "Speak naturally anytime. Full list: /map"
+  ].join("\n"),
 
   obGateCommandBlocked:
     "Still in activation — {command} opens after setup.\nFinish your introduction, or /skip for minimal mode.\nSafe now: /start · /language · /guide · /skip",

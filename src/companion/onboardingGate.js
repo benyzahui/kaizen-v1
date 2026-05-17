@@ -9,6 +9,7 @@ const {
   fromTelegramCode
 } = require("../i18n/languageDetect");
 const { FC_NATURAL } = require("./firstContactEngine");
+const { enterActivationMode } = require("./freshUserExperience");
 
 const SAFE_COMMANDS = new Set(["/start", "/language", "/guide", "/skip"]);
 
@@ -88,6 +89,7 @@ function ensureOnboardingActive(userId) {
           : FC_NATURAL
     });
   }
+  enterActivationMode(userId);
   return getSession(userId);
 }
 
