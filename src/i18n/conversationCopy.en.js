@@ -887,6 +887,15 @@ module.exports = {
     "I am here — it does not need to be perfect."
   ],
 
+  premiumAtmosphereLock: [
+    "One direction is enough today.",
+    "Clarity over speed right now.",
+    "Slow and steady.",
+    "One clean block is enough.",
+    "You do not have to react to everything today.",
+    "Quiet focus is enough now."
+  ],
+
   microHumanityAlive: ["Hm.", "Yeah.", "That is a lot.", "Got it.", "Good."],
 
   naturalEmotionalSupport: [

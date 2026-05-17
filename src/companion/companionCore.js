@@ -84,6 +84,7 @@ const { finalizeHumanReturnPass } = require("./humanReturnPass");
 const { finalizeSoulStability } = require("./soulStability");
 const { finalizeRealEmotionalPresence } = require("./realEmotionalPresence");
 const { finalizeCompanionFlowStabilization } = require("./companionFlowStabilization");
+const { finalizePremiumAtmosphereLock } = require("./premiumAtmosphereLock");
 const { getTimeSlot } = require("../core/timeContext");
 
 const LATE_LAYER_SKIP = new Set([
@@ -517,6 +518,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizePremiumAtmosphere(b, ctx, category, timing);
     b = finalizeRealEmotionalPresence(b, ctx, category, timing);
     b = finalizeCompanionFlowStabilization(b, ctx, category, timing);
+    b = finalizePremiumAtmosphereLock(b, ctx, category, timing);
   }
 
   return b;

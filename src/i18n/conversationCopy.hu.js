@@ -920,6 +920,15 @@ module.exports = {
     "Itt vagyok — nem kell tökéletesen."
   ],
 
+  premiumAtmosphereLock: [
+    "Egy irány elég ma.",
+    "Most tisztaság, nem sebesség.",
+    "Lassan, de biztosan.",
+    "Elég egy tiszta blokk.",
+    "Nem kell ma mindenre reagálni.",
+    "Csendes fókusz elég most."
+  ],
+
   microHumanityAlive: ["Hm.", "Na.", "Na várj.", "Az mondjuk sok.", "Értem.", "Jó."],
 
   naturalEmotionalSupport: [

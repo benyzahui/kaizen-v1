@@ -874,6 +874,15 @@ module.exports = {
     "Sunt aici — nu trebuie perfect."
   ],
 
+  premiumAtmosphereLock: [
+    "O direcție e suficient azi.",
+    "Claritate, nu viteză acum.",
+    "Încet și sigur.",
+    "Un bloc curat e suficient.",
+    "Nu trebuie să reacționezi la tot azi.",
+    "Focus liniștit e suficient acum."
+  ],
+
   microHumanityAlive: ["Hm.", "Da.", "Asta e mult.", "Înțeleg.", "Bine."],
 
   naturalEmotionalSupport: [
