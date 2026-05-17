@@ -812,6 +812,22 @@ module.exports = {
     "Nu trebuie reparat acum."
   ],
 
+  humanReactions: [
+    "Hm.",
+    "Da.",
+    "Asta e mult.",
+    "Înțeleg.",
+    "Bine.",
+    "Asta sună mai onest acum."
+  ],
+
+  quietIntelligence: [
+    "Asta e prea multă încărcare deodată.",
+    "Nu cred că motivația e ce lipsește.",
+    "🫀 Corpul semnalează înainte să recunoască capul.",
+    "Asta sună mai degrabă a suprasolicitare decât lene."
+  ],
+
   microHumanityAlive: ["Hm.", "Da.", "Asta e mult.", "Înțeleg.", "Bine."],
 
   naturalEmotionalSupport: [

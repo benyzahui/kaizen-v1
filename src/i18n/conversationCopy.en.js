@@ -825,6 +825,22 @@ module.exports = {
     "It does not need fixing right now."
   ],
 
+  humanReactions: [
+    "Hm.",
+    "Yeah.",
+    "That is a lot.",
+    "Got it.",
+    "Good.",
+    "That sounds more honest now."
+  ],
+
+  quietIntelligence: [
+    "This is too much load at once.",
+    "I do not think motivation is what is missing.",
+    "🫀 Your body signals before your head admits it.",
+    "This sounds more like overload than laziness."
+  ],
+
   microHumanityAlive: ["Hm.", "Yeah.", "That is a lot.", "Got it.", "Good."],
 
   naturalEmotionalSupport: [

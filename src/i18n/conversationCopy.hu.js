@@ -858,6 +858,22 @@ module.exports = {
     "Nem kell rendbe tenni most."
   ],
 
+  humanReactions: [
+    "Hm.",
+    "Na.",
+    "Az mondjuk sok.",
+    "Értem.",
+    "Jó.",
+    "Ez most őszintébbnek hangzik."
+  ],
+
+  quietIntelligence: [
+    "Ez most inkább túl sok terhelés egyszerre.",
+    "Most szerintem nem motiváció hiányzik.",
+    "🫀 A tested előbb jelez mint az agyad.",
+    "Ez most inkább túlterhelésnek hangzik mint lustaságnak."
+  ],
+
   microHumanityAlive: ["Hm.", "Na.", "Na várj.", "Az mondjuk sok.", "Értem.", "Jó."],
 
   naturalEmotionalSupport: [

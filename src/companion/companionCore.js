@@ -80,6 +80,7 @@ const {
   finalizePresenceEvolution,
   resolvePresenceTiming
 } = require("./presenceEvolution");
+const { finalizeHumanReturnPass } = require("./humanReturnPass");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -494,6 +495,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizeWowExperience(b, ctx, category, timing, alive);
     b = finalizeEmotionalAttachment(b, ctx, category, timing);
     b = finalizePresenceEvolution(b, ctx, category, timing);
+    b = finalizeHumanReturnPass(b, ctx, category, timing);
     b = finalizePremiumAtmosphere(b, ctx, category, timing);
   }
 
