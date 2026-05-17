@@ -208,9 +208,9 @@ module.exports = {
   ],
 
   groundedHumor: [
-    "Creierul tău debughează în production acum.",
+    "Creierul tău rulează prea multe tab-uri deodată.",
     "Nu îți lipsește un proiect nou în viață.",
-    "Haosul rulează live — nu pe staging."
+    "Haosul rulează live din nou."
   ],
 
   emotionalContinuity: {
@@ -276,11 +276,31 @@ module.exports = {
   },
 
   companionCheckIns: [
-    "⚔ Check-in scurt.\nAzi a devenit mai clar sau mai zgomotos?",
-    "Hidratare. Respirație. O linie de status onestă.",
-    "Ai mișcat corpul azi sau doar gândurile?",
-    "O linie: mai bine, la fel, sau mai greu decât dimineața?"
+    "Na, ai reușit să readuci focusul azi?",
+    "Acum: corpul obosit sau capul?",
+    "O linie: mai bine, la fel, sau mai greu decât dimineața?",
+    "Apă? Respirație mai lentă?"
   ],
+
+  dailyCompanionLoop: {
+    morning: [
+      "Dimineața: o direcție e suficient — nu zece.",
+      "Azi: un bloc pe care îl protejezi cu adevărat."
+    ],
+    midday: [
+      "Amiază: încă pe banda aleasă dimineața?",
+      "Dacă ești împrăștiat — închide un cerc, apoi continuă."
+    ],
+    evening: [
+      "Seara: coborâre — nu sprint nou.",
+      "Care a fost mișcarea onestă de azi?"
+    ],
+    late_night: [
+      "Noaptea târziu împrumută de mâine.",
+      "O linie de închidere, apoi somn."
+    ],
+    default: ["Sunt aici. Un pas e suficient."]
+  },
 
   shortActionReplies: [
     "Bine.\nTe aștept când revii.",
@@ -290,7 +310,7 @@ module.exports = {
 
   sarcasmRare: [
     "Creierul rulează acum cu șaptesprezece tab-uri.",
-    "Haosul testează din nou în producție.",
+    "Haosul e live din nou.",
     "Ai programat suprasolicitarea și ai apărut la timp."
   ],
 

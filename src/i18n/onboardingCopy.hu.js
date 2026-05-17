@@ -46,7 +46,7 @@ module.exports = {
     "",
     "Napi társad vagyok: fegyelem, tisztánlátás, idegrendszer-stabilitás, őszinte végrehajtás.",
     "",
-    "Ez nem véletlen AI chat. Nincs guru-zaj. Nincs motivációs spam.",
+    "Ez nem véletlen chat-zaj. Nincs guru-spam. Nincs motivációs színház.",
     "Strukturárt jelenlét — reggeltől estig.",
     "",
     "Küldj egy sort, ha készen állsz a beállításra."
@@ -153,25 +153,41 @@ module.exports = {
   ],
 
   fcCompleteNext:
-    "Ha kell a térkép: /guide\nAzután írj természetesen.",
+    "Írj természetesen, amikor kész vagy. /guide ha kell a rövid térkép.",
+
+  firstDayGrounding:
+    "Földelés: ma egy őszinte blokk. Nem új rendszer — egy sáv.",
+
+  firstDayInsight:
+    "Felismerés: a túlterhelés gyakran túl sok nyitott kör, nem gyenge akarat.",
+
+  firstDayAction:
+    "Lépés: válassz egy dolgot, amit a következő 25 percben védesz.",
+
+  firstDayAccountability:
+    "Elszámolás: ma este egy sor — megvan, részben, vagy elmaradt.",
+
+  firstDayClosing:
+    "Zárás: ma este nem kell bizonyítanod. Stabilizálj, aztán pihenj.",
+
+  commandsCompact: [
+    "Alap",
+    "/morning · /focus · /mirror · /reset",
+    "",
+    "Test & nyugalom",
+    "/breath · /body · /evening",
+    "",
+    "Írhatsz természetesen. Teljes térkép: /map"
+  ].join("\n"),
 
   guideCompactBody: [
-    "⚔ Napi ritmus",
-    "/pulse · /focus · /mirror",
+    "KaiZen — rövid térkép",
     "",
-    "🧠 Túlterhelés",
-    "/reset · /breathe",
+    "Napi: /morning · /focus · /mirror",
+    "Túlterhelés: /reset · /breath",
+    "Test: /walk · /sleep",
     "",
-    "📈 Trading",
-    "/trade · /risk",
-    "",
-    "💪 Test",
-    "/walk · /sleep",
-    "",
-    "🌘 Energia",
-    "/energy · /clarity",
-    "",
-    "Írhatsz természetesen. Teljes lista: /map"
+    "Vagy csak beszélj. Nem kell menü."
   ].join("\n"),
 
   obGateCommandBlocked:

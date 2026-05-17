@@ -22,6 +22,10 @@ const {
   onboardingContinuePrompt
 } = require("../companion/onboardingGate");
 const { enterActivationMode } = require("../companion/freshUserExperience");
+const {
+  markFirstDayStarted,
+  wrapFirstDayStructureComplete
+} = require("../companion/firstDayArc");
 
 const STRUCTURE = FC_STRUCTURE_START;
 
@@ -343,6 +347,7 @@ function processOnboardingReply(userId, text, session, lang) {
   }
 
   if (step === STRUCTURE + 4) {
+    markFirstDayStarted(userId);
     updateSession(userId, {
       onboardingCompleted: true,
       onboardingActive: false,
@@ -351,7 +356,9 @@ function processOnboardingReply(userId, text, session, lang) {
     });
     const s = getSession(userId);
     const lockedFin = s.preferredLanguage || s.lang || locked;
-    return { reply: formatSummary(s, lockedFin) };
+    return {
+      reply: wrapFirstDayStructureComplete(formatSummary(s, lockedFin), lockedFin)
+    };
   }
 
   return { reply: onboardingContinuePrompt(locked) };

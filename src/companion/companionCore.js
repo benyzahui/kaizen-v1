@@ -43,6 +43,9 @@ const { shouldUseOneLinePacing, applyOneLinePacing } = require("./oneLinePacing"
 const { maybeThreadLead } = require("./threadContinuityEngine");
 const { applyLowEgoPass } = require("./lowEgoStyle");
 const { maybeGroundedHumor } = require("./groundedHumor");
+const { sanitizeBetaCopy } = require("./betaCopySanitize");
+const { applyPersonalityGuard } = require("./personalityGuard");
+const { maybeDailyLoopWhisper } = require("./dailyCompanionLoop");
 
 const SKIP_MEMORY_CATEGORIES = new Set([
   "onboarding",
@@ -53,7 +56,8 @@ const SKIP_MEMORY_CATEGORIES = new Set([
   "accountability_setup",
   "accountability_followup",
   "thread_continuity",
-  "life_flow"
+  "life_flow",
+  "companion_checkin"
 ]);
 
 const EMBEDDED_CMD_RE = /\n→\s*\/\w+(@\w+)?\s*$/gim;
@@ -228,6 +232,8 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = applyHumanCadence(b, ctx.lang, category, `${category}_${ctx.userId}`);
   }
 
+  b = applyPersonalityGuard(b, ctx.lang, category);
+  b = sanitizeBetaCopy(b);
   b = formatPremiumMessage(b);
 
   if (detectLaneWandering(s, category)) {

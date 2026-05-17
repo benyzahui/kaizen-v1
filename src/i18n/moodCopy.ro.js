@@ -43,11 +43,13 @@ module.exports = {
     dragon: ["Dragonul nu aleargă după zgomot — păzește poarta.", "Consistența e singurul spell care ține."]
   },
   moodChoices: {
-    discipline: ["Alege:\n→ 5 min pe task-ul real\n→ /breath apoi /focus\n→ /off dacă vrei liniște"],
-    recovery: ["Alege:\n→ apă + 3 respirații\n→ /breath\n→ /evening devreme"],
-    momentum: ["Alege:\n→ un bloc de 25 min acum\n→ linie /mission\n→ /energy apoi acțiune"],
-    reflection: ["Alege:\n→ o linie adevărată\n→ /lettinggo\n→ /evening când ești gata"],
-    dragon: ["Alege:\n→ poarta /morning\n→ status /path\n→ un pas de misiune — acum"]
+    discipline: [
+      "O bandă: cinci minute pe task-ul real.\nRespirație dacă trebuie — apoi mișcare."
+    ],
+    recovery: ["Apă. Trei respirații lente.\nNimic eroic diseară."],
+    momentum: ["Un bloc de 25 de minute.\nNumelește-l, apoi începe — fără discurs."],
+    reflection: ["O linie adevărată aici sau pe hârtie.\nLasă să aterizeze, apoi pasul următor."],
+    dragon: ["Direcție de dimineață dacă ai sărit-o.\nUn pas de misiune — acum."]
   },
   moodCloses: {
     discipline: ["Mișcă.", "Cinci minute. Du-te.", "Poarta e deschisă — treci."],

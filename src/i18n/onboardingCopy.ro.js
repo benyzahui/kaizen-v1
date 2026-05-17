@@ -69,7 +69,7 @@ module.exports = {
     "",
     "Sunt companionul tău zilnic: disciplină, claritate, stabilitate nervoasă, execuție onestă.",
     "",
-    "Nu e chat AI la întâmplare. Fără zgomot de guru. Fără spam motivațional.",
+    "Nu e zgomot de chat la întâmplare. Fără guru-spam. Fără teatru motivațional.",
     "Prezență structurată — de dimineață până seara.",
     "",
     "Trimite o linie când ești gata pentru setup."
@@ -152,25 +152,41 @@ module.exports = {
   ],
 
   fcCompleteNext:
-    "Când vrei harta: /guide\nApoi vorbește natural.",
+    "Vorbește natural când ești gata. /guide pentru harta scurtă.",
+
+  firstDayGrounding:
+    "Ancorare: un bloc onest azi. Nu sistem nou — o singură bandă.",
+
+  firstDayInsight:
+    "Insight: supraîncărcarea e adesea prea multe cercuri deschise, nu voință slabă.",
+
+  firstDayAction:
+    "Acțiune: alege un lucru de protejat în următoarele 25 de minute.",
+
+  firstDayAccountability:
+    "Responsabilitate: o linie diseară — făcut, parțial, sau evitat.",
+
+  firstDayClosing:
+    "Închidere: nu trebuie să dovedești nimic diseară. Stabilizează, apoi odihnă.",
+
+  commandsCompact: [
+    "Esențial",
+    "/morning · /focus · /mirror · /reset",
+    "",
+    "Corp & calm",
+    "/breath · /body · /evening",
+    "",
+    "Vorbește natural. Hartă completă: /map"
+  ].join("\n"),
 
   guideCompactBody: [
-    "⚔ Ritm zilnic",
-    "/pulse · /focus · /mirror",
+    "KaiZen — hartă scurtă",
     "",
-    "🧠 Supraîncărcare",
-    "/reset · /breathe",
+    "Zilnic: /morning · /focus · /mirror",
+    "Supraîncărcare: /reset · /breath",
+    "Corp: /walk · /sleep",
     "",
-    "📈 Trading",
-    "/trade · /risk",
-    "",
-    "💪 Corp",
-    "/walk · /sleep",
-    "",
-    "🌘 Energie",
-    "/energy · /clarity",
-    "",
-    "Vorbește natural. Listă completă: /map"
+    "Sau doar vorbește. Fără meniu."
   ].join("\n"),
 
   obGateCommandBlocked:

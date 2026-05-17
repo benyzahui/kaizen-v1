@@ -140,7 +140,7 @@ async function routeCommandMessage(message, session) {
       reply = buildGuideReply(lang, getSession(uid(message)));
       break;
     case "/commands":
-      reply = r.tCommandsCategorized;
+      reply = r.commandsCompact || r.brainCommandHelpLite || r.tCommandsCategorized;
       break;
     case "/map":
       reply = buildMapReply(lang);

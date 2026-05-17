@@ -43,11 +43,13 @@ module.exports = {
     dragon: ["A sárkány nem zajt kerget — a kaput őrzi.", "A konzisztencia az egyetlen varázslat."]
   },
   moodChoices: {
-    discipline: ["Válassz:\n→ 5 perc a valódi feladaton\n→ /breath majd /focus\n→ /off ha csend kell"],
-    recovery: ["Válassz:\n→ víz + 3 légzés\n→ /breath\n→ korai /evening"],
-    momentum: ["Válassz:\n→ egy 25 perces blokk most\n→ /mission sor\n→ /energy aztán cselekvés"],
-    reflection: ["Válassz:\n→ egy igaz sor\n→ /lettinggo\n→ /evening ha kész"],
-    dragon: ["Válassz:\n→ /morning kapu\n→ /path állapot\n→ egy küldetés-lépés — most"]
+    discipline: [
+      "Egy sáv: öt perc a valódi feladaton.\nLélegzet ha kell — aztán mozgás."
+    ],
+    recovery: ["Víz. Három lassú lélegzet.\nMa nincs hőség."],
+    momentum: ["Egy huszonöt perces blokk.\nNevezd meg, aztán indulj — beszéd nélkül."],
+    reflection: ["Egy igaz sor ide vagy papírra.\nHagyd landolni, aztán következő lépés."],
+    dragon: ["Reggeli irány, ha kihagytad.\nEgy küldetés-lépés — most."]
   },
   moodCloses: {
     discipline: ["Mozogj.", "Öt perc. Hajrá.", "A kapu nyitva — lépj át."],

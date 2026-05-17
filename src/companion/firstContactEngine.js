@@ -16,6 +16,10 @@ const {
   buildWowMoment,
   pickFreshVariant
 } = require("./freshUserExperience");
+const {
+  markFirstDayStarted,
+  wrapFirstDayActivation
+} = require("./firstDayArc");
 
 const FC_WAKE = 0;
 const FC_NATURAL = 1;
@@ -100,6 +104,7 @@ function extractNameFromIntro(text) {
 function completeFirstContact(userId, name, focusId, path, lang, opts = {}) {
   const r = getResponses(lang);
   const label = r.fcFocusLabels?.[focusId] || focusId;
+  markFirstDayStarted(userId);
   updateSession(userId, {
     userPrimaryPath: path,
     userPurpose: label,
@@ -115,10 +120,7 @@ function completeFirstContact(userId, name, focusId, path, lang, opts = {}) {
   const body = (r.fcCompleteCalm || r.fcComplete || "")
     .replace("{name}", n)
     .replace("{focus}", label);
-  const parts = [];
-  if (opts.wow) parts.push(opts.wow);
-  parts.push(body, "", r.fcCompleteNext);
-  return lines(...parts.filter(Boolean));
+  return wrapFirstDayActivation(body, lang, { wow: opts.wow });
 }
 
 function getFirstContactStart(lang) {

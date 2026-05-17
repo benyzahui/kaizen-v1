@@ -71,7 +71,7 @@ module.exports = {
     "",
     "I am your daily companion: discipline, clarity, nervous-system stability, honest execution.",
     "",
-    "This is not random AI chat. No guru noise. No motivation spam.",
+    "This is not random chat noise. No guru spam. No motivation theater.",
     "Structured presence — morning to evening.",
     "",
     "Send one line when you are ready to begin setup."
@@ -161,25 +161,41 @@ module.exports = {
   ],
 
   fcCompleteNext:
-    "When you want the map: /guide\nThen speak naturally — no menu required.",
+    "Speak naturally when you are ready. /guide if you want the short map.",
+
+  firstDayGrounding:
+    "Grounding: one honest block today. Not a new system — one lane.",
+
+  firstDayInsight:
+    "Insight: overload is often too many open loops, not weak will.",
+
+  firstDayAction:
+    "Action: pick one thing to protect for the next 25 minutes.",
+
+  firstDayAccountability:
+    "Accountability: one line tonight — done, partial, or avoided.",
+
+  firstDayClosing:
+    "Closing: you do not need to prove anything tonight. Stabilize, then rest.",
+
+  commandsCompact: [
+    "Essentials",
+    "/morning · /focus · /mirror · /reset",
+    "",
+    "Body & calm",
+    "/breath · /body · /evening",
+    "",
+    "Speak naturally anytime. Full map: /map"
+  ].join("\n"),
 
   guideCompactBody: [
-    "⚔ Daily rhythm",
-    "/pulse · /focus · /mirror",
+    "KaiZen — short map",
     "",
-    "🧠 When overloaded",
-    "/reset · /breathe",
+    "Daily: /morning · /focus · /mirror",
+    "Overload: /reset · /breath",
+    "Body: /walk · /sleep",
     "",
-    "📈 Trading",
-    "/trade · /risk",
-    "",
-    "💪 Body",
-    "/walk · /sleep",
-    "",
-    "🌘 Energy",
-    "/energy · /clarity",
-    "",
-    "Speak naturally anytime. Full list: /map"
+    "Or just talk. No menu required."
   ].join("\n"),
 
   obGateCommandBlocked:

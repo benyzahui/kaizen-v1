@@ -221,9 +221,9 @@ module.exports = {
   ],
 
   groundedHumor: [
-    "Your brain is debugging in production right now.",
+    "Your brain is running too many tabs at once.",
     "What you don't need is another project in your life.",
-    "Chaos is live again — not on staging."
+    "Chaos is live again."
   ],
 
   emotionalContinuity: {
@@ -289,11 +289,31 @@ module.exports = {
   },
 
   companionCheckIns: [
-    "⚔ Small check-in.\nDid today become clearer or noisier?",
-    "Hydration. Breath. One honest status line.",
-    "Did you move your body today or only your thoughts?",
-    "One line: better, same, or heavier than this morning?"
+    "Hey — did you get focus back at all today?",
+    "Right now: is your body tired or your head?",
+    "One line: better, same, or heavier than this morning?",
+    "Water in? Breath a bit slower?"
   ],
+
+  dailyCompanionLoop: {
+    morning: [
+      "Morning: one direction is enough — not ten.",
+      "Today: one block you actually protect."
+    ],
+    midday: [
+      "Midday: still on the lane you picked this morning?",
+      "If scattered — close one loop, then continue."
+    ],
+    evening: [
+      "Evening downshift — not a new sprint.",
+      "What was the one honest move today?"
+    ],
+    late_night: [
+      "Late night borrows from tomorrow — not today.",
+      "One closing line, then sleep."
+    ],
+    default: ["I'm here. One step is enough."]
+  },
 
   shortActionReplies: [
     "Good.\nSee you when you're back.",
@@ -303,7 +323,7 @@ module.exports = {
 
   sarcasmRare: [
     "Your brain is currently running seventeen tabs.",
-    "Chaos is testing in production again.",
+    "Chaos is live again.",
     "You scheduled overwhelm and showed up on time."
   ],
 

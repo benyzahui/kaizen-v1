@@ -64,19 +64,19 @@ module.exports = {
 
   moodChoices: {
     discipline: [
-      "Pick your lane:\n→ 5 min on the real task\n→ /breath then /focus\n→ /off if you need silence"
+      "One lane: five minutes on the real task.\nBreath if you need to reset — then move."
     ],
     recovery: [
-      "Pick your lane:\n→ water + 3 breaths\n→ /breath\n→ /evening early"
+      "Water. Three slow breaths.\nNothing heroic tonight."
     ],
     momentum: [
-      "Pick your lane:\n→ one 25-min block now\n→ /mission line\n→ /energy then act"
+      "One twenty-five-minute block.\nName it, then start — no speech."
     ],
     reflection: [
-      "Pick your lane:\n→ write one true line\n→ /lettinggo\n→ /evening when ready"
+      "One true line on paper or in chat.\nLet it land before the next move."
     ],
     dragon: [
-      "Pick your lane:\n→ /morning gate\n→ /path status\n→ one mission step — now"
+      "Morning direction if you skipped it.\nOne mission step — now."
     ]
   },
 

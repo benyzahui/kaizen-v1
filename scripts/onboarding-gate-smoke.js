@@ -52,7 +52,10 @@ async function run() {
 
   r = await processIncomingMessage(msg("/guide", id));
   assert(r.branch === "command", "/guide allowed");
-  assert(r.reply.includes("/pulse") || r.reply.includes("ritmus"), "guide content");
+  assert(
+    r.reply.includes("/morning") || r.reply.includes("/focus") || r.reply.includes("térkép") || r.reply.includes("map"),
+    "guide content"
+  );
 
   console.log("Onboarding gate smoke: all passed.");
 }

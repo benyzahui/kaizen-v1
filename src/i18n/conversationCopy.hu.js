@@ -215,9 +215,9 @@ module.exports = {
   ],
 
   groundedHumor: [
-    "Agyad most production environmentben debugol.",
+    "Az agyad most túl sok ablakkal fut egyszerre.",
     "Most nem új projekt hiányzik az életedből.",
-    "A káosz megint élesben fut — nem stagingben."
+    "A káosz megint élesben fut."
   ],
 
   emotionalContinuity: {
@@ -283,11 +283,31 @@ module.exports = {
   },
 
   companionCheckIns: [
-    "⚔ Apró check-in.\nMa tisztább lett, vagy zajosabb?",
-    "Víz. Lélegzet. Egy őszinte státusz sor.",
-    "Mozgott a tested ma, vagy csak a gondolataid?",
-    "Egy sor: jobb, ugyanaz, vagy nehezebb, mint reggel?"
+    "Na, sikerült ma visszahozni a fókuszt?",
+    "Most tested vagy a fejed fáradtabb?",
+    "Egy sor: jobb, ugyanaz, vagy nehezebb, mint reggel?",
+    "Víz megvan? Lélegzet lassabb?"
   ],
+
+  dailyCompanionLoop: {
+    morning: [
+      "Reggel egy irány elég — nem tíz.",
+      "Ma egy blokk, amit tényleg megvédesz."
+    ],
+    midday: [
+      "Dél: még azon a sávon vagy, amit reggel választottál?",
+      "Ha szétszórt vagy — egy kör zárása, aztán folytatás."
+    ],
+    evening: [
+      "Este leeresztés — nem új sprint.",
+      "Mi volt ma az egy őszinte mozdulat?"
+    ],
+    late_night: [
+      "Késő este: holnap kölcsönöz, nem ma.",
+      "Egy sor zárás, aztán alvás."
+    ],
+    default: ["Itt vagyok. Egy lépés elég."]
+  },
 
   shortActionReplies: [
     "Jó.\nVissza jössz, és meglátjuk.",
@@ -297,7 +317,7 @@ module.exports = {
 
   sarcasmRare: [
     "Az agyad jelenleg 17 tabbal fut.",
-    "A káosz megint production environmentben tesztel.",
+    "A káosz megint élesben tesztel.",
     "Beütötted a túlterhelést, és pontosan meg is jelentél."
   ],
 

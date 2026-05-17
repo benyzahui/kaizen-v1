@@ -65,22 +65,9 @@ function hasStrongNonEnglishSignal(text) {
 function resolveLanguageWithSession(text, session) {
   const t = String(text || "").trim();
   const detected = detectLanguage(t);
-  const hu = scoreHungarian(t);
-  const ro = scoreRomanian(t);
-  const dom = Math.max(hu, ro);
-
   const pref = session?.preferredLanguage;
 
-  // After onboarding: hard lock — only /language or explicit switch changes language.
-  if (session?.onboardingCompleted && (pref === "hu" || pref === "ro" || pref === "en")) {
-    return pref;
-  }
-
-  // During onboarding: never drift once preferredLanguage is set.
-  if (!session?.onboardingCompleted && (pref === "hu" || pref === "ro" || pref === "en")) {
-    return pref;
-  }
-
+  // Hard lock whenever preferred language is set (beta: no random switching).
   if (pref === "hu" || pref === "ro" || pref === "en") {
     return pref;
   }
@@ -93,9 +80,6 @@ function resolveLanguageWithSession(text, session) {
 
   const sess = session?.lang;
   if (sess === "hu" || sess === "ro" || sess === "en") {
-    if (!session?.onboardingCompleted && hasStrongNonEnglishSignal(t)) {
-      return detectLanguage(t);
-    }
     return sess;
   }
 
