@@ -671,6 +671,27 @@ module.exports = {
 
   microHumanityAlive: ["Hm.", "Da.", "Asta e mult.", "Înțeleg.", "Bine."],
 
+  naturalEmotionalSupport: [
+    "Asta sună mult acum.",
+    "Nu trebuie să rezolvi totul azi.",
+    "Se simte că o duci de mult.",
+    "Nu trebuie să reacționezi la tot azi."
+  ],
+
+  microPresencePremium: [
+    "Da.",
+    "Înțeleg.",
+    "Asta a fost greu.",
+    "Acum e mai clar."
+  ],
+
+  eliteAtmosphereCalm: [
+    "O bandă e suficientă azi.",
+    "Protejează energia: mai puțin input.",
+    "Claritatea bate viteza acum.",
+    "Nu trebuie să reacționezi la tot azi."
+  ],
+
   premiumAtmosphere: [
     "Nu încerca să rezolvi tot viitorul azi.",
     "Un bloc curat e suficient.",
@@ -684,9 +705,9 @@ module.exports = {
   ],
 
   microImmersion: [
-    "Și cum ține corpul tău asta în ultima vreme?",
-    "Ieri sunai mult mai încordat.",
-    "Mai ai rezervă în tine, sau gol?"
+    "Asta a fost greu.",
+    "Acum e mai clar.",
+    "Da."
   ],
 
   atmosphereTransitions: [

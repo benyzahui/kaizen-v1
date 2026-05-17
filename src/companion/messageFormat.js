@@ -9,6 +9,9 @@
 function formatPremiumMessage(text) {
   let t = String(text || "").trim();
   if (!t) return t;
+  if (t.length < 200 && t.split(/\n/).filter(Boolean).length <= 3) {
+    return t.replace(/\n{3,}/g, "\n\n").trim();
+  }
 
   t = t.replace(/\n{3,}/g, "\n\n");
   t = t.replace(

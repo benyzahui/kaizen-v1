@@ -684,6 +684,27 @@ module.exports = {
 
   microHumanityAlive: ["Hm.", "Yeah.", "That is a lot.", "Got it.", "Good."],
 
+  naturalEmotionalSupport: [
+    "That sounds like a lot right now.",
+    "You do not have to solve everything today.",
+    "Feels like you have been carrying this a while.",
+    "You do not have to react to everything today."
+  ],
+
+  microPresencePremium: [
+    "Yeah.",
+    "Got it.",
+    "That must have been hard.",
+    "This is clearer now."
+  ],
+
+  eliteAtmosphereCalm: [
+    "One lane is enough today.",
+    "Protect energy: fewer inputs.",
+    "Clarity beats speed right now.",
+    "You do not have to react to everything today."
+  ],
+
   premiumAtmosphere: [
     "Do not try to solve your whole future today.",
     "One clean block is enough.",
@@ -697,9 +718,9 @@ module.exports = {
   ],
 
   microImmersion: [
-    "And how is your body holding this lately?",
-    "Yesterday you sounded much more tense.",
-    "Any reserve left inside you, or empty?"
+    "That must have been hard.",
+    "This is clearer now.",
+    "Yeah."
   ],
 
   atmosphereTransitions: [

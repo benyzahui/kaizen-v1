@@ -62,6 +62,7 @@ const {
   finalizeAlivePass,
   textureSessionPatch
 } = require("./alivePresence");
+const { finalizePremiumPass } = require("./premiumCompanion");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -391,6 +392,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
       });
     }
     b = finalizeAlivePass(b, ctx, category, alive);
+    b = finalizePremiumPass(b, ctx, category, alive, soulRhythm);
   }
 
   const skipPremiumTail = LATE_LAYER_SKIP.has(category) || CRISIS_TAIL_SKIP.has(category);

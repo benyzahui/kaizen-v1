@@ -34,7 +34,7 @@ function maybeCompanionWarmth(state, session, lang, category, text) {
     chance = 0.38;
   } else if (state?.emotionalIntensity >= 6) {
     pool = r.companionWarmth?.emotional || [];
-    chance = 0.28;
+    chance = 0.16;
   } else if (state?.energyLevel <= 4) {
     pool = r.companionWarmth?.tired || [];
     chance = 0.22;

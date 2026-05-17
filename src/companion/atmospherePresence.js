@@ -8,7 +8,7 @@ const { getResponses } = require("../i18n/getResponses");
 const { lines } = require("../personality/kaizenVoice");
 
 const HYPE_RE =
-  /\b(you got this|crush it|beast mode|10x|unlock your|hustle harder|no excuses|győzd le|hajrá|go hard|grind set|sigma|alpha energy|limitless)\b/i;
+  /\b(you got this|crush it|beast mode|10x|unlock your|hustle harder|no excuses|győzd le|hajrá|go hard|grind set|sigma|alpha energy|limitless|warrior|harcos út|motivációs guru|internet motiv)\b/i;
 
 const COACHY_RE =
   /\b(prove yourself|level up your life|manifest|hero's journey|become unstoppable|your best self)\b/i;
@@ -85,7 +85,7 @@ function maybeStructuredCalm(ctx, category) {
   if (Math.random() > 0.09) return null;
 
   const r = getResponses(ctx.lang);
-  const pool = r.structuredCalm || r.premiumAtmosphere || [];
+  const pool = r.structuredCalm || r.eliteAtmosphereCalm || r.premiumAtmosphere || [];
   if (!pool.length) return null;
   return pickSeeded(pool, `calm_${category}_${ctx.session.messages?.length || 0}`);
 }
@@ -182,6 +182,7 @@ function applyAtmosphereLayers(body, ctx, category) {
 
 module.exports = {
   applyAtmosphereTone,
+  stripHypeLines,
   maybeStructuredCalm,
   maybeMicroImmersion,
   formatAtmosphereMessage,

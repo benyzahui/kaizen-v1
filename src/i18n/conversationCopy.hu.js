@@ -705,6 +705,27 @@ module.exports = {
 
   microHumanityAlive: ["Hm.", "Na.", "Az mondjuk sok.", "Értem.", "Jó."],
 
+  naturalEmotionalSupport: [
+    "Ez most soknak hangzik.",
+    "Nem kell ma mindent megoldani.",
+    "Érződik hogy régóta húzod.",
+    "Nem kell ma mindenre reagálni."
+  ],
+
+  microPresencePremium: [
+    "Na.",
+    "Értem.",
+    "Az kemény lehetett.",
+    "Ez már tisztább."
+  ],
+
+  eliteAtmosphereCalm: [
+    "Egy sáv elég ma.",
+    "Energia védelem: kevesebb bemenet.",
+    "Tisztaság most fontosabb mint sebesség.",
+    "Nem kell ma mindenre reagálni."
+  ],
+
   premiumAtmosphere: [
     "Ma ne az egész jövődet próbáld megoldani.",
     "Elég egy tiszta blokk.",
@@ -718,9 +739,9 @@ module.exports = {
   ],
 
   microImmersion: [
-    "És a tested hogy bírja ezt mostanában?",
-    "Tegnap még sokkal feszesebbnek tűntél.",
-    "Van még benned tartalék, vagy üres?"
+    "Az kemény lehetett.",
+    "Ez már tisztább.",
+    "Na."
   ],
 
   atmosphereTransitions: [
