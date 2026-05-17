@@ -83,10 +83,10 @@ module.exports = {
   ],
 
   lightConversationLines: [
-    "A fegyelem könnyebb, ha az identitás tiszta — puszta akaraterő hamar ég el.",
-    "A szokás akkor marad, ha a környezet súrlódást vesz le, nem amikor felpörög a motiváció.",
-    "A fókusz főleg kivonás: kevesebb bemenet, ugyanaz a standard.",
-    "Előbb identitás, aztán intenzitás — különben örök az alkudozás."
+    "Na.\nMi van most?",
+    "Értem.\nNem kell nagy szöveg.",
+    "Jó.\nMaradj a saját tempódban.",
+    "Hallom.\nEgy sor elég, ha van."
   ],
 
   pacingReflectiveShortlines: [
@@ -112,7 +112,7 @@ module.exports = {
     [
       "Szétszórtság terhelés-kérdés, nem jellemhiba.",
       "Válassz egy látható kimenetet a következő blokkra.",
-      "Ha zárod egy sorba: /focus"
+      "Ha zárod egy sorba, egy blokk elég."
     ].join("\n\n"),
     [
       "Zaj gyakran alul-táplált testből vagy túl ingerből jön.",
@@ -130,7 +130,7 @@ module.exports = {
     [
       "Nehéznek hangzik.",
       "Egy földelt mondat elég — nem kell tökéletes magyarázat.",
-      "Mi a következő stabilizáló lépés (apró is jó)?"
+      "Mi maradt meg ebből benned?"
     ].join("\n\n"),
     [
       "Értem.",
@@ -390,7 +390,7 @@ module.exports = {
     emotional_reflection: [
       "Nehéznek hangzik.",
       "Egy földelt mondat elég.",
-      "Mi a következő stabilizáló lépés (apró is jó)?"
+      "Mi maradt meg ebből benned?"
     ].join("\n\n"),
 
     work_focus: [

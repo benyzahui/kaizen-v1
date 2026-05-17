@@ -753,7 +753,7 @@ module.exports = {
   },
 
   naturalTransitions: {
-    general: ["Egyébként…", "Na várj."],
+    general: ["Egyébként…"],
     stressToBody: ["Más:\na tested hogy van mostanában?"],
     stressClarify: [
       "Na várj.\nMost inkább stressz van vagy túlterhelés?",

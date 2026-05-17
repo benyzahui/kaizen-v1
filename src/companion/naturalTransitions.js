@@ -28,15 +28,15 @@ function maybeNaturalTransition(session, lang, category, text) {
   const last = session.lastCategory;
   if (!last || last === category) return null;
   if ((session.messages || []).length < 3) return null;
-  if (Math.random() > 0.12) return null;
+  if (Math.random() > 0.08) return null;
 
   const r = getResponses(lang);
   const key = transitionKey(last, category);
+  const roboticRe = /^(más irány:|egy másodperc\.|one sec\.|altă direcție:)/i;
   const pool = [
-    ...(r.atmosphereTransitions || []),
     ...(r.naturalTransitions?.[key] || []),
     ...(r.naturalTransitions?.general || [])
-  ];
+  ].filter((line) => line && !roboticRe.test(String(line).trim()));
   if (!pool.length) return null;
 
   if (/(stressz|stress|overwhelm|túl)/i.test(text) && key === "general") {

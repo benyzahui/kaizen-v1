@@ -55,18 +55,32 @@ const { maybeCompanionWarmth, maybePremiumQuiet } = require("./companionWarmth")
 const { maybeMicroReaction } = require("./emotionalMicro");
 const { maybePremiumClosing } = require("./premiumClosing");
 const { applyAtmosphereLayers, formatAtmosphereMessage } = require("./atmospherePresence");
-const {
-  maybeRelationshipContinuity,
-  maybeRelationalCuriosity,
-  maybeNaturalComfort,
-  filterSelfHelpProduct
-} = require("./relationshipPresence");
+const { maybeRelationshipContinuity, filterSelfHelpProduct } = require("./relationshipPresence");
 const {
   resolveAliveContext,
   maxPrepLayers,
   finalizeAlivePass,
   textureSessionPatch
 } = require("./alivePresence");
+
+const LATE_LAYER_SKIP = new Set([
+  "natural_conversation",
+  "life_flow",
+  "relational_flow",
+  "light_conversation",
+  "emotional_reflection",
+  "casual_greeting",
+  "light_accountability"
+]);
+
+const CRISIS_TAIL_SKIP = new Set([
+  "immediate_recovery",
+  "pattern_blocked",
+  "emotional_repeat_triple",
+  "session_loop",
+  "avoidance_mirror",
+  "cooldown"
+]);
 
 const SKIP_MEMORY_CATEGORIES = new Set([
   "onboarding",
@@ -379,7 +393,9 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizeAlivePass(b, ctx, category, alive);
   }
 
-  if (!fresh && category !== "onboarding") {
+  const skipPremiumTail = LATE_LAYER_SKIP.has(category) || CRISIS_TAIL_SKIP.has(category);
+
+  if (!fresh && category !== "onboarding" && !skipPremiumTail) {
     const quiet = maybePremiumQuiet(
       ctx.state,
       ctx.session || s,
@@ -433,11 +449,6 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     if (tail) b = lines(b, "", tail);
   }
 
-  b = variateIfSameShape(
-    { lastAssistantPrints: [], messages: ctx.memory.short.turns },
-    b,
-    r
-  );
   b = applyBannedPhraseRotation(s, b, r);
 
   if (opts.withAdaptive) {

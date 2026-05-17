@@ -26,7 +26,7 @@ function maybePremiumClosing(ctx, category, body) {
   const b = String(body || "").trim();
   if (!b || b.length < 20) return null;
   if (/\?$/.test(b.split(/\n/).pop() || "")) return null;
-  if (Math.random() > 0.2) return null;
+  if (Math.random() > 0.11) return null;
 
   const mirror = resolveMirrorMode(
     ctx.state,

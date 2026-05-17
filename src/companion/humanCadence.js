@@ -16,7 +16,10 @@ const SYNTHETIC_LINE_RES = [
   /\bwhat (is|are) the next\b/i,
   /\bmi az az egy dolog\b/i,
   /\bone honest movement\b/i,
-  /\bhold\.?\s*then step\b/i
+  /\bhold\.?\s*then step\b/i,
+  /\bstabilizáló lépés\b/i,
+  /\bstabilizing action\b/i,
+  /\bnyitott kör.*motiváció/i
 ];
 
 function isTherapyEnding(line) {

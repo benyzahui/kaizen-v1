@@ -83,10 +83,10 @@ module.exports = {
   ],
 
   lightConversationLines: [
-    "Disciplina devine mai ușoară când identitatea e clară — voința pură se consumă repede.",
-    "Obiceiurile prind când mediul scoate fricțiunea, nu când crește motivația.",
-    "Focusul e mai mult scădere: mai puține intrări, același standard.",
-    "Identitatea înaintea intensității — altfel negociezi la infinit."
+    "Da.\nCe e acum?",
+    "Înțeleg.\nNu trebuie discurs mare.",
+    "Bine.\nRămâi în ritmul tău.",
+    "Te aud.\nO linie e suficientă."
   ],
 
   pacingReflectiveShortlines: [
@@ -112,7 +112,7 @@ module.exports = {
     [
       "Dispersia e despre sarcină, nu despre caracter.",
       "Alege un output vizibil pentru următorul bloc.",
-      "Dacă vrei fixat într-o linie: /focus"
+      "Dacă vrei fixat într-o linie, un bloc e suficient."
     ].join("\n\n"),
     [
       "Zgomotul vine adesea din corp sub-alimentat sau supra-stimulat.",
@@ -130,7 +130,7 @@ module.exports = {
     [
       "Sună greu.",
       "O propoziție ancorată e suficientă — fără explicație perfectă.",
-      "Care e următorul pas de stabilizare (mic e ok)?"
+      "Ce ți-a rămas din asta?"
     ].join("\n\n"),
     [
       "Am înțeles.",
@@ -390,7 +390,7 @@ module.exports = {
     emotional_reflection: [
       "Sună greu.",
       "O propoziție ancorată e suficientă.",
-      "Care e următorul pas de stabilizare (mic e ok)?"
+      "Ce ți-a rămas din asta?"
     ].join("\n\n"),
 
     work_focus: [

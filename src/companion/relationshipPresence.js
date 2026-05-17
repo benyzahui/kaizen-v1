@@ -47,7 +47,7 @@ function maybeRelationshipContinuity(session, lang, category) {
   if (!session?.onboardingCompleted) return null;
   const pm = session.presenceMemory;
   if (!pm || (session.messages || []).length < 4) return null;
-  if (Math.random() > 0.2) return null;
+  if (Math.random() > 0.14) return null;
 
   const r = getResponses(lang);
   const rc = r.relationshipContinuity || {};
@@ -92,7 +92,7 @@ function tryRelationalStay(text, lang, session, userId) {
   if (!pool.length) return null;
 
   let body = pickSeeded(pool, `relstay_${userId}_${t.slice(0, 20)}`);
-  if (Math.random() < 0.35) {
+  if (Math.random() < 0.18) {
     const q = r.relationalCuriosity?.tired || r.relationalCuriosity?.general;
     if (q?.length) {
       const line = pickSeeded(q, `relq_${userId}`);

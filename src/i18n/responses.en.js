@@ -83,10 +83,10 @@ module.exports = {
   ],
 
   lightConversationLines: [
-    "Discipline gets lighter when identity is clear — willpower alone burns out.",
-    "Habits stick when the environment removes friction, not when motivation spikes.",
-    "Focus is mostly subtraction: fewer inputs, same standard.",
-    "Identity first, intensity second — otherwise you negotiate forever."
+    "Yeah.\nWhat's up right now?",
+    "Got it.\nNo big speech needed.",
+    "Good.\nStay at your own pace.",
+    "I hear you.\nOne line is enough if you have it."
   ],
 
   pacingReflectiveShortlines: [
@@ -111,7 +111,7 @@ module.exports = {
   ],
 
   emotionalReflectionVariants: [
-    "Heavy signal.\nName it once — no trial.\nThen one small move.",
+    "Heavy signal.\nName it once — no trial.\nWhat stayed with you from that?",
     "Acknowledged.\nSit with it sixty seconds.\nThen /breath or one line of action.",
     "Intensity needs a container.\nTen minutes. One room. No scroll.\nThen move."
   ],

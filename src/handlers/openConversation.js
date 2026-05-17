@@ -88,10 +88,18 @@ function maybeVaryReply(session, category, body, r) {
   return body;
 }
 
+const CONTINUITY_SKIP = new Set([
+  "relational_flow",
+  "life_flow",
+  "natural_conversation",
+  "light_conversation",
+  "casual_greeting"
+]);
+
 function withContinuity(session, category, body, r) {
-  if (session?.lastCategory === category && r.continuityLine) {
-    return lines(r.continuityLine, "", body);
-  }
+  if (!session?.lastCategory || session.lastCategory !== category) return body;
+  if (CONTINUITY_SKIP.has(category) || lastTwoCoachHeavy(session)) return body;
+  if (r.continuityLine) return lines(r.continuityLine, "", body);
   return body;
 }
 
@@ -129,7 +137,8 @@ async function handleOpenConversation(message, lang, session) {
       handler: "patternMemory.cooldown",
       textPreview: text.slice(0, 80)
     });
-    return { reply: r.boundaryCooldown, category: "cooldown" };
+    const companionCtx = prepareCompanionContext(userId, text, session, lang, "cooldown");
+    return emitOpen(companionCtx, "cooldown", r.boundaryCooldown, r, null);
   }
 
   if (needsImmediateRecovery(text)) {
@@ -139,15 +148,20 @@ async function handleOpenConversation(message, lang, session) {
       handler: "balanceProtocol.immediate",
       textPreview: text.slice(0, 80)
     });
-    return {
-      reply: lines(
-        formatFullRecovery(lang, { includeLoopIntro: false }),
-        "",
-        disclaimerLight(lang)
-      ),
-      category: "immediate_recovery",
-      suggestedAction: "/reset"
-    };
+    const companionCtx = prepareCompanionContext(
+      userId,
+      text,
+      session,
+      lang,
+      "immediate_recovery"
+    );
+    return emitOpen(
+      companionCtx,
+      "immediate_recovery",
+      lines(formatFullRecovery(lang, { includeLoopIntro: false }), "", disclaimerLight(lang)),
+      r,
+      "/reset"
+    );
   }
 
   const kind = detectPatternKind(text);
@@ -161,15 +175,20 @@ async function handleOpenConversation(message, lang, session) {
         handler: "balanceProtocol.loop_escalation",
         textPreview: text.slice(0, 80)
       });
-      return {
-        reply: lines(
-          formatFullRecovery(lang, { includeLoopIntro: true }),
-          "",
-          disclaimerLight(lang)
-        ),
-        category: "pattern_blocked",
-        suggestedAction: "/reset"
-      };
+      const companionCtx = prepareCompanionContext(
+        userId,
+        text,
+        session,
+        lang,
+        "pattern_blocked"
+      );
+      return emitOpen(
+        companionCtx,
+        "pattern_blocked",
+        lines(formatFullRecovery(lang, { includeLoopIntro: true }), "", disclaimerLight(lang)),
+        r,
+        "/reset"
+      );
     }
   }
 
@@ -336,11 +355,13 @@ async function handleOpenConversation(message, lang, session) {
       handler: "seriousnessEngine.mirror",
       textPreview: text.slice(0, 80)
     });
-    return {
-      reply: mirror,
-      category: "avoidance_mirror",
-      suggestedAction: seriousnessScore < 20 ? null : "/morning"
-    };
+    return emitOpen(
+      companionCtx,
+      "avoidance_mirror",
+      mirror,
+      r,
+      seriousnessScore < 20 ? null : "/morning"
+    );
   }
 
   const brainEarly = await composeBrainPriority(userId, text, lang, session, category);
@@ -367,11 +388,13 @@ async function handleOpenConversation(message, lang, session) {
       handler: "sessionStore.triple_same_text",
       textPreview: text.slice(0, 80)
     });
-    return {
-      reply: lines(r.emotionalTripleGrounding, "", disclaimerLight(lang)),
-      category: "emotional_repeat_triple",
-      suggestedAction: "/reset"
-    };
+    return emitOpen(
+      companionCtx,
+      "emotional_repeat_triple",
+      lines(r.emotionalTripleGrounding, "", disclaimerLight(lang)),
+      r,
+      "/reset"
+    );
   }
 
   if (isSessionCategoryLoop(session, category)) {
@@ -381,11 +404,7 @@ async function handleOpenConversation(message, lang, session) {
       handler: "sessionStore.loop",
       textPreview: text.slice(0, 80)
     });
-    return {
-      reply: r.sessionLoopBoundary,
-      category: "session_loop",
-      suggestedAction: "/mirror"
-    };
+    return emitOpen(companionCtx, "session_loop", r.sessionLoopBoundary, r, "/mirror");
   }
 
   const companion = processCompanionOpenText(userId, text, lang, session);

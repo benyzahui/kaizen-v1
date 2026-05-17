@@ -82,7 +82,7 @@ function maybeStructuredCalm(ctx, category) {
     pm?.emotionalState === "overloaded" ||
     ctx.state?.emotionalIntensity >= 6;
   if (!overloaded) return null;
-  if (Math.random() > 0.14) return null;
+  if (Math.random() > 0.09) return null;
 
   const r = getResponses(ctx.lang);
   const pool = r.structuredCalm || r.premiumAtmosphere || [];
@@ -98,7 +98,7 @@ function maybeStructuredCalm(ctx, category) {
 function maybeMicroImmersion(ctx, category) {
   if (!ctx.session?.onboardingCompleted) return null;
   if ((ctx.session.messages || []).length < 2) return null;
-  if (Math.random() > 0.13) return null;
+  if (Math.random() > 0.07) return null;
 
   const r = getResponses(ctx.lang);
   const pool = r.microImmersion || [];
@@ -149,8 +149,23 @@ function formatAtmosphereMessage(text) {
  * @param {object} ctx
  * @param {string} category
  */
+const ATMOSPHERE_APPEND_SKIP = new Set([
+  "natural_conversation",
+  "life_flow",
+  "relational_flow",
+  "light_conversation",
+  "emotional_reflection",
+  "immediate_recovery",
+  "pattern_blocked",
+  "emotional_repeat_triple",
+  "session_loop",
+  "avoidance_mirror",
+  "cooldown"
+]);
+
 function applyAtmosphereLayers(body, ctx, category) {
   let b = applyAtmosphereTone(body, ctx.lang, category);
+  if (ATMOSPHERE_APPEND_SKIP.has(category)) return b;
 
   const calm = maybeStructuredCalm(ctx, category);
   if (calm && b.split(/\n/).length < 5) {
