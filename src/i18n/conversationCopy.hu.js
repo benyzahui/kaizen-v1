@@ -979,6 +979,15 @@ module.exports = {
     "Ez inkább túlterhelésnek hangzik."
   ],
 
+  companionMicroBeats: ["Hm.", "Na.", "Értem.", "Az sok lehetett.", "Hallom."],
+
+  safeReturnBeats: [
+    "Itt vagyok.",
+    "Nyugodtan — nem kell most megoldani.",
+    "Hallgatlak.",
+    "Lassan elég."
+  ],
+
   flowSoftFollowups: [
     "Még ott vagy ebben?",
     "Hallgatlak.",

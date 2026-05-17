@@ -946,6 +946,15 @@ module.exports = {
     "This sounds more like overload."
   ],
 
+  companionMicroBeats: ["Hm.", "Yeah.", "Got it.", "That must have been a lot.", "I hear you."],
+
+  safeReturnBeats: [
+    "I am here.",
+    "Easy — you do not have to solve this now.",
+    "I am listening.",
+    "Slow is enough."
+  ],
+
   flowSoftFollowups: [
     "Still in this with it?",
     "I am listening.",

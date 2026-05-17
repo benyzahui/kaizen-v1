@@ -87,6 +87,7 @@ const { finalizeCompanionFlowStabilization } = require("./companionFlowStabiliza
 const { finalizePremiumAtmosphereLock } = require("./premiumAtmosphereLock");
 const { finalizeFinalHumanization } = require("./finalHumanizationPass");
 const { finalizeLivingPresenceArchitecture } = require("./livingPresenceArchitecture");
+const { finalizeDigitalCompanionTransition } = require("./digitalCompanionTransition");
 const { getTimeSlot } = require("../core/timeContext");
 
 const LATE_LAYER_SKIP = new Set([
@@ -470,18 +471,22 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
   b = formatPremiumMessage(b);
   b = formatAtmosphereMessage(b);
 
-  if (detectLaneWandering(s, category)) {
+  const companionFlow =
+    COHERENT_FLOW.has(category) ||
+    category === "life_flow" ||
+    category === "relational_flow" ||
+    category === "natural_conversation" ||
+    category === "emotional_reflection" ||
+    category === "unknown";
+
+  if (detectLaneWandering(s, category) && !companionFlow) {
     updateSession(ctx.userId, { focusLocked: true });
     b = lines(r.tFocusLaneNudge, "", b);
   }
 
   if (opts.suggestedCommand && !opts.skipCommandHint) {
     const slot = getTimeSlot(ctx.session || {});
-    const flowChat =
-      COHERENT_FLOW.has(category) ||
-      slot === "late_night" ||
-      category === "life_flow" ||
-      category === "relational_flow";
+    const flowChat = companionFlow || slot === "late_night";
     if (!flowChat) {
       b = lines(b, "", `→ ${opts.suggestedCommand}`);
     }
@@ -490,7 +495,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
   if (
     ctx.plan.appendRhythm &&
     !opts.skipRhythm &&
-    !COHERENT_FLOW.has(category) &&
+    !companionFlow &&
     getTimeSlot(ctx.session || {}) !== "late_night"
   ) {
     const tail = rhythmTailIfNeeded(ctx.rhythm, ctx.lang);
@@ -523,6 +528,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizePremiumAtmosphereLock(b, ctx, category, timing);
     b = finalizeFinalHumanization(b, ctx, category, timing);
     b = finalizeLivingPresenceArchitecture(b, ctx, category, timing);
+    b = finalizeDigitalCompanionTransition(b, ctx, category, timing);
   }
 
   return b;

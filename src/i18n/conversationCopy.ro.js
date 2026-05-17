@@ -933,6 +933,15 @@ module.exports = {
     "Asta sună a suprasolicitare."
   ],
 
+  companionMicroBeats: ["Hm.", "Da.", "Înțeleg.", "Asta a fost mult.", "Te aud."],
+
+  safeReturnBeats: [
+    "Sunt aici.",
+    "Încet — nu trebuie să rezolvi asta acum.",
+    "Te ascult.",
+    "Încet e suficient."
+  ],
+
   flowSoftFollowups: [
     "Încă ești în asta?",
     "Te ascult.",
