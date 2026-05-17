@@ -37,15 +37,28 @@ function resolveCommandHint(category, text, session, suggested) {
     return null;
   }
 
-  if (category === "natural_conversation" || category === "emotional_reflection") {
-    return null;
-  }
+  const humanFirst = new Set([
+    "natural_conversation",
+    "emotional_reflection",
+    "life_flow",
+    "relational_flow",
+    "light_conversation",
+    "casual_greeting",
+    "companion_checkin",
+    "body_energy",
+    "light_accountability"
+  ]);
+  if (humanFirst.has(category)) return null;
 
   if (category === "trading_impulse" && session?.userPrimaryPath === "trading") {
-    return Math.random() < 0.12 ? suggested : null;
+    return Math.random() < 0.08 ? suggested : null;
   }
 
-  return Math.random() < 0.08 ? suggested : null;
+  if (category === "focus_drift" || category === "chaos_loop") {
+    return Math.random() < 0.05 ? suggested : null;
+  }
+
+  return Math.random() < 0.06 ? suggested : null;
 }
 
 module.exports = { resolveCommandHint, HEAVY_CMD_OK };

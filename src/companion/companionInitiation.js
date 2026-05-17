@@ -26,20 +26,29 @@ function tryCompanionCheckIn(session, lang, userId, text) {
   const lastCheck = session.lastCompanionCheckin || 0;
   if (now - lastCheck < CHECKIN_COOLDOWN_MS) return null;
 
+  const t = String(text || "").trim();
+  const emotionalShare =
+    /(kimerült|félek|nehéz|magányos|stress|düh|szomorú|túl sok|exhausted|lonely|overwhelm|panic|remeg|fáj)/i.test(
+      t
+    );
+  if (emotionalShare || t.length > 70) return null;
+
   const pm = session.presenceMemory || {};
-  const shortMsg = String(text || "").trim().length < 50;
-  const greeting = /^(szia|hello|hey|hi|bună|salut|gm|jó reggelt)/i.test(text);
+  const shortMsg = t.length < 50;
+  const greeting = /^(szia|hello|hey|hi|bună|salut|gm|jó reggelt|na\.?|ok\.?)$/i.test(t);
 
   let trigger = false;
-  if (gap > 8 * 60 * 60 * 1000 && (greeting || shortMsg)) trigger = true;
-  if (pm.overloadActive && gap > MIN_GAP_MS && shortMsg && greeting) trigger = true;
-  if (pm.mission && gap > 10 * 60 * 60 * 1000 && Math.random() < 0.12) trigger = true;
+  if (gap > 8 * 60 * 60 * 1000 && greeting) trigger = true;
+  if (pm.overloadActive && gap > MIN_GAP_MS && greeting) trigger = true;
+  if (pm.mission && gap > 10 * 60 * 60 * 1000 && greeting && Math.random() < 0.1) {
+    trigger = true;
+  }
 
   if (!trigger) return null;
-  if (Math.random() > 0.28) return null;
+  if (Math.random() > 0.18) return null;
 
   const r = getResponses(lang);
-  const pool = r.companionCheckIns || [];
+  const pool = r.naturalCheckIns || r.companionCheckIns || [];
   if (!pool.length) return null;
 
   return {

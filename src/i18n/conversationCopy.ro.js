@@ -426,11 +426,17 @@ module.exports = {
     ]
   },
 
+  naturalCheckIns: [
+    "Na, cum ești acum față de asta?",
+    "Încă același zgomot în cap?",
+    "Corpul sau capul e mai obosit acum?",
+    "Mai bine, la fel, sau mai greu?"
+  ],
+
   companionCheckIns: [
-    "Na, ai reușit să readuci focusul azi?",
-    "Acum: corpul obosit sau capul?",
-    "O linie: mai bine, la fel, sau mai greu decât dimineața?",
-    "Apă? Respirație mai lentă?"
+    "Na, cum ești acum față de asta?",
+    "Încă același zgomot în cap?",
+    "Corpul sau capul e mai obosit acum?"
   ],
 
   microRituals: {

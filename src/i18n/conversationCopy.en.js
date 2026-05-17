@@ -439,11 +439,17 @@ module.exports = {
     ]
   },
 
+  naturalCheckIns: [
+    "Hey — how are you with that now?",
+    "Is the same noise still running in your head?",
+    "Body tired or head tired right now?",
+    "Better, same, or heavier than before?"
+  ],
+
   companionCheckIns: [
-    "Hey — did you get focus back at all today?",
-    "Right now: is your body tired or your head?",
-    "One line: better, same, or heavier than this morning?",
-    "Water in? Breath a bit slower?"
+    "Hey — how are you with that now?",
+    "Is the same noise still running in your head?",
+    "Body tired or head tired right now?"
   ],
 
   microRituals: {

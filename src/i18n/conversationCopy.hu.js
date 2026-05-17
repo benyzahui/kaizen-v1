@@ -460,11 +460,17 @@ module.exports = {
     ]
   },
 
+  naturalCheckIns: [
+    "Na, hogy vagy most ehhez képest?",
+    "Még mindig ugyanaz a zaj fut benned?",
+    "Tested vagy fejed fáradtabb most?",
+    "Na — jobb, ugyanaz, vagy nehezebb?"
+  ],
+
   companionCheckIns: [
-    "Na, sikerült ma visszahozni a fókuszt?",
-    "Most tested vagy a fejed fáradtabb?",
-    "Egy sor: jobb, ugyanaz, vagy nehezebb, mint reggel?",
-    "Víz megvan? Lélegzet lassabb?"
+    "Na, hogy vagy most ehhez képest?",
+    "Még mindig ugyanaz a zaj fut benned?",
+    "Tested vagy fejed fáradtabb most?"
   ],
 
   microRituals: {
@@ -715,6 +721,8 @@ module.exports = {
   microPresencePremium: [
     "Na.",
     "Értem.",
+    "Az sok.",
+    "Jó.",
     "Az kemény lehetett.",
     "Ez már tisztább."
   ],

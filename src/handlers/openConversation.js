@@ -80,7 +80,17 @@ function emitOpen(companionCtx, category, body, r, suggestedCommand = null) {
   });
 }
 
+const VARY_SKIP = new Set([
+  "natural_conversation",
+  "life_flow",
+  "relational_flow",
+  "light_conversation",
+  "emotional_reflection",
+  "companion_checkin"
+]);
+
 function maybeVaryReply(session, category, body, r) {
+  if (VARY_SKIP.has(category)) return body;
   const prev = session?.lastReplyByCategory?.[category];
   if (prev && prev === body && r.variationNudge) {
     return lines(body, "", r.variationNudge);
