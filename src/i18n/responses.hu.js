@@ -418,15 +418,15 @@ module.exports = {
     ].join("\n\n"),
 
     unknown: [
-      "Rövid jel érkezett.",
-      "Egy tény, egy szándék — vagy rituálé: /pulse",
-      "Térképhez: /guide"
+      "Hallom.",
+      "Egy mondat is elég — nem kell rendben lenni.",
+      "Itt vagyok."
     ].join("\n\n"),
 
     unknown_alt: [
-      "Rövid jel — ehhez igazítom a hangerőt.",
-      "Egy tény, egy szándék. Ritmus: /pulse.",
-      "Vagy maradj: egy rendetlen igaz mondat is elég."
+      "Értem.",
+      "Ha van benned egy sor — elég az is.",
+      "Nem kell most tökéletes válasz."
     ].join("\n\n")
   },
 

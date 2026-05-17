@@ -471,8 +471,9 @@ module.exports = {
       "Dacă ții un singur lucru azi — care e?"
     ],
     avoidance: [
-      "O linie onestă: ce a blocat mișcarea?",
-      "Care e cea mai mică versiune pe care o faci azi?"
+      "Ce a alunecat, după tine?",
+      "Unde a început să se scurgă energia?",
+      "Dacă păstrezi un singur lucru azi — care?"
     ]
   },
 

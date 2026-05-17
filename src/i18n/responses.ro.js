@@ -418,15 +418,15 @@ module.exports = {
     ].join("\n\n"),
 
     unknown: [
-      "Semnal scurt primit.",
-      "Un fapt, un intent — sau ritual: /pulse",
-      "Pentru hartă: /guide"
+      "Te aud.",
+      "O linie e suficientă — nu trebuie să fii în regulă.",
+      "Sunt aici."
     ].join("\n\n"),
 
     unknown_alt: [
-      "Semnal scurt — mă aliniez la volum.",
-      "Un fapt, un intent. Ritm: /pulse.",
-      "Sau rămâi: o linie adevărată dezordonată e suficientă."
+      "Înțeleg.",
+      "Dacă ai o linie în tine — e suficient.",
+      "Nu trebuie răspuns perfect acum."
     ].join("\n\n")
   },
 

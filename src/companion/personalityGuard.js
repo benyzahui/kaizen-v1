@@ -12,6 +12,9 @@ const BREAKS_IDENTITY_RE =
 const HYPE_RE =
   /\b(crush it|beast mode|10x your life|unlock your potential|limitless)\b/i;
 
+const JUDGMENT_RE =
+  /\b(you failed|failed your discipline|no excuses|weakness is|te vagy gyenge|kudarcot vallottál|lipsă de disciplină)\b/i;
+
 /**
  * @param {string} body
  * @param {'en'|'hu'|'ro'} lang
@@ -26,6 +29,7 @@ function applyPersonalityGuard(body, lang, category) {
     if (!l) return true;
     if (BREAKS_IDENTITY_RE.test(l)) return false;
     if (HYPE_RE.test(l) && category !== "onboarding") return false;
+    if (JUDGMENT_RE.test(l)) return false;
     if (isDragonCringe(l) && category !== "onboarding") return false;
     return true;
   });

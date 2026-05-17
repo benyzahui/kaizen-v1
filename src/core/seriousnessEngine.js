@@ -32,19 +32,43 @@ const ENGAGED_STATES = new Set([
   "energy_curiosity"
 ]);
 
+const BENIGN_SHORT_RE =
+  /^(ok|okay|k|na|igen|nem|yes|no|da|nu|kösz|thanks|thx|vissza|back|hm+|hmm+|\.{1,3})$/i;
+
+const TRUST_OPEN_RE =
+  /(kimerült|exhausted|fáradt|tired|szégyen|shame|alone|magány|lost|elvesz|félek|afraid|failed|kudarc|szomorú|sad)/i;
+
+/**
+ * Skip avoidance mirror on short benign or emotionally open messages.
+ * @param {string} text
+ * @param {string} coachState
+ */
+function shouldSkipAvoidanceMirror(text, coachState) {
+  const t = String(text || "").trim();
+  if (!t) return true;
+  if (t.length <= 14 && BENIGN_SHORT_RE.test(t)) return true;
+  if (t.length <= 6) return true;
+  if (coachState === "emotional_open") return true;
+  if (TRUST_OPEN_RE.test(t)) return true;
+  return false;
+}
+
 /**
  * Adjust score based on coach state detected from user message.
  * @returns {number} new score
  */
-function adjustSeriousness(userId, session, coachState) {
+function adjustSeriousness(userId, session, coachState, text = "") {
   let score = Number(session.seriousnessScore) ?? 50;
 
+  if (shouldSkipAvoidanceMirror(text, coachState) && AVOIDANCE_STATES.has(coachState)) {
+    return score;
+  }
+
   if (AVOIDANCE_STATES.has(coachState)) {
-    score = Math.max(0, score - 8);
+    score = Math.max(0, score - 6);
   } else if (ENGAGED_STATES.has(coachState)) {
     score = Math.min(100, score + 5);
   }
-  // neutral states: no change
   updateSession(userId, { seriousnessScore: score });
   return score;
 }
@@ -65,7 +89,7 @@ function recordCompletedRitual(userId, session) {
  * @returns {string|null} — null means no mirror needed at this level
  */
 function getAvoidanceMirror(score, lang, r) {
-  if (score >= 40) return null; // no mirror needed
+  if (score >= 40) return null;
 
   if (score < 20) {
     return r.tSeriousnessWall || _fallback("wall", lang);
@@ -79,19 +103,19 @@ function getAvoidanceMirror(score, lang, r) {
 function _fallback(level, lang) {
   const copy = {
     wall: {
-      en: "I will not feed the loop.\nWhen you are ready to move, I am here.",
-      hu: "Nem táplálom a köröket.\nHa készen állsz a mozgásra, itt vagyok.",
-      ro: "Nu voi alimenta bucla.\nCând ești gata să te miști, sunt aici."
+      en: "I will not feed the loop right now.\nWhen you are ready for one honest step, I am here.",
+      hu: "Most nem a köröket táplálom.\nHa készen állsz egy őszinte lépésre — itt vagyok.",
+      ro: "Acum nu hrănesc bucla.\nCând ești gata pentru un pas onest — sunt aici."
     },
     callout: {
-      en: "You keep showing up but not moving.\nThat is a signal, not a schedule.\nWhat is the real block?",
-      hu: "Jelensz meg de nem mozogsz.\nEz jel, nem menetrend.\nMi a valódi blokk?",
-      ro: "Apari dar nu te miști.\nAcesta e un semnal, nu un program.\nCare e blocajul real?"
+      en: "A lot of words, little movement.\nWhere did the energy start leaking?",
+      hu: "Sok szöveg, kevés mozdulat.\nHol kezdett kifolyni az energia?",
+      ro: "Mult text, puțină mișcare.\nUnde a început să se scurgă energia?"
     },
     nudge: {
-      en: "Noticed: you have been circling the same territory.\nShrink the step. Five minutes. Go.",
-      hu: "Észreveszem: ugyanazon a területen körözsz.\nCsökkentsd a lépést. Öt perc. Hajrá.",
-      ro: "Am observat: circulezi în același teritoriu.\nMicșorează pasul. Cinci minute. Du-te."
+      en: "Feels like you are on the same point again.\nWhat slipped, in your read?",
+      hu: "Úgy tűnik, ugyanazon a ponton vagy.\nMi csúszott szét szerinted?",
+      ro: "Parcă ești din nou în același punct.\nCe a alunecat, după tine?"
     }
   };
   return copy[level]?.[lang] ?? copy[level]?.en ?? "";
@@ -101,5 +125,6 @@ module.exports = {
   adjustSeriousness,
   recordCompletedRitual,
   getAvoidanceMirror,
+  shouldSkipAvoidanceMirror,
   AVOIDANCE_STATES
 };

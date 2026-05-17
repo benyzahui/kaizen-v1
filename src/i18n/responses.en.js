@@ -370,15 +370,15 @@ module.exports = {
       "One honest line about the weight.\nSteady read: shrink scope.\nOne move that does not make it worse.",
 
     unknown: [
-      "Short signal received.",
-      "One fact, one intent — or pick a ritual: /pulse",
-      "If you want the map: /guide"
+      "I hear you.",
+      "One line is enough — you do not need to be sorted.",
+      "I'm here."
     ].join("\n\n"),
 
     unknown_alt: [
-      "Short signal — I will match volume.",
-      "One fact, one intent. Rhythm: /pulse.",
-      "Or stay: one messy true line is enough."
+      "Got it.",
+      "If there is one line inside you — that is enough.",
+      "No perfect answer needed right now."
     ].join("\n\n")
   },
 

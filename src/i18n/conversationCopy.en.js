@@ -171,6 +171,78 @@ module.exports = {
     ]
   },
 
+  emotionalRealism: {
+    shame: [
+      "This sounds like a lot landing at once.",
+      "You do not have to fix it now — saying it is enough."
+    ],
+    frustration: [
+      "Something has not been holding for a while — and it showed up now.",
+      "This is not overreacting. Something really is not working."
+    ],
+    exhaustion: [
+      "Feels like you have been trying to hold it all together for a long time.",
+      "Sometimes you are not even tired.\nYou have just been tense too long."
+    ],
+    overwhelm: [
+      "A bit much at once — I hear that.",
+      "Not weakness — too many things running in parallel."
+    ],
+    scattered: [
+      "Feels like everything wants attention at the same time.",
+      "Focus came apart — that is not who you are."
+    ],
+    stress: [
+      "Your body has been signaling for a while — your head is catching up now.",
+      "There is pressure. You do not need to solve all of it today."
+    ],
+    fatigue: [
+      "Sometimes you are not even tired.\nYou have just been tense too long.",
+      "This is not laziness — it is running empty."
+    ],
+    lonely: [
+      "Sounds lonely — and that is human.",
+      "You are not too much. There is just less connection right now."
+    ],
+    failure: [
+      "This hurts — you do not need an instant lesson from it.",
+      "The failure feels louder than the facts right now."
+    ],
+    ambitious: [
+      "There is a lot of energy in you — just no clear lane yet.",
+      "Ambition is fine. Your system has not caught up yet."
+    ]
+  },
+
+  microReactions: [
+    "Hmm.",
+    "That matters.",
+    "That is more honest.",
+    "Got it.",
+    "That must have been rough.",
+    "I hear you.",
+    "Yeah."
+  ],
+
+  naturalCheckbacks: {
+    overload: [
+      "By the way — did yesterday's overload ease at all?",
+      "Still a lot running at once inside you, or a bit lighter today?"
+    ],
+    focus: [
+      "Last time you said focus fell apart.\nAny better now?",
+      "Still scattered, or is your head a bit clearer today?"
+    ],
+    exhaustion: [
+      "Still exhausted, or one notch easier today?",
+      "Last time your body signaled first — same pattern now?"
+    ],
+    general: [
+      "By the way — where are you with that now?",
+      "What you mentioned last — still open inside you?"
+    ]
+  },
+
   conversationalFlow: {
     home_return: [
       "Hey.\nHow was the day?",
@@ -184,6 +256,12 @@ module.exports = {
     arrival: ["Hey.", "You're back.\nBest part of the day?"],
     opener: ["Yeah?", "I'm here.", "Go on."],
     mundane: ["Yeah.", "Got it.", "I hear you."],
+    minimal_ack: ["Got it.", "Okay.", "I hear you."],
+    return_back: [
+      "You're back.\nWhere are you now?",
+      "Yeah.\nWhat shifted while you were away?",
+      "I'm here."
+    ],
     day_reply: [
       "Got it.\nWhat was the hardest part?",
       "I hear you.\nPeople or tasks — which drained more?",

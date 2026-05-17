@@ -666,9 +666,9 @@ module.exports = {
 
   /* ── Komolysági tükör ── */
   tSeriousnessNudge:
-    "Észreveszem: ugyanazon a területen körözsz.\nCsökkentsd a lépést. Öt perc. Hajrá.",
+    "Úgy tűnik, ugyanazon a ponton vagy.\nMi csúszott szét szerinted?",
   tSeriousnessCallout:
-    "Megjelensz de nem mozogsz.\nEz jel, nem menetrend.\nMi a valódi blokk?",
+    "Sok szöveg, kevés mozdulat.\nHol kezdett kifolyni az energia?",
   tSeriousnessWall:
-    "Nem táplálom a köröket.\nHa készen állsz a mozgásra — nem csak beszélni róla — itt vagyok."
+    "Most nem a köröket táplálom.\nHa készen állsz egy őszinte lépésre — itt vagyok."
 };

@@ -5,6 +5,23 @@
 const { pickSeeded } = require("../personality/tone");
 const { getResponses } = require("../i18n/getResponses");
 
+const THERAPY_COACH_RES = [
+  /\byou should\b/i,
+  /\byou must\b/i,
+  /\byou need to\b/i,
+  /\bself[- ]?care\b/i,
+  /\bvalidate your feelings\b/i,
+  /\bhealing journey\b/i,
+  /\binner child\b/i,
+  /\bmanifest\b/i,
+  /\bne legyen szégyen\b/i,
+  /\bgyógyulási út\b/i,
+  /\belső lépés a változáshoz\b/i,
+  /\bfailed your discipline\b/i,
+  /\bte vagy a probléma\b/i,
+  /\byou failed\b/i
+];
+
 const AI_POETIC_RES = [
   /\btruth has arrived\b/i,
   /\bintensity without container\b/i,
@@ -65,7 +82,7 @@ function stripAIPoetic(body, lang, seed = "") {
     "Your body signaled before your ego admitted it."
   ];
 
-  for (const re of AI_POETIC_RES) {
+  for (const re of [...THERAPY_COACH_RES, ...AI_POETIC_RES]) {
     if (re.test(b)) {
       const alt = pickSeeded(alts, `${seed}_${re.source.slice(0, 12)}`);
       b = b.replace(re, alt);

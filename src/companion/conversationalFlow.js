@@ -41,6 +41,14 @@ function detectLifeFlowSlot(text) {
     return "arrival";
   }
 
+  if (/^(vissza|back|i'?m back)$/i.test(t)) {
+    return "return_back";
+  }
+
+  if (/^(ok|okay|k|igen|da|nu|nem)$/i.test(t) && t.length < 12) {
+    return "minimal_ack";
+  }
+
   if (
     /^(na|hát|szóval|well|so|hm+|hmm+)\b/i.test(t) &&
     t.length < 45 &&

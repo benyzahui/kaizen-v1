@@ -665,9 +665,9 @@ module.exports = {
 
   /* ── Oglinda seriozității ── */
   tSeriousnessNudge:
-    "Am observat: circulezi în același teritoriu.\nMicșorează pasul. Cinci minute. Du-te.",
+    "Parcă ești din nou în același punct.\nCe a alunecat, după tine?",
   tSeriousnessCallout:
-    "Apari dar nu te miști.\nAcesta e un semnal, nu un program.\nCare e blocajul real?",
+    "Mult text, puțină mișcare.\nUnde a început să se scurgă energia?",
   tSeriousnessWall:
-    "Nu voi alimenta bucla.\nCând ești gata să te miști — nu doar să vorbești — sunt aici."
+    "Acum nu hrănesc bucla.\nCând ești gata pentru un pas onest — sunt aici."
 };

@@ -494,8 +494,9 @@ module.exports = {
       "If you hold only one thing today — which one?"
     ],
     avoidance: [
-      "One honest line: what blocked the move?",
-      "What is the smallest version you still do today?"
+      "What slipped, in your read?",
+      "Where did the energy start leaking?",
+      "If you keep only one thing today — which one?"
     ]
   },
 

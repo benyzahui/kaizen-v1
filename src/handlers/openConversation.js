@@ -27,7 +27,8 @@ const { processCompanionOpenText } = require("../core/modeEngine");
 const { composeBrainPriority } = require("../brain/coachBrain");
 const {
   adjustSeriousness,
-  getAvoidanceMirror
+  getAvoidanceMirror,
+  shouldSkipAvoidanceMirror
 } = require("../core/seriousnessEngine");
 const { prepareCompanionContext } = require("../companion/companionCore");
 const { packOpenReply } = require("./openReply");
@@ -296,8 +297,11 @@ async function handleOpenConversation(message, lang, session) {
 
   // Seriousness tracking — adjust score before brain routing so mirror can fire.
   const coachState = companionCtx.state.coachState;
-  const seriousnessScore = adjustSeriousness(userId, session, coachState);
-  const mirror = getAvoidanceMirror(seriousnessScore, lang, r);
+  const seriousnessScore = adjustSeriousness(userId, session, coachState, text);
+  let mirror = getAvoidanceMirror(seriousnessScore, lang, r);
+  if (mirror && shouldSkipAvoidanceMirror(text, coachState)) {
+    mirror = null;
+  }
   if (mirror) {
     logOpen({
       lang,

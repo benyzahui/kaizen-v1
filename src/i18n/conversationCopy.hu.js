@@ -165,6 +165,78 @@ module.exports = {
     ]
   },
 
+  emotionalRealism: {
+    shame: [
+      "Ez most kicsit soknak hangzik egyszerre.",
+      "Nem kell most rendbe tenni — elég ha kimondod."
+    ],
+    frustration: [
+      "Valami régóta nem áll — és ez most feljött.",
+      "Ez nem túlreakció. Valami tényleg nem működik."
+    ],
+    exhaustion: [
+      "Érződik, hogy régóta próbálod egyben tartani.",
+      "Néha az ember nem is fáradt.\nCsak túl sokáig feszült."
+    ],
+    overwhelm: [
+      "Ez most kicsit soknak hangzik egyszerre.",
+      "Nem te vagy gyenge — túl sok dolog fut párhuzamosan."
+    ],
+    scattered: [
+      "Úgy érződik, mintha minden egyszerre kérne figyelmet.",
+      "A fókusz szétesett — nem az identitásod."
+    ],
+    stress: [
+      "A tested már rég jelez — a fejed most éri utol.",
+      "Nyomás van. Nem kell ma mindent megoldani."
+    ],
+    fatigue: [
+      "Néha az ember nem is fáradt.\nCsak túl sokáig feszült.",
+      "Ez már nem lustaság — ez kifogyás."
+    ],
+    lonely: [
+      "Magányosnak hangzik — és ez emberi.",
+      "Nem vagy túl sok. Csak most kevés a kapcsolódás."
+    ],
+    failure: [
+      "Ez fáj — nem kell azonnal tanulságot gyúrni belőle.",
+      "A kudarc most hangosabb, mint a valóság."
+    ],
+    ambitious: [
+      "Sok energia van benned — csak nincs még egy tiszta sáv.",
+      "Ambíció rendben van. A rendszered még nem követte."
+    ]
+  },
+
+  microReactions: [
+    "Hmm.",
+    "Na ez fontos.",
+    "Ez már őszintébb.",
+    "Értem.",
+    "Az kemény lehetett.",
+    "Hallom.",
+    "Na."
+  ],
+
+  naturalCheckbacks: {
+    overload: [
+      "Egyébként…\na tegnapi túlterhelés enyhült valamennyit?",
+      "Még mindig sok minden fut egyszerre benned, vagy ma könnyebb?"
+    ],
+    focus: [
+      "Múltkor mondtad, hogy szétesett a fókusz.\nMost jobb?",
+      "A szétszórtság még ott van, vagy ma tisztább a fejed?"
+    ],
+    exhaustion: [
+      "A kimerültség még ott van, vagy ma egy fokkal könnyebb?",
+      "Múltkor a tested jelezte előbb — most is hasonló?"
+    ],
+    general: [
+      "Egyébként…\nhol tartasz most ezzel kapcsolatban?",
+      "Amit legutóbb említettél — még nyitva van benned?"
+    ]
+  },
+
   conversationalFlow: {
     home_return: [
       "Na?\nMilyen nap volt?",
@@ -178,6 +250,12 @@ module.exports = {
     arrival: ["Na?", "Megérkeztél.\nMi volt a nap legjobb része?"],
     opener: ["Na?", "Hallgatlak.", "Itt vagyok."],
     mundane: ["Na?", "Értem.", "Hallom."],
+    minimal_ack: ["Értem.", "Rendben.", "Hallom."],
+    return_back: [
+      "Vissza.\nHol tartasz most?",
+      "Na.\nMi változott addig?",
+      "Itt vagyok."
+    ],
     day_reply: [
       "Értem.\nMi volt a legnehezebb része?",
       "Hallom.\nMi fárasztott jobban — ember vagy feladat?",

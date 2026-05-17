@@ -52,6 +52,7 @@ const { maybeMicroWow, trackMicroWow } = require("./microWow");
 const { maybeNaturalTransition } = require("./naturalTransitions");
 const { resolveRhythmMode, applyInternalRhythm, rhythmSessionPatch } = require("./internalRhythm");
 const { maybeCompanionWarmth } = require("./companionWarmth");
+const { maybeMicroReaction } = require("./emotionalMicro");
 const { maybePremiumClosing } = require("./premiumClosing");
 
 const SKIP_MEMORY_CATEGORIES = new Set([
@@ -222,6 +223,18 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     ctx.state
   );
   b = applyLowEgoPass(b, ctx.lang, category, ctx.lastUserText || "", ctx.state);
+
+  if (!fresh && category !== "onboarding") {
+    const react = maybeMicroReaction(
+      ctx.session || s,
+      ctx.lang,
+      ctx.lastUserText || "",
+      category
+    );
+    if (react && b.split(/\n/).length < 5 && !b.startsWith(react)) {
+      b = lines(react, "", b);
+    }
+  }
 
   const memLine = maybePresenceMemoryLine(
     ctx.session || s,

@@ -472,14 +472,15 @@ module.exports = {
       "Ha ma csak egy dolgot tartasz meg — melyik legyen?"
     ],
     avoidance: [
-      "Egy őszinte sor: mi blokkolta a mozdulatot?",
-      "Mi a legkisebb verzió, amit ma még megteszel?"
+      "Mi csúszott szét szerinted?",
+      "Hol kezdett kifolyni az energia?",
+      "Ha ma csak egy dolgot tartasz meg — melyik legyen?"
     ]
   },
 
   accountabilityAvoidance: [
-    "Egy őszinte sor: mi blokkolta a mozdulatot?",
-    "Mi a legkisebb verzió, amit ma még megteszel?"
+    "Mi csúszott szét szerinted?",
+    "Hol kezdett kifolyni az energia?"
   ],
 
   microRewards: [

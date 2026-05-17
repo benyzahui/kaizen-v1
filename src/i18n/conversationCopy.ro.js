@@ -158,6 +158,78 @@ module.exports = {
     ]
   },
 
+  emotionalRealism: {
+    shame: [
+      "Acum sună puțin prea mult deodată.",
+      "Nu trebuie rezolvat acum — e suficient să spui."
+    ],
+    frustration: [
+      "Ceva nu ține de mult — și a ieșit la suprafață acum.",
+      "Nu e exagerare. Ceva chiar nu merge."
+    ],
+    exhaustion: [
+      "Se simte că încerci să ții totul împreună de mult timp.",
+      "Uneori nu ești obosit.\nDoar ai fost încordat prea mult timp."
+    ],
+    overwhelm: [
+      "Puțin prea mult deodată — aud asta.",
+      "Nu ești slab — prea multe lucruri rulează în paralel."
+    ],
+    scattered: [
+      "Parcă totul cere atenție deodată.",
+      "Focusul s-a rupt — asta nu ești tu."
+    ],
+    stress: [
+      "Corpul a semnalat de mult — mintea ajunge acum.",
+      "E presiune. Nu trebuie rezolvat tot azi."
+    ],
+    fatigue: [
+      "Uneori nu ești obosit.\nDoar ai fost încordat prea mult timp.",
+      "Nu e lene — e golire."
+    ],
+    lonely: [
+      "Sună singur — și e uman.",
+      "Nu ești prea mult. Doar e mai puțină conexiune acum."
+    ],
+    failure: [
+      "Doare — nu trebuie lecție instant.",
+      "Eșecul sună mai tare decât faptele acum."
+    ],
+    ambitious: [
+      "Multă energie în tine — doar fără bandă clară încă.",
+      "Ambiția e ok. Sistemul tău nu a ținut pasul."
+    ]
+  },
+
+  microReactions: [
+    "Hmm.",
+    "Asta contează.",
+    "Asta e mai sincer.",
+    "Înțeleg.",
+    "Asta a fost greu.",
+    "Te aud.",
+    "Da."
+  ],
+
+  naturalCheckbacks: {
+    overload: [
+      "Apropo — suprasolicitarea de ieri s-a mai domolit?",
+      "Încă mult rulează deodată în tine, sau azi e mai ușor?"
+    ],
+    focus: [
+      "Data trecută ai spus că focusul s-a rupt.\nMai bine acum?",
+      "Încă împrăștiat, sau capul e puțin mai clar azi?"
+    ],
+    exhaustion: [
+      "Încă epuizat, sau cu un grad mai ușor azi?",
+      "Data trecută corpul a semnalat primul — la fel acum?"
+    ],
+    general: [
+      "Apropo — unde ești cu asta acum?",
+      "Ce ai menționat ultima dată — încă deschis în tine?"
+    ]
+  },
+
   conversationalFlow: {
     home_return: [
       "Na?\nCum a fost ziua?",
@@ -171,6 +243,12 @@ module.exports = {
     arrival: ["Na?", "Ai ajuns.\nCea mai bună parte a zilei?"],
     opener: ["Da?", "Sunt aici.", "Spune."],
     mundane: ["Da.", "Înțeleg.", "Te aud."],
+    minimal_ack: ["Înțeleg.", "Bine.", "Te aud."],
+    return_back: [
+      "Te-ai întors.\nUnde ești acum?",
+      "Da.\nCe s-a schimbat între timp?",
+      "Sunt aici."
+    ],
     day_reply: [
       "Înțeleg.\nCare a fost partea cea mai grea?",
       "Te aud.\nOamenii sau sarcinile — ce te-a golit?",

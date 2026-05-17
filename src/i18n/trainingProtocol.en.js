@@ -689,9 +689,9 @@ module.exports = {
 
   /* ── Seriousness Mirror ── */
   tSeriousnessNudge:
-    "Noticed: you have been circling the same territory.\nShrink the step. Five minutes. Go.",
+    "Feels like you are on the same point again.\nWhat slipped, in your read?",
   tSeriousnessCallout:
-    "You keep showing up but not moving.\nThat is a signal, not a schedule.\nWhat is the real block?",
+    "A lot of words, little movement.\nWhere did the energy start leaking?",
   tSeriousnessWall:
-    "I will not feed the loop.\nWhen you are ready to move — not just talk about it — I am here."
+    "I will not feed the loop right now.\nWhen you are ready for one honest step — I am here."
 };

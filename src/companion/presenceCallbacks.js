@@ -50,6 +50,20 @@ function maybePresenceCallback(session, lang, category, seed = "") {
     pool.push(...(r.presenceCallbacks?.exhaustion || r.emotionalContinuity?.bodyFirst || []));
   }
 
+  const checkbacks = r.naturalCheckbacks || {};
+  if (pm.overloadActive || prev === "overloaded") {
+    pool.push(...(checkbacks.overload || []));
+  }
+  if (pm.emotionalState === "scattered" || prev === "scattered") {
+    pool.push(...(checkbacks.focus || []));
+  }
+  if (pm.emotionalState === "tired" || pm.energyPattern === "mental fatigue") {
+    pool.push(...(checkbacks.exhaustion || []));
+  }
+  if (pm.lastImportantTopic && (session.messages || []).length >= 4) {
+    pool.push(...(checkbacks.general || []));
+  }
+
   if (!pool.length) return null;
   return pickSeeded(pool, seed || `pcb_${prev}_${pm.emotionalState}_${category}`);
 }
