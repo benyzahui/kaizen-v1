@@ -886,6 +886,8 @@ module.exports = {
 
   subtlePresenceBeats: ["Hm.", "Înțeleg.", "Da.", "Te aud."],
 
+  humanAliveBeats: ["Hm.", "Da.", "Înțeleg.", "Asta e mult.", "Te aud.", "Sunt aici."],
+
   flowSoftFollowups: [
     "Încă ești în asta?",
     "Te ascult.",

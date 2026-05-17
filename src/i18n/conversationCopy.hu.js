@@ -932,6 +932,8 @@ module.exports = {
 
   subtlePresenceBeats: ["Hm.", "Értem.", "Na.", "Hallom."],
 
+  humanAliveBeats: ["Hm.", "Na.", "Értem.", "Az sok.", "Hallom.", "Itt vagyok."],
+
   flowSoftFollowups: [
     "Még ott vagy ebben?",
     "Hallgatlak.",

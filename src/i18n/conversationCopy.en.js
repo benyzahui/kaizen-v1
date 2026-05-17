@@ -899,6 +899,8 @@ module.exports = {
 
   subtlePresenceBeats: ["Hm.", "Got it.", "Yeah.", "I hear you."],
 
+  humanAliveBeats: ["Hm.", "Yeah.", "Got it.", "That is a lot.", "I hear you.", "I am here."],
+
   flowSoftFollowups: [
     "Still in this with it?",
     "I am listening.",
