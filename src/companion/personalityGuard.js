@@ -15,6 +15,9 @@ const HYPE_RE =
 const JUDGMENT_RE =
   /\b(you failed|failed your discipline|no excuses|weakness is|te vagy gyenge|kudarcot vallottál|lipsă de disciplină)\b/i;
 
+const WISDOM_RE =
+  /\b(chaos grows|discipline disappear|nervous system remembers|energy leaks destroy|elite zone|identity is forged|devotion repeated|figyelem ritkább|kovácsolódik identitás)\b/i;
+
 /**
  * @param {string} body
  * @param {'en'|'hu'|'ro'} lang
@@ -30,6 +33,7 @@ function applyPersonalityGuard(body, lang, category) {
     if (BREAKS_IDENTITY_RE.test(l)) return false;
     if (HYPE_RE.test(l) && category !== "onboarding") return false;
     if (JUDGMENT_RE.test(l)) return false;
+    if (WISDOM_RE.test(l) && category !== "onboarding") return false;
     if (isDragonCringe(l) && category !== "onboarding") return false;
     return true;
   });

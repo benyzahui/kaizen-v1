@@ -111,21 +111,69 @@ module.exports = {
   humanLines: {
     stress: [
       "Sună mai mult a suprasolicitare decât lipsă de motivație.",
-      "Corpul nu semnalează lene — prea multă presiune deodată."
+      "Dacă ții prea mult deodată, omul se rupe în bucăți mai devreme sau mai târziu."
     ],
     tired: [
-      "E oboseală. Acum nu trebuie obiectiv nou — odihnă.",
-      "Se simte că împingi de mult fără pauză reală."
+      "Corpul obosește deseori înainte să observi.",
+      "Acum lipsește odihna, nu motivația."
     ],
     scattered: [
       "Dacă ții totul deodată, sistemul se rupe în bucăți.",
       "Nu e slăbiciune — prea multe cercuri deschise simultan."
     ],
-    general: [
-      "Sunt aici. Încetinește — nu trebuie răspuns perfect.",
-      "Un pas onest azi e suficient."
+    lost: [
+      "Nu trebuie să înțelegi tot acum.",
+      "E suficient să spui că e dezordonat înăuntru."
+    ],
+    lonely: [
+      "Sună singur — și e uman.",
+      "Nu ești prea mult. Doar e mai puțină conexiune acum."
+    ],
+    uncertainty: [
+      "Incertitudinea singură poate fi obositoare.",
+      "Nu trebuie să rezolvi tot acum."
+    ],
+    general: ["Sunt aici. Încetinește — nu trebuie răspuns perfect.", "Te aud."]
+  },
+
+  lifeLines: {
+    lonely: [
+      "Sună singur — și e complet de înțeles.",
+      "Nu trebuie să pari mai puternic acum."
+    ],
+    uncertainty: [
+      "Incertitudinea poate fi mai tare decât faptele acum.",
+      "Nu trebuie răspuns la tot."
+    ],
+    excitement: [
+      "Energie bună — doar nu încerca să trăiești toată săptămâna azi.",
+      "Ceva se mișcă cu adevărat în tine."
+    ],
+    small_win: ["Contează — nu e lucru mic.", "Bine. Asta e mișcare, nu doar cuvinte."],
+    lost: [
+      "Nu trebuie să repari tot tabloul acum.",
+      "O propoziție despre ce e cel mai încurcat e suficient."
     ]
   },
+
+  listeningQuestions: {
+    confusion: [
+      "Ce s-a schimbat în tine, după tine?",
+      "De când simți așa?",
+      "Care a fost primul lucru diferit?"
+    ],
+    lost: [
+      "Unde simți cel mai mult partea pierdută?",
+      "Ce era încă în regulă înainte să înceapă asta?"
+    ],
+    uncertainty: [
+      "Care e cea mai mare incertitudine acum — un cuvânt?",
+      "Ce ar face seara asta să fie cu un grad mai ușoară?"
+    ],
+    general: ["Care e cel mai aproape de tine acum?"]
+  },
+
+  listeningAck: ["Înțeleg.", "Te aud.", "Acum sună greu."],
 
   microEmotional: {
     shame: [
@@ -202,14 +250,16 @@ module.exports = {
   },
 
   microReactions: [
-    "Hmm.",
+    "Hm.",
+    "Stai.",
+    "Asta e mult.",
+    "Înțeleg deja.",
     "Asta contează.",
-    "Asta e mai sincer.",
-    "Înțeleg.",
-    "Asta a fost greu.",
     "Te aud.",
     "Da."
   ],
+
+  humanImperfections: ["Hm.", "Stai.", "Asta e mult.", "Înțeleg deja."],
 
   naturalCheckbacks: {
     overload: [
@@ -253,7 +303,30 @@ module.exports = {
       "Înțeleg.\nCare a fost partea cea mai grea?",
       "Te aud.\nOamenii sau sarcinile — ce te-a golit?",
       "Da.\nMai ai energie sau e gol?"
-    ]
+    ],
+    small_win: ["Da.\nAsta chiar contează.", "Bine.\nAsta e mișcare.", "Te aud — nu e mic."],
+    loneliness: ["Sună singur.", "Sunt aici.", "Nu trebuie să pari mai puternic acum."],
+    uncertainty: [
+      "Incertitudinea poate obosi și ea.",
+      "Nu trebuie răspuns la tot acum.",
+      "Te ascult."
+    ],
+    future_anxiety: [
+      "Viitorul poate suna mai tare decât azi.",
+      "Ce apasă cel mai tare — o propoziție?",
+      "Nu trebuie planul întreg acum."
+    ],
+    excitement: [
+      "Energie bună.",
+      "Da — ceva se mișcă în tine.",
+      "Nu încerca să trăiești toată săptămâna azi."
+    ],
+    after_work: [
+      "După muncă corpul vorbește deseori primul.",
+      "Da.\nGol sau doar obosit?",
+      "Te aud."
+    ],
+    random_thought: ["Da.", "Înțeleg.", "Te ascult — ce e în spate?"]
   },
 
   lowEgoNaturalIntent: {
@@ -528,11 +601,11 @@ module.exports = {
   companionWarmth: {
     saidAloud: [
       "Bine că ai spus asta.",
-      "E omenește — înțeleg.",
+      "E omenește — complet de înțeles.",
       "Te aud — nu judec."
     ],
     emotional: [
-      "Nu trebuie să fii perfect acum.",
+      "Nu trebuie să rezolvi tot imediat.",
       "E greu — e ok să simți asta."
     ],
     tired: ["Corpul poate vorbi înaintea așteptărilor azi."],
@@ -594,17 +667,22 @@ module.exports = {
   ],
 
   groundedVoiceAlts: [
+    "Dacă ții prea mult deodată, omul se rupe în bucăți mai devreme sau mai târziu.",
+    "Corpul obosește deseori înainte să observi.",
     "Sună mai degrabă a supraîncărcare decât lene.",
-    "Prea multe lucruri rulează simultan în tine.",
-    "Nu pari slab — pari că ai tras fără pauză.",
-    "Nu plan nou. Reset nervos mai întâi.",
-    "Corpul a semnalat înainte de ego."
+    "Acum lipsește odihna, nu motivația."
+  ],
+
+  densityLines: [
+    "Acum lipsește odihna, nu motivația.",
+    "Sună deja a oboseală nervoasă.",
+    "Nu trebuie să rezolvi tot acum."
   ],
 
   oneLineBeats: [
-    "Azi nu demonstra. Stabilizează.",
-    "Cel mai simplu pas acum e cel mai puternic.",
-    "Un bloc onest. Apoi stop."
+    "Acum lipsește odihna, nu motivația.",
+    "Sună deja a oboseală nervoasă.",
+    "Te aud."
   ],
 
   threadReturn: {

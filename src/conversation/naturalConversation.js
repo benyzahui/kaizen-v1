@@ -7,6 +7,7 @@ const { pickUnseenVariant } = require("./responseVariation");
 const { getResponses } = require("../i18n/getResponses");
 const { buildMicroEmotionalReply } = require("../companion/emotionalMicro");
 const { pickLowEgoFromPool } = require("../companion/lowEgoStyle");
+const { buildListeningReply, isListeningMoment } = require("./deepListening");
 
 const NATURAL_CATEGORIES = new Set([
   "emotional_reflection",
@@ -26,8 +27,10 @@ function isSevereCrisis(text) {
 }
 
 function isNaturalEmotional(text) {
-  return /(stressz|stresszes|nyomaszt|kifáradt|kimerült|fáradt|szét|széthúz|szét vagyok|csúszva|nem tudom mit|mit csináljak|elvesztett|overwhelmed|exhausted|burned out|don't know what|scattered|túl sok minden|too much at once|levert|túlpörög|nagyon stressz)/i.test(
-    String(text || "")
+  const t = String(text || "");
+  if (isListeningMoment(t)) return true;
+  return /(stressz|stresszes|nyomaszt|kifáradt|kimerült|fáradt|szét|széthúz|szét vagyok|csúszva|nem tudom mit|elvesztett|overwhelmed|exhausted|burned out|don't know what|scattered|túl sok minden|too much at once|levert|túlpörög|nagyon stressz|magányos|lonely|bizonytalan|uncertain|izgatott|excited|munka után|after work|hosszú nap volt|kicsit jobb|megcsináltam|sikerült|félek a jövő|future|gondolom|talán)/i.test(
+    t
   );
 }
 
@@ -36,11 +39,16 @@ function isNaturalEmotional(text) {
  */
 function detectNaturalSlot(text) {
   const t = String(text || "");
+  if (isListeningMoment(t)) return "lost";
+  if (/(magányos|lonely|alone|singur)/i.test(t)) return "lonely";
+  if (/(bizonytalan|uncertain|nem tudom mi lesz)/i.test(t)) return "uncertainty";
   if (/(stressz|stresszes|nyomaszt|overwhelmed|túlpörög)/i.test(t)) return "stress";
-  if (/(kifáradt|fáradt|kimerült|exhausted|burned|alvás|sleep)/i.test(t)) return "tired";
-  if (/(nem tudom mit|mit csináljak|elvesztett|don't know what|lost|confused)/i.test(t))
-    return "lost";
+  if (/(kifáradt|fáradt|kimerült|exhausted|burned|alvás|sleep|munka után|after work)/i.test(t))
+    return "tired";
+  if (/(nem tudom mit|elvesztett|don't know what|lost|confused)/i.test(t)) return "lost";
   if (/(szét|széthúz|scattered|túl sok|too many|lanes)/i.test(t)) return "scattered";
+  if (/(izgatott|excited|alig várom|looking forward)/i.test(t)) return "excitement";
+  if (/(megcsináltam|sikerült|kicsit jobb|small win|finally did)/i.test(t)) return "small_win";
   return "general";
 }
 
@@ -69,6 +77,14 @@ function shouldUseNaturalConversation(text, category, session) {
 function buildNaturalConversation(text, category, session, lang, userId) {
   if (!shouldUseNaturalConversation(text, category, session)) return null;
 
+  const listen = buildListeningReply(text, lang, session, userId);
+  if (listen) {
+    return {
+      body: listen,
+      category: category === "chaos_loop" ? "emotional_reflection" : category
+    };
+  }
+
   const micro = buildMicroEmotionalReply(text, lang, session, userId);
   if (micro) {
     return {
@@ -80,6 +96,7 @@ function buildNaturalConversation(text, category, session, lang, userId) {
   const r = getResponses(lang);
   const slot = detectNaturalSlot(text);
   const pool =
+    r.lifeLines?.[slot] ||
     r.humanLines?.[slot] ||
     r.lowEgoNaturalIntent?.[slot] ||
     r.humanLines?.general ||

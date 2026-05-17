@@ -118,21 +118,79 @@ module.exports = {
   humanLines: {
     stress: [
       "Ez már inkább túlterhelésnek hangzik, mint motivációhiánynak.",
-      "A tested nem lustaságot jelez — túl sok nyomás egyszerre."
+      "Ha túl sok mindent próbálsz tartani egyszerre, az ember előbb-utóbb széthúzódik."
     ],
     tired: [
-      "Kifáradtság van. Most nem új cél kell — pihenés.",
-      "Érződik, hogy régóta nyomod megállás nélkül."
+      "A tested sokszor hamarabb elfárad, mint ahogy észreveszed.",
+      "Most inkább pihenés hiányzik belőled, nem motiváció."
     ],
     scattered: [
       "Ha mindent egyszerre próbálsz tartani, a rendszer széthúzódik.",
       "Nem gyengeség — túl sok nyitott kör fut egyszerre."
     ],
+    lost: [
+      "Nem kell most mindent érteni.",
+      "Elég ha kimondod, hogy összevissza érzed."
+    ],
+    lonely: [
+      "Magányosnak hangzik — és ez emberi.",
+      "Nem vagy túl sok. Csak most kevés a kapcsolódás."
+    ],
+    uncertainty: [
+      "A bizonytalanság önmagában is fárasztó tud lenni.",
+      "Nem kell most rögtön megoldanod mindent."
+    ],
     general: [
       "Itt vagyok. Lassíts — nem kell tökéletes válasz.",
-      "Egy őszinte lépés ma elég."
+      "Hallom."
     ]
   },
+
+  lifeLines: {
+    lonely: [
+      "Magányosnak hangzik — és ez teljesen érthető.",
+      "Nem kell most erősebbnek tűnnöd."
+    ],
+    uncertainty: [
+      "A bizonytalanság most hangosabb lehet, mint a tények.",
+      "Nem kell most mindenre válasz."
+    ],
+    excitement: [
+      "Jó energia — csak ne próbáld az egész hetet ma megélni.",
+      "Ez most tényleg mozgásban van benned."
+    ],
+    small_win: [
+      "Ez számít — nem kicsi dolog.",
+      "Jó. Ez már mozdulat, nem csak szöveg."
+    ],
+    lost: [
+      "Nem kell most rendbe tenni az egészet.",
+      "Elég ha egy mondatban kimondod, mi a legzavarosabb."
+    ]
+  },
+
+  listeningQuestions: {
+    confusion: [
+      "Mi változott meg benned szerinted?",
+      "Mióta érzed ezt így?",
+      "Mi a legelső dolog, ami más lett?"
+    ],
+    lost: [
+      "Hol érzed a legjobban az elveszett részt?",
+      "Mi volt még rendben, mielőtt ez elindult?"
+    ],
+    uncertainty: [
+      "Mi a legnagyobb bizonytalanság most — egy szóval?",
+      "Mitől lenne ma este egy fokkal könnyebb?"
+    ],
+    general: ["Mi a legelső dolog, ami most a legközelebb van hozzád?"]
+  },
+
+  listeningAck: [
+    "Értem.",
+    "Hallom.",
+    "Ez most nehéznek hangzik."
+  ],
 
   microEmotional: {
     shame: [
@@ -209,13 +267,20 @@ module.exports = {
   },
 
   microReactions: [
-    "Hmm.",
+    "Hm.",
+    "Na várj.",
+    "Az mondjuk sok.",
+    "Értem már.",
     "Na ez fontos.",
-    "Ez már őszintébb.",
-    "Értem.",
-    "Az kemény lehetett.",
     "Hallom.",
     "Na."
+  ],
+
+  humanImperfections: [
+    "Hm.",
+    "Na várj.",
+    "Az mondjuk sok.",
+    "Értem már."
   ],
 
   naturalCheckbacks: {
@@ -260,6 +325,41 @@ module.exports = {
       "Értem.\nMi volt a legnehezebb része?",
       "Hallom.\nMi fárasztott jobban — ember vagy feladat?",
       "Na.\nVan még benned energia, vagy üres?"
+    ],
+    small_win: [
+      "Na.\nEz tényleg számít.",
+      "Jó.\nEz már mozdulat.",
+      "Hallom — ez nem kicsi."
+    ],
+    loneliness: [
+      "Magányosnak hangzik.",
+      "Itt vagyok.",
+      "Nem kell most erősebbnek tűnnöd."
+    ],
+    uncertainty: [
+      "A bizonytalanság is fárasztó tud lenni.",
+      "Nem kell most mindenre válasz.",
+      "Hallgatlak."
+    ],
+    future_anxiety: [
+      "A jövő most hangosabb lehet, mint a ma.",
+      "Mi nyom most a legjobban — egy mondatban?",
+      "Nem kell most a teljes terv."
+    ],
+    excitement: [
+      "Jó energia.",
+      "Na — ez most tényleg mozog benned.",
+      "Ne próbáld az egész hetet ma megélni."
+    ],
+    after_work: [
+      "Munka után a tested gyakran előbb szól.",
+      "Na.\nÜres vagy, vagy csak fáradt?",
+      "Hallom."
+    ],
+    random_thought: [
+      "Na.",
+      "Értem.",
+      "Hallgatlak — mi van mögötte?"
     ]
   },
 
@@ -535,11 +635,11 @@ module.exports = {
   companionWarmth: {
     saidAloud: [
       "Jó hogy ezt kimondtad.",
-      "Ez emberileg érthető.",
+      "Ez emberileg teljesen érthető.",
       "Hallom — nem ítéllek."
     ],
     emotional: [
-      "Nem kell most tökéletesnek lenned.",
+      "Nem kell most rögtön megoldanod mindent.",
       "Ez most nehéz — rendben van, hogy így érzed."
     ],
     tired: ["A tested ma előbb szól, mint az elvárásod."],
@@ -601,17 +701,22 @@ module.exports = {
   ],
 
   groundedVoiceAlts: [
+    "Ha túl sok mindent próbálsz tartani egyszerre, az ember előbb-utóbb széthúzódik.",
+    "A tested sokszor hamarabb elfárad, mint ahogy észreveszed.",
     "Ez inkább túlterhelésnek hangzik, nem lustaságnak.",
-    "Túl sok dolog fut egyszerre benned.",
-    "Nem tűnsz gyengének. Inkább túl sokáig húztad megállás nélkül.",
-    "Most nem új terv kell. Idegrendszeri visszarendezés.",
-    "A tested előbb jelez, mint az egód."
+    "Most inkább pihenés hiányzik, nem motiváció."
+  ],
+
+  densityLines: [
+    "Most inkább pihenés hiányzik belőled, nem motiváció.",
+    "Ez már inkább idegrendszeri fáradás.",
+    "Nem kell most mindent megoldani."
   ],
 
   oneLineBeats: [
-    "Ma ne bizonyíts. Csak stabilizálj.",
-    "Most a legegyszerűbb lépés lesz a legerősebb.",
-    "Egy őszinte blokk. Aztán állj."
+    "Most inkább pihenés hiányzik belőled, nem motiváció.",
+    "Ez már inkább idegrendszeri fáradás.",
+    "Hallom."
   ],
 
   threadReturn: {

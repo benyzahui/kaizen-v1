@@ -9,10 +9,18 @@ const { getResponses } = require("../src/i18n/getResponses");
 
 const SCENARIOS = [
   { label: "ashamed", text: "Szégyenlem hogy így érzem.", expect: /szégyen|soknak|érthető|kimond/i },
-  { label: "exhausted", text: "Kimerült vagyok, nem bírom.", expect: /feszült|tartani|kimerül|kifogyás|nyomod/i },
+  {
+    label: "exhausted",
+    text: "Kimerült vagyok, nem bírom.",
+    expect: /feszült|tartani|kimerül|kifogyás|nyomod|pihenés|idegrendszer|Hallom|tested/i
+  },
   { label: "lost", text: "Elvesztem, nem tudom merre.", expect: /|/ },
   { label: "ambitious", text: "Nagy célom van, de szétesik a fókusz.", expect: /fókusz|energia|sáv/i },
-  { label: "lonely", text: "Magányosnak érzem magam.", expect: /magány|emberi|kapcsolód/i },
+  {
+    label: "lonely",
+    text: "Magányosnak érzem magam.",
+    expect: /magány|emberi|kapcsolód|Itt vagyok|érthető/i
+  },
   { label: "after_failure", text: "Ma megint elbukott a nap.", expect: /fáj|kudarc|csúszott/i },
   { label: "good_day", text: "Ma végre jó nap volt.", expect: /|/ },
   { label: "minimal_ok", text: "ok", expect: /|/ }

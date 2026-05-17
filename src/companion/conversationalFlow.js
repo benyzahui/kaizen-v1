@@ -78,6 +78,38 @@ function detectLifeFlowSlot(text) {
     return "mundane";
   }
 
+  if (/(megcsináltam|sikerült|kicsit jobb|finally|small win|reușit)/i.test(t) && t.length < 100) {
+    return "small_win";
+  }
+
+  if (/(magányos|magány|lonely|alone|singur)/i.test(t) && t.length < 120) {
+    return "loneliness";
+  }
+
+  if (/(bizonytalan|uncertain|nem tudom mi lesz|don't know what will)/i.test(t) && t.length < 120) {
+    return "uncertainty";
+  }
+
+  if (/(félek a jövő|jövő miatt|future|holnap mi lesz|what if)/i.test(t) && t.length < 130) {
+    return "future_anxiety";
+  }
+
+  if (/(izgatott|excited|alig várom|can't wait)/i.test(t) && t.length < 100) {
+    return "excitement";
+  }
+
+  if (/(munka után|after work|haza jöttem fáradt|tired from work)/i.test(t) && t.length < 100) {
+    return "after_work";
+  }
+
+  if (
+    /(gondolom|talán|random|eszembe jut|függőben|wondering)/i.test(t) &&
+    t.length < 130 &&
+    !isNaturalEmotional(t)
+  ) {
+    return "random_thought";
+  }
+
   return null;
 }
 

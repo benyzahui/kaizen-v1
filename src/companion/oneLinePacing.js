@@ -25,10 +25,11 @@ function shouldUseOneLinePacing(userText, state, category) {
   if (ONE_LINE_CATEGORIES.has(category) && t.length < 80) return true;
   if (
     category === "natural_conversation" &&
-    (state?.emotionalIntensity >= 6 || state?.energyLevel <= 4)
+    (state?.emotionalIntensity >= 5 || state?.energyLevel <= 4)
   ) {
     return true;
   }
+  if (category === "reflective_open" && t.length < 90) return true;
   if (t.length < 35 && (state?.responseDepth === "short" || state?.length === "short")) {
     return true;
   }
@@ -47,18 +48,24 @@ function applyOneLinePacing(body, lang, seed = "") {
     .split(/\n/)
     .map((l) => l.trim())
     .filter(Boolean);
-  if (parts.length <= 3) return body;
+  if (parts.length <= 2) return body;
 
   const r = getResponses(lang);
+  const density = r.densityLines || [];
   const pool = r.oneLineBeats || [];
   const silence = r.silenceBeats || [];
+
+  if (density.length && parts.length > 2 && Math.random() < 0.42) {
+    return pickSeeded(density, seed);
+  }
   if (silence.length && parts.length > 2 && Math.random() < 0.35) {
     return pickSeeded(silence, seed);
   }
-  if (pool.length && Math.random() < 0.28) {
+  if (pool.length && Math.random() < 0.32) {
     return pickSeeded(pool, seed);
   }
 
+  if (parts.length > 3) return parts.slice(0, 1).join("\n");
   return parts.slice(0, 2).join("\n");
 }
 

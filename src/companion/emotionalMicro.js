@@ -75,7 +75,7 @@ function maybeMicroReaction(session, lang, text, category) {
   if (Math.random() > 0.2) return null;
 
   const r = getResponses(lang);
-  const pool = r.microReactions || [];
+  const pool = [...(r.humanImperfections || []), ...(r.microReactions || [])];
   if (!pool.length) return null;
   return pickSeeded(pool, `mreact_${category}_${session.messages?.length || 0}_${t.slice(0, 16)}`);
 }

@@ -124,21 +124,69 @@ module.exports = {
   humanLines: {
     stress: [
       "This sounds more like overload than lack of motivation.",
-      "Your body is not signaling laziness — too much pressure at once."
+      "If you try to hold too much at once, a person eventually comes apart."
     ],
     tired: [
-      "That is fatigue. You do not need a new goal right now — rest.",
-      "Feels like you have been pushing without a real pause for a while."
+      "Your body often tires out before you notice.",
+      "What is missing right now is rest, not motivation."
     ],
     scattered: [
       "If you try to hold everything at once, the system pulls apart.",
       "Not weakness — too many open loops running at the same time."
     ],
-    general: [
-      "I am here. Slow down — no perfect answer needed.",
-      "One honest step today is enough."
+    lost: [
+      "You do not need to understand everything right now.",
+      "Enough to say it feels messy inside."
+    ],
+    lonely: [
+      "Sounds lonely — and that is human.",
+      "You are not too much. There is just less connection right now."
+    ],
+    uncertainty: [
+      "Uncertainty alone can be exhausting.",
+      "You do not need to solve everything right now."
+    ],
+    general: ["I am here. Slow down — no perfect answer needed.", "I hear you."]
+  },
+
+  lifeLines: {
+    lonely: [
+      "Sounds lonely — and that is completely understandable.",
+      "You do not need to look stronger right now."
+    ],
+    uncertainty: [
+      "Uncertainty can be louder than facts right now.",
+      "You do not need an answer to everything."
+    ],
+    excitement: [
+      "Good energy — just do not try to live the whole week today.",
+      "Something is really moving inside you."
+    ],
+    small_win: ["That counts — not a small thing.", "Good. That is movement, not just words."],
+    lost: [
+      "You do not need to fix the whole picture now.",
+      "One sentence on what feels most tangled is enough."
     ]
   },
+
+  listeningQuestions: {
+    confusion: [
+      "What changed inside you, in your read?",
+      "How long have you been feeling it this way?",
+      "What was the first thing that felt different?"
+    ],
+    lost: [
+      "Where do you feel the lost part most?",
+      "What was still okay before this started?"
+    ],
+    uncertainty: [
+      "What is the biggest uncertainty right now — one word?",
+      "What would make tonight one notch lighter?"
+    ],
+    general: ["What is the closest thing to you right now?"]
+  },
+
+  listeningAck: ["Got it.", "I hear you.", "This sounds heavy right now."],
 
   microEmotional: {
     shame: [
@@ -215,14 +263,16 @@ module.exports = {
   },
 
   microReactions: [
-    "Hmm.",
+    "Hm.",
+    "Wait —",
+    "That is a lot.",
+    "I get it now.",
     "That matters.",
-    "That is more honest.",
-    "Got it.",
-    "That must have been rough.",
     "I hear you.",
     "Yeah."
   ],
+
+  humanImperfections: ["Hm.", "Wait —", "That is a lot.", "I get it now."],
 
   naturalCheckbacks: {
     overload: [
@@ -266,7 +316,30 @@ module.exports = {
       "Got it.\nWhat was the hardest part?",
       "I hear you.\nPeople or tasks — which drained more?",
       "Yeah.\nAny energy left, or empty?"
-    ]
+    ],
+    small_win: ["Yeah.\nThat actually counts.", "Good.\nThat is movement.", "I hear you — not small."],
+    loneliness: ["Sounds lonely.", "I am here.", "You do not need to look stronger right now."],
+    uncertainty: [
+      "Uncertainty can be tiring too.",
+      "You do not need every answer now.",
+      "I am listening."
+    ],
+    future_anxiety: [
+      "The future can sound louder than today.",
+      "What presses most — one sentence?",
+      "You do not need the full plan now."
+    ],
+    excitement: [
+      "Good energy.",
+      "Yeah — something is moving in you.",
+      "Do not try to live the whole week today."
+    ],
+    after_work: [
+      "After work your body often speaks first.",
+      "Yeah.\nEmpty or just tired?",
+      "I hear you."
+    ],
+    random_thought: ["Yeah.", "Got it.", "I am listening — what is behind it?"]
   },
 
   lowEgoNaturalIntent: {
@@ -541,11 +614,11 @@ module.exports = {
   companionWarmth: {
     saidAloud: [
       "Good that you said it out loud.",
-      "That is human — understandable.",
+      "That is completely human and understandable.",
       "I hear you — not judging."
     ],
     emotional: [
-      "You do not need to be perfect right now.",
+      "You do not need to solve everything right now.",
       "This is heavy — it is okay to feel it."
     ],
     tired: ["Your body may speak before your expectations today."],
@@ -607,17 +680,22 @@ module.exports = {
   ],
 
   groundedVoiceAlts: [
+    "If you try to hold too much at once, a person eventually comes apart.",
+    "Your body often tires out before you notice.",
     "This sounds more like overload than laziness.",
-    "Too many things running at once inside you.",
-    "You do not look weak — you look like you pushed without pauses.",
-    "Not a new plan. Nervous system reset first.",
-    "Your body signaled before your ego admitted it."
+    "What is missing is rest, not motivation."
+  ],
+
+  densityLines: [
+    "What is missing right now is rest, not motivation.",
+    "This is starting to sound like nervous-system fatigue.",
+    "You do not need to solve everything now."
   ],
 
   oneLineBeats: [
-    "Do not prove anything today. Stabilize.",
-    "The simplest step right now is the strongest.",
-    "One honest block. Then stop."
+    "What is missing right now is rest, not motivation.",
+    "This is starting to sound like nervous-system fatigue.",
+    "I hear you."
   ],
 
   threadReturn: {

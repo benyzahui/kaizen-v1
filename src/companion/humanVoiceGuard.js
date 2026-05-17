@@ -22,6 +22,21 @@ const THERAPY_COACH_RES = [
   /\byou failed\b/i
 ];
 
+const WISDOM_QUOTE_RES = [
+  /\bchaos grows\b/i,
+  /\bdiscipline disappear/i,
+  /\bnervous system remembers\b/i,
+  /\bneglected truth\b/i,
+  /\bidentity is forged\b/i,
+  /\belite zone\b/i,
+  /\benergy leaks destroy\b/i,
+  /\bstandards are what you do when nobody\b/i,
+  /\bfigyelem ritkább erőforrás\b/i,
+  /\bidentitás kovácsolódik\b/i,
+  /\bdiszciplína.*önbetörés\b/i,
+  /\bdevotion repeated until\b/i
+];
+
 const AI_POETIC_RES = [
   /\btruth has arrived\b/i,
   /\bintensity without container\b/i,
@@ -82,7 +97,7 @@ function stripAIPoetic(body, lang, seed = "") {
     "Your body signaled before your ego admitted it."
   ];
 
-  for (const re of [...THERAPY_COACH_RES, ...AI_POETIC_RES]) {
+  for (const re of [...THERAPY_COACH_RES, ...WISDOM_QUOTE_RES, ...AI_POETIC_RES]) {
     if (re.test(b)) {
       const alt = pickSeeded(alts, `${seed}_${re.source.slice(0, 12)}`);
       b = b.replace(re, alt);
