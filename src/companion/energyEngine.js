@@ -10,6 +10,7 @@ const {
   resolveContextualEnergyLens,
   depletedEnergyOverlay
 } = require("./contextualEnergy");
+const { buildAdaptiveEnergyRead } = require("./adaptiveEnergy");
 
 /**
  * @param {Date} [date]
@@ -31,7 +32,30 @@ function buildEnergyRead(date, lang, lens = "general", ctx = null) {
   const resolved = resolveContextualEnergyLens(session, state, lens);
 
   if (state?.energyLevel <= 3 || session?.presenceMemory?.emotionalState === "overloaded") {
-    return depletedEnergyOverlay(lang);
+    const depleted = depletedEnergyOverlay(lang);
+    const adaptive = buildAdaptiveEnergyRead(date, lang, {
+      ...ctx,
+      lens: resolved,
+      session: ctx?.session || session
+    });
+    if (adaptive && adaptive.length < depleted.length) {
+      return adaptive;
+    }
+    return depleted;
+  }
+
+  const useAdaptive =
+    state?.emotionalIntensity >= 4 ||
+    session?.userPrimaryPath === "trading" ||
+    Math.random() < 0.62;
+
+  if (useAdaptive) {
+    const adaptive = buildAdaptiveEnergyRead(date, lang, {
+      ...ctx,
+      lens: resolved,
+      session: ctx?.session || session
+    });
+    if (adaptive) return adaptive;
   }
 
   const core = buildDailyEnergyMessage(date, lang, resolved, seed, { state, session });

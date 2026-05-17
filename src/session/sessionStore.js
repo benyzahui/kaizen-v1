@@ -126,6 +126,7 @@ function emptySession() {
     activationMode: false,
     freshUserMessageCount: 0,
     freshPhrasesUsed: [],
+    microWowsUsed: [],
     lastAt: Date.now()
   };
 }

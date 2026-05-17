@@ -429,7 +429,7 @@ async function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     const body = buildEnergyFromOpenText(text, lang, userId);
-    return emitOpen(companionCtx, category, body, r, "/energy");
+    return emitOpen(companionCtx, category, body, r, null);
   }
 
   if (category === "clarity_protocol") {

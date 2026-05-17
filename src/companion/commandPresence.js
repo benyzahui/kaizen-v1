@@ -31,8 +31,10 @@ function resolveCommandHint(category, text, session, suggested) {
     return "/guide";
   }
 
-  if (category === "energy_question" && /energy|energia/i.test(t)) {
-    return Math.random() < 0.15 ? suggested : null;
+  if (category === "energy_question") return null;
+
+  if (/\/(reset|pulse|focus|guide|energy)\b/i.test(String(suggested || ""))) {
+    return null;
   }
 
   if (category === "natural_conversation" || category === "emotional_reflection") {

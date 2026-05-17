@@ -58,6 +58,7 @@ function buildPresenceSnapshot(session, state, text, category) {
 
   return {
     emotionalState,
+    previousEmotionalState: prev.emotionalState || emotionalState,
     mission,
     focus,
     tone,

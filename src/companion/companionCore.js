@@ -46,6 +46,10 @@ const { maybeGroundedHumor } = require("./groundedHumor");
 const { sanitizeBetaCopy } = require("./betaCopySanitize");
 const { applyPersonalityGuard } = require("./personalityGuard");
 const { maybeDailyLoopWhisper } = require("./dailyCompanionLoop");
+const { pickDynamicOpening } = require("./dynamicOpenings");
+const { maybePresenceCallback } = require("./presenceCallbacks");
+const { maybeMicroWow, trackMicroWow } = require("./microWow");
+const { maybeNaturalTransition } = require("./naturalTransitions");
 
 const SKIP_MEMORY_CATEGORIES = new Set([
   "onboarding",
@@ -126,6 +130,41 @@ function prepareCompanionContext(userId, text, session, lang, classifyCategory) 
  */
 function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
   let b = enforceSingleNextStep(rawBody, opts);
+  const fresh = isFreshUserExperience(ctx.session || {});
+  let presenceLayers = 0;
+
+  if (!fresh && category !== "onboarding") {
+    const opening = pickDynamicOpening(ctx, category);
+    if (opening && presenceLayers < 2) {
+      b = lines(opening, "", b);
+      presenceLayers += 1;
+    }
+    const trans = maybeNaturalTransition(
+      ctx.session || {},
+      ctx.lang,
+      category,
+      ctx.lastUserText || ""
+    );
+    if (trans && presenceLayers < 2) {
+      b = lines(trans, "", b);
+      presenceLayers += 1;
+    }
+    const wow = maybeMicroWow(
+      ctx.session || {},
+      ctx.lang,
+      ctx.state,
+      ctx.lastUserText || "",
+      category
+    );
+    if (wow && presenceLayers < 2) {
+      b = lines(wow, "", b);
+      presenceLayers += 1;
+      if (ctx.userId) {
+        updateSession(ctx.userId, trackMicroWow(ctx.session || {}, wow));
+      }
+    }
+  }
+
   const s = ctx.session || {
     messages: ctx.memory.short.turns,
     lastCategory: ctx.memory.short.lastCategory,
@@ -166,14 +205,22 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     ctx.lang,
     `${category}_${s.messages?.length || 0}`
   );
-  const fresh = isFreshUserExperience(ctx.session || s);
+
+  const presenceCb = maybePresenceCallback(
+    ctx.session || s,
+    ctx.lang,
+    category,
+    `${category}_${s.messages?.length || 0}`
+  );
 
   const emoCont = maybeEmotionalContinuity(ctx.session || s, ctx.lang, ctx.lastUserText || "");
   if (emoCont && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh) {
     b = lines(emoCont, "", b);
   }
 
-  if (memLine && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh) {
+  if (presenceCb && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh) {
+    b = lines(presenceCb, "", b);
+  } else if (memLine && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh) {
     b = lines(memLine, "", b);
   }
 

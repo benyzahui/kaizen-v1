@@ -315,6 +315,94 @@ module.exports = {
     default: ["I'm here. One step is enough."]
   },
 
+  dynamicOpenings: {
+    morning: [
+      "It's morning.\nDo not try to solve your whole life today.\nStep cleanly into the first block only.",
+      "Morning.\nOne direction. One block."
+    ],
+    lateNight: [
+      "Is your head still spinning?\nOr are you mostly tired now?",
+      "Late night.\nClose a loop, or is the mind still running?"
+    ],
+    evening: ["Evening.\nDownshift — not a new sprint."],
+    midday: ["Midday.\nStill on the lane you picked this morning?"],
+    focused: [
+      "Good.\nToday we build depth — not width.",
+      "Clear lane.\nOne block, deep."
+    ],
+    overloaded: [
+      "Today is not about intensity.\nIt is nervous-system stability.",
+      "A lot of pressure — one lane first, not ten."
+    ],
+    tired: ["Your body may signal before your head catches up today."],
+    groundedReturn: [
+      "You sound less pulled apart now.",
+      "Yesterday this felt like full chaos — today the tone shifted."
+    ],
+    returnAfterSilence: [
+      "You are back.\nWhere are you now — one sentence?",
+      "It has been a while.\nWhat changed?"
+    ]
+  },
+
+  presenceCallbacks: {
+    stillChaos: [
+      "Yesterday you were living this as full chaos.",
+      "Still heavy — same pressure?"
+    ],
+    lessChaos: [
+      "Yesterday you still sounded pulled apart.\nToday sounds a bit clearer.",
+      "You sound less scattered now."
+    ],
+    lessScattered: ["Less scatter in your tone than last time."],
+    trading: ["Today over-clicking may be riskier than a bad setup."],
+    training: ["Your body remembers the movement — the head follows slower."],
+    exhaustion: ["Your body probably tired out before you noticed."],
+    mission: ["Still on {mission} — or did the day rewrite it?"]
+  },
+
+  adaptiveEnergy: {
+    trader: ["Today over-clicking may be riskier than a bad setup."],
+    body: ["Your body may signal before your head today."],
+    overload: ["Not intensity today.\nNervous-system stability."],
+    business: ["One decision matters today — not ten parallel sprints."],
+    athlete: ["Your body gives honest signals today — listen first."],
+    discipline: ["Depth beats width today."],
+    general: ["One honest block beats a new plan today."],
+    pulse: ["One direction. One block. The rest waits."]
+  },
+
+  microWow: {
+    overload: [
+      "This is not lack of motivation.\nToo many open loops.",
+      "This is overload — not weakness."
+    ],
+    ideas: [
+      "You do not need new ideas.\nYou need energy for what is already open."
+    ],
+    motivation: [
+      "Not a motivation problem.\nToo many open loops at once."
+    ],
+    body: ["Your body probably tired out before you noticed."],
+    trading: ["Today the market is the second risk — impulse is first."],
+    general: [
+      "Not lack of motivation — too many open loops.",
+      "Not new ideas missing — energy for what you already hold."
+    ]
+  },
+
+  naturalTransitions: {
+    general: ["By the way…", "Wait —"],
+    stressToBody: ["Different question:\nhow is your body lately?"],
+    stressClarify: [
+      "Wait — is this stress or overload?",
+      "By the way — noisy head, or empty body?"
+    ],
+    deeper: ["By the way — what sits underneath?"],
+    workToFeeling: ["Different angle: how do you feel about this work?"],
+    tradingToFeeling: ["Wait — market pressure or inner noise?"]
+  },
+
   shortActionReplies: [
     "Good.\nSee you when you're back.",
     "Okay.\nAfter the run.",

@@ -309,6 +309,94 @@ module.exports = {
     default: ["Itt vagyok. Egy lépés elég."]
   },
 
+  dynamicOpenings: {
+    morning: [
+      "Reggel van.\nNe az egész életedet próbáld ma megoldani.\nCsak állj bele tisztán az első blokkba.",
+      "Reggel.\nEgy irány. Egy blokk."
+    ],
+    lateNight: [
+      "Még pörög az agyad?\nVagy már inkább kifáradt?",
+      "Késő este.\nLezárás vagy még egy kör a fejben?"
+    ],
+    evening: ["Este.\nLeeresztés, nem új sprint."],
+    midday: ["Dél.\nMég azon a sávon vagy, amit reggel választottál?"],
+    focused: [
+      "Rendben.\nMa ne szélességet építsünk.\nMélységet.",
+      "Tiszta sáv.\nEgy blokk mélyen."
+    ],
+    overloaded: [
+      "Ma nem intenzitás kell.\nHanem idegrendszeri stabilitás.",
+      "Sok nyomás — előbb egy sáv, nem tíz."
+    ],
+    tired: ["A tested ma hamarabb jelezhet mint a fejed."],
+    groundedReturn: [
+      "Most kevésbé széthúzottnak tűnsz.",
+      "Tegnap még teljes káosznak élted meg ezt — ma már más a hang."
+    ],
+    returnAfterSilence: [
+      "Vissza vagy.\nHol tartasz most — egy mondatban?",
+      "Régóta nem írtál.\nMi változott?"
+    ]
+  },
+
+  presenceCallbacks: {
+    stillChaos: [
+      "Tegnap még teljes káosznak élted meg ezt.",
+      "Még mindig nehéz — ugyanaz a nyomás?"
+    ],
+    lessChaos: [
+      "Tegnap még széthúzott voltál.\nMost már valamivel tisztábbnak tűnsz.",
+      "Most kevésbé széthúzottnak tűnsz."
+    ],
+    lessScattered: ["Kevesebb szétszórtság hangzik most, mint legutóbb."],
+    trading: ["Ma a túlkattintás veszélyesebb lehet mint a rossz setup."],
+    training: ["A tested emlékszik a mozgásra — a fej lassabban követ."],
+    exhaustion: ["A tested valószínűleg hamarabb fáradt el mint ahogy észrevetted."],
+    mission: ["Még mindig: {mission} — vagy átírta a nap?"]
+  },
+
+  adaptiveEnergy: {
+    trader: ["Ma a túlkattintás veszélyesebb lehet mint a rossz setup."],
+    body: ["A tested ma hamarabb jelezhet mint a fejed."],
+    overload: ["Ma nem intenzitás kell.\nHanem idegrendszeri stabilitás."],
+    business: ["Ma az egyik döntés számít — nem tíz párhuzamos sprint."],
+    athlete: ["A tested ma őszinte jelzéseket ad — hallgasd meg előbb."],
+    discipline: ["Ma a mélység nyeri a szélességet."],
+    general: ["Ma egy őszinte blokk többet ér mint egy új terv."],
+    pulse: ["Egy irány. Egy blokk. A többi vár."]
+  },
+
+  microWow: {
+    overload: [
+      "Nem motivációhiány van.\nHanem túl sok nyitott kör.",
+      "Ez túlterhelés — nem gyengeség."
+    ],
+    ideas: [
+      "Most már nem új ötletek hiányoznak az életedből.\nHanem energia a meglévőkhöz."
+    ],
+    motivation: [
+      "Nem motivációhiány.\nHanem túl sok nyitott kör egyszerre."
+    ],
+    body: ["A tested valószínűleg hamarabb fáradt el mint ahogy észrevetted."],
+    trading: ["Ma a piac a második kockázat — az első az impulzus."],
+    general: [
+      "Nem motivációhiány van.\nHanem túl sok nyitott kör.",
+      "Most már nem új ötletek hiányoznak — hanem energia a meglévőkhöz."
+    ]
+  },
+
+  naturalTransitions: {
+    general: ["Egyébként…", "Na várj."],
+    stressToBody: ["Más:\na tested hogy van mostanában?"],
+    stressClarify: [
+      "Na várj.\nMost inkább stressz van vagy túlterhelés?",
+      "Egyébként — a fejed zajos, vagy a tested üres?"
+    ],
+    deeper: ["Egyébként — mi van mögötte?"],
+    workToFeeling: ["Más: emberileg hogy vagy ezzel a munkával?"],
+    tradingToFeeling: ["Na várj — ez most piaci nyomás vagy belső zaj?"]
+  },
+
   shortActionReplies: [
     "Jó.\nVissza jössz, és meglátjuk.",
     "Oké.\nFutás után.",

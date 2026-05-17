@@ -302,6 +302,94 @@ module.exports = {
     default: ["Sunt aici. Un pas e suficient."]
   },
 
+  dynamicOpenings: {
+    morning: [
+      "E dimineață.\nNu încerca să rezolvi toată viața azi.\nIntră curat în primul bloc.",
+      "Dimineață.\nO direcție. Un bloc."
+    ],
+    lateNight: [
+      "Capul încă aleargă?\nSau ești deja obosit?",
+      "Noapte târziu.\nÎnchidere sau încă un cerc în cap?"
+    ],
+    evening: ["Seară.\nCoborâre — nu sprint nou."],
+    midday: ["Amiază.\nÎncă pe banda aleasă dimineața?"],
+    focused: [
+      "Bine.\nAzi construim adâncime — nu lățime.",
+      "Bandă clară.\nUn bloc, adânc."
+    ],
+    overloaded: [
+      "Azi nu e despre intensitate.\nE stabilitate nervoasă.",
+      "Multă presiune — o bandă mai întâi, nu zece."
+    ],
+    tired: ["Corpul poate semnala înaintea capului azi."],
+    groundedReturn: [
+      "Sună mai puțin rupt acum.",
+      "Ieri era haos total — azi tonul s-a schimbat."
+    ],
+    returnAfterSilence: [
+      "Ai revenit.\nUnde ești acum — o propoziție?",
+      "A trecut ceva timp.\nCe s-a schimbat?"
+    ]
+  },
+
+  presenceCallbacks: {
+    stillChaos: [
+      "Ieri trăiai asta ca haos total.",
+      "Încă greu — aceeași presiune?"
+    ],
+    lessChaos: [
+      "Ieri încă sunai rupt.\nAzi pari puțin mai clar.",
+      "Sună mai puțin împrăștiat acum."
+    ],
+    lessScattered: ["Mai puțină împrăștiere în ton decât data trecută."],
+    trading: ["Azi click-ul în plus poate fi mai periculos decât un setup prost."],
+    training: ["Corpul își amintește mișcarea — capul vine mai lent."],
+    exhaustion: ["Corpul probabil s-a obosit înainte să observi."],
+    mission: ["Încă: {mission} — sau ziua a rescris?"]
+  },
+
+  adaptiveEnergy: {
+    trader: ["Azi click-ul în plus poate fi mai riscant decât un setup prost."],
+    body: ["Corpul poate semnala înaintea capului azi."],
+    overload: ["Nu intensitate azi.\nStabilitate nervoasă."],
+    business: ["O decizie contează azi — nu zece sprinturi paralele."],
+    athlete: ["Corpul dă semnale oneste azi — ascultă mai întâi."],
+    discipline: ["Adâncimea bate lățimea azi."],
+    general: ["Un bloc onest bate un plan nou azi."],
+    pulse: ["O direcție. Un bloc. Restul așteaptă."]
+  },
+
+  microWow: {
+    overload: [
+      "Nu e lipsă de motivație.\nPrea multe cercuri deschise.",
+      "E suprasolicitare — nu slăbiciune."
+    ],
+    ideas: [
+      "Nu îți lipsesc idei noi.\nÎți lipsește energie pentru ce e deja deschis."
+    ],
+    motivation: [
+      "Nu problemă de motivație.\nPrea multe cercuri deschise."
+    ],
+    body: ["Corpul probabil s-a obosit înainte să observi."],
+    trading: ["Azi piața e al doilea risc — impulsul e primul."],
+    general: [
+      "Nu lipsă de motivație — prea multe cercuri.",
+      "Nu idei noi lipsesc — energie pentru ce ții deja."
+    ]
+  },
+
+  naturalTransitions: {
+    general: ["Apropo…", "Stai —"],
+    stressToBody: ["Altceva:\ncum e corpul tău în ultima vreme?"],
+    stressClarify: [
+      "Stai — e stres sau suprasolicitare?",
+      "Apropo — cap zgomotos sau corp gol?"
+    ],
+    deeper: ["Apropo — ce stă dedesubt?"],
+    workToFeeling: ["Alt unghi: cum te simți cu munca asta?"],
+    tradingToFeeling: ["Stai — presiune de piață sau zgomot interior?"]
+  },
+
   shortActionReplies: [
     "Bine.\nTe aștept când revii.",
     "Ok.\nDupă alergare.",
