@@ -888,6 +888,51 @@ module.exports = {
 
   humanAliveBeats: ["Hm.", "Da.", "Înțeleg.", "Asta e mult.", "Te aud.", "Sunt aici."],
 
+  presenceAttention: {
+    fatigue: [
+      "Acum pari mai degrabă epuizat decât demotivat.",
+      "Asta sună a oboseală — nu lene."
+    ],
+    overstimulation: [
+      "Asta e prea multă încărcare deodată.",
+      "Creierul rulează prea multe ferestre deodată."
+    ],
+    avoidance: [
+      "Se simte că amâni — nu pentru că ești leneș.",
+      "Ceva greu poate fi în acest cerc."
+    ],
+    pressure: [
+      "🫀 Corpul semnalează înainte să recunoască capul.",
+      "Multă presiune deodată acum."
+    ],
+    calmer: [
+      "Acum pari mai calm decât acum un moment.",
+      "Asta sună deja ca energie mai clară."
+    ]
+  },
+
+  humanPresenceMoments: [
+    "Asta a fost greu.",
+    "Înțeleg.",
+    "Bine că n-ai ținut asta înăuntru.",
+    "Te aud.",
+    "Da.",
+    "Asta e omenește."
+  ],
+
+  presenceRelationalContinuity: [
+    "Ieri încă sunai mult mai încordat în tine.",
+    "Data trecută totul a devenit zgomotos tot pe la această oră.",
+    "Acum pari mai calm decât acum câteva zile."
+  ],
+
+  presenceQuietRealism: [
+    "Acum pari mai degrabă epuizat.",
+    "Asta e prea multă încărcare deodată.",
+    "🫀 Corpul semnalează înainte de cap.",
+    "Asta sună a suprasolicitare."
+  ],
+
   flowSoftFollowups: [
     "Încă ești în asta?",
     "Te ascult.",

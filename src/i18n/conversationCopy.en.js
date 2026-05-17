@@ -901,6 +901,51 @@ module.exports = {
 
   humanAliveBeats: ["Hm.", "Yeah.", "Got it.", "That is a lot.", "I hear you.", "I am here."],
 
+  presenceAttention: {
+    fatigue: [
+      "I think you are more tired than unmotivated right now.",
+      "This sounds more like fatigue than laziness."
+    ],
+    overstimulation: [
+      "This is too much load at once.",
+      "Your brain is running too many windows at once."
+    ],
+    avoidance: [
+      "Sounds like you are postponing — not because you are lazy.",
+      "Something heavy may be in this loop."
+    ],
+    pressure: [
+      "🫀 Your body signals before your head admits it.",
+      "A lot of pressure at once right now."
+    ],
+    calmer: [
+      "You sound calmer than a moment ago.",
+      "This already feels like clearer energy."
+    ]
+  },
+
+  humanPresenceMoments: [
+    "That must have been hard.",
+    "Got it.",
+    "Good that you did not push this down.",
+    "I hear you.",
+    "Yeah.",
+    "That is human."
+  ],
+
+  presenceRelationalContinuity: [
+    "Yesterday you still sounded much tighter inside.",
+    "Last time everything got noisy around now too.",
+    "You sound calmer than a few days ago."
+  ],
+
+  presenceQuietRealism: [
+    "I think you are more tired than unmotivated.",
+    "This is too much load at once.",
+    "🫀 Your body signals before your head admits it.",
+    "This sounds more like overload."
+  ],
+
   flowSoftFollowups: [
     "Still in this with it?",
     "I am listening.",

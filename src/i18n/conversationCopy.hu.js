@@ -934,6 +934,51 @@ module.exports = {
 
   humanAliveBeats: ["Hm.", "Na.", "Értem.", "Az sok.", "Hallom.", "Itt vagyok."],
 
+  presenceAttention: {
+    fatigue: [
+      "Most szerintem inkább kifáradtál.",
+      "Ez inkább fáradtság — nem lustaság."
+    ],
+    overstimulation: [
+      "Ez már túl sok terhelés egyszerre.",
+      "Az agyad most túl sok ablakkal fut egyszerre."
+    ],
+    avoidance: [
+      "Úgy tűnik halasztasz — nem azért mert lusta vagy.",
+      "Valami nehéz lehet ebben a körben."
+    ],
+    pressure: [
+      "🫀 A tested hamarabb jelez mint az agyad.",
+      "Most sok nyomás van egyszerre."
+    ],
+    calmer: [
+      "Most nyugodtabbnak tűnsz mint az előbb.",
+      "Ez már tisztább energia."
+    ]
+  },
+
+  humanPresenceMoments: [
+    "Az kemény lehetett.",
+    "Értem.",
+    "Jó hogy ezt nem nyomtad el.",
+    "Hallom.",
+    "Na.",
+    "Ez emberi."
+  ],
+
+  presenceRelationalContinuity: [
+    "Tegnap még sokkal feszesebbnek tűntél.",
+    "Múltkor is ilyenkor kezdett zajosodni minden.",
+    "Most nyugodtabbnak tűnsz mint pár napja."
+  ],
+
+  presenceQuietRealism: [
+    "Most szerintem inkább kifáradtál.",
+    "Ez már túl sok terhelés egyszerre.",
+    "🫀 A tested hamarabb jelez mint az agyad.",
+    "Ez inkább túlterhelésnek hangzik."
+  ],
+
   flowSoftFollowups: [
     "Még ott vagy ebben?",
     "Hallgatlak.",
