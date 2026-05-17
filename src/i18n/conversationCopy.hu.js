@@ -900,6 +900,26 @@ module.exports = {
 
   subtlePresenceBeats: ["Hm.", "Értem.", "Na.", "Hallom."],
 
+  flowSoftFollowups: [
+    "Még ott vagy ebben?",
+    "Hallgatlak.",
+    "Folytatjuk nyugodtan.",
+    "Itt vagyok még."
+  ],
+
+  flowSoftMemory: [
+    "Múltkor is erről volt szó — ma más az érzés?",
+    "Megint erre jöttünk vissza.",
+    "Ugyanaz a nyomás, vagy könnyebb lett?"
+  ],
+
+  lateNightPresence: [
+    "Késő van. Nem kell most mindenre válasz.",
+    "Hallgatlak.",
+    "Lassan elég.",
+    "Itt vagyok — nem kell tökéletesen."
+  ],
+
   microHumanityAlive: ["Hm.", "Na.", "Na várj.", "Az mondjuk sok.", "Értem.", "Jó."],
 
   naturalEmotionalSupport: [

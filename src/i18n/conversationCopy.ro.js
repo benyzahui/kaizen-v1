@@ -854,6 +854,26 @@ module.exports = {
 
   subtlePresenceBeats: ["Hm.", "Înțeleg.", "Da.", "Te aud."],
 
+  flowSoftFollowups: [
+    "Încă ești în asta?",
+    "Te ascult.",
+    "Putem continua încet.",
+    "Sunt încă aici."
+  ],
+
+  flowSoftMemory: [
+    "Am atins asta și data trecută — altfel se simte azi?",
+    "Ne-am întors iar aici.",
+    "Aceeași presiune, sau puțin mai ușor?"
+  ],
+
+  lateNightPresence: [
+    "E târziu. Nu trebuie răspuns la tot acum.",
+    "Te ascult.",
+    "Încet e suficient.",
+    "Sunt aici — nu trebuie perfect."
+  ],
+
   microHumanityAlive: ["Hm.", "Da.", "Asta e mult.", "Înțeleg.", "Bine."],
 
   naturalEmotionalSupport: [

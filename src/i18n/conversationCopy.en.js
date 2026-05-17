@@ -867,6 +867,26 @@ module.exports = {
 
   subtlePresenceBeats: ["Hm.", "Got it.", "Yeah.", "I hear you."],
 
+  flowSoftFollowups: [
+    "Still in this with it?",
+    "I am listening.",
+    "We can keep going gently.",
+    "I am still here."
+  ],
+
+  flowSoftMemory: [
+    "We touched this before — does it feel different today?",
+    "We came back to this again.",
+    "Same pressure, or a bit lighter?"
+  ],
+
+  lateNightPresence: [
+    "It is late. You do not need an answer to everything now.",
+    "I am listening.",
+    "Slow is enough.",
+    "I am here — it does not need to be perfect."
+  ],
+
   microHumanityAlive: ["Hm.", "Yeah.", "That is a lot.", "Got it.", "Good."],
 
   naturalEmotionalSupport: [

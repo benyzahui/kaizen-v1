@@ -83,6 +83,8 @@ const {
 const { finalizeHumanReturnPass } = require("./humanReturnPass");
 const { finalizeSoulStability } = require("./soulStability");
 const { finalizeRealEmotionalPresence } = require("./realEmotionalPresence");
+const { finalizeCompanionFlowStabilization } = require("./companionFlowStabilization");
+const { getTimeSlot } = require("../core/timeContext");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -471,10 +473,23 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
   }
 
   if (opts.suggestedCommand && !opts.skipCommandHint) {
-    b = lines(b, "", `→ ${opts.suggestedCommand}`);
+    const slot = getTimeSlot(ctx.session || {});
+    const flowChat =
+      COHERENT_FLOW.has(category) ||
+      slot === "late_night" ||
+      category === "life_flow" ||
+      category === "relational_flow";
+    if (!flowChat) {
+      b = lines(b, "", `→ ${opts.suggestedCommand}`);
+    }
   }
 
-  if (ctx.plan.appendRhythm && !opts.skipRhythm && !COHERENT_FLOW.has(category)) {
+  if (
+    ctx.plan.appendRhythm &&
+    !opts.skipRhythm &&
+    !COHERENT_FLOW.has(category) &&
+    getTimeSlot(ctx.session || {}) !== "late_night"
+  ) {
     const tail = rhythmTailIfNeeded(ctx.rhythm, ctx.lang);
     if (tail) b = lines(b, "", tail);
   }
@@ -501,6 +516,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizeSoulStability(b, ctx, category, timing);
     b = finalizePremiumAtmosphere(b, ctx, category, timing);
     b = finalizeRealEmotionalPresence(b, ctx, category, timing);
+    b = finalizeCompanionFlowStabilization(b, ctx, category, timing);
   }
 
   return b;
