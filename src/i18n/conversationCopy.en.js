@@ -171,6 +171,61 @@ module.exports = {
     ]
   },
 
+  conversationalFlow: {
+    home_return: [
+      "Hey.\nHow was the day?",
+      "Home.\nLong day, or just draining?",
+      "You're back.\nWhat stuck with you from today?"
+    ],
+    day_end: [
+      "Day's done.\nIs your head still running, or easing?",
+      "You stopped.\nLighter now, or same weight?"
+    ],
+    arrival: ["Hey.", "You're back.\nBest part of the day?"],
+    opener: ["Yeah?", "I'm here.", "Go on."],
+    mundane: ["Yeah.", "Got it.", "I hear you."],
+    day_reply: [
+      "Got it.\nWhat was the hardest part?",
+      "I hear you.\nPeople or tasks — which drained more?",
+      "Yeah.\nAny energy left, or empty?"
+    ]
+  },
+
+  lowEgoNaturalIntent: {
+    overload: [
+      "That's a lot of pressure at once.",
+      "This sounds more like overload than lack of motivation."
+    ],
+    focus: [
+      "Pulled apart is a state — not who you are.",
+      "If you try to hold everything at once, the system pulls apart."
+    ],
+    clarity: [
+      "One decision is enough right now.",
+      "What would make tonight feel one notch lighter inside you?"
+    ]
+  },
+
+  lowEgoQuestions: {
+    general: ["What would make tonight feel one notch lighter inside you?"],
+    overwhelm: ["What's the one thing that, if settled today, lowers the noise?"],
+    exhaustion: ["Do you have one hour tonight that's actually yours?"],
+    stress: ["What's pressing hardest right now — one word?"]
+  },
+
+  silenceBeats: [
+    "This sounds heavy right now.",
+    "Good that you said it out loud.",
+    "I'm here.",
+    "I hear you."
+  ],
+
+  groundedHumor: [
+    "Your brain is debugging in production right now.",
+    "What you don't need is another project in your life.",
+    "Chaos is live again — not on staging."
+  ],
+
   emotionalContinuity: {
     groundedAfterOverload: [
       "Yesterday you still sounded pulled apart. Today you sound a bit clearer.",
@@ -241,9 +296,9 @@ module.exports = {
   ],
 
   shortActionReplies: [
-    "Good.\nEasier to reorder the head from the body.\nDo not bring performance — bring rhythm.",
-    "Run/walk — not a lecture.\nTwenty minutes. Phone stays dark.",
-    "Movement first. Meaning can wait."
+    "Good.\nSee you when you're back.",
+    "Okay.\nAfter the run.",
+    "Fine.\nMovement — not performance."
   ],
 
   sarcasmRare: [

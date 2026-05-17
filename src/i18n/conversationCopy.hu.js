@@ -165,6 +165,61 @@ module.exports = {
     ]
   },
 
+  conversationalFlow: {
+    home_return: [
+      "Na?\nMilyen nap volt?",
+      "Haza.\nHosszú volt, vagy csak fárasztó?",
+      "Na.\nMi maradt meg benned a napból?"
+    ],
+    day_end: [
+      "Na.\nLezártad, vagy még fut a fejedben?",
+      "Kész a nap.\nKönnyebb most, hogy megálltál?"
+    ],
+    arrival: ["Na?", "Megérkeztél.\nMi volt a nap legjobb része?"],
+    opener: ["Na?", "Hallgatlak.", "Itt vagyok."],
+    mundane: ["Na?", "Értem.", "Hallom."],
+    day_reply: [
+      "Értem.\nMi volt a legnehezebb része?",
+      "Hallom.\nMi fárasztott jobban — ember vagy feladat?",
+      "Na.\nVan még benned energia, vagy üres?"
+    ]
+  },
+
+  lowEgoNaturalIntent: {
+    overload: [
+      "Ez sok nyomás egyszerre.",
+      "Ez már inkább túlterhelésnek hangzik, mint motivációhiánynak."
+    ],
+    focus: [
+      "Széthúzott állapot — nem identitás.",
+      "Ha mindent egyszerre próbálsz tartani, a rendszer széthúzódik."
+    ],
+    clarity: [
+      "Egy döntés elég most.",
+      "Mitől lenne ma este egy fokkal könnyebb benned?"
+    ]
+  },
+
+  lowEgoQuestions: {
+    general: ["Mitől lenne ma este egy fokkal könnyebb benned?"],
+    overwhelm: ["Mi az az egy dolog, ami ha ma rendeződik, csökken benned a zaj?"],
+    exhaustion: ["Van ma este egy órád, ami tényleg a tiéd?"],
+    stress: ["Mi nyom most a legjobban — egy szóval?"]
+  },
+
+  silenceBeats: [
+    "Ez most nehéznek hangzik.",
+    "Jó hogy ezt kimondtad.",
+    "Itt vagyok.",
+    "Hallom."
+  ],
+
+  groundedHumor: [
+    "Agyad most production environmentben debugol.",
+    "Most nem új projekt hiányzik az életedből.",
+    "A káosz megint élesben fut — nem stagingben."
+  ],
+
   emotionalContinuity: {
     groundedAfterOverload: [
       "Tegnap még teljesen széthúzott voltál. Most már valamivel tisztábbnak tűnsz.",
@@ -235,9 +290,9 @@ module.exports = {
   ],
 
   shortActionReplies: [
-    "Jó.\nTestből könnyebb újra rendezni a fejet.\nNe teljesítményt vigyél — ritmust.",
-    "Futás/séta — nem prédikáció.\nHúsz perc. Telefon sötétben.",
-    "Először mozgás. A jelentés várhat."
+    "Jó.\nVissza jössz, és meglátjuk.",
+    "Oké.\nFutás után.",
+    "Rendben.\nNe teljesítmény — csak mozgás."
   ],
 
   sarcasmRare: [

@@ -85,7 +85,15 @@ const REFLECTIVE_MODES = new Set(["MODE_REFLECTIVE", "MODE_RECOVERY"]);
  * @param {string} [conversationMode]
  * @param {string} [category]
  */
-function applyEmotionalPacing(body, lang, session, plan, conversationMode, category) {
+function applyEmotionalPacing(
+  body,
+  lang,
+  session,
+  plan,
+  conversationMode,
+  category,
+  state = {}
+) {
   let b = body;
   const qPressure = recentQuestionPressure(session);
   const reflective =
@@ -96,7 +104,22 @@ function applyEmotionalPacing(body, lang, session, plan, conversationMode, categ
   const keepOneQuestion =
     category === "natural_conversation" ||
     category === "emotional_reflection" ||
-    category === "reflective_open";
+    category === "reflective_open" ||
+    category === "life_flow";
+
+  const emotional =
+    state.emotionalIntensity >= 6 ||
+    category === "emotional_reflection" ||
+    category === "chaos_loop";
+  const exhausted =
+    state.energyLevel <= 4 ||
+    state.mentorMode === "recovery_mode" ||
+    conversationMode === "MODE_RECOVERY";
+  const focused =
+    conversationMode === "MODE_FOCUSED" ||
+    state.mentorMode === "sharp_focus" ||
+    category === "focus_drift";
+  const joking = state.useHumor && state.emotionalIntensity < 6 && state.seriousness < 45;
 
   if ((qPressure >= 2 || plan?.action !== "ask" || !reflective) && !keepOneQuestion) {
     b = softenTherapyQuestions(b, lang);
@@ -105,14 +128,20 @@ function applyEmotionalPacing(body, lang, session, plan, conversationMode, categ
     b = stripTherapyFraming(b);
   }
 
-  if (plan?.depth === "short" || plan?.length === "short" || plan?.pressure === "high") {
+  if (category === "life_flow") {
+    b = capWallLength(b, 3, 160);
+  } else if (exhausted || (emotional && !joking)) {
+    b = capWallLength(b, 3, 220);
+  } else if (focused) {
+    b = capWallLength(b, 4, 260);
+  } else if (plan?.depth === "short" || plan?.length === "short" || plan?.pressure === "high") {
     b = capWallLength(b, 4, 280);
-  } else if (plan?.depth === "deep" && reflective) {
-    b = capWallLength(b, 10, 680);
+  } else if (plan?.depth === "deep" && reflective && !exhausted) {
+    b = capWallLength(b, 8, 520);
   } else if (!reflective) {
-    b = capWallLength(b, 6, 420);
+    b = capWallLength(b, 5, 380);
   } else {
-    b = capWallLength(b);
+    b = capWallLength(b, 6, 420);
   }
 
   return b;

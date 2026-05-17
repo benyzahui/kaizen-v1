@@ -4,7 +4,7 @@
 
 const { getResponses } = require("../i18n/getResponses");
 const { pickSeeded } = require("../personality/tone");
-const { lines } = require("../personality/kaizenVoice");
+const { pickLowEgoFromPool } = require("./lowEgoStyle");
 
 /**
  * @param {string} text
@@ -26,11 +26,13 @@ function routeNaturalIntent(text, lang, session, userId) {
       t
     )
   ) {
-    const pool = r.naturalIntentOverload || r.humanPresence?.stress || [];
-    if (!pool.length) return null;
-    const body = Array.isArray(pool[0])
-      ? pickSeeded(pool, seed)
-      : pickSeeded(pool, seed);
+    const pool =
+      r.lowEgoNaturalIntent?.overload ||
+      r.humanLines?.stress ||
+      r.naturalIntentOverload ||
+      [];
+    const body = pickLowEgoFromPool(pool, seed);
+    if (!body) return null;
     return {
       body,
       category: "natural_conversation",
@@ -39,10 +41,15 @@ function routeNaturalIntent(text, lang, session, userId) {
   }
 
   if (/(szét vagyok csúszva|szétesett|elvesztettem a fókuszt|lost focus|can't focus|nem tudok fókusz)/i.test(t)) {
-    const pool = r.naturalIntentFocus || r.humanPresence?.scattered || [];
-    if (!pool.length) return null;
+    const pool =
+      r.lowEgoNaturalIntent?.focus ||
+      r.humanLines?.scattered ||
+      r.naturalIntentFocus ||
+      [];
+    const body = pickLowEgoFromPool(pool, seed);
+    if (!body) return null;
     return {
-      body: pickSeeded(pool, seed),
+      body,
       category: "natural_conversation",
       suggestedCommand: null
     };
@@ -68,10 +75,11 @@ function routeNaturalIntent(text, lang, session, userId) {
   }
 
   if (/(clarity|tisztánlátás|need direction|nem tudom merre)/i.test(t) && t.length < 120) {
-    const pool = r.naturalIntentClarity || [];
-    if (!pool.length) return null;
+    const pool = r.lowEgoNaturalIntent?.clarity || r.naturalIntentClarity || [];
+    const body = pickLowEgoFromPool(pool, seed);
+    if (!body) return null;
     return {
-      body: pickSeeded(pool, seed),
+      body,
       category: "reflective_open",
       suggestedCommand: null
     };

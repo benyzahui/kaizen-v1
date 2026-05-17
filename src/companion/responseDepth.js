@@ -24,16 +24,18 @@ function resolveResponseDepth(text, category, state) {
     return "short";
   }
 
+  if (category === "life_flow") return "short";
+
   if (category === "casual_greeting" || category === "light_conversation") {
     return t.length < 60 ? "short" : "medium";
   }
 
-  if (
-    category === "natural_conversation" ||
-    category === "emotional_reflection" ||
-    (category === "reflective_open" && state.emotionalIntensity >= 5)
-  ) {
-    return state.emotionalIntensity >= 7 ? "deep" : "medium";
+  if (category === "natural_conversation" || category === "emotional_reflection") {
+    return state.emotionalIntensity >= 7 ? "medium" : "short";
+  }
+
+  if (category === "reflective_open" && state.emotionalIntensity >= 5) {
+    return state.emotionalIntensity >= 7 ? "medium" : "short";
   }
 
   if (state.mentorMode === "sharp_focus" || state.mentorMode === "disciplined_push") {

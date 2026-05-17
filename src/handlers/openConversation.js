@@ -36,6 +36,7 @@ const { buildNaturalConversation } = require("../conversation/naturalConversatio
 const { tryCompanionCheckIn } = require("../companion/companionInitiation");
 const { tryShortActionReply } = require("../companion/responseDepth");
 const { routeNaturalIntent } = require("../companion/naturalIntentRouter");
+const { tryConversationalFlow } = require("../companion/conversationalFlow");
 const { tryMicroReward } = require("../companion/microRewards");
 const {
   detectAccountabilityToggle,
@@ -204,6 +205,24 @@ async function handleOpenConversation(message, lang, session) {
   if (micro) {
     const companionCtx = prepareCompanionContext(userId, text, session, lang, micro.category);
     return emitOpen(companionCtx, micro.category, micro.body, r, null);
+  }
+
+  const lifeFlow = tryConversationalFlow(text, lang, session, userId);
+  if (lifeFlow) {
+    const companionCtx = prepareCompanionContext(
+      userId,
+      text,
+      session,
+      lang,
+      lifeFlow.category
+    );
+    logOpen({
+      lang,
+      category: lifeFlow.category,
+      handler: "conversationalFlow.try",
+      textPreview: text.slice(0, 80)
+    });
+    return emitOpen(companionCtx, lifeFlow.category, lifeFlow.body, r, null);
   }
 
   const naturalIntent = routeNaturalIntent(text, lang, session, userId);

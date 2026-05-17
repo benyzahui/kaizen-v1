@@ -9,7 +9,9 @@ const ONE_LINE_CATEGORIES = new Set([
   "casual_greeting",
   "light_conversation",
   "micro_reward",
-  "companion_checkin"
+  "companion_checkin",
+  "life_flow",
+  "natural_conversation"
 ]);
 
 /**
@@ -19,7 +21,14 @@ const ONE_LINE_CATEGORIES = new Set([
  */
 function shouldUseOneLinePacing(userText, state, category) {
   const t = String(userText || "").trim();
-  if (ONE_LINE_CATEGORIES.has(category) && t.length < 50) return true;
+  if (category === "life_flow") return true;
+  if (ONE_LINE_CATEGORIES.has(category) && t.length < 80) return true;
+  if (
+    category === "natural_conversation" &&
+    (state?.emotionalIntensity >= 6 || state?.energyLevel <= 4)
+  ) {
+    return true;
+  }
   if (t.length < 35 && (state?.responseDepth === "short" || state?.length === "short")) {
     return true;
   }
@@ -42,7 +51,11 @@ function applyOneLinePacing(body, lang, seed = "") {
 
   const r = getResponses(lang);
   const pool = r.oneLineBeats || [];
-  if (pool.length && Math.random() < 0.22) {
+  const silence = r.silenceBeats || [];
+  if (silence.length && parts.length > 2 && Math.random() < 0.35) {
+    return pickSeeded(silence, seed);
+  }
+  if (pool.length && Math.random() < 0.28) {
     return pickSeeded(pool, seed);
   }
 

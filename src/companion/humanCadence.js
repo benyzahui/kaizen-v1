@@ -56,8 +56,19 @@ function stripSyntheticLines(body, lang, category) {
  */
 function capHumanLength(text, category) {
   const maxLines =
-    category === "onboarding" ? 14 : category === "natural_conversation" ? 5 : 7;
-  const maxChars = category === "natural_conversation" ? 420 : 520;
+    category === "onboarding"
+      ? 14
+      : category === "life_flow"
+        ? 3
+        : category === "natural_conversation"
+          ? 4
+          : 7;
+  const maxChars =
+    category === "life_flow"
+      ? 160
+      : category === "natural_conversation"
+        ? 320
+        : 520;
 
   const parts = String(text || "")
     .split(/\n/)

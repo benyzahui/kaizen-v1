@@ -41,6 +41,8 @@ const { applyHumanCadence } = require("./humanCadence");
 const { maybeEmotionalContinuity } = require("./emotionalContinuity");
 const { shouldUseOneLinePacing, applyOneLinePacing } = require("./oneLinePacing");
 const { maybeThreadLead } = require("./threadContinuityEngine");
+const { applyLowEgoPass } = require("./lowEgoStyle");
+const { maybeGroundedHumor } = require("./groundedHumor");
 
 const SKIP_MEMORY_CATEGORIES = new Set([
   "onboarding",
@@ -50,7 +52,8 @@ const SKIP_MEMORY_CATEGORIES = new Set([
   "micro_reward",
   "accountability_setup",
   "accountability_followup",
-  "thread_continuity"
+  "thread_continuity",
+  "life_flow"
 ]);
 
 const EMBEDDED_CMD_RE = /\n→\s*\/\w+(@\w+)?\s*$/gim;
@@ -125,9 +128,34 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     responseStructures: ctx.memory.short.responseStructures
   };
 
+  const lowEgoCats = new Set([
+    "natural_conversation",
+    "emotional_reflection",
+    "life_flow",
+    "light_conversation",
+    "casual_greeting"
+  ]);
+  if (lowEgoCats.has(category) && ctx.plan) {
+    ctx.plan = {
+      ...ctx.plan,
+      action: "observe",
+      depth: category === "life_flow" ? "short" : ctx.plan.depth,
+      appendRhythm: false
+    };
+  }
+
   const depth = ctx.plan?.depth || ctx.state?.responseDepth || "medium";
   b = applyDepthScale(b, depth);
-  b = applyEmotionalPacing(b, ctx.lang, s, ctx.plan, ctx.conversationMode, category);
+  b = applyEmotionalPacing(
+    b,
+    ctx.lang,
+    s,
+    ctx.plan,
+    ctx.conversationMode,
+    category,
+    ctx.state
+  );
+  b = applyLowEgoPass(b, ctx.lang, category, ctx.lastUserText || "", ctx.state);
 
   const memLine = maybePresenceMemoryLine(
     ctx.session || s,
@@ -176,8 +204,24 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
 
   if (!fresh) {
     b = applyHumanVoiceGuard(b, ctx.lang, `${category}_${ctx.userId}`);
+    const humor = maybeGroundedHumor(
+      ctx.state,
+      ctx.lang,
+      category,
+      ctx.lastUserText || ""
+    );
+    if (humor && b.split(/\n/).length < 4) {
+      b = lines(b, "", humor);
+    }
     const dragon = maybeDragonWhisper(ctx.lang, category, `${category}_${ctx.userId}`);
-    if (dragon && b.split(/\n/).length < 6) b = lines(b, "", dragon);
+    if (
+      dragon &&
+      b.split(/\n/).length < 6 &&
+      category !== "life_flow" &&
+      category !== "natural_conversation"
+    ) {
+      b = lines(b, "", dragon);
+    }
   }
 
   if (!fresh && category !== "onboarding") {

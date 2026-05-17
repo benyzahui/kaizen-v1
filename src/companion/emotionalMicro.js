@@ -34,7 +34,13 @@ function buildMicroEmotionalReply(text, lang, session, userId) {
   const pool = r.microEmotional?.[slot] || r.humanLines?.[slot];
   if (!pool?.length) return null;
 
-  return pickUnseenVariant(session, userId, pool);
+  let line = pickUnseenVariant(session, userId, pool);
+  const questions = r.lowEgoQuestions?.[slot] || r.lowEgoQuestions?.general;
+  if (questions?.length && Math.random() < 0.16) {
+    const q = pickUnseenVariant(session, userId, questions);
+    if (q && !line.includes(q)) line = `${line}\n${q}`;
+  }
+  return line;
 }
 
 module.exports = { detectMicroSlot, buildMicroEmotionalReply };

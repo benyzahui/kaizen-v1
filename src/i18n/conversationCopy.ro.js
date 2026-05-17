@@ -158,6 +158,61 @@ module.exports = {
     ]
   },
 
+  conversationalFlow: {
+    home_return: [
+      "Na?\nCum a fost ziua?",
+      "Acasă.\nZi lungă sau doar obositoare?",
+      "Ai ajuns.\nCe ți-a rămas din zi?"
+    ],
+    day_end: [
+      "Ziua s-a terminat.\nCapul încă aleargă sau se liniștește?",
+      "Te-ai oprit.\nMai ușor acum?"
+    ],
+    arrival: ["Na?", "Ai ajuns.\nCea mai bună parte a zilei?"],
+    opener: ["Da?", "Sunt aici.", "Spune."],
+    mundane: ["Da.", "Înțeleg.", "Te aud."],
+    day_reply: [
+      "Înțeleg.\nCare a fost partea cea mai grea?",
+      "Te aud.\nOamenii sau sarcinile — ce te-a golit?",
+      "Da.\nMai ai energie sau e gol?"
+    ]
+  },
+
+  lowEgoNaturalIntent: {
+    overload: [
+      "Multă presiune deodată.",
+      "Sună mai mult a suprasolicitare decât lipsă de motivație."
+    ],
+    focus: [
+      "Tras în bucăți e stare — nu identitate.",
+      "Dacă ții totul deodată, sistemul se rupe."
+    ],
+    clarity: [
+      "O decizie e suficient acum.",
+      "Ce ar face seara asta să fie cu un grad mai ușoară în tine?"
+    ]
+  },
+
+  lowEgoQuestions: {
+    general: ["Ce ar face seara asta să fie cu un grad mai ușoară în tine?"],
+    overwhelm: ["Ce lucru, dacă se aranjează azi, îți scade zgomotul?"],
+    exhaustion: ["Ai o oră diseară care e cu adevărat a ta?"],
+    stress: ["Ce apasă cel mai tare acum — un cuvânt?"]
+  },
+
+  silenceBeats: [
+    "Acum sună greu.",
+    "Bine că ai spus asta.",
+    "Sunt aici.",
+    "Te aud."
+  ],
+
+  groundedHumor: [
+    "Creierul tău debughează în production acum.",
+    "Nu îți lipsește un proiect nou în viață.",
+    "Haosul rulează live — nu pe staging."
+  ],
+
   emotionalContinuity: {
     groundedAfterOverload: [
       "Ieri încă sunai rupt. Azi pari puțin mai clar.",
@@ -228,9 +283,9 @@ module.exports = {
   ],
 
   shortActionReplies: [
-    "Bine.\nDin corp e mai ușor să reordonezi capul.\nNu aduce performanță — aduce ritm.",
-    "Alergare/plimbare — nu predica.\nDouăzeci de minute. Telefonul rămâne întunecat.",
-    "Mișcare întâi. Sensul poate aștepta."
+    "Bine.\nTe aștept când revii.",
+    "Ok.\nDupă alergare.",
+    "Bine.\nMișcare — nu performanță."
   ],
 
   sarcasmRare: [

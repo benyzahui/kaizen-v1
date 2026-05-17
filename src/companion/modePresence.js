@@ -25,7 +25,17 @@ function threadContinuityLead(session, lang) {
   return pickSeeded(pool, `thread_${topic.slice(0, 40)}_${msgs.length}`);
 }
 
+const LOW_EGO_SKIP_LAYER = new Set([
+  "natural_conversation",
+  "emotional_reflection",
+  "life_flow",
+  "light_conversation",
+  "casual_greeting"
+]);
+
 function applyModePresence(coreBody, mode, lang, session, category, skipLead = false) {
+  if (LOW_EGO_SKIP_LAYER.has(category)) return coreBody;
+
   const r = getResponses(lang);
   const turns = session?.messages?.length || 0;
   const parts = [];

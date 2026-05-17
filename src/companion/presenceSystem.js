@@ -29,7 +29,8 @@ const SKIP_PRESENCE = new Set([
   "accountability_setup",
   "accountability_followup",
   "natural_conversation",
-  "thread_continuity"
+  "thread_continuity",
+  "life_flow"
 ]);
 
 /**
@@ -68,7 +69,11 @@ function applyPresence(body, ctx, category) {
     }
   }
 
-  if (Math.random() < 0.1 && category !== "trading_context") {
+  if (
+    Math.random() < 0.04 &&
+    category !== "trading_context" &&
+    category !== "reflective_open"
+  ) {
     const elite = r.eliteWhispers || [];
     if (elite.length) {
       out = lines(out, "", pickSeeded(elite, `elite_${state.mentorMode}`));

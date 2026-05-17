@@ -32,11 +32,11 @@ function tryCompanionCheckIn(session, lang, userId, text) {
 
   let trigger = false;
   if (gap > 8 * 60 * 60 * 1000 && (greeting || shortMsg)) trigger = true;
-  if (pm.overloadActive && gap > MIN_GAP_MS && shortMsg) trigger = true;
-  if (pm.mission && gap > 6 * 60 * 60 * 1000 && Math.random() < 0.25) trigger = true;
+  if (pm.overloadActive && gap > MIN_GAP_MS && shortMsg && greeting) trigger = true;
+  if (pm.mission && gap > 10 * 60 * 60 * 1000 && Math.random() < 0.12) trigger = true;
 
   if (!trigger) return null;
-  if (Math.random() > 0.45) return null;
+  if (Math.random() > 0.28) return null;
 
   const r = getResponses(lang);
   const pool = r.companionCheckIns || [];

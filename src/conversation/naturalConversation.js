@@ -6,6 +6,7 @@
 const { pickUnseenVariant } = require("./responseVariation");
 const { getResponses } = require("../i18n/getResponses");
 const { buildMicroEmotionalReply } = require("../companion/emotionalMicro");
+const { pickLowEgoFromPool } = require("../companion/lowEgoStyle");
 
 const NATURAL_CATEGORIES = new Set([
   "emotional_reflection",
@@ -80,13 +81,17 @@ function buildNaturalConversation(text, category, session, lang, userId) {
   const slot = detectNaturalSlot(text);
   const pool =
     r.humanLines?.[slot] ||
-    r.humanPresence?.[slot] ||
+    r.lowEgoNaturalIntent?.[slot] ||
     r.humanLines?.general ||
-    r.humanPresence?.general ||
     [];
   if (!pool.length) return null;
 
-  const body = pickUnseenVariant(session, userId, pool);
+  const flat = pool.map((p) =>
+    typeof p === "string" && p.includes("\n\n") ? p.split("\n\n")[0].trim() : p
+  );
+  const body =
+    pickLowEgoFromPool(flat, `nat_${userId}_${slot}`) ||
+    pickUnseenVariant(session, userId, flat);
   return {
     body,
     category: category === "chaos_loop" ? "emotional_reflection" : category
