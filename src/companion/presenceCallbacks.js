@@ -68,4 +68,46 @@ function maybePresenceCallback(session, lang, category, seed = "") {
   return pickSeeded(pool, seed || `pcb_${prev}_${pm.emotionalState}_${category}`);
 }
 
-module.exports = { maybePresenceCallback };
+/**
+ * Emotional attachment — attentive, not performative.
+ * @param {object} session
+ * @param {'en'|'hu'|'ro'} lang
+ * @param {string} category
+ */
+function maybeAttachmentMoment(session, lang, category) {
+  if (!session?.onboardingCompleted) return null;
+  const pm = session.presenceMemory;
+  if (!pm || (session.messages || []).length < 3) return null;
+  if (Math.random() > 0.17) return null;
+
+  const prev = pm.previousEmotionalState;
+  const r = getResponses(lang);
+  const pool = [];
+  const att = r.attachmentMoments || {};
+
+  if (
+    prev === "overloaded" &&
+    (pm.emotionalState === "grounded" || pm.emotionalState === "stable")
+  ) {
+    pool.push(...(att.calmer || []));
+  }
+  if (prev === "overloaded" && pm.emotionalState === "overloaded") {
+    pool.push(...(att.stillHeavy || []));
+  }
+  const lastUser =
+    session.lastUserText ||
+    session.messages?.[session.messages.length - 1]?.text ||
+    "";
+  if (/(megcsinált|did it|done|kész|finished|lefutottam|went for|trade|edzés|run)/i.test(lastUser)) {
+    pool.push(...(att.action || []));
+  }
+  const gap = Date.now() - (session.lastAt || Date.now());
+  if (gap >= 6 * 60 * 60 * 1000 && (session.messages || []).length >= 2) {
+    pool.push(...(att.return || []));
+  }
+
+  if (!pool.length) return null;
+  return pickSeeded(pool, `att_${prev}_${pm.emotionalState}_${category}`);
+}
+
+module.exports = { maybePresenceCallback, maybeAttachmentMoment };

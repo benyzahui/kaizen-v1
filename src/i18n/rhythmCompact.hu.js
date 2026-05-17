@@ -19,8 +19,8 @@ module.exports = {
   rhythmBodyDefault: "víz + felállás",
 
   rhythmMidday:
-    "Dél.\nEltértél a blokktól?\nHa igen — vissza. Öt perc a valódi feladaton.",
+    "Dél.\nMég azon a sávon vagy?\nHa szétszórt vagy — egy kör zárása, aztán folytatás.",
 
   rhythmEvening:
-    "Esti tükör.\nMi ment ma tényleg?\nLefelé: kevesebb képernyő, lassabb légzés.\nEgy őszinte sor holnapra — nem beszéd."
+    "Este.\nMi volt ma az egy stabil blokk?\nLeeresztés — nem új sprint.\nEgy őszinte sor, aztán pihenés."
 };

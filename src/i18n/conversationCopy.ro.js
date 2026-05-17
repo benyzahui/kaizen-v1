@@ -360,6 +360,57 @@ module.exports = {
     "Apă? Respirație mai lentă?"
   ],
 
+  microRituals: {
+    morning: [
+      "Dimineață: cine ești azi — și care e o direcție?",
+      "Azi nu contează lista întreagă.\nUn bloc pe care îl protejezi.",
+      "Poartă de dimineață: identitate + o bandă clară."
+    ],
+    midday: [
+      "Amiază: încă pe banda aleasă dimineața?",
+      "Corecție focus: închizi un cerc, apoi continui.",
+      "Suprasolicitare sau împrăștiere acum?"
+    ],
+    evening: [
+      "Seară: coborâre — nu sprint nou.",
+      "Care a fost blocul stabil de azi?",
+      "Lasă capul — mâine împrumută, nu seara asta."
+    ],
+    late_night: [
+      "Târziu: o linie de închidere, apoi somn.",
+      "Nimic strategic nu trebuie rezolvat acum."
+    ]
+  },
+
+  attachmentMoments: {
+    calmer: [
+      "Ieri sunai mult mai zgomotos înăuntru.",
+      "Acum energia ta pare mai calmă."
+    ],
+    stillHeavy: [
+      "Încă greu — dar ești aici, și asta contează.",
+      "Presiunea încă e — nu trebuie rezolvat tot azi."
+    ],
+    action: [
+      "Bine că nu doar te gândești — și te miști.",
+      "Asta e mișcare — nu doar cuvinte."
+    ],
+    return: ["Bine că ai revenit azi.", "Ești înapoi — și asta e ritm."]
+  },
+
+  lightAccountability: [
+    "Ai reușit măcar un bloc stabil azi?",
+    "Corpul sau capul a purtat mai mult azi?",
+    "O linie: mișcare azi, sau mai mult gândit?"
+  ],
+
+  premiumQuiet: [
+    "Acum sună greu.",
+    "Bine că nu ai ținut asta înăuntru.",
+    "Te aud.",
+    "Sunt aici — nu trebuie răspuns perfect acum."
+  ],
+
   dailyCompanionLoop: {
     morning: [
       "Dimineața: o direcție e suficient — nu zece.",
@@ -407,6 +458,24 @@ module.exports = {
     returnAfterSilence: [
       "Ai revenit.\nUnde ești acum — o propoziție?",
       "A trecut ceva timp.\nCe s-a schimbat?"
+    ],
+    observational: [
+      "Na. Cum a fost ziua până acum?",
+      "Suprasolicitare sau oboseală acum?",
+      "Ce spune corpul tău despre ritmul ăsta în ultima vreme?"
+    ],
+    reflective: [
+      "Ce ți-a rămas din zi până acum?",
+      "Unde simți cea mai mare greutate acum?"
+    ],
+    practical: [
+      "Un bloc e suficient acum — care?",
+      "Care e un lucru care chiar contează azi?"
+    ],
+    calm: ["Sunt aici.", "Te ascult.", "Încetinește — un pas e suficient."],
+    lightHumor: [
+      "Creierul rulează din nou prea multe tab-uri?",
+      "Da — mult deodată și azi?"
     ]
   },
 

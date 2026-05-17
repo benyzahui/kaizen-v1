@@ -108,9 +108,34 @@ function tryAccountabilityFollowUp(session, text, lang, userId) {
   return null;
 }
 
+/**
+ * Light accountability — supported, not monitored.
+ * @param {object} session
+ * @param {string} text
+ * @param {'en'|'hu'|'ro'} lang
+ * @param {string|number} userId
+ */
+function maybeLightAccountability(session, text, lang, userId) {
+  if (!session?.onboardingCompleted) return null;
+  const raw = String(text || "").trim();
+  if (raw.length < 3 || /^\//.test(raw)) return null;
+  if (msgsLen(session) < 4) return null;
+  if (Math.random() > 0.09) return null;
+
+  const r = getResponses(lang);
+  const pool = r.lightAccountability || [];
+  if (!pool.length) return null;
+
+  return {
+    body: pickSeeded(pool, `light_acc_${userId}_${msgsLen(session)}`),
+    category: "light_accountability"
+  };
+}
+
 module.exports = {
   detectAccountabilityToggle,
   applyAccountabilityToggle,
   tryAccountabilityFollowUp,
-  maybeRecordPromise
+  maybeRecordPromise,
+  maybeLightAccountability
 };

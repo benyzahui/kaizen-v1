@@ -49,4 +49,30 @@ function maybeCompanionWarmth(state, session, lang, category, text) {
   return pickSeeded(pool, `warm_${category}_${session.messages?.length || 0}`);
 }
 
-module.exports = { maybeCompanionWarmth, WARM_SKIP };
+/**
+ * Presence without coaching — premium quiet.
+ * @param {object} state
+ * @param {object} session
+ * @param {'en'|'hu'|'ro'} lang
+ * @param {string} category
+ * @param {string} text
+ */
+function maybePremiumQuiet(state, session, lang, category, text) {
+  if (WARM_SKIP.has(category)) return null;
+  if (!session?.onboardingCompleted) return null;
+
+  const t = String(text || "");
+  const r = getResponses(lang);
+  const pool = r.premiumQuiet || [];
+  if (!pool.length) return null;
+
+  let chance = 0.1;
+  if (state?.emotionalIntensity >= 5) chance = 0.22;
+  if (/(kimondt|said it|bevall|honest|őszint|kept inside|bent tart)/i.test(t)) chance = 0.28;
+  if (state?.mentorMode === "recovery_mode") chance = 0.18;
+
+  if (Math.random() > chance) return null;
+  return pickSeeded(pool, `quiet_${category}_${session.messages?.length || 0}`);
+}
+
+module.exports = { maybeCompanionWarmth, maybePremiumQuiet, WARM_SKIP };

@@ -78,6 +78,14 @@ function pickDynamicOpening(ctx, category) {
     pool.push(...(r.dynamicOpenings?.tired || []));
   }
 
+  pool.push(...(r.dynamicOpenings?.observational || []));
+  pool.push(...(r.dynamicOpenings?.reflective || []));
+  pool.push(...(r.dynamicOpenings?.practical || []));
+  pool.push(...(r.dynamicOpenings?.calm || []));
+  if (pm.emotionalState !== "overloaded" && state.emotionalIntensity <= 5) {
+    pool.push(...(r.dynamicOpenings?.lightHumor || []));
+  }
+
   if (!pool.length) return null;
   return pickSeeded(
     pool,

@@ -367,6 +367,57 @@ module.exports = {
     "Víz megvan? Lélegzet lassabb?"
   ],
 
+  microRituals: {
+    morning: [
+      "Reggel: ki vagy ma — és mi az egy irány?",
+      "Ma nem a teljes lista számít.\nEgy blokk, amit megvédesz.",
+      "Reggeli kapu: identitás + egy tiszta irány."
+    ],
+    midday: [
+      "Dél: még azon a sávon vagy, amit reggel választottál?",
+      "Fókusz-korrekció: egy kör zárása, aztán tovább.",
+      "Most inkább túlterhelés vagy szétszórtság?"
+    ],
+    evening: [
+      "Este: leeresztés, nem új sprint.",
+      "Mi volt ma az egy stabil blokk?",
+      "Engedd le a fejet — holnapra kölcsönöz, nem ma."
+    ],
+    late_night: [
+      "Késő este: egy sor zárás, aztán alvás.",
+      "Semmi stratégiai döntés most nem kell."
+    ]
+  },
+
+  attachmentMoments: {
+    calmer: [
+      "Tegnap még sokkal zajosabbnak tűntél.",
+      "Most nyugodtabb energiád van."
+    ],
+    stillHeavy: [
+      "Még nehéz — de itt vagy, és ez számít.",
+      "A nyomás még ott van — nem kell ma megoldani."
+    ],
+    action: [
+      "Jó látni hogy nem csak gondolkodsz rajta, hanem lépsz is.",
+      "Ez már mozdulat — nem csak szöveg."
+    ],
+    return: ["Jó hogy ma visszajöttél.", "Vissza vagy — ez is ritmus."]
+  },
+
+  lightAccountability: [
+    "Sikerült ma legalább egy stabil blokk?",
+    "Ma testedet vagy fejedet terhelted jobban?",
+    "Egy sor: volt ma mozdulat, vagy csak gondolkodás?"
+  ],
+
+  premiumQuiet: [
+    "Ez most nehéznek hangzik.",
+    "Jó hogy ezt nem tartottad bent.",
+    "Hallom.",
+    "Itt vagyok — nem kell most tökéletes válasz."
+  ],
+
   dailyCompanionLoop: {
     morning: [
       "Reggel egy irány elég — nem tíz.",
@@ -414,6 +465,24 @@ module.exports = {
     returnAfterSilence: [
       "Vissza vagy.\nHol tartasz most — egy mondatban?",
       "Régóta nem írtál.\nMi változott?"
+    ],
+    observational: [
+      "Na. Milyen nap volt eddig?",
+      "Most inkább túlterhelés vagy fáradtság?",
+      "A tested mit szól ehhez a tempóhoz mostanában?"
+    ],
+    reflective: [
+      "Mi maradt meg benned a napból eddig?",
+      "Hol érzed most a legnagyobb súlyt?"
+    ],
+    practical: [
+      "Egy blokk elég most — melyik legyen?",
+      "Mi az egy dolog, ami ma tényleg számít?"
+    ],
+    calm: ["Itt vagyok.", "Hallgatlak.", "Lassíts — egy lépés elég."],
+    lightHumor: [
+      "Az agyad megint túl sok tabbal fut?",
+      "Na — ma is sok minden egyszerre?"
     ]
   },
 

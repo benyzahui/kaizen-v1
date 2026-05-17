@@ -373,6 +373,57 @@ module.exports = {
     "Water in? Breath a bit slower?"
   ],
 
+  microRituals: {
+    morning: [
+      "Morning: who are you today — and what is the one direction?",
+      "Today is not the full list.\nOne block you actually protect.",
+      "Morning gate: identity + one clear lane."
+    ],
+    midday: [
+      "Midday: still on the lane you picked this morning?",
+      "Focus correction: close one loop, then continue.",
+      "Overload or scattered right now?"
+    ],
+    evening: [
+      "Evening: downshift — not a new sprint.",
+      "What was today's one stable block?",
+      "Let the head rest — tomorrow borrows, not tonight."
+    ],
+    late_night: [
+      "Late night: one closing line, then sleep.",
+      "Nothing strategic needs solving at this hour."
+    ]
+  },
+
+  attachmentMoments: {
+    calmer: [
+      "Yesterday you sounded much noisier inside.",
+      "Your energy reads calmer now."
+    ],
+    stillHeavy: [
+      "Still heavy — but you are here, and that counts.",
+      "The pressure is still there — you do not have to solve it all today."
+    ],
+    action: [
+      "Good to see you are not only thinking about it — you are moving too.",
+      "That is movement — not just words."
+    ],
+    return: ["Good that you came back today.", "You are back — that is rhythm too."]
+  },
+
+  lightAccountability: [
+    "Did you get at least one stable block today?",
+    "Did your body or your head carry more weight today?",
+    "One line: movement today, or mostly thinking?"
+  ],
+
+  premiumQuiet: [
+    "This sounds heavy right now.",
+    "Good that you did not keep this inside.",
+    "I hear you.",
+    "I am here — no perfect answer needed right now."
+  ],
+
   dailyCompanionLoop: {
     morning: [
       "Morning: one direction is enough — not ten.",
@@ -420,6 +471,24 @@ module.exports = {
     returnAfterSilence: [
       "You are back.\nWhere are you now — one sentence?",
       "It has been a while.\nWhat changed?"
+    ],
+    observational: [
+      "Hey. How has the day been so far?",
+      "Overload or fatigue right now?",
+      "What is your body saying about this pace lately?"
+    ],
+    reflective: [
+      "What stayed with you from the day so far?",
+      "Where do you feel the most weight right now?"
+    ],
+    practical: [
+      "One block is enough now — which one?",
+      "What is the one thing that actually matters today?"
+    ],
+    calm: ["I am here.", "I am listening.", "Slow down — one step is enough."],
+    lightHumor: [
+      "Brain running too many tabs again?",
+      "Yeah — a lot at once today too?"
     ]
   },
 

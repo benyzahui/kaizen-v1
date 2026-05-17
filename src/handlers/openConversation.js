@@ -42,7 +42,8 @@ const { tryMicroReward } = require("../companion/microRewards");
 const {
   detectAccountabilityToggle,
   applyAccountabilityToggle,
-  tryAccountabilityFollowUp
+  tryAccountabilityFollowUp,
+  maybeLightAccountability
 } = require("../companion/accountabilityMode");
 const { tryThreadReturnReply } = require("../companion/threadContinuityEngine");
 
@@ -188,6 +189,18 @@ async function handleOpenConversation(message, lang, session) {
     const reply = applyAccountabilityToggle(userId, accToggle, lang);
     const companionCtx = prepareCompanionContext(userId, text, session, lang, "accountability_setup");
     return emitOpen(companionCtx, "accountability_setup", reply, r, null);
+  }
+
+  const lightAcc = maybeLightAccountability(session, text, lang, userId);
+  if (lightAcc) {
+    const companionCtx = prepareCompanionContext(
+      userId,
+      text,
+      session,
+      lang,
+      lightAcc.category
+    );
+    return emitOpen(companionCtx, lightAcc.category, lightAcc.body, r, null);
   }
 
   const accFollow = tryAccountabilityFollowUp(session, text, lang, userId);

@@ -13,7 +13,10 @@ const LOOP_CATEGORIES = new Set([
   "plan_tracking",
   "unknown",
   "body_energy",
-  "self_development"
+  "self_development",
+  "natural_conversation",
+  "life_flow",
+  "light_conversation"
 ]);
 
 /**
@@ -24,12 +27,14 @@ const LOOP_CATEGORIES = new Set([
 function maybeDailyLoopWhisper(session, lang, category) {
   if (!session?.onboardingCompleted) return null;
   if (!LOOP_CATEGORIES.has(category)) return null;
-  if (Math.random() > 0.11) return null;
+  if (Math.random() > 0.14) return null;
 
   const slot = getTimeSlot(session);
   const r = getResponses(lang);
-  const pool = r.dailyCompanionLoop?.[slot] || r.dailyCompanionLoop?.default;
-  if (!pool?.length) return null;
+  const ritual = r.microRituals?.[slot] || [];
+  const loop = r.dailyCompanionLoop?.[slot] || r.dailyCompanionLoop?.default || [];
+  const pool = [...ritual, ...loop];
+  if (!pool.length) return null;
 
   return pickSeeded(pool, `dloop_${slot}_${category}_${session.messages?.length || 0}`);
 }

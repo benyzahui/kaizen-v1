@@ -9,7 +9,7 @@ const { getResponses } = require("../src/i18n/getResponses");
 
 const SCENARIOS = [
   { label: "ashamed", text: "Szégyenlem hogy így érzem.", expect: /szégyen|soknak|érthető|kimond/i },
-  { label: "exhausted", text: "Kimerült vagyok, nem bírom.", expect: /feszült|tartani|kimerül/i },
+  { label: "exhausted", text: "Kimerült vagyok, nem bírom.", expect: /feszült|tartani|kimerül|kifogyás|nyomod/i },
   { label: "lost", text: "Elvesztem, nem tudom merre.", expect: /|/ },
   { label: "ambitious", text: "Nagy célom van, de szétesik a fókusz.", expect: /fókusz|energia|sáv/i },
   { label: "lonely", text: "Magányosnak érzem magam.", expect: /magány|emberi|kapcsolód/i },
