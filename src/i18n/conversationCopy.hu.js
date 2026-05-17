@@ -734,6 +734,8 @@ module.exports = {
     "Ez már tisztább."
   ],
 
+  soulMicroBeats: ["Hm.", "Na.", "Értem.", "Az kemény lehetett.", "Jó.", "Az sok."],
+
   eliteAtmosphereCalm: [
     "Egy sáv elég ma.",
     "Energia védelem: kevesebb bemenet.",

@@ -66,6 +66,7 @@ const { finalizePremiumPass } = require("./premiumCompanion");
 const { finalizeHumanFirstPass } = require("./humanFirstCompanion");
 const { finalizePremiumFeelingPass } = require("./premiumFeeling");
 const { finalizeBetaShipLock } = require("./betaShipLock");
+const { finalizeSoulCoherence, COHERENT_FLOW } = require("./soulCoherence");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -256,18 +257,20 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
 
   const depth = soulRhythm.caps.depth || ctx.plan?.depth || ctx.state?.responseDepth || "medium";
   b = applyDepthScale(b, depth);
-  b = applyEmotionalPacing(
-    b,
-    ctx.lang,
-    s,
-    ctx.plan,
-    ctx.conversationMode,
-    category,
-    ctx.state
-  );
+  if (!COHERENT_FLOW.has(category)) {
+    b = applyEmotionalPacing(
+      b,
+      ctx.lang,
+      s,
+      ctx.plan,
+      ctx.conversationMode,
+      category,
+      ctx.state
+    );
+  }
   b = applyLowEgoPass(b, ctx.lang, category, ctx.lastUserText || "", ctx.state);
 
-  if (!fresh && category !== "onboarding") {
+  if (!fresh && category !== "onboarding" && !COHERENT_FLOW.has(category)) {
     const react = maybeMicroReaction(
       ctx.session || s,
       ctx.lang,
@@ -303,14 +306,17 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     `${category}_${s.messages?.length || 0}`
   );
 
+  const skipCoherentMemory =
+    COHERENT_FLOW.has(category) || thinAlive;
+
   const emoCont = maybeEmotionalContinuity(ctx.session || s, ctx.lang, ctx.lastUserText || "");
-  if (emoCont && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh) {
+  if (emoCont && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh && !skipCoherentMemory) {
     b = lines(emoCont, "", b);
   }
 
-  if (presenceCb && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh) {
+  if (presenceCb && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh && !skipCoherentMemory) {
     b = lines(presenceCb, "", b);
-  } else if (memLine && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh) {
+  } else if (memLine && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh && !skipCoherentMemory) {
     b = lines(memLine, "", b);
   }
 
@@ -463,6 +469,10 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
 
   if (opts.withAdaptive) {
     b = opts.withAdaptive(b);
+  }
+
+  if (!fresh && category !== "onboarding") {
+    b = finalizeSoulCoherence(b, ctx, category, alive, soulRhythm);
   }
 
   return b;

@@ -35,7 +35,16 @@ function resolveEmotionalTexture(state, session, text, category, soulRhythm) {
 
   let pool = [...TEXTURES];
 
-  if (category === "relational_flow" || soulRhythm.mode === "silent") {
+  if (soulRhythm.mode === "silent") {
+    return pickSeeded(["quiet", "presence"], `tex_silent_${msgs}`);
+  }
+  if (soulRhythm.mode === "sharp") {
+    return pickSeeded(["direct", "sharp", "grounding"], `tex_sharp_${msgs}`);
+  }
+  if (soulRhythm.mode === "slow") {
+    return pickSeeded(["reflective", "quiet", "warm"], `tex_slow_${msgs}`);
+  }
+  if (category === "relational_flow") {
     return pickSeeded(["presence", "quiet", "warm"], `tex_${msgs}`);
   }
   if (state?.useHumor && state.emotionalIntensity < 5 && /(lol|haha|9000|tab)/i.test(t)) {

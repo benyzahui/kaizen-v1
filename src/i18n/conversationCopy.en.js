@@ -711,6 +711,8 @@ module.exports = {
     "This is clearer now."
   ],
 
+  soulMicroBeats: ["Hm.", "Yeah.", "Got it.", "That must have been hard.", "Good."],
+
   eliteAtmosphereCalm: [
     "One lane is enough today.",
     "Protect energy: fewer inputs.",

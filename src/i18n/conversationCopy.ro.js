@@ -698,6 +698,8 @@ module.exports = {
     "Acum e mai clar."
   ],
 
+  soulMicroBeats: ["Hm.", "Da.", "Înțeleg.", "Asta a fost greu.", "Bine."],
+
   eliteAtmosphereCalm: [
     "O bandă e suficientă azi.",
     "Protejează energia: mai puțin input.",
