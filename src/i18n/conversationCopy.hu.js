@@ -726,6 +726,21 @@ module.exports = {
     "Holnap is itt leszek."
   ],
 
+  calmListening: [
+    "Hallgatlak.",
+    "Na.",
+    "Értem.",
+    "Itt vagyok.",
+    "Ez most sok lehet."
+  ],
+
+  depthGrounding: [
+    "Nem kell mindent kibontani most.",
+    "Elég ennyit kimondani.",
+    "Lélegezz egyet.",
+    "Nem kell rendbe tenni most."
+  ],
+
   microHumanityAlive: ["Hm.", "Na.", "Na várj.", "Az mondjuk sok.", "Értem.", "Jó."],
 
   naturalEmotionalSupport: [

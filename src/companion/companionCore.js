@@ -71,6 +71,7 @@ const { finalizeBetaSurvival } = require("./betaSurvival");
 const { finalizePresenceLock, resolveEmotionalTiming } = require("./presenceLock");
 const { finalizeBetaImmersionHarden } = require("./betaImmersionHarden");
 const { finalizeFinalBetaFeeling } = require("./finalBetaFeeling");
+const { finalizeHumanDepthRefinement } = require("./humanDepthRefinement");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -480,6 +481,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizePresenceLock(b, ctx, category, timing);
     b = finalizeBetaImmersionHarden(b, ctx, category, timing);
     b = finalizeFinalBetaFeeling(b, ctx, category, timing, alive);
+    b = finalizeHumanDepthRefinement(b, ctx, category, timing);
   }
 
   return b;

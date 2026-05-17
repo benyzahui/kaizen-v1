@@ -692,6 +692,21 @@ module.exports = {
     "Mâine tot sunt aici."
   ],
 
+  calmListening: [
+    "Te ascult.",
+    "Da.",
+    "Înțeleg.",
+    "Sunt aici.",
+    "Asta poate fi mult acum."
+  ],
+
+  depthGrounding: [
+    "Nu trebuie să desfaci totul acum.",
+    "E suficient ce ai spus.",
+    "Respiră o dată.",
+    "Nu trebuie reparat acum."
+  ],
+
   microHumanityAlive: ["Hm.", "Da.", "Asta e mult.", "Înțeleg.", "Bine."],
 
   naturalEmotionalSupport: [

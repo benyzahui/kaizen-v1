@@ -705,6 +705,21 @@ module.exports = {
     "I will be here tomorrow too."
   ],
 
+  calmListening: [
+    "I am listening.",
+    "Yeah.",
+    "Got it.",
+    "I am here.",
+    "That might be a lot right now."
+  ],
+
+  depthGrounding: [
+    "You do not have to unpack everything now.",
+    "Saying this much is enough.",
+    "Take one breath.",
+    "It does not need fixing right now."
+  ],
+
   microHumanityAlive: ["Hm.", "Yeah.", "That is a lot.", "Got it.", "Good."],
 
   naturalEmotionalSupport: [
