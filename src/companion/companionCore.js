@@ -55,6 +55,12 @@ const { maybeCompanionWarmth, maybePremiumQuiet } = require("./companionWarmth")
 const { maybeMicroReaction } = require("./emotionalMicro");
 const { maybePremiumClosing } = require("./premiumClosing");
 const { applyAtmosphereLayers, formatAtmosphereMessage } = require("./atmospherePresence");
+const {
+  maybeRelationshipContinuity,
+  maybeRelationalCuriosity,
+  maybeNaturalComfort,
+  filterSelfHelpProduct
+} = require("./relationshipPresence");
 
 const SKIP_MEMORY_CATEGORIES = new Set([
   "onboarding",
@@ -66,7 +72,8 @@ const SKIP_MEMORY_CATEGORIES = new Set([
   "accountability_followup",
   "thread_continuity",
   "life_flow",
-  "companion_checkin"
+  "companion_checkin",
+  "relational_flow"
 ]);
 
 const EMBEDDED_CMD_RE = /\n→\s*\/\w+(@\w+)?\s*$/gim;
@@ -193,6 +200,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     "natural_conversation",
     "emotional_reflection",
     "life_flow",
+    "relational_flow",
     "light_conversation",
     "casual_greeting"
   ]);
@@ -242,6 +250,15 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     ctx.lang,
     `${category}_${s.messages?.length || 0}`
   );
+
+  const relCont = maybeRelationshipContinuity(
+    ctx.session || s,
+    ctx.lang,
+    category
+  );
+  if (relCont && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh) {
+    b = lines(relCont, "", b);
+  }
 
   const presenceCb = maybePresenceCallback(
     ctx.session || s,
@@ -363,6 +380,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     }
   }
 
+  b = filterSelfHelpProduct(b);
   b = applyAtmosphereLayers(b, ctx, category);
   b = applyPersonalityGuard(b, ctx.lang, category);
   b = sanitizeBetaCopy(b);

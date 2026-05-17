@@ -613,6 +613,43 @@ module.exports = {
     general: ["Sunt aici.", "Ești ok așa."]
   },
 
+  relationshipContinuity: {
+    sameTimeScattered: [
+      "Data trecută tot pe la această oră ți-a început să se rupă focusul.",
+      "Familir — în această parte a zilei obișnuiește să se dezechilibreze."
+    ],
+    calmerThanBefore: [
+      "Ieri sunai mult mai încordat.",
+      "Acum pari mai calm decât acum câteva zile."
+    ],
+    stillTense: [
+      "Încă mult în tine — aceeași presiune?",
+      "Ieri era un ton similar."
+    ]
+  },
+
+  relationalStay: [
+    "Se simte.",
+    "Tragi așa de mult timp?",
+    "Te aud.",
+    "Da. Mult?"
+  ],
+
+  relationalCuriosity: {
+    general: [
+      "Ce apasă cel mai tare acum?",
+      "Ce ar face seara asta să fie cu un grad mai ușoară?"
+    ],
+    tired: ["Corpul sau capul e mai zgomotos acum?", "Tragi așa de mult timp?"],
+    focus: ["Ce te împrăștie cel mai tare acum?", "Un lucru — ce e cel mai încurcat?"]
+  },
+
+  naturalComfort: [
+    "Nu trebuie să rezolvi tot deodată acum.",
+    "E omenește — complet de înțeles.",
+    "Uneori omul e doar obosit."
+  ],
+
   premiumAtmosphere: [
     "Nu încerca să rezolvi tot viitorul azi.",
     "Un bloc curat e suficient.",

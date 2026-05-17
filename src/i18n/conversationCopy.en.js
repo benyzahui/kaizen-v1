@@ -626,6 +626,43 @@ module.exports = {
     general: ["I am here.", "You are okay like this."]
   },
 
+  relationshipContinuity: {
+    sameTimeScattered: [
+      "Last time around this hour your focus started pulling apart too.",
+      "Familiar — things often wobble for you in this part of the day."
+    ],
+    calmerThanBefore: [
+      "Yesterday you sounded much more tense.",
+      "You seem calmer than a few days ago."
+    ],
+    stillTense: [
+      "Still a lot inside — same pressure?",
+      "Yesterday had a similar tone."
+    ]
+  },
+
+  relationalStay: [
+    "I can feel that.",
+    "Have you been carrying it a long time?",
+    "I hear you.",
+    "Yeah. A lot?"
+  ],
+
+  relationalCuriosity: {
+    general: [
+      "What is pressing hardest right now?",
+      "What would make tonight one notch lighter inside you?"
+    ],
+    tired: ["Is your body or your head louder right now?", "Have you been running like this long?"],
+    focus: ["What is scattering you most right now?", "One thing — what feels messiest?"]
+  },
+
+  naturalComfort: [
+    "You do not need to solve everything at once right now.",
+    "That is completely human and understandable.",
+    "Sometimes a person is just tired."
+  ],
+
   premiumAtmosphere: [
     "Do not try to solve your whole future today.",
     "One clean block is enough.",

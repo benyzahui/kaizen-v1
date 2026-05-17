@@ -647,6 +647,43 @@ module.exports = {
     general: ["Itt vagyok.", "Rendben vagy így is."]
   },
 
+  relationshipContinuity: {
+    sameTimeScattered: [
+      "Múltkor is ilyenkor kezdett széthúzódni a fókuszod.",
+      "Ismerős — ilyen időszakban szokott felborulni a rend."
+    ],
+    calmerThanBefore: [
+      "Tegnap még sokkal feszültebb voltál.",
+      "Most nyugodtabbnak tűnsz mint pár napja."
+    ],
+    stillTense: [
+      "Még mindig sok benned — ugyanaz a nyomás?",
+      "Tegnap is hasonló volt a hang."
+    ]
+  },
+
+  relationalStay: [
+    "Az érződik.",
+    "Régóta húzod?",
+    "Hallom.",
+    "Na. Sok volt?"
+  ],
+
+  relationalCuriosity: {
+    general: [
+      "Mi nyom most a legjobban?",
+      "Mitől lenne ma egy fokkal könnyebb benned?"
+    ],
+    tired: ["Most tested vagy fejed zajosabb?", "Régóta húzod így?"],
+    focus: ["Mi szór szét most a legjobban?", "Egy dolog — mi a legzavarosabb?"]
+  },
+
+  naturalComfort: [
+    "Nem kell most mindent egyszerre megoldanod.",
+    "Ez emberileg teljesen érthető.",
+    "Néha az ember csak kifárad."
+  ],
+
   premiumAtmosphere: [
     "Ma ne az egész jövődet próbáld megoldani.",
     "Elég egy tiszta blokk.",

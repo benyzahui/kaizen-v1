@@ -15,7 +15,7 @@ function maybePresenceCallback(session, lang, category, seed = "") {
   if (!session?.onboardingCompleted) return null;
   const pm = session.presenceMemory;
   if (!pm || (session.messages || []).length < 2) return null;
-  if (Math.random() > 0.26) return null;
+  if (Math.random() > 0.18) return null;
 
   const prev = pm.previousEmotionalState;
   const r = getResponses(lang);
@@ -60,7 +60,11 @@ function maybePresenceCallback(session, lang, category, seed = "") {
   if (pm.emotionalState === "tired" || pm.energyPattern === "mental fatigue") {
     pool.push(...(checkbacks.exhaustion || []));
   }
-  if (pm.lastImportantTopic && (session.messages || []).length >= 4) {
+  if (
+    pm.lastImportantTopic &&
+    (session.messages || []).length >= 6 &&
+    Math.random() < 0.4
+  ) {
     pool.push(...(checkbacks.general || []));
   }
 

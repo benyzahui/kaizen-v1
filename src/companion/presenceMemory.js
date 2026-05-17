@@ -4,6 +4,7 @@
 
 const { pickSeeded } = require("../personality/tone");
 const { getResponses } = require("../i18n/getResponses");
+const { buildRelationshipRhythm } = require("./relationshipPresence");
 
 /**
  * @param {object} session
@@ -56,6 +57,8 @@ function buildPresenceSnapshot(session, state, text, category) {
     prev.lastImportantTopic ||
     null;
 
+  const relationshipRhythm = buildRelationshipRhythm(prev, state, session);
+
   return {
     emotionalState,
     previousEmotionalState: prev.emotionalState || emotionalState,
@@ -66,6 +69,7 @@ function buildPresenceSnapshot(session, state, text, category) {
     lastImportantTopic,
     lastEnergyDirection: category === "energy_question" ? "energy" : prev.lastEnergyDirection,
     overloadActive: emotionalState === "overloaded" || emotionalState === "scattered",
+    relationshipRhythm,
     updatedAt: Date.now()
   };
 }

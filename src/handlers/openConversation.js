@@ -38,6 +38,7 @@ const { tryCompanionCheckIn } = require("../companion/companionInitiation");
 const { tryShortActionReply } = require("../companion/responseDepth");
 const { routeNaturalIntent } = require("../companion/naturalIntentRouter");
 const { tryConversationalFlow } = require("../companion/conversationalFlow");
+const { tryRelationalStay } = require("../companion/relationshipPresence");
 const { tryMicroReward } = require("../companion/microRewards");
 const {
   detectAccountabilityToggle,
@@ -219,6 +220,18 @@ async function handleOpenConversation(message, lang, session) {
   if (micro) {
     const companionCtx = prepareCompanionContext(userId, text, session, lang, micro.category);
     return emitOpen(companionCtx, micro.category, micro.body, r, null);
+  }
+
+  const relational = tryRelationalStay(text, lang, session, userId);
+  if (relational) {
+    const companionCtx = prepareCompanionContext(
+      userId,
+      text,
+      session,
+      lang,
+      relational.category
+    );
+    return emitOpen(companionCtx, relational.category, relational.body, r, null);
   }
 
   const lifeFlow = tryConversationalFlow(text, lang, session, userId);
