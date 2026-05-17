@@ -2,6 +2,8 @@
  * Closed beta — strip debug/AI/technical residue from outgoing Telegram copy.
  */
 
+const { humanizeTechLanguage } = require("./betaShipLock");
+
 const TECH_LINE_RE =
   /\b(debugging in production|production environment|staging|language model|as an AI|chatbot|neural|algorithm)\b/i;
 
@@ -18,8 +20,11 @@ function sanitizeBetaCopy(text) {
   t = t
     .replace(/\bdebugging in production\b/gi, "running hot")
     .replace(/\bproduction environment\b/gi, "overdrive")
-    .replace(/\boverload state detected\b/gi, "")
     .replace(/\n{3,}/g, "\n\n");
+
+  t = humanizeTechLanguage(t, "hu");
+  t = humanizeTechLanguage(t, "en");
+  t = humanizeTechLanguage(t, "ro");
 
   const lines = t
     .split(/\n/)

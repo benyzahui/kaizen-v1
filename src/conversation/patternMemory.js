@@ -58,9 +58,14 @@ function isInCooldown(userId) {
   return Boolean(s?.cooldownUntil && now < s.cooldownUntil);
 }
 
+function clearPatternState(userId) {
+  state.delete(keyFor(userId));
+}
+
 module.exports = {
   recordPattern,
   isInCooldown,
+  clearPatternState,
   RESET_WINDOW_MS,
   COOLDOWN_MS,
   TRIGGER_COUNT

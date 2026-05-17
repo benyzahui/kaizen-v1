@@ -65,6 +65,7 @@ const {
 const { finalizePremiumPass } = require("./premiumCompanion");
 const { finalizeHumanFirstPass } = require("./humanFirstCompanion");
 const { finalizePremiumFeelingPass } = require("./premiumFeeling");
+const { finalizeBetaShipLock } = require("./betaShipLock");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -399,6 +400,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizePremiumPass(b, ctx, category, alive, soulRhythm);
     b = finalizeHumanFirstPass(b, ctx, category, alive, soulRhythm);
     b = finalizePremiumFeelingPass(b, ctx, category, alive);
+    b = finalizeBetaShipLock(b, ctx, category);
   }
 
   const skipPremiumTail = LATE_LAYER_SKIP.has(category) || CRISIS_TAIL_SKIP.has(category);

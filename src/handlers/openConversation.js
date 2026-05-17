@@ -148,7 +148,17 @@ async function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     const companionCtx = prepareCompanionContext(userId, text, session, lang, "cooldown");
-    return emitOpen(companionCtx, "cooldown", r.boundaryCooldown, r, null);
+    const coolPool = Array.isArray(r.boundaryCooldown)
+      ? r.boundaryCooldown
+      : String(r.boundaryCooldown || "")
+          .split(/\n\n/)
+          .map((l) => l.trim())
+          .filter(Boolean);
+    const coolBody =
+      coolPool.length > 1
+        ? pickUnseenVariant(session, userId, coolPool)
+        : coolPool[0] || r.boundaryCooldown;
+    return emitOpen(companionCtx, "cooldown", coolBody, r, null);
   }
 
   if (needsImmediateRecovery(text)) {

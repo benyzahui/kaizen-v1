@@ -268,8 +268,9 @@ module.exports = {
 
   boundaryCooldown: [
     "Még a reset időszakodban vagy. Tartsd tiszteletben.",
-    "Gyere vissza, ha az élesség engedett — akár egy kicsit is."
-  ].join("\n\n"),
+    "Gyere vissza, ha az élesség engedett — akár egy kicsit is.",
+    "Most pihenés. Nem kell most bizonyítani."
+  ],
 
   recoveryPause:
     "Szünet. Ez most zaj-sebesség, nem döntés-sebesség.",

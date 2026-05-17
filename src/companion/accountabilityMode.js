@@ -67,7 +67,7 @@ function tryAccountabilityFollowUp(session, text, lang, userId) {
   const last = session.lastAccountabilityPromise;
   const gap = Date.now() - (session.lastAt || 0);
 
-  if (last && gap > 4 * 60 * 60 * 1000 && Math.random() < 0.28) {
+  if (last && gap > 4 * 60 * 60 * 1000 && Math.random() < 0.16) {
     const pool = r.accountabilityFollowUps || r.accountabilitySoul?.followUp || [];
     if (!pool.length) return null;
     const line = pickSeeded(pool, `acc_${userId}_${last.slice(0, 20)}`);
@@ -97,7 +97,7 @@ function tryAccountabilityFollowUp(session, text, lang, userId) {
 
   if (/(didn't|did not|nem |nu am|failed|skipped|halog)/i.test(raw) && last) {
     const pool = r.accountabilitySoul?.avoidance || r.accountabilityAvoidance || [];
-    if (pool.length && Math.random() < 0.32) {
+    if (pool.length && Math.random() < 0.14) {
       return {
         body: pickSeeded(pool, `acc_avoid_${userId}`),
         category: "accountability_followup"
