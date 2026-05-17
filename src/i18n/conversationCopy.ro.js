@@ -364,6 +364,25 @@ module.exports = {
     "Haosul rulează live din nou."
   ],
 
+  microConnections: [
+    "Acum pari mai obosit decât nemotivat.",
+    "Se simte că ai încercat să controlezi prea mult timp.",
+    "🫀 Corpul tău probabil s-a obosit înainte să observi.",
+    "Asta sună mai degrabă a suprasolicitare decât lene."
+  ],
+
+  presenceWowRhythm: [
+    "Acum nu trebuie un sistem nou în viață.\nCi aer.",
+    "Când totul pare urgent deodată,\nfocusul se pierde.",
+    "Nu lipsesc gânduri.\nCi spațiu."
+  ],
+
+  softMemoryCallbacks: [
+    "Ieri totul în tine suna mult mai împrăștiat.",
+    "Data trecută capul a început să devină zgomotos pe la această oră.",
+    "Acum pari mai calm decât acum câteva zile."
+  ],
+
   emotionalFamiliarity: [
     "Data trecută focusul ți-a început să se împrăștie tot pe la această oră.",
     "Acum pari mai calm decât acum câteva zile.",

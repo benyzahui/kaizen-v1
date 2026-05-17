@@ -377,6 +377,25 @@ module.exports = {
     "Chaos is live again."
   ],
 
+  microConnections: [
+    "You sound more exhausted than unmotivated right now.",
+    "Feels like you tried to control this too long.",
+    "🫀 Your body probably tired out before you noticed.",
+    "This sounds more like overload than laziness."
+  ],
+
+  presenceWowRhythm: [
+    "You do not need a new system in your life right now.\nYou need air.",
+    "When everything feels urgent at once,\nfocus gets lost.",
+    "What is missing is not more thought.\nIt is breathing room."
+  ],
+
+  softMemoryCallbacks: [
+    "Yesterday everything inside you sounded much more scattered.",
+    "Last time your head started getting noisy around this hour too.",
+    "You sound calmer than a few days ago."
+  ],
+
   emotionalFamiliarity: [
     "Last time your focus started scattering around this hour too.",
     "You sound calmer than a few days ago.",

@@ -398,6 +398,25 @@ module.exports = {
     "A káosz megint élesben fut."
   ],
 
+  microConnections: [
+    "Most inkább kifáradtnak tűnsz mint motiválatlannak.",
+    "Érződik hogy túl sokáig próbáltad kontrollálni.",
+    "🫀 A tested valószínűleg hamarabb elfáradt mint észrevetted.",
+    "Ez most inkább túlterhelésnek hangzik mint lustaságnak."
+  ],
+
+  presenceWowRhythm: [
+    "Most nem új rendszer kell az életedbe.\nHanem levegő.",
+    "Ha minden egyszerre fontos,\naz ember elveszíti a fókuszt.",
+    "Most nem több gondolat hiányzik.\nHanem levegő."
+  ],
+
+  softMemoryCallbacks: [
+    "Tegnap még sokkal széthúzottabb volt benned minden.",
+    "Múltkor is ilyenkor kezdett zajosodni a fejed.",
+    "Most nyugodtabbnak tűnsz mint pár napja."
+  ],
+
   emotionalFamiliarity: [
     "Múltkor is ilyenkor kezdett széthúzódni a fókuszod.",
     "Most nyugodtabbnak tűnsz mint pár napja.",

@@ -76,6 +76,10 @@ const { finalizeNaturalConversationMaster } = require("./naturalConversationMast
 const { finalizePremiumAtmosphere } = require("./premiumAtmosphereFinal");
 const { finalizeWowExperience } = require("./wowExperience");
 const { finalizeEmotionalAttachment } = require("./emotionalAttachment");
+const {
+  finalizePresenceEvolution,
+  resolvePresenceTiming
+} = require("./presenceEvolution");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -479,7 +483,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
   }
 
   if (!fresh && category !== "onboarding") {
-    const timing = resolveEmotionalTiming(ctx, category);
+    const timing = resolvePresenceTiming(ctx, category);
     b = finalizeSoulCoherence(b, ctx, category, alive, soulRhythm);
     b = finalizeBetaSurvival(b, ctx, category, alive, soulRhythm);
     b = finalizePresenceLock(b, ctx, category, timing);
@@ -489,6 +493,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizeNaturalConversationMaster(b, ctx, category, timing);
     b = finalizeWowExperience(b, ctx, category, timing, alive);
     b = finalizeEmotionalAttachment(b, ctx, category, timing);
+    b = finalizePresenceEvolution(b, ctx, category, timing);
     b = finalizePremiumAtmosphere(b, ctx, category, timing);
   }
 
