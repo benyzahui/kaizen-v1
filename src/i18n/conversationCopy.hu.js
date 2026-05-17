@@ -115,6 +115,75 @@ module.exports = {
     ]
   },
 
+  humanLines: {
+    stress: [
+      "Ez már inkább túlterhelésnek hangzik, mint motivációhiánynak.",
+      "A tested nem lustaságot jelez — túl sok nyomás egyszerre."
+    ],
+    tired: [
+      "Kifáradtság van. Most nem új cél kell — pihenés.",
+      "Érződik, hogy régóta nyomod megállás nélkül."
+    ],
+    scattered: [
+      "Ha mindent egyszerre próbálsz tartani, a rendszer széthúzódik.",
+      "Nem gyengeség — túl sok nyitott kör fut egyszerre."
+    ],
+    general: [
+      "Itt vagyok. Lassíts — nem kell tökéletes válasz.",
+      "Egy őszinte lépés ma elég."
+    ]
+  },
+
+  microEmotional: {
+    shame: [
+      "A szégyen nem gyengeség — túl magas elvárás hangzik mögötte.",
+      "Nem az a baj, hogy gyenge vagy. Hanem hogy túl sok nyitott kör fut egyszerre."
+    ],
+    frustration: [
+      "A frusztráció rendben van — valami nem áll, és ezt érzed.",
+      "Nem kell azonnal megoldani. Előbb egy kicsit leülni vele."
+    ],
+    exhaustion: [
+      "Érződik, hogy régóta nyomod megállás nélkül.",
+      "Ez már kimerülés — nem motivációhiány."
+    ],
+    overwhelm: [
+      "Ez már inkább túlterhelésnek hangzik, mint motivációhiánynak.",
+      "Túl sok nyitott kör — nem te vagy a probléma."
+    ],
+    scattered: [
+      "Ha mindent egyszerre próbálsz tartani, a rendszer széthúzódik.",
+      "Szétszórt fókusz — nem hülyeség, túl sok bemenet."
+    ],
+    stress: [
+      "A tested jelez előbb, mint a fejed rendeződik.",
+      "Nyomás van — nem kell azonnal rendszert építeni."
+    ],
+    fatigue: [
+      "Mentális fáradtság — nem lustaság.",
+      "Ma a minimum is győzelem: egy blokk, aztán pihenés."
+    ]
+  },
+
+  emotionalContinuity: {
+    groundedAfterOverload: [
+      "Tegnap még teljesen széthúzott voltál. Most már valamivel tisztábbnak tűnsz.",
+      "Múltkor túlterhelés volt — ma már földöttebb hangzol."
+    ],
+    stillHeavy: [
+      "Még nehéznek érződik — ugyanaz a nyomás, vagy változott valami?",
+      "A szál még nyitva van. Nem kell ma mindent megoldani."
+    ],
+    bodyFirst: [
+      "Múltkor a tested jelezte előbb. Most is hasonló?",
+      "Alvás és víz előbb — a fej utána következik."
+    ],
+    thread: [
+      "Folytatjuk — ugyanaz a súly, vagy könnyebb lett?",
+      "A legutóbbi üzenetedben sok volt a zaj — hol állsz most?"
+    ]
+  },
+
   memoryRefOverload: [
     "Még cipelsz a korábbi túlterhelést?",
     "Legutóbb sok volt a zaj — rendeződött valami?"

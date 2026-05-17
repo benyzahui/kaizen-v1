@@ -20,7 +20,11 @@ const AI_POETIC_RES = [
   /\bsignal in what you just said\b/i,
   /\bhold the insight\b/i,
   /\bdrown in it\b/i,
-  /\bheroics\b/i
+  /\bheroics\b/i,
+  /\boverload state detected\b/i,
+  /\bone task\.?\s*one focus\b/i,
+  /\bdetected\b.*\bstate\b/i,
+  /\bone honest movement\b/i
 ];
 
 /**

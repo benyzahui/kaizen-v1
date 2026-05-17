@@ -121,6 +121,75 @@ module.exports = {
     ]
   },
 
+  humanLines: {
+    stress: [
+      "This sounds more like overload than lack of motivation.",
+      "Your body is not signaling laziness — too much pressure at once."
+    ],
+    tired: [
+      "That is fatigue. You do not need a new goal right now — rest.",
+      "Feels like you have been pushing without a real pause for a while."
+    ],
+    scattered: [
+      "If you try to hold everything at once, the system pulls apart.",
+      "Not weakness — too many open loops running at the same time."
+    ],
+    general: [
+      "I am here. Slow down — no perfect answer needed.",
+      "One honest step today is enough."
+    ]
+  },
+
+  microEmotional: {
+    shame: [
+      "Shame is not weakness — it often sits behind expectations that are too high.",
+      "The issue is not that you are weak. Too many open loops are running at once."
+    ],
+    frustration: [
+      "Frustration makes sense — something is not holding, and you feel it.",
+      "You do not have to fix it instantly. Sit with it for a moment first."
+    ],
+    exhaustion: [
+      "Feels like you have been pushing without stopping for a long time.",
+      "This is exhaustion — not a motivation problem."
+    ],
+    overwhelm: [
+      "This sounds more like overload than lack of motivation.",
+      "Too many open loops — you are not the problem."
+    ],
+    scattered: [
+      "If you try to hold everything at once, the system pulls apart.",
+      "Scattered focus — not stupidity, too much input."
+    ],
+    stress: [
+      "Your body signals before your head catches up.",
+      "There is pressure — you do not need to build a new system right now."
+    ],
+    fatigue: [
+      "Mental fatigue — not laziness.",
+      "Minimum win today: one block, then rest."
+    ]
+  },
+
+  emotionalContinuity: {
+    groundedAfterOverload: [
+      "Yesterday you still sounded pulled apart. Today you sound a bit clearer.",
+      "Last time it was overload — today you sound more grounded."
+    ],
+    stillHeavy: [
+      "Still feels heavy — same pressure, or did something shift?",
+      "The thread is still open. You do not have to solve everything today."
+    ],
+    bodyFirst: [
+      "Last time your body signaled first. Similar now?",
+      "Sleep and water first — the head follows after."
+    ],
+    thread: [
+      "Picking up the thread — same weight, or lighter?",
+      "Your last message had a lot of noise — where are you now?"
+    ]
+  },
+
   memoryRefOverload: [
     "Still carrying the overload from earlier?",
     "The noise was high last time — did anything settle?"

@@ -4,6 +4,7 @@
 
 const { finalizeCompanionReply } = require("../companion/companionCore");
 const { SKIP_PRESENCE } = require("../companion/presenceSystem");
+const { resolveCommandHint } = require("../companion/commandPresence");
 
 /**
  * @param {object} p
@@ -36,6 +37,14 @@ function packOpenReply(p) {
     };
   }
 
+  const session = companionCtx?.session || {};
+  const hint = resolveCommandHint(
+    category,
+    companionCtx?.lastUserText || "",
+    session,
+    suggestedCommand
+  );
+
   const reply = finalizeCompanionReply(
     companionCtx,
     category,
@@ -44,15 +53,15 @@ function packOpenReply(p) {
     {
       skipPresence: SKIP_PRESENCE.has(category),
       skipRhythm,
-      suggestedCommand,
-      skipCommandHint: !suggestedCommand
+      suggestedCommand: hint,
+      skipCommandHint: !hint
     }
   );
 
   return {
     reply,
     category,
-    suggestedAction: suggestedCommand
+    suggestedAction: hint
   };
 }
 

@@ -37,6 +37,8 @@ const { applyDepthScale } = require("./responseDepth");
 const { maybeDragonWhisper } = require("./dragonPresence");
 const { applyHumanVoiceGuard } = require("./humanVoiceGuard");
 const { isFreshUserExperience } = require("./freshUserExperience");
+const { applyHumanCadence } = require("./humanCadence");
+const { maybeEmotionalContinuity } = require("./emotionalContinuity");
 const { shouldUseOneLinePacing, applyOneLinePacing } = require("./oneLinePacing");
 const { maybeThreadLead } = require("./threadContinuityEngine");
 
@@ -134,6 +136,11 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
   );
   const fresh = isFreshUserExperience(ctx.session || s);
 
+  const emoCont = maybeEmotionalContinuity(ctx.session || s, ctx.lang, ctx.lastUserText || "");
+  if (emoCont && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh) {
+    b = lines(emoCont, "", b);
+  }
+
   if (memLine && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh) {
     b = lines(memLine, "", b);
   }
@@ -171,6 +178,10 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = applyHumanVoiceGuard(b, ctx.lang, `${category}_${ctx.userId}`);
     const dragon = maybeDragonWhisper(ctx.lang, category, `${category}_${ctx.userId}`);
     if (dragon && b.split(/\n/).length < 6) b = lines(b, "", dragon);
+  }
+
+  if (!fresh && category !== "onboarding") {
+    b = applyHumanCadence(b, ctx.lang, category, `${category}_${ctx.userId}`);
   }
 
   b = formatPremiumMessage(b);

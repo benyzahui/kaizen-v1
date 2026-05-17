@@ -5,6 +5,7 @@
 
 const { pickUnseenVariant } = require("./responseVariation");
 const { getResponses } = require("../i18n/getResponses");
+const { buildMicroEmotionalReply } = require("../companion/emotionalMicro");
 
 const NATURAL_CATEGORIES = new Set([
   "emotional_reflection",
@@ -67,10 +68,20 @@ function shouldUseNaturalConversation(text, category, session) {
 function buildNaturalConversation(text, category, session, lang, userId) {
   if (!shouldUseNaturalConversation(text, category, session)) return null;
 
+  const micro = buildMicroEmotionalReply(text, lang, session, userId);
+  if (micro) {
+    return {
+      body: micro,
+      category: category === "chaos_loop" ? "emotional_reflection" : category
+    };
+  }
+
   const r = getResponses(lang);
   const slot = detectNaturalSlot(text);
   const pool =
+    r.humanLines?.[slot] ||
     r.humanPresence?.[slot] ||
+    r.humanLines?.general ||
     r.humanPresence?.general ||
     [];
   if (!pool.length) return null;

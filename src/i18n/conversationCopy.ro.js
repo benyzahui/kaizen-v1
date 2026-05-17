@@ -108,6 +108,75 @@ module.exports = {
     ]
   },
 
+  humanLines: {
+    stress: [
+      "Sună mai mult a suprasolicitare decât lipsă de motivație.",
+      "Corpul nu semnalează lene — prea multă presiune deodată."
+    ],
+    tired: [
+      "E oboseală. Acum nu trebuie obiectiv nou — odihnă.",
+      "Se simte că împingi de mult fără pauză reală."
+    ],
+    scattered: [
+      "Dacă ții totul deodată, sistemul se rupe în bucăți.",
+      "Nu e slăbiciune — prea multe cercuri deschise simultan."
+    ],
+    general: [
+      "Sunt aici. Încetinește — nu trebuie răspuns perfect.",
+      "Un pas onest azi e suficient."
+    ]
+  },
+
+  microEmotional: {
+    shame: [
+      "Rușinea nu e slăbiciune — de obicei stă în spatele așteptărilor prea mari.",
+      "Problema nu e că ești slab. Prea multe cercuri deschise rulează deodată."
+    ],
+    frustration: [
+      "Frustrarea are sens — ceva nu ține și o simți.",
+      "Nu trebuie rezolvat instant. Stai cu asta un moment."
+    ],
+    exhaustion: [
+      "Se simte că împingi de mult fără oprire.",
+      "E epuizare — nu problemă de motivație."
+    ],
+    overwhelm: [
+      "Sună mai mult a suprasolicitare decât lipsă de motivație.",
+      "Prea multe cercuri deschise — tu nu ești problema."
+    ],
+    scattered: [
+      "Dacă ții totul deodată, sistemul se rupe.",
+      "Focus împrăștiat — nu prostie, prea mult input."
+    ],
+    stress: [
+      "Corpul semnalează înainte ca mintea să se așeze.",
+      "E presiune — nu trebuie sistem nou acum."
+    ],
+    fatigue: [
+      "Oboseală mentală — nu lene.",
+      "Victorie minimă azi: un bloc, apoi odihnă."
+    ]
+  },
+
+  emotionalContinuity: {
+    groundedAfterOverload: [
+      "Ieri încă sunai rupt. Azi pari puțin mai clar.",
+      "Data trecută era suprasolicitare — azi sună mai ancorat."
+    ],
+    stillHeavy: [
+      "Încă pare greu — aceeași presiune sau s-a schimbat ceva?",
+      "Firul e încă deschis. Nu trebuie să rezolvi tot azi."
+    ],
+    bodyFirst: [
+      "Data trecută corpul a semnalat primul. Similar acum?",
+      "Somn și apă mai întâi — capul vine după."
+    ],
+    thread: [
+      "Continuăm — aceeași greutate sau mai ușor?",
+      "Ultimul mesaj avea mult zgomot — unde ești acum?"
+    ]
+  },
+
   memoryRefOverload: [
     "Încă porți suprasolicitarea de mai devreme?",
     "Ultima dată era mult zgomot — s-a așezat ceva?"

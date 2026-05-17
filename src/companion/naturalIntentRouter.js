@@ -34,7 +34,7 @@ function routeNaturalIntent(text, lang, session, userId) {
     return {
       body,
       category: "natural_conversation",
-      suggestedCommand: Math.random() < 0.35 ? "/reset" : null
+      suggestedCommand: null
     };
   }
 
@@ -44,7 +44,7 @@ function routeNaturalIntent(text, lang, session, userId) {
     return {
       body: pickSeeded(pool, seed),
       category: "natural_conversation",
-      suggestedCommand: Math.random() < 0.3 ? "/focus" : null
+      suggestedCommand: null
     };
   }
 
@@ -54,7 +54,7 @@ function routeNaturalIntent(text, lang, session, userId) {
     return {
       body: pickSeeded(pool, seed),
       category: "trading_context",
-      suggestedCommand: Math.random() < 0.4 ? "/check" : null
+      suggestedCommand: null
     };
   }
 
@@ -73,7 +73,7 @@ function routeNaturalIntent(text, lang, session, userId) {
     return {
       body: pickSeeded(pool, seed),
       category: "reflective_open",
-      suggestedCommand: Math.random() < 0.25 ? "/clarity" : null
+      suggestedCommand: null
     };
   }
 
