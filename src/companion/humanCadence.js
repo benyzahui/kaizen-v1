@@ -58,14 +58,14 @@ function capHumanLength(text, category) {
   const maxLines =
     category === "onboarding"
       ? 14
-      : category === "life_flow"
+      : category === "life_flow" || category === "relational_flow"
         ? 3
         : category === "natural_conversation"
           ? 4
           : 7;
   const maxChars =
-    category === "life_flow"
-      ? 160
+    category === "life_flow" || category === "relational_flow"
+      ? 150
       : category === "natural_conversation"
         ? 320
         : 520;

@@ -684,6 +684,27 @@ module.exports = {
     "Néha az ember csak kifárad."
   ],
 
+  emotionalTextures: {
+    presence: ["Itt vagyok.", "Hallgatlak.", "Na."],
+    quiet: ["Értem.", "Hm.", "…"],
+    reflective: ["Mi maradt meg ebből benned?", "Hallom."],
+    direct: ["Egy blokk elég.", "Egy döntés most."],
+    warm: ["Jó hogy ezt kimondtad.", "Ez emberi."],
+    sharp: ["Egy sáv.", "Most nem szélesség."],
+    playful: ["Na.", "Az agyad megint sok ablakkal fut?"],
+    grounding: ["Lassíts egy fokot.", "Egy lélegzet elég most."]
+  },
+
+  presenceBeats: ["Itt vagyok.", "Hallgatlak.", "Na.", "Értem."],
+
+  quietConfidence: [
+    "Most nem több gondolat hiányzik.",
+    "Előbb pihenj.\nAztán nézd újra.",
+    "Ez már túl sok terhelés egyszerre."
+  ],
+
+  microHumanityAlive: ["Hm.", "Na.", "Az mondjuk sok.", "Értem.", "Jó."],
+
   premiumAtmosphere: [
     "Ma ne az egész jövődet próbáld megoldani.",
     "Elég egy tiszta blokk.",

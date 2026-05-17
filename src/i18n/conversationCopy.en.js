@@ -663,6 +663,27 @@ module.exports = {
     "Sometimes a person is just tired."
   ],
 
+  emotionalTextures: {
+    presence: ["I am here.", "I am listening.", "Yeah."],
+    quiet: ["Got it.", "Hm.", "…"],
+    reflective: ["What stayed with you from that?", "I hear you."],
+    direct: ["One block is enough.", "One decision now."],
+    warm: ["Good that you said it.", "That is human."],
+    sharp: ["One lane.", "Not width right now."],
+    playful: ["Yeah.", "Brain running too many tabs again?"],
+    grounding: ["Slow down one notch.", "One breath is enough now."]
+  },
+
+  presenceBeats: ["I am here.", "I am listening.", "Yeah.", "Got it."],
+
+  quietConfidence: [
+    "What is missing is not more thoughts right now.",
+    "Rest first.\nThen look again.",
+    "This is too much load at once."
+  ],
+
+  microHumanityAlive: ["Hm.", "Yeah.", "That is a lot.", "Got it.", "Good."],
+
   premiumAtmosphere: [
     "Do not try to solve your whole future today.",
     "One clean block is enough.",

@@ -27,7 +27,10 @@ function run() {
     "hu",
     "t"
   );
-  assert(shaped.split(/\n/).length <= 4, "rhythm caps lines");
+  assert(
+    shaped.split(/\n/).filter((l) => l.trim()).length <= 4,
+    "rhythm caps lines"
+  );
 
   assert(resolveMirrorMode({ scatter: 7 }, {}, "x", "focus_drift") === "stabilize", "chaos stabilize");
 

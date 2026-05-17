@@ -650,6 +650,27 @@ module.exports = {
     "Uneori omul e doar obosit."
   ],
 
+  emotionalTextures: {
+    presence: ["Sunt aici.", "Te ascult.", "Da."],
+    quiet: ["Înțeleg.", "Hm.", "…"],
+    reflective: ["Ce ți-a rămas din asta?", "Te aud."],
+    direct: ["Un bloc e suficient.", "O decizie acum."],
+    warm: ["Bine că ai spus.", "E omenește."],
+    sharp: ["O bandă.", "Nu lățime acum."],
+    playful: ["Da.", "Creierul rulează din nou multe tab-uri?"],
+    grounding: ["Încetinește un grad.", "O respirație e suficientă acum."]
+  },
+
+  presenceBeats: ["Sunt aici.", "Te ascult.", "Da.", "Înțeleg."],
+
+  quietConfidence: [
+    "Acum nu lipsesc gânduri — ci odihnă.",
+    "Mai întâi odihnă.\nApoi privește din nou.",
+    "Asta e prea multă încărcare deodată."
+  ],
+
+  microHumanityAlive: ["Hm.", "Da.", "Asta e mult.", "Înțeleg.", "Bine."],
+
   premiumAtmosphere: [
     "Nu încerca să rezolvi tot viitorul azi.",
     "Un bloc curat e suficient.",

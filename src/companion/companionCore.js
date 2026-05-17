@@ -61,6 +61,12 @@ const {
   maybeNaturalComfort,
   filterSelfHelpProduct
 } = require("./relationshipPresence");
+const {
+  resolveAliveContext,
+  maxPrepLayers,
+  finalizeAlivePass,
+  textureSessionPatch
+} = require("./alivePresence");
 
 const SKIP_MEMORY_CATEGORIES = new Set([
   "onboarding",
@@ -151,16 +157,18 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     ctx.lastUserText || "",
     category
   );
+  const alive = resolveAliveContext(ctx, soulRhythm, category);
+  const prepCap = maxPrepLayers(alive.texture);
 
   if (!fresh && category !== "onboarding") {
     if (soulRhythm.mode === "silent") {
       presenceLayers = 0;
     } else if (soulRhythm.mirror === "soften" || soulRhythm.mirror === "stabilize") {
-      presenceLayers = Math.min(presenceLayers, 1);
+      presenceLayers = Math.min(presenceLayers, prepCap);
     }
 
     const opening = pickDynamicOpening(ctx, category);
-    if (opening && presenceLayers < 2) {
+    if (opening && presenceLayers < prepCap) {
       b = lines(opening, "", b);
       presenceLayers += 1;
     }
@@ -170,18 +178,24 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
       category,
       ctx.lastUserText || ""
     );
-    if (trans && presenceLayers < 2) {
+    if (trans && presenceLayers < prepCap) {
       b = lines(trans, "", b);
       presenceLayers += 1;
     }
-    const wow = maybeMicroWow(
-      ctx.session || {},
-      ctx.lang,
-      ctx.state,
-      ctx.lastUserText || "",
-      category
-    );
-    if (wow && presenceLayers < 2) {
+    const skipWow =
+      alive.texture === "presence" ||
+      alive.texture === "quiet" ||
+      category === "relational_flow";
+    const wow = skipWow
+      ? null
+      : maybeMicroWow(
+          ctx.session || {},
+          ctx.lang,
+          ctx.state,
+          ctx.lastUserText || "",
+          category
+        );
+    if (wow && presenceLayers < prepCap) {
       b = lines(wow, "", b);
       presenceLayers += 1;
       if (ctx.userId) {
@@ -256,7 +270,9 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     ctx.lang,
     category
   );
-  if (relCont && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh) {
+  const thinAlive =
+    alive.texture === "presence" || alive.texture === "quiet";
+  if (relCont && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh && !thinAlive) {
     b = lines(relCont, "", b);
   }
 
@@ -279,7 +295,13 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
   }
 
   const attach = maybeAttachmentMoment(ctx.session || s, ctx.lang, category);
-  if (attach && !SKIP_MEMORY_CATEGORIES.has(category) && !fresh && b.split(/\n/).length < 6) {
+  if (
+    attach &&
+    !SKIP_MEMORY_CATEGORIES.has(category) &&
+    !fresh &&
+    !thinAlive &&
+    b.split(/\n/).length < 6
+  ) {
     b = lines(attach, "", b);
   }
 
@@ -320,7 +342,11 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
       category,
       ctx.lastUserText || ""
     );
-    if (humor && b.split(/\n/).length < 4) {
+    if (
+      humor &&
+      b.split(/\n/).length < 4 &&
+      alive.texture === "playful"
+    ) {
       b = lines(b, "", humor);
     }
     const dragon = maybeDragonWhisper(ctx.lang, category, `${category}_${ctx.userId}`);
@@ -328,7 +354,9 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
       dragon &&
       b.split(/\n/).length < 6 &&
       category !== "life_flow" &&
-      category !== "natural_conversation"
+      category !== "natural_conversation" &&
+      alive.texture !== "presence" &&
+      alive.texture !== "quiet"
     ) {
       b = lines(b, "", dragon);
     }
@@ -343,8 +371,12 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
       `soul_${category}_${ctx.userId}`
     );
     if (ctx.userId) {
-      updateSession(ctx.userId, rhythmSessionPatch(soulRhythm.mode));
+      updateSession(ctx.userId, {
+        ...rhythmSessionPatch(soulRhythm.mode),
+        ...textureSessionPatch(alive.texture)
+      });
     }
+    b = finalizeAlivePass(b, ctx, category, alive);
   }
 
   if (!fresh && category !== "onboarding") {
