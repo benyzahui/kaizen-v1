@@ -82,6 +82,7 @@ const {
 } = require("./presenceEvolution");
 const { finalizeHumanReturnPass } = require("./humanReturnPass");
 const { finalizeSoulStability } = require("./soulStability");
+const { finalizeRealEmotionalPresence } = require("./realEmotionalPresence");
 
 const LATE_LAYER_SKIP = new Set([
   "natural_conversation",
@@ -499,6 +500,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizeHumanReturnPass(b, ctx, category, timing);
     b = finalizeSoulStability(b, ctx, category, timing);
     b = finalizePremiumAtmosphere(b, ctx, category, timing);
+    b = finalizeRealEmotionalPresence(b, ctx, category, timing);
   }
 
   return b;

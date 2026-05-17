@@ -2,8 +2,8 @@
  * Premium atmosphere finalization — restraint, calm confidence, quiet expensive feel.
  */
 
-const { pickSeeded } = require("../personality/tone");
 const { getResponses } = require("../i18n/getResponses");
+const { pickUnseenVariant } = require("../conversation/responseVariation");
 const { dedupeLines } = require("./humanVoiceGuard");
 const { applyPremiumSpacing } = require("./premiumFeeling");
 const { COHERENT_FLOW } = require("./soulCoherence");
@@ -104,13 +104,17 @@ function ensureGroundedClarity(body, ctx, category) {
   if (body.length >= 12) return body;
 
   const r = getResponses(ctx.lang);
-  const pool =
-    r.quietConfidence ||
-    r.premiumQuiet ||
-    r.calmListening ||
-  [];
+  const pool = [
+    ...(r.quietPresenceBeats || []),
+    ...(r.emotionalGrounding || []),
+    ...(r.calmListening || []),
+    ...(r.quietConfidence || []).filter(
+      (p) => !/túl sok terhelés egyszerre|too much load at once|prea multă încărcare deodată/i.test(p)
+    ),
+    ...(r.premiumQuiet || [])
+  ].filter(Boolean);
   if (!pool.length) return body;
-  return pickSeeded(pool, `premfb_${category}_${ctx.userId}`);
+  return pickUnseenVariant(ctx.session || {}, ctx.userId, pool);
 }
 
 /**

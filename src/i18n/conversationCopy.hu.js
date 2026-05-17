@@ -889,6 +889,17 @@ module.exports = {
     "Ugyanaz a nyomás, vagy könnyebb lett?"
   ],
 
+  quietPresenceBeats: [
+    "Itt vagyok — nem kell most tökéletesen.",
+    "Hallgatlak.",
+    "Ez emberi. Nem kell rendbe tenni most.",
+    "Lassan elég.",
+    "Ma nem kell mindent rendbe tenni.",
+    "Előbb a tested, aztán a gondolat."
+  ],
+
+  subtlePresenceBeats: ["Hm.", "Értem.", "Na.", "Hallom."],
+
   microHumanityAlive: ["Hm.", "Na.", "Na várj.", "Az mondjuk sok.", "Értem.", "Jó."],
 
   naturalEmotionalSupport: [

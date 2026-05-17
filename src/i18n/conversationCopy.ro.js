@@ -843,6 +843,17 @@ module.exports = {
     "Aceeași presiune, sau puțin mai ușor?"
   ],
 
+  quietPresenceBeats: [
+    "Sunt aici — nu trebuie perfect acum.",
+    "Te ascult.",
+    "Asta e omenește. Nu trebuie reparat acum.",
+    "Încet e suficient.",
+    "Nu trebuie să rezolvi tot azi.",
+    "Corpul întâi. Gândurile după."
+  ],
+
+  subtlePresenceBeats: ["Hm.", "Înțeleg.", "Da.", "Te aud."],
+
   microHumanityAlive: ["Hm.", "Da.", "Asta e mult.", "Înțeleg.", "Bine."],
 
   naturalEmotionalSupport: [

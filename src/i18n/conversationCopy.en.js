@@ -856,6 +856,17 @@ module.exports = {
     "Same pressure, or a bit lighter?"
   ],
 
+  quietPresenceBeats: [
+    "I am here — it does not need to be perfect right now.",
+    "I am listening.",
+    "That is human. It does not need fixing now.",
+    "Slow is enough.",
+    "You do not have to fix everything today.",
+    "Body first. Thoughts after."
+  ],
+
+  subtlePresenceBeats: ["Hm.", "Got it.", "Yeah.", "I hear you."],
+
   microHumanityAlive: ["Hm.", "Yeah.", "That is a lot.", "Got it.", "Good."],
 
   naturalEmotionalSupport: [
