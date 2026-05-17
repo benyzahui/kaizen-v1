@@ -988,6 +988,22 @@ module.exports = {
     "Lassan elég."
   ],
 
+  humanizedEnergyReads: [
+    "🌘 Ma nem új terv kell — egy irány elég.",
+    "🫀 Test először. Fej lassabban követ.",
+    "🧠 Túl sok input ma. Egy blokk.",
+    "☕ Lassú lélegzet, aztán egy döntés.",
+    "🌊 Ma nem intenzitás — stabil tartály."
+  ],
+
+  symbolicCompanionMoments: [
+    "🌘 Nem kell most mindent megoldanod.",
+    "🫀 A tested már előbb elfáradt.",
+    "🌱 Ez már stabilabb lépés.",
+    "🐉 Na. Ez most őszintébbnek érződik.",
+    "🫂 Itt vagyok — nem kell egyedül cipelni."
+  ],
+
   flowSoftFollowups: [
     "Még ott vagy ebben?",
     "Hallgatlak.",

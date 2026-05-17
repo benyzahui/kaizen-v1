@@ -11,6 +11,9 @@ const {
   depletedEnergyOverlay
 } = require("./contextualEnergy");
 const { buildAdaptiveEnergyRead } = require("./adaptiveEnergy");
+const { enforceHardLanguageLock } = require("../i18n/languageHardLock");
+const { applySymbolicEnergyRead } = require("./symbolicEmotionSystem");
+const { buildHumanizedEnergyCompact } = require("../energy/dailyEnergy");
 
 /**
  * @param {Date} [date]
@@ -45,25 +48,46 @@ function buildEnergyRead(date, lang, lens = "general", ctx = null) {
   }
 
   const useAdaptive =
+    session?.onboardingCompleted ||
     state?.emotionalIntensity >= 4 ||
     session?.userPrimaryPath === "trading" ||
-    Math.random() < 0.62;
+    Math.random() < 0.78;
+
+  let out = "";
 
   if (useAdaptive) {
-    const adaptive = buildAdaptiveEnergyRead(date, lang, {
-      ...ctx,
-      lens: resolved,
-      session: ctx?.session || session
-    });
-    if (adaptive) return adaptive;
+    out =
+      buildAdaptiveEnergyRead(date, lang, {
+        ...ctx,
+        lens: resolved,
+        session: ctx?.session || session
+      }) || "";
   }
 
-  const core = buildDailyEnergyMessage(date, lang, resolved, seed, { state, session });
-  const name = ctx?.memory?.permanent?.userName;
-  if (name && r.energyPersonalLead) {
-    return lines(r.energyPersonalLead.replace("{name}", name), "", core);
+  if (!out || out.length > 320) {
+    out =
+      buildHumanizedEnergyCompact(date, lang, {
+        ...ctx,
+        lens: resolved,
+        session: ctx?.session || session,
+        state
+      }) || out;
   }
-  return core;
+
+  if (!out) {
+    out = buildDailyEnergyMessage(date, lang, resolved, seed, { state, session });
+  }
+
+  const name = ctx?.memory?.permanent?.userName;
+  if (name && r.energyPersonalLead && out.length < 400) {
+    out = lines(r.energyPersonalLead.replace("{name}", name), "", out);
+  }
+
+  out = enforceHardLanguageLock(out, lang, ctx?.session || session, ctx?.userId || seed);
+  if (ctx) {
+    out = applySymbolicEnergyRead(out, { ...ctx, lang, state, session: ctx?.session || session });
+  }
+  return out;
 }
 
 module.exports = { buildEnergyRead, buildDailyEnergyMessage };

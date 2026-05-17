@@ -168,4 +168,30 @@ function buildDailyEnergyMessage(
   return capLength(out);
 }
 
-module.exports = { buildDailyEnergyMessage };
+/**
+ * Compact humanized energy — symbolic rhythm, no almanac wall.
+ * @param {Date} date
+ * @param {'en'|'hu'|'ro'} lang
+ * @param {object} [ctx]
+ */
+function buildHumanizedEnergyCompact(date, lang, ctx = null) {
+  const l = lang === "hu" ? "hu" : lang === "ro" ? "ro" : "en";
+  const { getResponses } = require("../i18n/getResponses");
+  const { buildAdaptiveEnergyRead } = require("../companion/adaptiveEnergy");
+
+  const adaptive = buildAdaptiveEnergyRead(date, l, ctx);
+  if (adaptive && adaptive.length <= 280) {
+    return capLength(adaptive, 280);
+  }
+
+  const r = getResponses(l);
+  const pool = r.humanizedEnergyReads || r.adaptiveEnergy?.pulse || [];
+  if (!pool.length) {
+    return capLength(sectionLabels(l).title, 120);
+  }
+
+  const line = pickSeeded(pool, `henergy_${date.toISOString().slice(0, 10)}_${ctx?.userId || ""}`);
+  return capLength(line, 220);
+}
+
+module.exports = { buildDailyEnergyMessage, buildHumanizedEnergyCompact };

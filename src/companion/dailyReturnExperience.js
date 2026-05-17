@@ -7,6 +7,7 @@ const { getResponses } = require("../i18n/getResponses");
 const { dedupeLines } = require("./humanVoiceGuard");
 const { getTimeSlot } = require("../core/timeContext");
 const { pickUnseenVariant } = require("../conversation/responseVariation");
+const { enforceHardLanguageLock } = require("../i18n/languageHardLock");
 
 const NOTIFICATION_RE =
   /\b(don't forget|ne felejtsd|remember to check|napi emlékeztető|notification|push alert|gyere vissza holnap)\b/i;
@@ -123,6 +124,7 @@ function finalizeDailyReturnReply(body, slot, lang, session) {
     }
   }
 
+  b = enforceHardLanguageLock(b, lang, session, session?.userId);
   return b.trim();
 }
 

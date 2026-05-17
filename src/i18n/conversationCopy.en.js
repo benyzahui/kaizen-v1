@@ -955,6 +955,22 @@ module.exports = {
     "Slow is enough."
   ],
 
+  humanizedEnergyReads: [
+    "🌘 Not a new plan today — one direction is enough.",
+    "🫀 Body first. Mind follows slower.",
+    "🧠 Too much input today. One block.",
+    "☕ Slow breath, then one decision.",
+    "🌊 Not intensity today — a stable tank."
+  ],
+
+  symbolicCompanionMoments: [
+    "🌘 You do not have to solve everything now.",
+    "🫀 Your body tired before your head admitted it.",
+    "🌱 This already feels like a steadier step.",
+    "🐉 Yeah. This sounds more honest now.",
+    "🫂 I am here — you do not have to carry it alone."
+  ],
+
   flowSoftFollowups: [
     "Still in this with it?",
     "I am listening.",

@@ -942,6 +942,22 @@ module.exports = {
     "Încet e suficient."
   ],
 
+  humanizedEnergyReads: [
+    "🌘 Nu plan nou azi — o direcție e suficientă.",
+    "🫀 Corpul întâi. Mintea urmează mai încet.",
+    "🧠 Prea mult input azi. Un bloc.",
+    "☕ Respirație lentă, apoi o decizie.",
+    "🌊 Nu intensitate azi — rezervă stabilă."
+  ],
+
+  symbolicCompanionMoments: [
+    "🌘 Nu trebuie să rezolvi tot acum.",
+    "🫀 Corpul obosit înainte să recunoască capul.",
+    "🌱 Asta sună deja ca un pas mai stabil.",
+    "🐉 Da. Asta sună mai onest acum.",
+    "🫂 Sunt aici — nu trebuie să duci singur."
+  ],
+
   flowSoftFollowups: [
     "Încă ești în asta?",
     "Te ascult.",

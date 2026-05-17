@@ -88,6 +88,7 @@ const { finalizePremiumAtmosphereLock } = require("./premiumAtmosphereLock");
 const { finalizeFinalHumanization } = require("./finalHumanizationPass");
 const { finalizeLivingPresenceArchitecture } = require("./livingPresenceArchitecture");
 const { finalizeDigitalCompanionTransition } = require("./digitalCompanionTransition");
+const { finalizeSymbolicImmersion } = require("./symbolicImmersionPass");
 const { getTimeSlot } = require("../core/timeContext");
 
 const LATE_LAYER_SKIP = new Set([
@@ -529,6 +530,7 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     b = finalizeFinalHumanization(b, ctx, category, timing);
     b = finalizeLivingPresenceArchitecture(b, ctx, category, timing);
     b = finalizeDigitalCompanionTransition(b, ctx, category, timing);
+    b = finalizeSymbolicImmersion(b, ctx, category, timing);
   }
 
   return b;
