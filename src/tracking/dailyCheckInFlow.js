@@ -13,6 +13,22 @@ const {
 } = require("./dailyStateModel");
 const { buildDailyStatusSnapshot } = require("./statusEngine");
 const { advancePhaseAfterCheckIn, isProgramActive } = require("../program/dailyProgramEngine");
+const { recordCheckInCompletion } = require("../consistency/streakEngine");
+
+function buildCheckInCompleteReply(userId, flow, lang, daily, session) {
+  const streakBlock = recordCheckInCompletion(userId, flow, lang, daily, session);
+  const snap = buildDailyStatusSnapshot(
+    { dailyState: daily, currentMission: daily.todayMission },
+    lang,
+    userId
+  );
+  const s = getSession(userId);
+  const prog =
+    isProgramActive(s) || s.programMode === "active"
+      ? advancePhaseAfterCheckIn(userId, flow, lang)
+      : "";
+  return lines(streakBlock, "", snap, prog);
+}
 const {
   parseScale1to10,
   parseScaleAt,
@@ -256,22 +272,13 @@ function tryConsumeDailyCheckInReply(userId, text, lang, session) {
         dailyCheckInPending: null,
         ...proto
       });
-      const saved =
-        flow === "morning"
-          ? copy.saved.morning
-          : flow === "midday"
-            ? copy.saved.midday
-            : copy.saved.evening;
-      const snap = buildDailyStatusSnapshot(
-        { dailyState: daily, currentMission: daily.todayMission },
+      return buildCheckInCompleteReply(
+        userId,
+        flow,
         lang,
-        userId
+        daily,
+        getSession(userId)
       );
-      const prog =
-        isProgramActive(getSession(userId)) || getSession(userId).programMode === "active"
-          ? advancePhaseAfterCheckIn(userId, flow, lang)
-          : "";
-      return lines(saved, "", snap, prog);
     }
   }
 
@@ -292,22 +299,7 @@ function tryConsumeDailyCheckInReply(userId, text, lang, session) {
       dailyCheckInPending: null,
       ...proto
     });
-    const saved =
-      flow === "morning"
-        ? copy.saved.morning
-        : flow === "midday"
-          ? copy.saved.midday
-          : copy.saved.evening;
-    const snap = buildDailyStatusSnapshot(
-      { dailyState: daily, currentMission: daily.todayMission },
-      lang,
-      userId
-    );
-    const prog =
-      isProgramActive(getSession(userId)) || getSession(userId).programMode === "active"
-        ? advancePhaseAfterCheckIn(userId, flow, lang)
-        : "";
-    return lines(saved, "", snap, prog);
+    return buildCheckInCompleteReply(userId, flow, lang, daily, getSession(userId));
   }
 
   updateSession(userId, {

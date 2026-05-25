@@ -38,7 +38,10 @@ const EPHEMERAL_KEYS = [
   "dailyPhase",
   "programPaused",
   "completedPhases",
-  "programDayKey"
+  "programDayKey",
+  "streaks",
+  "consistencyTitle",
+  "lastStreakUpdate"
 ];
 
 /**

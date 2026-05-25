@@ -93,7 +93,12 @@ const DEFAULT_USER_PROFILE = {
   dailyPhase: null,
   programPaused: false,
   completedPhases: [],
-  programDayKey: null
+  programDayKey: null,
+
+  /** @type {Record<string, { current: number, best: number, lastDate: string|null }>|null} */
+  streaks: null,
+  consistencyTitle: null,
+  lastStreakUpdate: null
 };
 
 /**

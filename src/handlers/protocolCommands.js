@@ -21,7 +21,8 @@ const ALLOWED_COMMANDS = new Set([
   "/whereami",
   "/pause",
   "/resume",
-  "/stop"
+  "/stop",
+  "/weekly"
 ]);
 
 const ONBOARDING_SAFE = new Set(["/start", "/language", "/skip"]);

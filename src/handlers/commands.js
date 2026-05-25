@@ -28,6 +28,7 @@ const {
   stopProgram,
   maybeResetProgramForNewDay
 } = require("../program/dailyProgramEngine");
+const { buildWeeklySummary } = require("../consistency/weeklySummary");
 const {
   requiresOnboardingGate,
   isSafeOnboardingCommand,
@@ -191,6 +192,11 @@ async function routeCommandMessage(message, session) {
     case "/status": {
       reply = buildDailyStatusSnapshot(getSession(uid(message)), lang, uid(message));
       handler = "daily:status";
+      break;
+    }
+    case "/weekly": {
+      reply = buildWeeklySummary(getSession(uid(message)), lang, uid(message));
+      handler = "consistency:weekly";
       break;
     }
     case "/language": {
