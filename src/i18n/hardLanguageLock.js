@@ -99,6 +99,14 @@ function finalizeOutboundReply(body, lang, session, userId, meta = {}) {
     out = enforceHardLanguageLock(pool[0], locked, session, userId);
   }
 
+  const { applyProgramAtmosphereFinalize } = require("../atmosphere/programAtmosphere");
+  out = applyProgramAtmosphereFinalize(out, locked, session, userId, {
+    dateKey: meta.dateKey,
+    quietPresence: meta.quietPresence,
+    programWhisper: meta.programWhisper,
+    formatOpts: meta.formatOpts
+  });
+
   const { recordOutboundReply } = require("../memory/recentReplyMemory");
   recordOutboundReply(userId, session, {
     body: out,

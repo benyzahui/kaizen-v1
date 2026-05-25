@@ -3,9 +3,10 @@
 module.exports = {
   programTag: "🐉 Dragon Blueprint — ritm zilnic.",
   programIdentity: [
-    "Azi ești în sistem.",
-    "Nu căutăm motivație.\nConstruim ritm.",
-    "Un pas mic contează în program."
+    "Azi ești în program.",
+    "Nu vânăm motivație.\nConstruim ritm.",
+    "Un pas mic contează.",
+    "⚔ Sistemul se ridică din pași mici."
   ],
   labels: {
     mantra: "Mantra",
@@ -18,8 +19,8 @@ module.exports = {
   morning: {
     title: "⚔ Activare dimineață",
     lines: [
-      "Ziua de azi e parte din program.",
-      "Nu trebuie start perfect.\nDoar conștient."
+      "Ziua de azi contează.",
+      "Nu trebuie start perfect.\nDoar prezent."
     ],
     bodyAnchor: "apă + 5 expirații lente.",
     missionQuestion: "Care e singurul lucru pe care îl duci până la capăt azi?",
@@ -27,9 +28,7 @@ module.exports = {
   },
   midday: {
     title: "☀ Revenire la prânz",
-    lines: [
-      "Încă în ritmul tău,\nsau zgomotul conduce deja?"
-    ],
+    lines: ["Încă în ritmul tău,", "sau zgomotul conduce deja?"],
     fallbackMantra: "Nu lăsa energia să se scurgă.",
     nowLines: ["apă", "postură", "un focus"]
   },
@@ -44,17 +43,17 @@ module.exports = {
   },
   actions: {
     morning: [
-      "beți apă acum.",
+      "bea apă acum.",
       "5 expirații lente.",
       "alege un task și închide-l.",
       "mers 5 minute.",
-      "scrie un rând sincer despre azi."
+      "un rând sincer despre azi."
     ],
     midday: [
-      "beți apă.",
-      "ridică-te și corectează postura.",
+      "bea apă.",
+      "ridică-te — postura dreaptă.",
       "închide un focus deschis.",
-      "reduce zgomotul de ecran 10 minute.",
+      "mai puțin ecran 10 minute.",
       "mers 5 minute."
     ],
     evening: [

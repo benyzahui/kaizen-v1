@@ -119,7 +119,8 @@ const PROTOCOL_MINIMAL = new Set([
   "energy_question",
   "rhythm_stabilization",
   "light_presence",
-  "language_required"
+  "language_required",
+  "onboarding_gate_command"
 ]);
 
 const SKIP_MEMORY_CATEGORIES = new Set([
@@ -211,7 +212,8 @@ function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
     if (opts.suggestedCommand && !opts.skipCommandHint) {
       b = lines(b, "", `→ ${opts.suggestedCommand}`);
     }
-    return b.trim();
+    const { formatPremiumDailyMessage } = require("../atmosphere/programAtmosphere");
+    return formatPremiumDailyMessage(b, { maxLines: 16, maxChars: 720 }).trim();
   }
 
   let b = enforceSingleNextStep(rawBody, opts);

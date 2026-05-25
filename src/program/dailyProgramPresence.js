@@ -17,6 +17,7 @@ const {
   maybeLightActivation,
   resolveAwarenessContext
 } = require("../challenges/challengeSelector");
+const { formatPremiumDailyMessage } = require("../atmosphere/programAtmosphere");
 
 const HYPE_RE =
   /\b(you got this|crush it|beast mode|manifest|10x|unlock your|hajrá|sigma|limitless|motivációs guru)\b/i;
@@ -148,8 +149,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
     userId,
     dateKey,
     contextKey: resolveAwarenessContext(session),
-    challengeChance: 0.1,
-    awarenessChance: 0.14,
+    challengeChance: 0.08,
+    awarenessChance: 0.1,
     now
   });
   if (activation) {
@@ -165,7 +166,7 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
     body = body.split("\n").slice(0, 18).join("\n");
   }
 
-  return body.trim();
+  return formatPremiumDailyMessage(body, { maxLines: 17, maxChars: MAX_PHASE_CHARS });
 }
 
 module.exports = {

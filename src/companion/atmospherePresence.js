@@ -184,7 +184,7 @@ function applyAtmosphereLayers(body, ctx, category) {
   if (ctx.session?.onboardingCompleted && b.split(/\n/).length < 7) {
     const atm = resolveAtmosphereContext(ctx.session, ctx.lang);
     const uid = ctx.session.telegramUserId || ctx.session.userId || "0";
-    const presence = maybePresenceLine(ctx.lang, atm.tone, atm.atmosphere, uid, 0.14);
+    const presence = maybePresenceLine(ctx.lang, atm.tone, atm.atmosphere, uid, 0.07);
     if (presence && !b.includes(presence)) {
       b = lines(b, "", presence);
     }

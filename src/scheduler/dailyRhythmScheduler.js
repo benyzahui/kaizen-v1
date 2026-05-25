@@ -48,7 +48,10 @@ function buildScheduledRhythmMessage(phase, session, userId, dateKey, now = new 
   if (!body) return null;
 
   return finalizeOutboundReply(body, lang, session, userId, {
-    openingId: `sched_${phase}_${dk}`
+    dateKey: dk,
+    openingId: `sched_${phase}_${dk}`,
+    quietPresence: true,
+    programWhisper: true
   });
 }
 

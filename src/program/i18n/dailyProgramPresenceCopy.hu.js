@@ -5,7 +5,8 @@ module.exports = {
   programIdentity: [
     "Ma is a rendszer része vagy.",
     "Nem motivációt keresünk.\nRitmust építünk.",
-    "Egy kis lépés is a program része."
+    "Egy kis lépés is a program része.",
+    "⚔ A rendszer kis lépésekből épül."
   ],
   labels: {
     mantra: "Mantra",
