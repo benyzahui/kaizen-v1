@@ -5,11 +5,8 @@
 const { fromTelegramCode } = require("../i18n/languageDetect");
 const { command: logCommand } = require("../logging/log");
 const { getResponses } = require("../i18n/getResponses");
-const { handleEnergy } = require("./energyHandler");
-const {
-  handleFocusCommand,
-  handleResetCommand
-} = require("./planTracking");
+const { handleFocusCommand } = require("./planTracking");
+const { buildBlueprintCommandResponse } = require("../blueprint/adaptiveProtocolEngine");
 const { buildStatusReply } = require("./status");
 const {
   startOnboarding,
@@ -33,6 +30,7 @@ const { getLockedLang } = require("../i18n/lockedLanguage");
 const { isAllowedProtocolCommand } = require("./protocolCommands");
 const { buildGuideReply } = require("./guide");
 const { finalizeOutboundReply } = require("../i18n/hardLanguageLock");
+const { lines } = require("../personality/kaizenVoice");
 
 const PROGRAM_WRAP = new Set(["/morning", "/energy", "/evening"]);
 
@@ -53,11 +51,6 @@ function isCommandText(text = "") {
 
 function logRoute(payload) {
   logCommand(JSON.stringify(payload), null);
-}
-
-function ritualFromResponses(r, command) {
-  const key = command.replace(/^\//, "");
-  return r.rituals && r.rituals[key] ? r.rituals[key] : null;
 }
 
 /**
@@ -115,39 +108,60 @@ async function routeCommandMessage(message, session) {
     case "/skip":
       reply = skipOnboarding(uid(message), lang);
       break;
-    case "/morning":
-      reply = buildMorningReply(message, session, lang);
-      recordCompletedRitual(uid(message), getSession(uid(message)));
-      break;
-    case "/midday":
-      reply = buildMiddayReply(session, lang);
-      break;
-    case "/evening":
-      reply = buildEveningReply(message, session, lang);
-      recordCompletedRitual(uid(message), getSession(uid(message)));
-      break;
     case "/energy":
-      reply = await handleEnergy(message, lang);
-      break;
     case "/trade":
-      reply = r.trade;
-      break;
-    case "/focus":
-      reply = handleFocusCommand(message, lang);
-      break;
-    case "/reset":
-      reply = handleResetCommand(message, lang);
-      break;
     case "/fasting":
-    case "/training": {
-      const ritual = ritualFromResponses(r, command);
-      reply = ritual || r.protocolCommandBlocked;
-      handler = `ritual:${command}`;
+    case "/training":
+    case "/reset":
+    case "/focus": {
+      const focusArg = command === "/focus" ? handleFocusCommand(message, lang) : null;
+      if (focusArg && String(message.text || "").match(/^\/focus\s+\S+/i)) {
+        reply = focusArg;
+        handler = "blueprint:focus_saved";
+        break;
+      }
+      reply =
+        buildBlueprintCommandResponse(command, getSession(uid(message)), lang, text) ||
+        r.protocolCommandBlocked;
+      handler = `blueprint:${command}`;
+      if (command === "/focus" && !String(message.text || "").match(/^\/focus\s+\S+/i)) {
+        const blueprint = reply;
+        reply = lines(blueprint, "", focusArg || "");
+        handler = "blueprint:focus_prompt";
+      }
       break;
     }
-    case "/status":
-      reply = buildStatusReply(message, session, lang);
+    case "/morning":
+    case "/midday":
+    case "/evening": {
+      const rhythm =
+        command === "/morning"
+          ? buildMorningReply(message, session, lang)
+          : command === "/midday"
+            ? buildMiddayReply(session, lang)
+            : buildEveningReply(message, session, lang);
+      const blueprint =
+        buildBlueprintCommandResponse(command, getSession(uid(message)), lang, text) ||
+        "";
+      reply = blueprint ? lines(blueprint, "", rhythm) : rhythm;
+      handler = `blueprint+rhythm:${command}`;
+      if (command === "/morning" || command === "/evening") {
+        recordCompletedRitual(uid(message), getSession(uid(message)));
+      }
       break;
+    }
+    case "/status": {
+      const blueprintStatus = buildBlueprintCommandResponse(
+        "/status",
+        getSession(uid(message)),
+        lang,
+        text
+      );
+      const base = buildStatusReply(message, session, lang);
+      reply = blueprintStatus ? lines(blueprintStatus, "", base) : base;
+      handler = "blueprint:status";
+      break;
+    }
     case "/language": {
       const parts = String(text).trim().split(/\s+/);
       const arg = parts[1];

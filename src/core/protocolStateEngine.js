@@ -10,6 +10,24 @@ const { analyzeUserState } = require("./responseEngine");
  * @param {string} [category]
  */
 function buildProtocolState(session, text, category) {
+  const trimmed = String(text || "").trim();
+  const commandOnly = /^\/[a-z0-9_]+$/i.test(trimmed);
+  if (
+    commandOnly &&
+    (session?.energyState || session?.disciplineState || session?.nervousSystemState)
+  ) {
+    return {
+      energyState: session.energyState || "stable",
+      disciplineState: session.disciplineState || "focused",
+      nervousSystemState: session.nervousSystemState || "calm",
+      activeMode:
+        session?.activeMode ||
+        mapPathToMode(session?.userPrimaryPath) ||
+        "stabilization",
+      analyzed: session?.protocolState?.analyzed || {}
+    };
+  }
+
   const state = analyzeUserState(text, session, category);
   const pm = session?.presenceMemory || {};
 
