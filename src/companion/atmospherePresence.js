@@ -6,6 +6,10 @@
 const { pickSeeded } = require("../personality/tone");
 const { getResponses } = require("../i18n/getResponses");
 const { lines } = require("../personality/kaizenVoice");
+const {
+  maybePresenceLine,
+  resolveAtmosphereContext
+} = require("../atmosphere/atmosphereEngine");
 
 const HYPE_RE =
   /\b(you got this|crush it|beast mode|10x|unlock your|hustle harder|no excuses|győzd le|hajrá|go hard|grind set|sigma|alpha energy|limitless|warrior|harcos út|motivációs guru|internet motiv)\b/i;
@@ -175,6 +179,15 @@ function applyAtmosphereLayers(body, ctx, category) {
   const micro = maybeMicroImmersion(ctx, category);
   if (micro && b.split(/\n/).length < 6 && !b.includes(micro.slice(0, 20))) {
     b = lines(b, "", micro);
+  }
+
+  if (ctx.session?.onboardingCompleted && b.split(/\n/).length < 7) {
+    const atm = resolveAtmosphereContext(ctx.session, ctx.lang);
+    const uid = ctx.session.telegramUserId || ctx.session.userId || "0";
+    const presence = maybePresenceLine(ctx.lang, atm.tone, atm.atmosphere, uid, 0.14);
+    if (presence && !b.includes(presence)) {
+      b = lines(b, "", presence);
+    }
   }
 
   return b;

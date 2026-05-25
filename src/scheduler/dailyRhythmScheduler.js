@@ -12,7 +12,8 @@
 const { lines } = require("../personality/kaizenVoice");
 const { getResponses } = require("../i18n/getResponses");
 const { getSession, updateSession } = require("../session/sessionStore");
-const { pickMantraForSlot, recordMantraUse } = require("../mantra/mantraEngine");
+const { recordMantraUse } = require("../mantra/mantraEngine");
+const { pickAdaptiveMantra } = require("../atmosphere/atmosphereEngine");
 const { resolveRhythmContext } = require("../rhythm/rhythmPicker");
 const { finalizeOutboundReply } = require("../i18n/hardLanguageLock");
 const { requireLockedLanguage } = require("../i18n/hardLanguageLock");
@@ -46,13 +47,12 @@ function buildScheduledRhythmMessage(phase, session, userId, dateKey) {
   if (!tpl) return null;
 
   const ctx = resolveRhythmContext(session, lang);
-  const mantra = pickMantraForSlot(
+  const mantra = pickAdaptiveMantra(
     phase === "morning" ? "morning" : phase === "midday" ? "midday" : "evening",
     lang,
     session,
     userId,
-    `sched_${dk}_${phase}`,
-    ctx
+    `sched_${dk}_${phase}`
   );
 
   let body = "";

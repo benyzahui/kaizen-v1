@@ -8,6 +8,8 @@ const { resolveRhythmContext } = require("../rhythm/rhythmPicker");
 const { enforceHardLanguageLock } = require("../i18n/languageHardLock");
 const { pickUnseenVariant } = require("../conversation/responseVariation");
 const { updateSession } = require("../session/sessionStore");
+const { resolveAtmosphereContext } = require("../atmosphere/atmosphereEngine");
+const { pickSymbolicLine } = require("../atmosphere/energyAtmosphereMap");
 
 const ASTRO_SPAM_RE =
   /\b(horoscope|zodiac|mercury retrograde|universe wants|the stars|asztrológ|numerolog|predicț|jóslás|univerzum üzen)\b/i;
@@ -47,6 +49,22 @@ function pickTierPool(sectionBlock, ctx) {
  * @param {'en'|'hu'|'ro'} lang
  */
 function pickAtmosphereLine(section, ctx, session, userId, dateKey, lang) {
+  const locked = lang === "hu" || lang === "ro" ? lang : "en";
+  const atmCtx = resolveAtmosphereContext(session, locked);
+  if (
+    section === "nervous" &&
+    (ctx.nervousSystemState === "overloaded" ||
+      ctx.nervousSystemState === "anxious" ||
+      atmCtx.atmosphere === "overloaded")
+  ) {
+    const sym = pickSymbolicLine(locked, "overloaded", "nervous", userId, dateKey);
+    if (sym) return sym;
+  }
+  if (section === "recovery" && (atmCtx.tone?.timeSlot === "evening" || atmCtx.tone?.timeSlot === "late_night")) {
+    const sym = pickSymbolicLine(locked, "recovery", "recovery", userId, dateKey);
+    if (sym && locked !== "en") return sym;
+  }
+
   const r = getResponses(lang);
   const block = r.energyAtmosphere?.[section];
   const pool = pickTierPool(block, ctx);

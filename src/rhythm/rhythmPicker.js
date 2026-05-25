@@ -75,13 +75,13 @@ function pickRhythmLine(slot, section, ctx, session, userId, dateKey) {
 }
 
 function pickRhythmMantra(ctx, session, userId, dateKey) {
-  const { pickMantraForSlot } = require("../mantra/mantraEngine");
+  const { pickAdaptiveMantra } = require("../atmosphere/atmosphereEngine");
   const slot = String(dateKey).includes("mid")
     ? "midday"
     : String(dateKey).includes("late") || String(dateKey).includes("evening")
       ? "evening"
       : "morning";
-  return pickMantraForSlot(slot, ctx.lang, session, userId, dateKey, ctx);
+  return pickAdaptiveMantra(slot, ctx.lang, session, userId, dateKey);
 }
 
 module.exports = {

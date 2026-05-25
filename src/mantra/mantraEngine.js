@@ -12,6 +12,21 @@ const { updateSession } = require("../session/sessionStore");
  */
 function entryMatchesContext(entry, ctx) {
   const tags = entry.tags || [];
+  if (ctx.atmosphere === "warrior" && tags.includes("warrior")) return true;
+  if (
+    (ctx.atmosphere === "recovery" || ctx.atmosphere === "emotional") &&
+    (tags.includes("recovery") || tags.includes("hope"))
+  ) {
+    return true;
+  }
+  if (ctx.atmosphere === "overloaded" && (tags.includes("stabilization") || tags.includes("let_go"))) {
+    return true;
+  }
+  if (Array.isArray(ctx.mantraTags)) {
+    for (const t of ctx.mantraTags) {
+      if (tags.includes(t)) return true;
+    }
+  }
   if (ctx.energyState === "exhausted" && tags.includes("recovery")) return true;
   if (
     (ctx.nervousSystemState === "overloaded" || ctx.nervousSystemState === "anxious") &&

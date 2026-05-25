@@ -4,7 +4,12 @@
 
 const { lines } = require("../personality/kaizenVoice");
 const { pickRhythmLine, resolveRhythmContext } = require("./rhythmPicker");
-const { pickMantraForSlot, recordMantraUse } = require("../mantra/mantraEngine");
+const { recordMantraUse } = require("../mantra/mantraEngine");
+const {
+  pickAdaptiveMantra,
+  eveningEnding,
+  resolveAtmosphereState
+} = require("../atmosphere/atmosphereEngine");
 
 /**
  * @param {object} session
@@ -21,10 +26,11 @@ function buildEveningBlueprintCore(session, lang, userId, dateKey, slot, ctx) {
   const screen = pickRhythmLine(slot, "screen", context, session, userId, dateKey);
   const reflection = pickRhythmLine(slot, "reflection", context, session, userId, dateKey);
   const recovery = pickRhythmLine(slot, "recovery", context, session, userId, dateKey);
-  const mantra = pickMantraForSlot(slot, lang, session, userId, dateKey, context);
+  const mantra = pickAdaptiveMantra(slot, lang, session, userId, dateKey);
   recordMantraUse(userId, mantra, session);
 
-  return lines(release, screen, reflection, recovery, mantra.text);
+  const close = eveningEnding(lang, resolveAtmosphereState(session));
+  return lines(release, screen, reflection, recovery, mantra.text, close);
 }
 
 function buildEveningBlueprint(session, lang, userId, dateKey, ctx) {
