@@ -32,7 +32,9 @@ const EPHEMERAL_KEYS = [
   "companionLastProtocol",
   "awaitingWhyHere",
   "brainHumorCooldown",
-  "brainHumorIndex"
+  "brainHumorIndex",
+  "dailyState",
+  "dailyCheckInPending"
 ];
 
 /**

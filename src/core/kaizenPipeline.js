@@ -40,6 +40,7 @@ const {
   onboardingContinuePrompt
 } = require("../companion/onboardingGate");
 const { tryConsumeFocusReply } = require("../handlers/planTracking");
+const { tryConsumeDailyCheckInReply } = require("../tracking/dailyCheckInFlow");
 const { conversation: logConversation } = require("../logging/log");
 
 function userIdFrom(message) {
@@ -131,6 +132,24 @@ async function processIncomingMessage(message) {
     };
   }
   const lang = langReq.lang;
+
+  const checkIn = tryConsumeDailyCheckInReply(userId, trimmed, lang, session);
+  if (checkIn) {
+    const finalized = finalizeOutboundReply(
+      checkIn,
+      lang,
+      getSession(userId),
+      userId,
+      { openingId: "daily_checkin" }
+    );
+    return {
+      reply: finalized,
+      branch: "daily_checkin",
+      lang,
+      category: "daily_checkin",
+      command: null
+    };
+  }
 
   const focused = tryConsumeFocusReply(message, lang);
   if (focused) {

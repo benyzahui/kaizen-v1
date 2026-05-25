@@ -7,19 +7,19 @@ const { command: logCommand } = require("../logging/log");
 const { getResponses } = require("../i18n/getResponses");
 const { handleFocusCommand } = require("./planTracking");
 const { buildBlueprintCommandResponse } = require("../blueprint/adaptiveProtocolEngine");
-const { buildStatusReply } = require("./status");
 const {
   startOnboarding,
   getStartReply,
   skipOnboarding
 } = require("./onboarding");
 const { updateSession, getSession } = require("../session/sessionStore");
-const {
-  buildMorningReply,
-  buildMiddayReply,
-  buildEveningReply
-} = require("./dailyRhythm");
 const { recordCompletedRitual } = require("../core/seriousnessEngine");
+const {
+  buildMorningCheckInCommand,
+  buildMiddayCheckInCommand,
+  buildEveningCheckInCommand
+} = require("../tracking/dailyCheckInFlow");
+const { buildDailyStatusSnapshot } = require("../tracking/statusEngine");
 const {
   requiresOnboardingGate,
   isSafeOnboardingCommand,
@@ -131,35 +131,29 @@ async function routeCommandMessage(message, session) {
       }
       break;
     }
-    case "/morning":
-    case "/midday":
+    case "/morning": {
+      const id = uid(message);
+      reply = buildMorningCheckInCommand(id, getSession(id), lang);
+      recordCompletedRitual(id, getSession(id));
+      handler = "daily:morning_checkin";
+      break;
+    }
+    case "/midday": {
+      const id = uid(message);
+      reply = buildMiddayCheckInCommand(id, getSession(id), lang);
+      handler = "daily:midday_checkin";
+      break;
+    }
     case "/evening": {
-      const rhythm =
-        command === "/morning"
-          ? buildMorningReply(message, session, lang)
-          : command === "/midday"
-            ? buildMiddayReply(session, lang)
-            : buildEveningReply(message, session, lang);
-      const blueprint =
-        buildBlueprintCommandResponse(command, getSession(uid(message)), lang, text) ||
-        "";
-      reply = blueprint ? lines(blueprint, "", rhythm) : rhythm;
-      handler = `blueprint+rhythm:${command}`;
-      if (command === "/morning" || command === "/evening") {
-        recordCompletedRitual(uid(message), getSession(uid(message)));
-      }
+      const id = uid(message);
+      reply = buildEveningCheckInCommand(id, getSession(id), lang);
+      recordCompletedRitual(id, getSession(id));
+      handler = "daily:evening_checkin";
       break;
     }
     case "/status": {
-      const blueprintStatus = buildBlueprintCommandResponse(
-        "/status",
-        getSession(uid(message)),
-        lang,
-        text
-      );
-      const base = buildStatusReply(message, session, lang);
-      reply = blueprintStatus ? lines(blueprintStatus, "", base) : base;
-      handler = "blueprint:status";
+      reply = buildDailyStatusSnapshot(getSession(uid(message)), lang, uid(message));
+      handler = "daily:status";
       break;
     }
     case "/language": {

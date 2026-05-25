@@ -75,7 +75,17 @@ const DEFAULT_USER_PROFILE = {
   accountabilityMode: false,
   accountabilitySince: null,
   lastAccountabilityPromise: null,
-  lastAccountabilityAt: null
+  lastAccountabilityAt: null,
+
+  /**
+   * Dragon Blueprint daily state — see docs/daily-state-tracking.md
+   * @type {object|null}
+   */
+  dailyState: null,
+  /** Active check-in: { flow, step, lang, startedAt } */
+  dailyCheckInPending: null,
+  /** @type {'beginner'|'intermediate'|'advanced'|null} */
+  protocolLevel: null
 };
 
 /**
