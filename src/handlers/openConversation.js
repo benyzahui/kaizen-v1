@@ -212,6 +212,33 @@ async function handleOpenConversation(message, lang, session) {
       );
     }
 
+    const { tryProgramOpenReply, isProgramActive } = require("../program/dailyProgramEngine");
+    if (isProgramActive(session)) {
+      const progGuide = tryProgramOpenReply(text, lang, session);
+      if (progGuide) {
+        const companionCtxProg = prepareCompanionContext(
+          userId,
+          text,
+          session,
+          lang,
+          progGuide.category
+        );
+        logOpen({
+          lang,
+          category: progGuide.category,
+          handler: "dailyProgramEngine.open",
+          textPreview: text.slice(0, 80)
+        });
+        return emitOpen(
+          companionCtxProg,
+          progGuide.category,
+          progGuide.body,
+          r,
+          progGuide.suggestedCommand
+        );
+      }
+    }
+
     const { tryLightProtocolOpen } = require("../panel/lightOpenRedirect");
     const lightProto = tryLightProtocolOpen(text, lang);
     if (lightProto) {
@@ -259,31 +286,6 @@ async function handleOpenConversation(message, lang, session) {
         correction.body,
         r,
         correction.suggestedCommand
-      );
-    }
-
-    const { tryProgramOpenReply } = require("../program/dailyProgramEngine");
-    const progGuide = tryProgramOpenReply(text, lang, session);
-    if (progGuide) {
-      const companionCtxProg = prepareCompanionContext(
-        userId,
-        text,
-        session,
-        lang,
-        progGuide.category
-      );
-      logOpen({
-        lang,
-        category: progGuide.category,
-        handler: "dailyProgramEngine.open",
-        textPreview: text.slice(0, 80)
-      });
-      return emitOpen(
-        companionCtxProg,
-        progGuide.category,
-        progGuide.body,
-        r,
-        progGuide.suggestedCommand
       );
     }
 

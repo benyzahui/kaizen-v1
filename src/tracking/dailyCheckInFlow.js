@@ -14,6 +14,7 @@ const {
 const { buildDailyStatusSnapshot } = require("./statusEngine");
 const { advancePhaseAfterCheckIn, isProgramActive } = require("../program/dailyProgramEngine");
 const { recordCheckInCompletion } = require("../consistency/streakEngine");
+const { buildDailyPhasePresence } = require("../program/dailyProgramPresence");
 
 function buildCheckInCompleteReply(userId, flow, lang, daily, session) {
   const streakBlock = recordCheckInCompletion(userId, flow, lang, daily, session);
@@ -73,16 +74,14 @@ function startCheckIn(userId, session, flow, lang) {
 /**
  * @param {string} lang
  * @param {'morning'|'midday'|'evening'} flow
+ * @param {object} session
+ * @param {string|number} userId
+ * @param {Date} [now]
  */
-function buildCheckInPrompt(lang, flow) {
-  const copy = getDailyTrackingCopy(lang);
-  if (flow === "morning") {
-    return lines(copy.morningTitle, "", copy.morningPrompt, "", copy.morningHint);
-  }
-  if (flow === "midday") {
-    return lines(copy.middayTitle, "", copy.middayPrompt, "", copy.middayHint);
-  }
-  return lines(copy.eveningTitle, "", copy.eveningPrompt, "", copy.eveningHint);
+function buildCheckInPrompt(lang, flow, session, userId, now = new Date()) {
+  const locked = lang === "hu" || lang === "ro" ? lang : "en";
+  const dk = todayKey(now);
+  return buildDailyPhasePresence(flow, locked, session, userId, dk, now);
 }
 
 /**
@@ -97,19 +96,19 @@ function buildMorningCheckInCommand(userId, session, lang) {
   if (session.lastMorningCheckin !== today) {
     updateSession(userId, { lastMorningCheckin: today });
   }
-  return buildCheckInPrompt(lang, "morning");
+  return buildCheckInPrompt(lang, "morning", session, userId);
 }
 
 function buildMiddayCheckInCommand(userId, session, lang) {
   startCheckIn(userId, session, "midday", lang);
-  return buildCheckInPrompt(lang, "midday");
+  return buildCheckInPrompt(lang, "midday", session, userId);
 }
 
 function buildEveningCheckInCommand(userId, session, lang) {
   startCheckIn(userId, session, "evening", lang);
   const today = todayKey();
   updateSession(userId, { lastEveningMirror: today });
-  return buildCheckInPrompt(lang, "evening");
+  return buildCheckInPrompt(lang, "evening", session, userId);
 }
 
 /**

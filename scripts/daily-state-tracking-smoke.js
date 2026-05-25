@@ -35,8 +35,10 @@ async function run() {
     text: "/morning"
   });
   assertHu(morning.reply, "/morning");
-  assert(/Energia:\s*1/i.test(morning.reply), "morning asks energy");
-  assert(/Testi horgony/i.test(morning.reply), "morning asks anchors");
+  assert(/Dragon Blueprint|napi ritmus/i.test(morning.reply), "program presence");
+  assert(/Reggeli aktiválás|Mantra:/i.test(morning.reply), "morning activation");
+  assert(/energia 1–10|Rövid válasz/i.test(morning.reply), "morning check-in footer");
+  assert(/Ma:/i.test(morning.reply), "daily action");
 
   const answers = await processIncomingMessage({
     from: { id: uid },

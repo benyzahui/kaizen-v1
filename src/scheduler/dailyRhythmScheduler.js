@@ -9,12 +9,8 @@
  * CURRENT: build message + optional send hook (no live cron in repo).
  */
 
-const { lines } = require("../personality/kaizenVoice");
-const { getResponses } = require("../i18n/getResponses");
 const { getSession, updateSession } = require("../session/sessionStore");
-const { recordMantraUse } = require("../mantra/mantraEngine");
-const { pickAdaptiveMantra } = require("../atmosphere/atmosphereEngine");
-const { resolveRhythmContext } = require("../rhythm/rhythmPicker");
+const { buildDailyPhasePresence } = require("../program/dailyProgramPresence");
 const { finalizeOutboundReply } = require("../i18n/hardLanguageLock");
 const { requireLockedLanguage } = require("../i18n/hardLanguageLock");
 const { shouldSendScheduledPush } = require("../program/dailyProgramEngine");
@@ -36,70 +32,22 @@ function resolveSchedulerLang(session) {
  * @param {string|number} userId
  * @param {string} [dateKey]
  */
-function buildScheduledRhythmMessage(phase, session, userId, dateKey) {
+/**
+ * @param {'morning'|'midday'|'evening'} phase
+ * @param {object} session
+ * @param {string|number} userId
+ * @param {string} [dateKey]
+ * @param {Date} [now]
+ */
+function buildScheduledRhythmMessage(phase, session, userId, dateKey, now = new Date()) {
   const lang = resolveSchedulerLang(session);
   if (!lang) return null;
-  const locked = lang;
 
   const dk = dateKey || new Date().toISOString().slice(0, 10);
-  const r = getResponses(lang);
-  const tpl = r.scheduledRhythm?.[locked]?.[phase];
-  if (!tpl) return null;
-
-  const ctx = resolveRhythmContext(session, lang);
-  const mantra = pickAdaptiveMantra(
-    phase === "morning" ? "morning" : phase === "midday" ? "midday" : "evening",
-    lang,
-    session,
-    userId,
-    `sched_${dk}_${phase}`
-  );
-
-  let body = "";
-  if (phase === "morning") {
-    body = lines(
-      tpl.title,
-      "",
-      `${tpl.mantraLabel}:`,
-      mantra.text,
-      "",
-      `${tpl.startLabel}:`,
-      ...tpl.startLines,
-      "",
-      tpl.missionQuestion,
-      "",
-      tpl.bodyAnchor
-    );
-  } else if (phase === "midday") {
-    body = lines(
-      tpl.title,
-      "",
-      `${tpl.mantraLabel}:`,
-      mantra.text,
-      "",
-      tpl.checkLabel + ":",
-      ...tpl.checkLines,
-      "",
-      tpl.closeLine
-    );
-  } else {
-    body = lines(
-      tpl.title,
-      "",
-      `${tpl.mantraLabel}:`,
-      mantra.text,
-      "",
-      tpl.closeLabel + ":",
-      ...tpl.closeLines,
-      "",
-      ...tpl.windDown
-    );
-  }
-
-  recordMantraUse(userId, mantra, session);
+  const body = buildDailyPhasePresence(phase, lang, session, userId, dk, now);
+  if (!body) return null;
 
   return finalizeOutboundReply(body, lang, session, userId, {
-    mantraId: mantra.id,
     openingId: `sched_${phase}_${dk}`
   });
 }
