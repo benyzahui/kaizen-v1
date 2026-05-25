@@ -4,22 +4,20 @@ module.exports = {
   protocolStabilizeLead: "Stabilizează mai întâi.",
   protocolCommandsList: [
     "Comenzi:",
-    "/guide /status",
+    "/panel /guide /status",
     "/morning /midday /evening",
-    "/energy /reset /focus",
-    "/fasting /training /trade",
-    "/language"
+    "/discipline /stabilization /training",
+    "/recovery /energy /breath",
+    "/reset /focus /language"
   ].join("\n"),
   guideCompactBody: [
-    "KaiZen — ritm zilnic",
+    "KaiZen — prezență ușoară + protocoale manuale",
     "",
-    "/guide /status",
+    "/panel — foldere",
     "/morning /midday /evening",
-    "/energy /reset /focus",
-    "/fasting /training /trade",
-    "/language",
+    "/status /language",
     "",
-    "Text liber: scurt. Structură prin comenzi."
+    "Text liber: scurt. Un protocol e suficient."
   ].join("\n"),
   rhythmStabilization: {
     variants: [
@@ -30,7 +28,7 @@ module.exports = {
     commandHint: "→ /reset"
   },
   protocolCommandBlocked:
-    "Comanda nu e activă. Folosește:\n/morning /midday /evening /energy /reset /focus /fasting /training /trade /status",
+    "Comanda nu e activă. Folosește:\n/panel /morning /midday /evening /stabilization /status",
   protocolOnboarding: {
     startReturning: [
       "KaiZen.",

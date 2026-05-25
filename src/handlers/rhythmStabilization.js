@@ -30,10 +30,19 @@ function buildStabilizationRedirect(text, lang, session) {
   const variants = block.variants || [];
   if (!variants.length) return null;
 
+  const { tryLightProtocolOpen } = require("../panel/lightOpenRedirect");
+  const light = tryLightProtocolOpen(text, lang);
+  if (light) {
+    return {
+      body: light.body,
+      suggestedCommand: light.suggestedCommand
+    };
+  }
+
   const body = pickNonRepeatingVariant(variants, session);
   return {
-    body: lines(body, "", block.commandHint || "→ /reset"),
-    suggestedCommand: "/reset"
+    body: lines(body, "", block.commandHint || "→ /stabilization"),
+    suggestedCommand: "/stabilization"
   };
 }
 

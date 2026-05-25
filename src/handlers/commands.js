@@ -38,6 +38,7 @@ const {
 const { getLockedLang } = require("../i18n/lockedLanguage");
 const { isAllowedProtocolCommand } = require("./protocolCommands");
 const { buildGuideReply } = require("./guide");
+const { handlePanelCommand } = require("../panel/protocolPanelEngine");
 const { finalizeOutboundReply } = require("../i18n/hardLanguageLock");
 const { lines } = require("../personality/kaizenVoice");
 
@@ -117,10 +118,22 @@ async function routeCommandMessage(message, session) {
     case "/skip":
       reply = skipOnboarding(uid(message), lang);
       break;
-    case "/energy":
-    case "/trade":
-    case "/fasting":
+    case "/panel":
+    case "/discipline":
+    case "/stabilization":
     case "/training":
+    case "/lettinggo":
+    case "/recovery":
+    case "/energy":
+    case "/trading":
+    case "/breath":
+    case "/fasting": {
+      const id = uid(message);
+      reply = handlePanelCommand(command, lang, getSession(id), id);
+      handler = `panel:${command}`;
+      break;
+    }
+    case "/trade":
     case "/reset":
     case "/focus": {
       const focusArg = command === "/focus" ? handleFocusCommand(message, lang) : null;

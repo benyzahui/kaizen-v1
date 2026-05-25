@@ -212,6 +212,31 @@ async function handleOpenConversation(message, lang, session) {
       );
     }
 
+    const { tryLightProtocolOpen } = require("../panel/lightOpenRedirect");
+    const lightProto = tryLightProtocolOpen(text, lang);
+    if (lightProto) {
+      const companionCtxLight = prepareCompanionContext(
+        userId,
+        text,
+        session,
+        lang,
+        lightProto.category
+      );
+      logOpen({
+        lang,
+        category: lightProto.category,
+        handler: "panel.lightOpenRedirect",
+        textPreview: text.slice(0, 80)
+      });
+      return emitOpen(
+        companionCtxLight,
+        lightProto.category,
+        lightProto.body,
+        r,
+        lightProto.suggestedCommand
+      );
+    }
+
     const { tryAdaptiveCorrectionReply } = require("../correction/relapseEngine");
     const correction = tryAdaptiveCorrectionReply(text, lang, session, userId);
     if (correction) {

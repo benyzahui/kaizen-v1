@@ -4,22 +4,20 @@ module.exports = {
   protocolStabilizeLead: "Először stabilizálj.",
   protocolCommandsList: [
     "Parancsok:",
-    "/guide /status",
+    "/panel /guide /status",
     "/morning /midday /evening",
-    "/energy /reset /focus",
-    "/fasting /training /trade",
-    "/language"
+    "/discipline /stabilization /training",
+    "/recovery /energy /breath",
+    "/reset /focus /language"
   ].join("\n"),
   guideCompactBody: [
-    "KaiZen — napi ritmus",
+    "KaiZen — könnyű jelenlét + kézi protokollok",
     "",
-    "/guide /status",
+    "/panel — mappák",
     "/morning /midday /evening",
-    "/energy /reset /focus",
-    "/fasting /training /trade",
-    "/language",
+    "/status /language",
     "",
-    "Szabad szöveg: rövid. Struktúra parancsokkal."
+    "Szabad szöveg: rövid. Egy protokoll elég."
   ].join("\n"),
   rhythmStabilization: {
     variants: [
@@ -30,7 +28,7 @@ module.exports = {
     commandHint: "→ /reset"
   },
   protocolCommandBlocked:
-    "Ez a parancs nincs aktív. Használd:\n/morning /midday /evening /energy /reset /focus /fasting /training /trade /status",
+    "Ez a parancs nincs aktív. Használd:\n/panel /morning /midday /evening /stabilization /status",
   protocolOnboarding: {
     startReturning: [
       "KaiZen.",

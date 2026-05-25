@@ -4,22 +4,20 @@ module.exports = {
   protocolStabilizeLead: "Stabilize first.",
   protocolCommandsList: [
     "Commands:",
-    "/guide /status",
+    "/panel /guide /status",
     "/morning /midday /evening",
-    "/energy /reset /focus",
-    "/fasting /training /trade",
-    "/language"
+    "/discipline /stabilization /training",
+    "/recovery /energy /breath",
+    "/reset /focus /language"
   ].join("\n"),
   guideCompactBody: [
-    "KaiZen — daily rhythm",
+    "KaiZen — light presence + manual protocols",
     "",
-    "/guide /status",
+    "/panel — folders",
     "/morning /midday /evening",
-    "/energy /reset /focus",
-    "/fasting /training /trade",
-    "/language",
+    "/status /language",
     "",
-    "Open text stays short. Use commands for structure."
+    "Open text stays short. One protocol is enough."
   ].join("\n"),
   rhythmStabilization: {
     variants: [
@@ -29,7 +27,8 @@ module.exports = {
     ],
     commandHint: "→ /reset"
   },
-  protocolCommandBlocked: "That command is offline. Use:\n/morning /midday /evening /energy /reset /focus /fasting /training /trade /status",
+  protocolCommandBlocked:
+    "That command is offline. Use:\n/panel /morning /midday /evening /stabilization /status",
   protocolOnboarding: {
     startReturning: [
       "KaiZen.",

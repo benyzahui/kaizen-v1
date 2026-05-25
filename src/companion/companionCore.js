@@ -118,6 +118,7 @@ const PROTOCOL_MINIMAL = new Set([
   "help_intent",
   "energy_question",
   "rhythm_stabilization",
+  "light_presence",
   "language_required"
 ]);
 
