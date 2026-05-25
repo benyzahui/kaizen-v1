@@ -45,7 +45,7 @@ async function run() {
   });
   assert(answers.branch === "daily_checkin", "natural answer → daily_checkin");
   assertHu(answers.reply, "morning answers");
-  assert(/mentve/i.test(answers.reply), "saved confirmation");
+  assert(/lezárva|Streak:/i.test(answers.reply), "completion + streak");
 
   const s1 = getSession(uid);
   assert(s1.dailyState?.energyLevel === 7, "energy 7");
