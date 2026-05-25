@@ -13,6 +13,10 @@ const {
   recordMicroProtocolUse,
   maybeMicroTouch
 } = require("../protocols/adaptiveProtocolSelector");
+const {
+  maybeLightActivation,
+  resolveAwarenessContext
+} = require("../challenges/challengeSelector");
 
 const HYPE_RE =
   /\b(you got this|crush it|beast mode|manifest|10x|unlock your|hajrá|sigma|limitless|motivációs guru)\b/i;
@@ -135,6 +139,21 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       actionBlock,
       touch || ""
     );
+  }
+
+  const activation = maybeLightActivation({
+    slot,
+    lang: locked,
+    session,
+    userId,
+    dateKey,
+    contextKey: resolveAwarenessContext(session),
+    challengeChance: 0.1,
+    awarenessChance: 0.14,
+    now
+  });
+  if (activation) {
+    body = lines(body, "", activation);
   }
 
   const footer = copy.checkInFooter[phase];
