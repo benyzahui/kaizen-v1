@@ -212,6 +212,31 @@ async function handleOpenConversation(message, lang, session) {
       );
     }
 
+    const { tryAdaptiveCorrectionReply } = require("../correction/relapseEngine");
+    const correction = tryAdaptiveCorrectionReply(text, lang, session, userId);
+    if (correction) {
+      const companionCtxCorr = prepareCompanionContext(
+        userId,
+        text,
+        session,
+        lang,
+        correction.category
+      );
+      logOpen({
+        lang,
+        category: correction.category,
+        handler: "relapseEngine.correction",
+        textPreview: text.slice(0, 80)
+      });
+      return emitOpen(
+        companionCtxCorr,
+        correction.category,
+        correction.body,
+        r,
+        correction.suggestedCommand
+      );
+    }
+
     const { tryProgramOpenReply } = require("../program/dailyProgramEngine");
     const progGuide = tryProgramOpenReply(text, lang, session);
     if (progGuide) {

@@ -98,7 +98,11 @@ const DEFAULT_USER_PROFILE = {
   /** @type {Record<string, { current: number, best: number, lastDate: string|null }>|null} */
   streaks: null,
   consistencyTitle: null,
-  lastStreakUpdate: null
+  lastStreakUpdate: null,
+
+  /** @type {'low'|'medium'|'high'|null} */
+  relapseRisk: null,
+  lastRelapseCheck: null
 };
 
 /**

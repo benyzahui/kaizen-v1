@@ -78,8 +78,8 @@ async function run() {
   });
   assert(overload.branch === "open", "overload open");
   assertHu(overload.reply, "overload");
-  assert(/stabilizálás/i.test(overload.reply), "stabilize");
-  assert(/\/midday/i.test(overload.reply), "return midday");
+  assert(/stabilizálás|nyitott kör|vissza|légzés/i.test(overload.reply), "stabilize or correction");
+  assert(/\/midday|\/reset/i.test(overload.reply), "return step command");
 
   await processIncomingMessage({
     from: { id: uid },

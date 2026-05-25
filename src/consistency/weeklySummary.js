@@ -6,6 +6,11 @@ const { lines } = require("../personality/kaizenVoice");
 const { getStreakCopy } = require("./i18n/getStreakCopy");
 const { getStreaks, STREAK_KEYS } = require("./streakModel");
 const { resolveConsistencyTitle } = require("./streakEngine");
+const {
+  computeRelapseRisk,
+  shouldSuggestRecoveryDay,
+  formatRecoveryDay
+} = require("../correction/relapseEngine");
 const { getOrCreateDailyState } = require("../tracking/dailyStateModel");
 
 const RHYTHM_KEYS = ["morning", "midday", "evening"];
@@ -52,6 +57,10 @@ function buildWeeklySummary(session, lang, userId) {
   }
 
   const title = resolveConsistencyTitle(streaks);
+  const risk = computeRelapseRisk(session, "");
+  const recoveryBlock = shouldSuggestRecoveryDay(session, risk)
+    ? lines("", formatRecoveryDay(lang))
+    : "";
   const morningN = streaks.morning?.current || 0;
   const movementQ =
     (streaks.movement?.current || 0) >= 3
@@ -82,7 +91,8 @@ function buildWeeklySummary(session, lang, userId) {
     `${L.nextFocus}:`,
     nextFocus,
     "",
-    copy.titleLine(title)
+    copy.titleLine(title),
+    recoveryBlock
   );
 }
 

@@ -13,7 +13,11 @@ function resolveCommandHint(category, text, session, suggested) {
   if (!suggested) return null;
   if (/^\s*\/\w+/i.test(String(text || ""))) return null;
 
-  if (category === "program_guidance" || category === "rhythm_stabilization") {
+  if (
+    category === "program_guidance" ||
+    category === "rhythm_stabilization" ||
+    category === "path_correction"
+  ) {
     return suggested;
   }
 

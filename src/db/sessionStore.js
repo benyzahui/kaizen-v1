@@ -41,7 +41,9 @@ const EPHEMERAL_KEYS = [
   "programDayKey",
   "streaks",
   "consistencyTitle",
-  "lastStreakUpdate"
+  "lastStreakUpdate",
+  "relapseRisk",
+  "lastRelapseCheck"
 ];
 
 /**
