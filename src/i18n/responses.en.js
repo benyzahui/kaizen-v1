@@ -9,6 +9,7 @@ const conversationCopy = require("./conversationCopy.en");
 const rhythmCompact = require("./rhythmCompact.en");
 const dailyProtocol = require("./dailyProtocol.en");
 const rhythmBlueprint = require("./rhythmBlueprint.en");
+const energyAtmosphere = require("./energyAtmosphere.en");
 
 module.exports = {
   start:
@@ -393,5 +394,6 @@ module.exports = {
   ...trainingProtocol,
   ...onboardingStrings,
   ...protocolStrings,
-  ...rhythmBlueprint
+  ...rhythmBlueprint,
+  ...energyAtmosphere
 };

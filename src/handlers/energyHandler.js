@@ -5,6 +5,7 @@
  */
 
 const { buildEnergyRead } = require("../companion/energyEngine");
+const { getLockedLang } = require("../i18n/lockedLanguage");
 const { loadMemoryHierarchy } = require("../companion/memoryHierarchy");
 const { getSession } = require("../session/sessionStore");
 const { analyzeUserState } = require("../core/responseEngine");
@@ -83,6 +84,7 @@ async function handleEnergy(message, lang = "en") {
   const explicit = parseSlashEnergyLens(message.text || "");
   const uid = message.from?.id ?? message.chat?.id;
   const session = getSession(uid);
+  lang = getLockedLang(session, message, message.text || "");
   const memory = loadMemoryHierarchy(session);
   const state = analyzeUserState(message.text || "", session, "energy_question");
   const lens = resolveContextualEnergyLens(session, state, explicit);
@@ -111,6 +113,7 @@ function buildEnergyFromOpenText(text, lang = "en", userId = null) {
     return buildEnergyRead(new Date(), lang, lens, null);
   }
   const session = getSession(userId);
+  lang = getLockedLang(session, null, text);
   const memory = loadMemoryHierarchy(session);
   const state = analyzeUserState(text, session, "energy_question");
   const resolved = resolveContextualEnergyLens(session, state, lens);

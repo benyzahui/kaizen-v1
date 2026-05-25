@@ -75,18 +75,13 @@ function pickRhythmLine(slot, section, ctx, session, userId, dateKey) {
 }
 
 function pickRhythmMantra(ctx, session, userId, dateKey) {
-  const r = getResponses(ctx.lang);
-  const mantras = r.rhythmBlueprint?.mantras || {};
-  let pool = mantras.default || ["One lane."];
-
-  if (ctx.energyState === "exhausted" && mantras.exhausted?.length) {
-    pool = [...mantras.exhausted, ...pool];
-  } else if (mantras[ctx.activeMode]?.length) {
-    pool = [...mantras[ctx.activeMode], ...pool];
-  }
-
-  const seed = `${userId}|${dateKey}|mantra`;
-  return pickSeeded(pool, seed);
+  const { pickMantraForSlot } = require("../mantra/mantraEngine");
+  const slot = String(dateKey).includes("mid")
+    ? "midday"
+    : String(dateKey).includes("late") || String(dateKey).includes("evening")
+      ? "evening"
+      : "morning";
+  return pickMantraForSlot(slot, ctx.lang, session, userId, dateKey, ctx);
 }
 
 module.exports = {

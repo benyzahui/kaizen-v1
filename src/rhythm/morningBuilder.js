@@ -3,11 +3,8 @@
  */
 
 const { lines } = require("../personality/kaizenVoice");
-const {
-  pickRhythmLine,
-  pickRhythmMantra,
-  resolveRhythmContext
-} = require("./rhythmPicker");
+const { pickRhythmLine, resolveRhythmContext } = require("./rhythmPicker");
+const { pickMantraForSlot, recordMantraUse } = require("../mantra/mantraEngine");
 
 /**
  * @param {object} session
@@ -34,7 +31,8 @@ function buildMorningBlueprint(session, lang, userId, dateKey, ctx) {
     userId,
     dateKey
   );
-  const mantra = pickRhythmMantra(context, session, userId, dateKey);
+  const mantra = pickMantraForSlot("morning", lang, session, userId, dateKey, context);
+  recordMantraUse(userId, mantra, session);
 
   const parts = [opener, energy, focus, body, discipline, mantra].filter(Boolean);
   if (context.userName && parts[0]) {

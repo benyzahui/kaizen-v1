@@ -3,11 +3,8 @@
  */
 
 const { lines } = require("../personality/kaizenVoice");
-const {
-  pickRhythmLine,
-  pickRhythmMantra,
-  resolveRhythmContext
-} = require("./rhythmPicker");
+const { pickRhythmLine, resolveRhythmContext } = require("./rhythmPicker");
+const { pickMantraForSlot, recordMantraUse } = require("../mantra/mantraEngine");
 
 /**
  * @param {object} session
@@ -30,7 +27,8 @@ function buildMiddayBlueprint(session, lang, userId, dateKey, ctx) {
   const nervous = pickRhythmLine("midday", "nervous", context, session, userId, dateKey);
   const bodyCue = pickRhythmLine("midday", "bodyCue", context, session, userId, dateKey);
   const focusFix = pickRhythmLine("midday", "focusFix", context, session, userId, dateKey);
-  const mantra = pickRhythmMantra(context, session, userId, `${dateKey}|mid`);
+  const mantra = pickMantraForSlot("midday", lang, session, userId, dateKey, context);
+  recordMantraUse(userId, mantra, session);
 
   return lines(attention, nervous, bodyCue, focusFix, mantra);
 }

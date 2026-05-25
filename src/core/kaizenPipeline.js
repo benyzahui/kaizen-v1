@@ -14,10 +14,7 @@ const {
   clearExpiredSessions
 } = require("../session/sessionStore");
 const { hydrateFromSupabase, persistToSupabase } = require("../db/syncState");
-const {
-  resolveLanguageWithSession,
-  resolveLang
-} = require("../i18n/languageDetect");
+const { getLockedLang } = require("../i18n/lockedLanguage");
 const { getResponses } = require("../i18n/getResponses");
 const {
   isCommandText,
@@ -53,7 +50,7 @@ async function processIncomingMessage(message) {
 
   if (!trimmed) {
     const session = getSession(userId);
-    const lang = resolveLanguageWithSession("", session);
+    const lang = getLockedLang(session, message, "");
     const r = getResponses(lang);
     return {
       reply: r.pipelineEmptyText || "Send a message when you are ready.",
@@ -78,7 +75,9 @@ async function processIncomingMessage(message) {
         command
       };
     }
-    const lang = resolveOnboardingLang(session, message, trimmed);
+    const lang = session.onboardingCompleted
+      ? getLockedLang(getSession(userId), message, trimmed)
+      : resolveOnboardingLang(session, message, trimmed);
     const reply = await routeCommandMessage(message, getSession(userId));
     return { reply, branch: "command", lang, category: null, command };
   }
@@ -100,7 +99,7 @@ async function processIncomingMessage(message) {
 
   lockLanguageFromFirstMessage(userId, trimmed, session);
   session = getSession(userId);
-  const lang = resolveLanguageWithSession(trimmed, session);
+  const lang = getLockedLang(session, message, trimmed);
 
   const focused = tryConsumeFocusReply(message, lang);
   if (focused) {
@@ -182,10 +181,7 @@ async function processWithHydration(message, budgetMs = 9000) {
   await hydrateFromSupabase(userId, message);
 
   const session = getSession(userId);
-  const langHint = resolveLanguageWithSession(
-    String(message.text || "").trim(),
-    session
-  );
+  const langHint = getLockedLang(session, message, String(message.text || "").trim());
   const r = getResponses(langHint);
 
   let timer;

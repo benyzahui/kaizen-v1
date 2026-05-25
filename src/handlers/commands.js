@@ -29,6 +29,7 @@ const {
   resolveOnboardingLang,
   onboardingCommandRedirect
 } = require("../companion/onboardingGate");
+const { getLockedLang } = require("../i18n/lockedLanguage");
 const { isAllowedProtocolCommand } = require("./protocolCommands");
 
 const PROGRAM_WRAP = new Set(["/morning", "/energy", "/evening"]);
@@ -64,7 +65,9 @@ function ritualFromResponses(r, command) {
 async function routeCommandMessage(message, session) {
   const text = message.text || "";
   const command = extractCommand(text);
-  const lang = resolveOnboardingLang(session, message, text);
+  const lang = session?.onboardingCompleted
+    ? getLockedLang(session, message, text)
+    : resolveOnboardingLang(session, message, text);
   const r = getResponses(lang);
 
   if (requiresOnboardingGate(session) && !isSafeOnboardingCommand(command)) {

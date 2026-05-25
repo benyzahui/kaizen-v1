@@ -28,6 +28,8 @@ const DEFAULT_USER_PROFILE = {
   /** Recent rhythm opener keys — anti-repetition */
   rhythmRecentOpeners: [],
   lastRhythmAt: null,
+  recentMantras: [],
+  recentEnergyReads: [],
   userGoal30Days: null,
   userMainObstacle: null,
   userMainObstacleNote: null,
