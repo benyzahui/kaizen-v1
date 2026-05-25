@@ -29,7 +29,7 @@ module.exports = {
     energy: "Energia",
     discipline: "Fókusz",
     body: "Test",
-    focus: "Fókusz",
+    focus: "Képernyő",
     recovery: "Recovery",
     mission: "Küldetés",
     next: "Következő lépés"
@@ -86,7 +86,7 @@ module.exports = {
     recovery: "Recovery mód: rövid lépések, korai pihenés.",
     discipline: "Fegyelem mód: egy tiszta blokk elég.",
     warrior: "Warrior csak ha test nyugodt — egy irány.",
-    movement_first: "10 perc mozgás, aztán döntés.",
+    movement_first: "10 perc mozgás + egy tiszta blokk.",
     digital_detox: "15 perc képernyő off + egy feladat zár.",
     fasting_hydrate: "Böjt aktív: víz és figyelés, ne erőltetés.",
     evening_recovery: "Képernyő csökkentés + 3 lassú légzés."

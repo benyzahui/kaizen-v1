@@ -27,7 +27,7 @@ function computeDailyAdaptation(daily, lang) {
   }
 
   if (daily.movementDone === false) {
-    hints.push(a.movement_first);
+    hints.unshift(a.movement_first);
   }
 
   if (daily.screenDiscipline === "high") {

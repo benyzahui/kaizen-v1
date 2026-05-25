@@ -104,6 +104,19 @@ async function run() {
   await processIncomingMessage({
     from: { id: uid },
     chat: { id: uid },
+    text: "/midday"
+  });
+  const middayAns = await processIncomingMessage({
+    from: { id: uid },
+    chat: { id: uid },
+    text: "nem igen igen közepes 10 perc séta"
+  });
+  assert(middayAns.branch === "daily_checkin", "midday check-in");
+  assertHu(middayAns.reply, "midday answers");
+
+  await processIncomingMessage({
+    from: { id: uid },
+    chat: { id: uid },
     text: "/evening"
   });
   const eveningAns = await processIncomingMessage({

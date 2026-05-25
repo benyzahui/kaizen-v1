@@ -122,9 +122,12 @@ function applyStepToDaily(daily, stepKey, text) {
       if (a.breathworkDone) next = pushCompletedAction(next, "breathwork");
       break;
     }
-    case "midday_focus":
+    case "midday_focus": {
       next.focusDrift = parseYesNo(text);
+      if (next.focusDrift === true) next.disciplineState = "drifting";
+      if (next.focusDrift === false) next.disciplineState = "focused";
       break;
+    }
     case "midday_hydration": {
       const yn = parseYesNo(text);
       next.hydrationDone = yn === true || /\b(víz|viz|water|igen)\b/i.test(text);
