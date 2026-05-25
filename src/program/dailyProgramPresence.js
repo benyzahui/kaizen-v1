@@ -7,6 +7,12 @@ const { pickSeeded } = require("../personality/kaizenVoice");
 const { pickAdaptiveMantra } = require("../atmosphere/atmosphereEngine");
 const { recordMantraUse } = require("../mantra/mantraEngine");
 const { getDailyProgramPresenceCopy } = require("./i18n/getDailyProgramPresenceCopy");
+const {
+  selectMicroProtocol,
+  formatMicroProtocol,
+  recordMicroProtocolUse,
+  maybeMicroTouch
+} = require("../protocols/adaptiveProtocolSelector");
 
 const HYPE_RE =
   /\b(you got this|crush it|beast mode|manifest|10x|unlock your|hajrá|sigma|limitless|motivációs guru)\b/i;
@@ -57,7 +63,15 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       : copy[slot]?.fallbackMantra || copy.morning.fallbackMantra;
 
   const identity = pickProgramIdentityLine(locked, userId, dateKey);
-  const action = pickDailyAction(phase, locked, userId, dateKey);
+  const micro = selectMicroProtocol(slot, locked, session, userId, dateKey, now);
+  let actionBlock = "";
+  if (micro) {
+    recordMicroProtocolUse(micro, userId);
+    actionBlock = formatMicroProtocol(micro);
+  } else {
+    actionBlock = `${L.todayAction}: ${pickDailyAction(phase, locked, userId, dateKey)}`;
+  }
+  const touch = maybeMicroTouch(locked, session, userId, dateKey, 0.2);
 
   let body = "";
 
@@ -80,7 +94,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       `${L.mission}:`,
       m.missionQuestion,
       "",
-      `${L.todayAction}: ${action}`
+      actionBlock,
+      touch || ""
     );
   } else if (phase === "midday") {
     const md = copy.midday;
@@ -98,7 +113,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       `${L.now}:`,
       md.nowLines.join(", "),
       "",
-      `${L.todayAction}: ${action}`
+      actionBlock,
+      touch || ""
     );
   } else {
     const e = copy.evening;
@@ -116,7 +132,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       `${L.question}:`,
       e.releaseQuestion,
       "",
-      `${L.todayAction}: ${action}`
+      actionBlock,
+      touch || ""
     );
   }
 

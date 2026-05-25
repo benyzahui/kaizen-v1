@@ -51,7 +51,10 @@ function assertProgramPresence(text, label, lang) {
   assert(/Mantra:/i.test(text), `${label}: mantra block`);
 
   if (lang === "hu") {
-    assert(/Ma:|Ma |program|rítmus|Ritmust|Ma is/i.test(text), `${label}: HU action or program`);
+    assert(
+      /Ma:|Mini Reset|Focus|víz|⚔|🌊|program|rítmus|Ritmust|Ma is/i.test(text),
+      `${label}: HU action or program`
+    );
     assert(!/\b(the |your morning|Purpose:)\b/i.test(text), `${label}: HU no EN leak`);
   }
   if (lang === "ro") {
@@ -71,7 +74,12 @@ async function run() {
   const mLines = m.split(/\n/).filter(Boolean);
   assert(mLines.length >= 5 && mLines.length <= MAX_LINES.morning, `morning lines ${mLines.length}`);
   assert(/hydrat|fuel|energy|water|calibrat/i.test(m), "morning has energy calibration");
-  assert(/focus|direction|lane/i.test(m), "morning has focus");
+  assert(
+    /focus|direction|lane|clarity|structure|discipline|intent|execution|commitment|accountability/i.test(
+      m
+    ),
+    `morning has focus: ${m.slice(0, 80)}`
+  );
 
   const mid = buildMiddayBlueprint(baseSession(), "en", uid, "2026-05-01");
   assert(mid.split(/\n/).filter(Boolean).length >= 4, "midday structure");

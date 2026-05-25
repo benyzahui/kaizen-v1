@@ -32,6 +32,8 @@ const DEFAULT_USER_PROFILE = {
   recentEnergyReads: [],
   recentReplyBodies: [],
   recentMantraIds: [],
+  recentMicroProtocolIds: [],
+  recentTouchIds: [],
   recentOpeningIds: [],
   lastScheduledMorning: null,
   lastScheduledMidday: null,

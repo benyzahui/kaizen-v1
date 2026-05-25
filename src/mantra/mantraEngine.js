@@ -5,6 +5,7 @@
 const { pickSeeded } = require("../personality/kaizenVoice");
 const { getEntries } = require("./mantraPools/registry");
 const { updateSession } = require("../session/sessionStore");
+const { pickExpandedMantra } = require("../mantras/expandedMantraEngine");
 
 /**
  * @param {object} entry
@@ -56,6 +57,9 @@ function entryMatchesContext(entry, ctx) {
  */
 function pickMantraForSlot(slot, lang, session, userId, dateKey, ctx = {}) {
   const locked = lang === "hu" || lang === "ro" ? lang : "en";
+  const expanded = pickExpandedMantra(slot, locked, session, userId, dateKey, ctx);
+  if (expanded?.id) return expanded;
+
   const all = getEntries(slot, locked);
   if (!all.length) return { text: "One lane.", id: null };
 
@@ -101,7 +105,9 @@ function recordMantraUse(userId, mantra, session) {
  * @param {'en'|'hu'|'ro'} lang
  */
 function poolSize(slot, lang) {
-  return getEntries(slot, lang).length;
+  const locked = lang === "hu" || lang === "ro" ? lang : "en";
+  const { expandedPoolSize } = require("../mantras/expandedMantraEngine");
+  return expandedPoolSize(slot, locked) + getEntries(slot, locked).length;
 }
 
 module.exports = {

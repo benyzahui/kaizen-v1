@@ -8,6 +8,7 @@ const { pickSymbolicLine } = require("./energyAtmosphereMap");
 const { maybePresenceLine } = require("./emotionalPresencePool");
 const { pickNativeMantra } = require("./nativeMantraPicker");
 const { pickMantraForSlot } = require("../mantra/mantraEngine");
+const { pickExpandedMantra } = require("../mantras/expandedMantraEngine");
 
 /** @typedef {'calm'|'warrior'|'recovery'|'emotional'|'overloaded'|'grounded'|'reflective'} AtmosphereState */
 
@@ -89,6 +90,16 @@ function resolveAtmosphereContext(session, lang, now = new Date()) {
 function pickAdaptiveMantra(slot, lang, session, userId, dateKey, now = new Date()) {
   const ctx = resolveAtmosphereContext(session, lang, now);
   const phase = slot === "late_night" ? "evening" : slot;
+
+  const expanded = pickExpandedMantra(
+    phase,
+    ctx.lang,
+    session,
+    userId,
+    dateKey,
+    ctx.rhythmCtx
+  );
+  if (expanded?.id?.startsWith("exp_")) return expanded;
 
   const native = pickNativeMantra(lang, phase, ctx.atmosphere, ctx.tone.timeSlot);
   if (native) return native;
