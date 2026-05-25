@@ -16,7 +16,12 @@ const ALLOWED_COMMANDS = new Set([
   "/trade",
   "/status",
   "/language",
-  "/skip"
+  "/skip",
+  "/program",
+  "/whereami",
+  "/pause",
+  "/resume",
+  "/stop"
 ]);
 
 const ONBOARDING_SAFE = new Set(["/start", "/language", "/skip"]);

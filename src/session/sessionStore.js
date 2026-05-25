@@ -95,7 +95,6 @@ function emptySession() {
     conversationState: null,
     lastTopic: null,
     dailyTask: null,
-    programMode: null,
     currentProgramStep: null,
     companionActive: false,
     companionPaused: false,

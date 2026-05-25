@@ -16,6 +16,7 @@ const { pickMantraForSlot, recordMantraUse } = require("../mantra/mantraEngine")
 const { resolveRhythmContext } = require("../rhythm/rhythmPicker");
 const { finalizeOutboundReply } = require("../i18n/hardLanguageLock");
 const { requireLockedLanguage } = require("../i18n/hardLanguageLock");
+const { shouldSendScheduledPush } = require("../program/dailyProgramEngine");
 
 const DEFAULT_TZ = "Europe/Bucharest";
 
@@ -112,6 +113,9 @@ function sendMorningActivation(userId, opts = {}) {
   const session = opts.sessionOverride
     ? { ...getSession(userId), ...opts.sessionOverride }
     : getSession(userId);
+  if (!opts.force && !shouldSendScheduledPush(session)) {
+    return { sent: false, preview: null, lang: null, error: "scheduler_not_eligible" };
+  }
   const lang = resolveSchedulerLang(session);
   if (!lang) {
     return { sent: false, preview: null, lang: null, error: "language_not_set" };
@@ -131,6 +135,9 @@ function sendMiddayStabilization(userId, opts = {}) {
   const session = opts.sessionOverride
     ? { ...getSession(userId), ...opts.sessionOverride }
     : getSession(userId);
+  if (!opts.force && !shouldSendScheduledPush(session)) {
+    return { sent: false, preview: null, lang: null, error: "scheduler_not_eligible" };
+  }
   const lang = resolveSchedulerLang(session);
   if (!lang) {
     return { sent: false, preview: null, lang: null, error: "language_not_set" };
@@ -150,6 +157,9 @@ function sendEveningReset(userId, opts = {}) {
   const session = opts.sessionOverride
     ? { ...getSession(userId), ...opts.sessionOverride }
     : getSession(userId);
+  if (!opts.force && !shouldSendScheduledPush(session)) {
+    return { sent: false, preview: null, lang: null, error: "scheduler_not_eligible" };
+  }
   const lang = resolveSchedulerLang(session);
   if (!lang) {
     return { sent: false, preview: null, lang: null, error: "language_not_set" };

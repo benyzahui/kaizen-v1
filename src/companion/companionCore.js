@@ -112,6 +112,8 @@ const CRISIS_TAIL_SKIP = new Set([
 
 const PROTOCOL_MINIMAL = new Set([
   "protocol_guidance",
+  "program_guidance",
+  "daily_checkin",
   "help_intent",
   "energy_question",
   "rhythm_stabilization",

@@ -34,7 +34,11 @@ const EPHEMERAL_KEYS = [
   "brainHumorCooldown",
   "brainHumorIndex",
   "dailyState",
-  "dailyCheckInPending"
+  "dailyCheckInPending",
+  "dailyPhase",
+  "programPaused",
+  "completedPhases",
+  "programDayKey"
 ];
 
 /**

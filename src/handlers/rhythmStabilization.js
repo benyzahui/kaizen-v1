@@ -7,7 +7,7 @@ const { getResponses } = require("../i18n/getResponses");
 const { pickNonRepeatingVariant } = require("../memory/recentReplyMemory");
 
 const SCATTER_RE =
-  /\b(szét|szetes|scatter|overwhelm|túl sok|too much|haos|chaos|panik|anxious|stress|stressz|epuiz|exhaust|kimerül|drift|sodród)\b/i;
+  /(szétesek|szetesek|szétes|szetes|szét|scatter|overwhelm|túl sok|too much|haos|chaos|panik|anxious|stress|stressz|epuiz|exhaust|kimerül|drift|sodród)/i;
 
 /**
  * @param {string} text

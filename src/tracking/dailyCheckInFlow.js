@@ -3,7 +3,7 @@
  */
 
 const { lines } = require("../personality/kaizenVoice");
-const { updateSession } = require("../session/sessionStore");
+const { updateSession, getSession } = require("../session/sessionStore");
 const { getDailyTrackingCopy } = require("./i18n/getDailyTrackingCopy");
 const {
   getOrCreateDailyState,
@@ -12,6 +12,7 @@ const {
   todayKey
 } = require("./dailyStateModel");
 const { buildDailyStatusSnapshot } = require("./statusEngine");
+const { advancePhaseAfterCheckIn, isProgramActive } = require("../program/dailyProgramEngine");
 const {
   parseScale1to10,
   parseScaleAt,
@@ -261,11 +262,16 @@ function tryConsumeDailyCheckInReply(userId, text, lang, session) {
           : flow === "midday"
             ? copy.saved.midday
             : copy.saved.evening;
-      return lines(
-        saved,
-        "",
-        buildDailyStatusSnapshot({ dailyState: daily, currentMission: daily.todayMission }, lang, userId)
+      const snap = buildDailyStatusSnapshot(
+        { dailyState: daily, currentMission: daily.todayMission },
+        lang,
+        userId
       );
+      const prog =
+        isProgramActive(getSession(userId)) || getSession(userId).programMode === "active"
+          ? advancePhaseAfterCheckIn(userId, flow, lang)
+          : "";
+      return lines(saved, "", snap, prog);
     }
   }
 
@@ -292,11 +298,16 @@ function tryConsumeDailyCheckInReply(userId, text, lang, session) {
         : flow === "midday"
           ? copy.saved.midday
           : copy.saved.evening;
-    return lines(
-      saved,
-      "",
-      buildDailyStatusSnapshot({ dailyState: daily, currentMission: daily.todayMission }, lang, userId)
+    const snap = buildDailyStatusSnapshot(
+      { dailyState: daily, currentMission: daily.todayMission },
+      lang,
+      userId
     );
+    const prog =
+      isProgramActive(getSession(userId)) || getSession(userId).programMode === "active"
+        ? advancePhaseAfterCheckIn(userId, flow, lang)
+        : "";
+    return lines(saved, "", snap, prog);
   }
 
   updateSession(userId, {

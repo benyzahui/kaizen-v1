@@ -13,6 +13,10 @@ function resolveCommandHint(category, text, session, suggested) {
   if (!suggested) return null;
   if (/^\s*\/\w+/i.test(String(text || ""))) return null;
 
+  if (category === "program_guidance" || category === "rhythm_stabilization") {
+    return suggested;
+  }
+
   if (
     category === "help_intent" &&
     /(how do i use|what commands|milyen parancs|ce comenzi)/i.test(text) &&

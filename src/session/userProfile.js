@@ -85,7 +85,15 @@ const DEFAULT_USER_PROFILE = {
   /** Active check-in: { flow, step, lang, startedAt } */
   dailyCheckInPending: null,
   /** @type {'beginner'|'intermediate'|'advanced'|null} */
-  protocolLevel: null
+  protocolLevel: null,
+
+  /** @type {'inactive'|'active'} Dragon daily program */
+  programMode: "inactive",
+  /** @type {'morning'|'midday'|'evening'|'completed'|null} */
+  dailyPhase: null,
+  programPaused: false,
+  completedPhases: [],
+  programDayKey: null
 };
 
 /**

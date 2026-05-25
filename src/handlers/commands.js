@@ -21,6 +21,14 @@ const {
 } = require("../tracking/dailyCheckInFlow");
 const { buildDailyStatusSnapshot } = require("../tracking/statusEngine");
 const {
+  activateProgram,
+  buildWhereAmIReply,
+  pauseProgram,
+  resumeProgram,
+  stopProgram,
+  maybeResetProgramForNewDay
+} = require("../program/dailyProgramEngine");
+const {
   requiresOnboardingGate,
   isSafeOnboardingCommand,
   resolveOnboardingLang,
@@ -129,6 +137,35 @@ async function routeCommandMessage(message, session) {
         reply = lines(blueprint, "", focusArg || "");
         handler = "blueprint:focus_prompt";
       }
+      break;
+    }
+    case "/program": {
+      const id = uid(message);
+      maybeResetProgramForNewDay(getSession(id), id);
+      reply = activateProgram(id, lang);
+      handler = "program:activate";
+      break;
+    }
+    case "/whereami": {
+      const id = uid(message);
+      maybeResetProgramForNewDay(getSession(id), id);
+      reply = buildWhereAmIReply(getSession(id), lang, id);
+      handler = "program:whereami";
+      break;
+    }
+    case "/pause": {
+      reply = pauseProgram(uid(message), lang);
+      handler = "program:pause";
+      break;
+    }
+    case "/resume": {
+      reply = resumeProgram(uid(message), lang);
+      handler = "program:resume";
+      break;
+    }
+    case "/stop": {
+      reply = stopProgram(uid(message), lang);
+      handler = "program:stop";
       break;
     }
     case "/morning": {
