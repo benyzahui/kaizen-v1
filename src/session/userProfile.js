@@ -30,6 +30,12 @@ const DEFAULT_USER_PROFILE = {
   lastRhythmAt: null,
   recentMantras: [],
   recentEnergyReads: [],
+  recentReplyBodies: [],
+  recentMantraIds: [],
+  recentOpeningIds: [],
+  lastScheduledMorning: null,
+  lastScheduledMidday: null,
+  lastScheduledEvening: null,
   userGoal30Days: null,
   userMainObstacle: null,
   userMainObstacleNote: null,
@@ -64,7 +70,7 @@ const DEFAULT_USER_PROFILE = {
   /** HH:MM local evening target */
   eveningTime: "21:00",
   /** IANA tz or offset string */
-  timezone: null,
+  timezone: "Europe/Bucharest",
 
   accountabilityMode: false,
   accountabilitySince: null,

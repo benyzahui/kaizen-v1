@@ -10,6 +10,7 @@ const rhythmCompact = require("./rhythmCompact.en");
 const dailyProtocol = require("./dailyProtocol.en");
 const rhythmBlueprint = require("./rhythmBlueprint.en");
 const energyAtmosphere = require("./energyAtmosphere.en");
+const scheduledRhythmCopy = require("./scheduledRhythmCopy");
 
 module.exports = {
   start:
@@ -395,5 +396,6 @@ module.exports = {
   ...onboardingStrings,
   ...protocolStrings,
   ...rhythmBlueprint,
-  ...energyAtmosphere
+  ...energyAtmosphere,
+  ...scheduledRhythmCopy
 };

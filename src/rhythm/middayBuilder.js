@@ -30,7 +30,7 @@ function buildMiddayBlueprint(session, lang, userId, dateKey, ctx) {
   const mantra = pickMantraForSlot("midday", lang, session, userId, dateKey, context);
   recordMantraUse(userId, mantra, session);
 
-  return lines(attention, nervous, bodyCue, focusFix, mantra);
+  return lines(attention, nervous, bodyCue, focusFix, mantra.text);
 }
 
 module.exports = { buildMiddayBlueprint };

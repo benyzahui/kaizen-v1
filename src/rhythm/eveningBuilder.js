@@ -24,7 +24,7 @@ function buildEveningBlueprintCore(session, lang, userId, dateKey, slot, ctx) {
   const mantra = pickMantraForSlot(slot, lang, session, userId, dateKey, context);
   recordMantraUse(userId, mantra, session);
 
-  return lines(release, screen, reflection, recovery, mantra);
+  return lines(release, screen, reflection, recovery, mantra.text);
 }
 
 function buildEveningBlueprint(session, lang, userId, dateKey, ctx) {

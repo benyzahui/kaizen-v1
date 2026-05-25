@@ -46,7 +46,10 @@ async function run() {
       nervousSystemState: "calm"
     });
     mantras.add(m);
-    session.recentCoachSnippets = [...(session.recentCoachSnippets || []), m.slice(0, 48)];
+    session.recentCoachSnippets = [
+      ...(session.recentCoachSnippets || []),
+      (m.text || m).slice(0, 48)
+    ];
   }
   assert(mantras.size >= 7, `10-day mantra variety (${mantras.size})`);
 
@@ -58,7 +61,10 @@ async function run() {
     "2026-06-11",
     { lang: "en", energyState: "exhausted", activeMode: "recovery", disciplineState: "focused", nervousSystemState: "calm" }
   );
-  assert(/rest|recovery|guilt|sleep|enough|lower/i.test(exhausted), "exhausted evening mantra");
+  assert(
+    /rest|recovery|guilt|sleep|enough|lower|regener|discipline too/i.test(exhausted.text),
+    `exhausted evening mantra: ${exhausted.text}`
+  );
 
   const warrior = pickMantraForSlot(
     "midday",
@@ -69,10 +75,10 @@ async function run() {
     { lang: "en", energyState: "high", activeMode: "warrior", disciplineState: "locked_in", nervousSystemState: "calm" }
   );
   assert(
-    /lane|task|disciplin|execut|focus|edge|standard|midday|continue|push|regulate|sáv|bandă/i.test(
-      warrior
+    /lane|task|disciplin|execut|focus|edge|noise|leak|standard|midday|continue|push|regulate|sáv|bandă/i.test(
+      warrior.text
     ),
-    `warrior midday mantra: ${warrior}`
+    `warrior midday mantra: ${warrior.text}`
   );
 
   const energyEn = energyOfTheDay(

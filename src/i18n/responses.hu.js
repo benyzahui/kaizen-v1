@@ -2,6 +2,7 @@ const rituals = require("./rituals.hu");
 const protocolCopy = require("./protocolCopy.hu");
 const rhythmBlueprint = require("./rhythmBlueprint.hu");
 const energyAtmosphere = require("./energyAtmosphere.hu");
+const scheduledRhythmCopy = require("./scheduledRhythmCopy");
 const { rituals: protocolRituals, ...protocolStrings } = protocolCopy;
 const onboardingStrings = require("./onboardingCopy.hu");
 const trainingProtocol = require("./trainingProtocol.hu");
@@ -444,5 +445,6 @@ module.exports = {
   ...onboardingStrings,
   ...protocolStrings,
   ...rhythmBlueprint,
-  ...energyAtmosphere
+  ...energyAtmosphere,
+  ...scheduledRhythmCopy
 };

@@ -4,11 +4,31 @@ module.exports = {
   protocolStabilizeLead: "Először stabilizálj.",
   protocolCommandsList: [
     "Parancsok:",
+    "/guide /status",
     "/morning /midday /evening",
     "/energy /reset /focus",
     "/fasting /training /trade",
-    "/status"
+    "/language"
   ].join("\n"),
+  guideCompactBody: [
+    "KaiZen — napi ritmus",
+    "",
+    "/guide /status",
+    "/morning /midday /evening",
+    "/energy /reset /focus",
+    "/fasting /training /trade",
+    "/language",
+    "",
+    "Szabad szöveg: rövid. Struktúra parancsokkal."
+  ].join("\n"),
+  rhythmStabilization: {
+    variants: [
+      "Értem. Ez most stabilizálás.\nVíz. Légzés. Egy kis mozgás.",
+      "Hallom. Először földölj.\nVíz. Lassú kilélegzés. Egy lépés.",
+      "Most stabilizálás kell.\nÁllj fel. Lélegezz. Egy tiszta lépés."
+    ],
+    commandHint: "→ /reset"
+  },
   protocolCommandBlocked:
     "Ez a parancs nincs aktív. Használd:\n/morning /midday /evening /energy /reset /focus /fasting /training /trade /status",
   protocolOnboarding: {
@@ -21,7 +41,8 @@ module.exports = {
     ].join("\n"),
     start: [
       "KaiZen.",
-      "Digitális fegyelem-társ.",
+      "Digitális fegyelem-társ — struktúra, ritmus, fegyelem.",
+      "Nem chatbot. Parancsok és napi protokollok.",
       "",
       "Nyelv:",
       "1 — English",

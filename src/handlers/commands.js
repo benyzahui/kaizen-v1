@@ -31,6 +31,8 @@ const {
 } = require("../companion/onboardingGate");
 const { getLockedLang } = require("../i18n/lockedLanguage");
 const { isAllowedProtocolCommand } = require("./protocolCommands");
+const { buildGuideReply } = require("./guide");
+const { finalizeOutboundReply } = require("../i18n/hardLanguageLock");
 
 const PROGRAM_WRAP = new Set(["/morning", "/energy", "/evening"]);
 
@@ -96,6 +98,9 @@ async function routeCommandMessage(message, session) {
   let reply;
 
   switch (command) {
+    case "/guide":
+      reply = buildGuideReply(lang, getSession(uid(message)));
+      break;
     case "/start": {
       const id = uid(message);
       const s0 = getSession(id);
@@ -174,6 +179,16 @@ async function routeCommandMessage(message, session) {
     handler,
     textPreview: String(text).slice(0, 80)
   });
+
+  if (reply) {
+    reply = finalizeOutboundReply(
+      reply,
+      lang,
+      getSession(uid(message)),
+      uid(message),
+      { openingId: `cmd_${command}` }
+    );
+  }
   return reply;
 }
 

@@ -1,50 +1,50 @@
-# KaiZen Scheduled Functions
+# KaiZen Scheduled Daily Rhythm
 
-Three Netlify functions handle daily push messages for opted-in users.
+Default timezone: **Europe/Bucharest**
 
-## Files
+| Slot | Local time | Function | Scheduler API |
+|------|------------|----------|----------------|
+| Morning activation | 06:00 | `netlify/functions/morning-dragon.js` | `sendMorningActivation(userId)` |
+| Midday stabilization | 12:00 | `netlify/functions/midday-check.js` | `sendMiddayStabilization(userId)` |
+| Evening reset | 21:00 | `netlify/functions/evening-mirror.js` | `sendEveningReset(userId)` |
 
-| Function | File | Default time |
-|---|---|---|
-| Morning Dragon | `netlify/functions/morning-dragon.js` | 06:00 local |
-| Midday Check | `netlify/functions/midday-check.js` | 13:00 local (elite+ only) |
-| Evening Mirror | `netlify/functions/evening-mirror.js` | 21:00 local |
+Implementation: `src/scheduler/dailyRhythmScheduler.js`
 
-## Current State
+## Current state
 
-**Manual trigger only.** No cron is active. Each file has a commented-out `config.schedule` line.
+**Scheduler-ready, not live cron.** Message builders and copy are complete. Telegram send requires:
 
-## To Activate
+1. Uncomment `export const config = { schedule: "..." }` in each Netlify function.
+2. Set `TELEGRAM_BOT_TOKEN`, `SUPABASE_URL`, `SUPABASE_KEY`.
+3. Users with `notification_opt_in = true` in `kaizen_users`.
 
-1. Uncomment the `export const config = { schedule: "..." }` line in each function.
-2. Redeploy to Netlify.
-3. Netlify will call the function on the UTC cron expression you define.
+Suggested UTC crons (Bucharest ≈ UTC+2 / +3 DST — adjust seasonally):
 
-**Note:** Netlify scheduled functions use UTC. If you want per-user local time you will need to:
-- Store `timezone` in `kaizen_users`.
-- Run the function hourly and filter users whose local time matches.
+- Morning: `0 4 * * *` (06:00 EET)
+- Midday: `0 10 * * *` (12:00 EET)
+- Evening: `0 19 * * *` (21:00 EET)
 
-## User Opt-in Required
-
-Functions filter by:
-- `notification_opt_in = true`
-- `active_mode = true`
-- Midday check: `membership_tier IN ('elite', 'dragon')`
-
-## Manual Test
-
-Hit the function URL with `?trigger=test` to preview output without sending actual messages:
-
-```
-GET https://your-site.netlify.app/.netlify/functions/morning-dragon?trigger=test
-```
-
-## LLM Upgrade Path
-
-Replace `buildMorningMessage(profile)` / `buildEveningMessage(profile)` with:
+## Manual test (in-process)
 
 ```js
-const text = await coachBrain.generateMorningBrief(profile); // future
+const { simulateDailyRhythmDay } = require("./src/scheduler/dailyRhythmScheduler");
+simulateDailyRhythmDay(telegramUserId); // preview morning / midday / evening
 ```
 
-The send loop and Supabase filtering stay identical.
+```bash
+node scripts/language-lock-rhythm-report.js
+```
+
+## Netlify manual trigger
+
+```
+GET /.netlify/functions/morning-dragon?trigger=test
+```
+
+## Language
+
+Scheduled messages use `preferred_language` from profile / session. No mixed-language output.
+
+## Later: Supabase cron
+
+`pg_cron` → HTTP POST to Netlify function, or edge function calling `sendMorningActivation` per opted-in row.

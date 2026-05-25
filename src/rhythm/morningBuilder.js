@@ -34,7 +34,7 @@ function buildMorningBlueprint(session, lang, userId, dateKey, ctx) {
   const mantra = pickMantraForSlot("morning", lang, session, userId, dateKey, context);
   recordMantraUse(userId, mantra, session);
 
-  const parts = [opener, energy, focus, body, discipline, mantra].filter(Boolean);
+  const parts = [opener, energy, focus, body, discipline, mantra.text].filter(Boolean);
   if (context.userName && parts[0]) {
     parts[0] = parts[0].replace(/\{name\}/g, context.userName);
   }

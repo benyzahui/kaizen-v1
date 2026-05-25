@@ -2,30 +2,19 @@
  * Single source for outbound language — preferredLanguage always wins when set.
  */
 
-const {
-  resolveLanguageWithSession,
-  fromTelegramCode
-} = require("./languageDetect");
+const { requireLockedLanguage } = require("./hardLanguageLock");
 
 /**
- * Locked reply language for any handler (commands, energy, rhythm, open chat).
+ * Locked reply language — never drifts from preferredLanguage when set.
  * @param {object} session
  * @param {object} [message]
  * @param {string} [text]
  * @returns {'en'|'hu'|'ro'}
  */
 function getLockedLang(session, message, text = "") {
-  const pref = session?.preferredLanguage;
-  if (pref === "hu" || pref === "ro" || pref === "en") {
-    return pref;
-  }
-  if (session?.onboardingCompleted && session?.lang) {
-    const l = session.lang;
-    if (l === "hu" || l === "ro" || l === "en") return l;
-  }
-  const fromCode = fromTelegramCode(message?.from?.language_code);
-  if (session?.onboardingCompleted && fromCode) return fromCode;
-  return resolveLanguageWithSession(text, session);
+  const req = requireLockedLanguage(session);
+  if (req.ok && req.lang) return req.lang;
+  return "en";
 }
 
-module.exports = { getLockedLang };
+module.exports = { getLockedLang, requireLockedLanguage };

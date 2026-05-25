@@ -14,7 +14,14 @@ const {
   clearExpiredSessions
 } = require("../session/sessionStore");
 const { hydrateFromSupabase, persistToSupabase } = require("../db/syncState");
-const { getLockedLang } = require("../i18n/lockedLanguage");
+const {
+  getLockedLang,
+  requireLockedLanguage
+} = require("../i18n/lockedLanguage");
+const {
+  finalizeOutboundReply,
+  languageSelectionPrompt
+} = require("../i18n/hardLanguageLock");
 const { getResponses } = require("../i18n/getResponses");
 const {
   isCommandText,
@@ -79,7 +86,13 @@ async function processIncomingMessage(message) {
       ? getLockedLang(getSession(userId), message, trimmed)
       : resolveOnboardingLang(session, message, trimmed);
     const reply = await routeCommandMessage(message, getSession(userId));
-    return { reply, branch: "command", lang, category: null, command };
+    return {
+      reply,
+      branch: "command",
+      lang,
+      category: null,
+      command
+    };
   }
 
   if (requiresOnboardingGate(session)) {
@@ -88,8 +101,15 @@ async function processIncomingMessage(message) {
     const lang = resolveOnboardingLang(session, message, trimmed);
 
     const ob = processOnboardingReply(userId, trimmed, session, lang);
+    const obReply = finalizeOutboundReply(
+      ob?.reply || onboardingContinuePrompt(lang),
+      lang,
+      getSession(userId),
+      userId,
+      { openingId: "onboarding" }
+    );
     return {
-      reply: ob?.reply || onboardingContinuePrompt(lang),
+      reply: obReply,
       branch: "onboarding",
       lang,
       category: "onboarding",
@@ -99,7 +119,18 @@ async function processIncomingMessage(message) {
 
   lockLanguageFromFirstMessage(userId, trimmed, session);
   session = getSession(userId);
-  const lang = getLockedLang(session, message, trimmed);
+
+  const langReq = requireLockedLanguage(session);
+  if (!langReq.ok) {
+    return {
+      reply: langReq.prompt || languageSelectionPrompt("en"),
+      branch: "language_required",
+      lang: "en",
+      category: "language_required",
+      command: null
+    };
+  }
+  const lang = langReq.lang;
 
   const focused = tryConsumeFocusReply(message, lang);
   if (focused) {
@@ -118,8 +149,16 @@ async function processIncomingMessage(message) {
     session
   );
 
-  return {
+  const finalized = finalizeOutboundReply(
     reply,
+    lang,
+    getSession(userId),
+    userId,
+    { openingId: category || "open" }
+  );
+
+  return {
+    reply: finalized,
     branch: "open",
     lang,
     category: category ?? null,

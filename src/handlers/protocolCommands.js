@@ -4,6 +4,7 @@
 
 const ALLOWED_COMMANDS = new Set([
   "/start",
+  "/guide",
   "/morning",
   "/midday",
   "/evening",

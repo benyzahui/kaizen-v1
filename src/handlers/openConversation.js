@@ -200,15 +200,40 @@ async function handleOpenConversation(message, lang, session) {
       logOpen({
         lang,
         category: "help_intent",
-        handler: "protocolEngine.commandsList",
+        handler: "protocolEngine.guide",
         textPreview: text.slice(0, 80)
       });
       return emitOpen(
         companionCtxHelp,
         "help_intent",
-        r.protocolCommandsList || r.brainCommandHelpLite,
+        r.guideCompactBody || r.protocolCommandsList,
         r,
         null
+      );
+    }
+
+    const { buildStabilizationRedirect } = require("./rhythmStabilization");
+    const stab = buildStabilizationRedirect(text, lang, session);
+    if (stab) {
+      const companionCtxStab = prepareCompanionContext(
+        userId,
+        text,
+        session,
+        lang,
+        "rhythm_stabilization"
+      );
+      logOpen({
+        lang,
+        category: "rhythm_stabilization",
+        handler: "rhythmStabilization.redirect",
+        textPreview: text.slice(0, 80)
+      });
+      return emitOpen(
+        companionCtxStab,
+        "rhythm_stabilization",
+        stab.body,
+        r,
+        stab.suggestedCommand
       );
     }
 

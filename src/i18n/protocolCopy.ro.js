@@ -4,11 +4,31 @@ module.exports = {
   protocolStabilizeLead: "Stabilizează mai întâi.",
   protocolCommandsList: [
     "Comenzi:",
+    "/guide /status",
     "/morning /midday /evening",
     "/energy /reset /focus",
     "/fasting /training /trade",
-    "/status"
+    "/language"
   ].join("\n"),
+  guideCompactBody: [
+    "KaiZen — ritm zilnic",
+    "",
+    "/guide /status",
+    "/morning /midday /evening",
+    "/energy /reset /focus",
+    "/fasting /training /trade",
+    "/language",
+    "",
+    "Text liber: scurt. Structură prin comenzi."
+  ].join("\n"),
+  rhythmStabilization: {
+    variants: [
+      "Înțeles. Acum stabilizare.\nApă. Respirație. O mișcare mică.",
+      "Aud. Ancorează-te înainte de push.\nApă. Expirație lentă. Un pas.",
+      "Stabilizare acum.\nRidică-te. Respiră. O acțiune curată."
+    ],
+    commandHint: "→ /reset"
+  },
   protocolCommandBlocked:
     "Comanda nu e activă. Folosește:\n/morning /midday /evening /energy /reset /focus /fasting /training /trade /status",
   protocolOnboarding: {

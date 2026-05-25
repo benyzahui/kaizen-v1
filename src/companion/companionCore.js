@@ -110,7 +110,13 @@ const CRISIS_TAIL_SKIP = new Set([
   "cooldown"
 ]);
 
-const PROTOCOL_MINIMAL = new Set(["protocol_guidance", "help_intent", "energy_question"]);
+const PROTOCOL_MINIMAL = new Set([
+  "protocol_guidance",
+  "help_intent",
+  "energy_question",
+  "rhythm_stabilization",
+  "language_required"
+]);
 
 const SKIP_MEMORY_CATEGORIES = new Set([
   "onboarding",

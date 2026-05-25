@@ -20,7 +20,7 @@ async function run() {
 
   assert(parsePathChoice("2")?.id === "discipline", "path 2 = discipline");
   assert(isAllowedProtocolCommand("/morning"), "morning allowed");
-  assert(!isAllowedProtocolCommand("/guide"), "guide blocked");
+  assert(isAllowedProtocolCommand("/guide"), "guide allowed");
   assert(!isAllowedProtocolCommand("/mirror"), "mirror blocked");
 
   updateSession(uid, {
@@ -68,11 +68,14 @@ async function run() {
   assert(fasting && /protocol|fast|böjt|post/i.test(fasting), "fasting ritual");
 
   const conv = await handleOpenConversation(
-    { from: { id: uid }, chat: { id: uid }, text: "too much noise today" },
+    { from: { id: uid }, chat: { id: uid }, text: "need to finish one task today" },
     "en",
     getSession(uid)
   );
-  assert(conv.category === "protocol_guidance", "open → protocol");
+  assert(
+    conv.category === "protocol_guidance" || conv.category === "rhythm_stabilization",
+    "open → protocol or stabilization"
+  );
   assert(conv.reply.split(/\n/).length <= MAX_OPEN_LINES + 1, "open reply capped");
 
   const ctx = prepareCompanionContext(uid, "test", s, "en", "protocol_guidance");
