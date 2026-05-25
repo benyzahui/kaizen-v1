@@ -1,5 +1,6 @@
 const rituals = require("./rituals.ro");
 const protocolCopy = require("./protocolCopy.ro");
+const rhythmBlueprint = require("./rhythmBlueprint.ro");
 const { rituals: protocolRituals, ...protocolStrings } = protocolCopy;
 const onboardingStrings = require("./onboardingCopy.ro");
 const trainingProtocol = require("./trainingProtocol.ro");
@@ -439,5 +440,6 @@ module.exports = {
   ...dailyProtocol,
   ...trainingProtocol,
   ...onboardingStrings,
-  ...protocolStrings
+  ...protocolStrings,
+  ...rhythmBlueprint
 };

@@ -25,6 +25,9 @@ const DEFAULT_USER_PROFILE = {
   nervousSystemState: null,
   /** @type {object|null} */
   protocolState: null,
+  /** Recent rhythm opener keys — anti-repetition */
+  rhythmRecentOpeners: [],
+  lastRhythmAt: null,
   userGoal30Days: null,
   userMainObstacle: null,
   userMainObstacleNote: null,
