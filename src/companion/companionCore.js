@@ -110,6 +110,8 @@ const CRISIS_TAIL_SKIP = new Set([
   "cooldown"
 ]);
 
+const PROTOCOL_MINIMAL = new Set(["protocol_guidance", "help_intent", "energy_question"]);
+
 const SKIP_MEMORY_CATEGORIES = new Set([
   "onboarding",
   "language_switch",
@@ -189,6 +191,19 @@ function prepareCompanionContext(userId, text, session, lang, classifyCategory) 
  * @param {{ skipPresence?: boolean, skipRhythm?: boolean, withAdaptive?: Function }} [opts]
  */
 function finalizeCompanionReply(ctx, category, rawBody, r, opts = {}) {
+  if (PROTOCOL_MINIMAL.has(category)) {
+    const { capProtocolBody } = require("../core/protocolEngine");
+    const { enforceHardLanguageLock } = require("../i18n/languageHardLock");
+    let b = capProtocolBody(enforceSingleNextStep(rawBody, opts));
+    b = enforceHardLanguageLock(b, ctx.lang, ctx.session, ctx.userId);
+    b = applyHumanVoiceGuard(b, ctx.lang, `protocol_${category}`);
+    b = sanitizeBetaCopy(b);
+    if (opts.suggestedCommand && !opts.skipCommandHint) {
+      b = lines(b, "", `→ ${opts.suggestedCommand}`);
+    }
+    return b.trim();
+  }
+
   let b = enforceSingleNextStep(rawBody, opts);
   const fresh = isFreshUserExperience(ctx.session || {});
   let presenceLayers = 0;

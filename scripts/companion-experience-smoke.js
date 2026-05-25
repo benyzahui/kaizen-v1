@@ -3,10 +3,9 @@
  * Run: node scripts/companion-experience-smoke.js
  */
 
-const { getFirstContactStart } = require("../src/companion/firstContactEngine");
+const { getDisciplineStartReply } = require("../src/handlers/disciplineOnboarding");
 const { extractInvisibleProfile } = require("../src/companion/invisibleProfile");
-const { buildGuideReply } = require("../src/handlers/guide");
-const { routeNaturalIntent } = require("../src/companion/naturalIntentRouter");
+const { getResponses } = require("../src/i18n/getResponses");
 const {
   detectAccountabilityToggle,
   applyAccountabilityToggle
@@ -20,14 +19,14 @@ function assert(cond, msg) {
 }
 
 async function run() {
-  const start = getFirstContactStart("hu");
-  assert(start.includes("KaiZen aktiválva"), "cinematic HU start");
-  assert(start.includes("zaj alatt"), "natural intro ask");
+  const start = getDisciplineStartReply("hu");
+  assert(start.includes("KaiZen"), "discipline HU start");
+  assert(/nyelv|language/i.test(start), "language step in start");
   assert(!start.includes("/pulse"), "start has no command dump");
 
-  const guide = buildGuideReply("en");
-  assert(guide.includes("Daily rhythm"), "premium guide EN");
-  assert(guide.includes("speak naturally"), "guide natural footer");
+  const guide = getResponses("en").protocolCommandsList;
+  assert(guide.includes("/morning"), "protocol command list EN");
+  assert(guide.includes("/status"), "status in command list");
 
   const prof = extractInvisibleProfile(
     "Dragon vagyok, platformot építek, túl stresszes vagyok, trading is van, push me direct"
@@ -35,11 +34,13 @@ async function run() {
   assert(prof.path, "invisible profile path");
   assert(prof.patch.userIntensityPreference === "direct", "invisible intensity");
 
-  const overload = routeNaturalIntent("nagyon stresszes vagyok", "hu", { onboardingCompleted: true }, "x1");
-  assert(overload?.body && !overload.body.startsWith("/"), "overload natural not slash-first");
-
-  const scatter = routeNaturalIntent("szét vagyok csúszva", "hu", { onboardingCompleted: true }, "x2");
-  assert(scatter?.body, "scatter natural HU");
+  const openProto = await handleOpenConversation(
+    { text: "nagyon stresszes vagyok", from: { id: "x1" }, chat: { id: "x1" } },
+    "hu",
+    { onboardingCompleted: true, lang: "hu", preferredLanguage: "hu", messages: [] }
+  );
+  assert(openProto.category === "protocol_guidance", "stress → protocol not natural chat");
+  assert(!/how do you feel|hogy érzed/i.test(openProto.reply), "no therapy loop");
 
   assert(detectAccountabilityToggle("keep me accountable") === "on", "accountability on");
   clearSession("acc1");

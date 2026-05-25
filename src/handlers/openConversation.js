@@ -140,6 +140,104 @@ async function handleOpenConversation(message, lang, session) {
     };
   }
 
+  if (session.onboardingCompleted) {
+    const { classifyMessage: classifyQuick } = require("../conversation/classify");
+    const { buildProtocolOpenResult } = require("../core/protocolEngine");
+    const { protocolStatePatch } = require("../core/protocolStateEngine");
+
+    const catQuick = classifyQuick(text);
+
+    const langReqEarly = resolveNaturalLanguageRequest(userId, text, session, lang);
+    if (langReqEarly) {
+      const companionCtxLang = prepareCompanionContext(
+        userId,
+        text,
+        session,
+        lang,
+        langReqEarly.category
+      );
+      logOpen({
+        lang,
+        category: langReqEarly.category,
+        handler: "languageLock.resolveNaturalLanguageRequest",
+        textPreview: text.slice(0, 80)
+      });
+      return emitOpen(
+        companionCtxLang,
+        langReqEarly.category,
+        langReqEarly.reply,
+        r,
+        langReqEarly.suggestedAction
+      );
+    }
+
+    if (catQuick === "energy_question") {
+      const companionCtxEnergy = prepareCompanionContext(
+        userId,
+        text,
+        session,
+        lang,
+        "energy_question"
+      );
+      logOpen({
+        lang,
+        category: "energy_question",
+        handler: "energyHandler.buildEnergyFromOpenText",
+        textPreview: text.slice(0, 80)
+      });
+      const bodyEnergy = buildEnergyFromOpenText(text, lang, userId);
+      return emitOpen(companionCtxEnergy, "energy_question", bodyEnergy, r, "/energy");
+    }
+
+    if (catQuick === "help_intent") {
+      const companionCtxHelp = prepareCompanionContext(
+        userId,
+        text,
+        session,
+        lang,
+        "help_intent"
+      );
+      logOpen({
+        lang,
+        category: "help_intent",
+        handler: "protocolEngine.commandsList",
+        textPreview: text.slice(0, 80)
+      });
+      return emitOpen(
+        companionCtxHelp,
+        "help_intent",
+        r.protocolCommandsList || r.brainCommandHelpLite,
+        r,
+        null
+      );
+    }
+
+    const proto = buildProtocolOpenResult(userId, text, session, lang);
+    if (proto?.body) {
+      updateSession(userId, protocolStatePatch(proto.protocolState));
+      const companionCtxProto = prepareCompanionContext(
+        userId,
+        text,
+        session,
+        lang,
+        proto.category
+      );
+      logOpen({
+        lang,
+        category: proto.category,
+        handler: "protocolEngine.open",
+        textPreview: text.slice(0, 80)
+      });
+      return emitOpen(
+        companionCtxProto,
+        proto.category,
+        proto.body,
+        r,
+        proto.suggestedCommand
+      );
+    }
+  }
+
   if (isInCooldown(userId)) {
     logOpen({
       lang,

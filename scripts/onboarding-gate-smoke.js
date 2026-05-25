@@ -1,5 +1,5 @@
 /**
- * Fresh-user onboarding gate smoke test.
+ * Discipline onboarding gate smoke test.
  * Run: node scripts/onboarding-gate-smoke.js
  */
 
@@ -20,42 +20,38 @@ async function run() {
 
   let r = await processIncomingMessage(msg("/start", id));
   assert(r.branch === "command", "/start is command");
-  assert(r.reply.includes("KaiZen") || r.reply.includes("activated"), "cinematic start");
-  assert(!r.reply.includes("/energy"), "no energy in start");
+  assert(r.reply.includes("KaiZen"), "discipline start");
+  assert(/nyelv|language|limbă/i.test(r.reply), "language step");
 
   let s = getSession(id);
   assert(!s.onboardingCompleted, "not complete after start");
 
-  r = await processIncomingMessage(
-    msg("Szia, Béla vagyok, most csak bemutatkozom.", id)
-  );
-  assert(r.branch === "onboarding", "intro stays onboarding");
-  assert(!/natural_conversation|overload than laziness/i.test(r.reply), "no natural layer");
-  s = getSession(id);
-  assert(s.preferredLanguage === "hu", "HU locked on first meaningful message");
-  assert(!s.onboardingCompleted, "not auto-completed before gate test");
-  assert(r.reply.length > 20, "onboarding reply");
+  r = await processIncomingMessage(msg("2", id));
+  assert(r.branch === "onboarding", "lang pick stays onboarding");
+  assert(/neved|name|numele/i.test(r.reply), "asks name");
 
   r = await processIncomingMessage(msg("/energy", id));
   assert(
     r.branch === "onboarding_gate_command" || r.category === "onboarding",
     `energy blocked (branch=${r.branch})`
   );
-  assert(
-    /aktiválás|beállítás|activation|setup|introduc/i.test(r.reply),
-    `gentle redirect: ${r.reply.slice(0, 80)}`
-  );
 
-  r = await processIncomingMessage(msg("nagyon stresszes vagyok még mindig", id));
-  assert(r.branch === "onboarding", "stress still onboarding not open");
-  assert(s.preferredLanguage === "hu", "lang stays HU");
+  r = await processIncomingMessage(msg("Béla", id));
+  assert(r.branch === "onboarding", "name step");
+  assert(/út|path|cale/i.test(r.reply), "asks path");
+
+  r = await processIncomingMessage(msg("1", id));
+  assert(r.branch === "onboarding", "path completes");
+  s = getSession(id);
+  assert(s.onboardingCompleted, "onboarding done");
+  assert(s.activeMode === "stabilization", "stabilization mode");
+
+  r = await processIncomingMessage(msg("túl sok zaj", id));
+  assert(r.category === "protocol_guidance", "open uses protocol");
 
   r = await processIncomingMessage(msg("/guide", id));
-  assert(r.branch === "command", "/guide allowed");
-  assert(
-    r.reply.includes("/morning") || r.reply.includes("/focus") || r.reply.includes("térkép") || r.reply.includes("map"),
-    "guide content"
-  );
+  assert(r.branch === "command", "/guide command branch");
+  assert(/morning|midday|evening/i.test(r.reply), "blocked lists allowed cmds");
 
   console.log("Onboarding gate smoke: all passed.");
 }

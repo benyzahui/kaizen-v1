@@ -246,6 +246,20 @@ function buildStatusReply(message, session, lang) {
     ...(suggestedLine ? [suggestedLine] : []),
     `${r.statusSessionTurns}: ${turns}`,
     `${r.statusIntensity}: ${intensity}`,
+    ...(session.activeMode
+      ? [`${r.statusProtocolMode || "Mode"}: ${session.activeMode}`]
+      : []),
+    ...(session.energyState
+      ? [`${r.statusEnergyState || "Energy"}: ${session.energyState}`]
+      : []),
+    ...(session.disciplineState
+      ? [`${r.statusDisciplineState || "Discipline"}: ${session.disciplineState}`]
+      : []),
+    ...(session.nervousSystemState
+      ? [
+          `${r.statusNervousState || "Nervous system"}: ${session.nervousSystemState}`
+        ]
+      : []),
     "",
     `${r.statusNext}: ${coachingNext}`,
     "",

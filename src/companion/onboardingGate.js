@@ -11,7 +11,8 @@ const {
 const { FC_NATURAL } = require("./firstContactEngine");
 const { enterActivationMode } = require("./freshUserExperience");
 
-const SAFE_COMMANDS = new Set(["/start", "/language", "/guide", "/skip"]);
+const { ONBOARDING_SAFE } = require("../handlers/protocolCommands");
+const SAFE_COMMANDS = ONBOARDING_SAFE;
 
 /**
  * @param {object} session

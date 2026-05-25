@@ -7,27 +7,17 @@ const { lines } = require("../personality/kaizenVoice");
 const { getResponses } = require("../i18n/getResponses");
 const { updateSession, getSession } = require("../session/sessionStore");
 const { profileDefaults } = require("../session/userProfile");
-const { detectLanguage } = require("../i18n/languageDetect");
 const {
-  getFirstContactStart,
-  processFirstContact,
-  FC_STRUCTURE_START,
-  FC_FOCUS,
-  FC_NATURAL,
-  FC_NAME
-} = require("../companion/firstContactEngine");
+  getDisciplineStartReply,
+  startDisciplineOnboarding,
+  processDisciplineOnboarding,
+  OB_LANG
+} = require("./disciplineOnboarding");
 const {
   resolveOnboardingLang,
   ensureOnboardingActive,
   onboardingContinuePrompt
 } = require("../companion/onboardingGate");
-const { enterActivationMode } = require("../companion/freshUserExperience");
-const {
-  markFirstDayStarted,
-  wrapFirstDayStructureComplete
-} = require("../companion/firstDayArc");
-
-const STRUCTURE = FC_STRUCTURE_START;
 
 function resetProfileFields(userId) {
   updateSession(userId, profileDefaults());
@@ -39,11 +29,6 @@ function startOnboarding(userId) {
   resetProfileFields(userId);
   updateSession(userId, {
     programLane: prevLane,
-    onboardingActive: true,
-    onboardingCompleted: false,
-    onboardingSkipped: false,
-    onboardingStep: FC_NATURAL,
-    meetKaiZenCompleted: false,
     lastAssistantPrints: [],
     comfortOpenerUses: 0,
     smallStepAskUses: 0,
@@ -51,7 +36,7 @@ function startOnboarding(userId) {
     recentCommands: [],
     conversationState: null
   });
-  enterActivationMode(userId);
+  startDisciplineOnboarding(userId);
 }
 
 /**
@@ -59,12 +44,14 @@ function startOnboarding(userId) {
  * @param {object} session
  */
 function getStartReply(lang, session) {
-  const step = Number(session.onboardingStep) || 0;
-  if (step < FC_STRUCTURE_START) {
-    return getFirstContactStart(lang);
+  const step = Number(session.onboardingStep);
+  if (step === OB_LANG || step === undefined || Number.isNaN(step)) {
+    return getDisciplineStartReply(lang);
   }
-  const r = getResponses(lang);
-  return r.obQ1;
+  const r = getResponses(session.preferredLanguage || lang);
+  if (step === 1) return r.protocolOnboarding?.askName || r.fcAskName;
+  if (step === 2) return r.protocolOnboarding?.askPath || r.fcAskFocus;
+  return getDisciplineStartReply(lang);
 }
 
 function parsePathToken(raw) {
@@ -263,102 +250,19 @@ function processOnboardingReply(userId, text, session, lang) {
     return { reply: skipOnboarding(userId, locked) };
   }
 
-  const fc = processFirstContact(userId, raw, session, locked);
-  if (fc) return fc;
+  const disc = processDisciplineOnboarding(userId, raw, getSession(userId), locked);
+  if (disc) return disc;
 
-  const step = Number(session.onboardingStep) || 0;
-
-  if (step > FC_FOCUS && step < FC_STRUCTURE_START) {
-    const r2 = getResponses(locked);
-    updateSession(userId, { onboardingStep: FC_NATURAL });
-    return { reply: r2.fcAskNaturalIntro };
+  session = getSession(userId);
+  const step = Number(session.onboardingStep);
+  if (step === OB_LANG) {
+    return { reply: r.protocolOnboarding?.askLanguage || r.fcAskLanguage };
   }
-  if (step === 1 && session.preferredLanguage) {
-    updateSession(userId, { onboardingStep: FC_NATURAL });
-    return { reply: getResponses(locked).fcAskNaturalIntro };
+  if (step === 1) {
+    return { reply: r.protocolOnboarding?.askName || r.fcAskName };
   }
-
-  const tangential =
-    /\?/.test(raw) &&
-    raw.length > 40 &&
-    step < STRUCTURE + 2 &&
-    !/^\d$/.test(raw) &&
-    !/^([1-8])\s/.test(raw);
-
-  if (tangential) {
-    return {
-      reply: lines(
-        r.obNoted,
-        "",
-        r.obContinueSetup,
-        "",
-        step === STRUCTURE
-          ? r.obQ1
-          : step === STRUCTURE + 1
-            ? r.obQ2
-            : step === STRUCTURE + 2
-              ? r.obQ3
-              : step === STRUCTURE + 3
-                ? r.obQ4
-                : r.obQ5
-      )
-    };
-  }
-
-  if (step === STRUCTURE) {
-    const p = parsePathToken(raw);
-    if (!p) return { reply: lines(r.obInvalidPath, "", r.obQ1) };
-    updateSession(userId, {
-      userPrimaryPath: p.id,
-      userPrimaryPathNote: p.note,
-      onboardingStep: STRUCTURE + 1
-    });
-    return { reply: r.obQ2 };
-  }
-
-  if (step === STRUCTURE + 1) {
-    if (raw.length < 3) return { reply: lines(r.obQ2) };
-    updateSession(userId, {
-      userGoal30Days: raw.slice(0, 500),
-      onboardingStep: STRUCTURE + 2
-    });
-    return { reply: r.obQ3 };
-  }
-
-  if (step === STRUCTURE + 2) {
-    const o = parseObstacleToken(raw);
-    if (!o) return { reply: lines(r.obInvalidObstacle, "", r.obQ3) };
-    updateSession(userId, {
-      userMainObstacle: o.id,
-      userMainObstacleNote: o.note,
-      onboardingStep: STRUCTURE + 3
-    });
-    return { reply: r.obQ4 };
-  }
-
-  if (step === STRUCTURE + 3) {
-    const i = parseIntensityToken(raw);
-    if (!i) return { reply: lines(r.obInvalidIntensity, "", r.obQ4) };
-    updateSession(userId, {
-      userIntensityPreference: i,
-      onboardingStep: STRUCTURE + 4
-    });
-    return { reply: r.obQ5 };
-  }
-
-  if (step === STRUCTURE + 4) {
-    markFirstDayStarted(userId);
-    updateSession(userId, {
-      onboardingCompleted: true,
-      onboardingActive: false,
-      onboardingSkipped: false,
-      meetKaiZenCompleted: true
-    });
-    const s = getSession(userId);
-    const lockedFin = s.preferredLanguage || s.lang || locked;
-    return {
-      reply: wrapFirstDayStructureComplete(formatSummary(s, lockedFin), lockedFin)
-    };
+  if (step === 2) {
+    return { reply: r.protocolOnboarding?.askPath || r.fcAskFocus };
   }
 
   return { reply: onboardingContinuePrompt(locked) };

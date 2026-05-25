@@ -15,6 +15,16 @@ const DEFAULT_USER_PROFILE = {
   preferredTrainingStyle: null,
   userPrimaryPath: null,
   userPrimaryPathNote: null,
+  /** @type {'stabilization'|'discipline'|'energy'|'warrior'|'recovery'|'trading'|null} */
+  activeMode: null,
+  /** @type {'low'|'stable'|'high'|'overstimulated'|'exhausted'|null} */
+  energyState: null,
+  /** @type {'focused'|'drifting'|'inconsistent'|'locked_in'|null} */
+  disciplineState: null,
+  /** @type {'calm'|'overloaded'|'anxious'|'grounded'|null} */
+  nervousSystemState: null,
+  /** @type {object|null} */
+  protocolState: null,
   userGoal30Days: null,
   userMainObstacle: null,
   userMainObstacleNote: null,

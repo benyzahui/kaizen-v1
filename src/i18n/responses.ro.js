@@ -1,4 +1,6 @@
 const rituals = require("./rituals.ro");
+const protocolCopy = require("./protocolCopy.ro");
+const { rituals: protocolRituals, ...protocolStrings } = protocolCopy;
 const onboardingStrings = require("./onboardingCopy.ro");
 const trainingProtocol = require("./trainingProtocol.ro");
 const presenceCopy = require("./presenceCopy.ro");
@@ -372,7 +374,7 @@ module.exports = {
     "Mai târziu /mirror într-un paragraf onest — nu verdict."
   ].join("\n\n"),
 
-  rituals,
+  rituals: { ...rituals, ...protocolRituals },
 
   categories: {
     focus_drift: [
@@ -436,5 +438,6 @@ module.exports = {
   ...rhythmCompact,
   ...dailyProtocol,
   ...trainingProtocol,
-  ...onboardingStrings
+  ...onboardingStrings,
+  ...protocolStrings
 };
