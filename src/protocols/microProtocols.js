@@ -203,7 +203,7 @@ const MICRO_PROTOCOLS = [
   }
 ];
 
-/** Light micro touchpoints — not commands, just human nudges */
+/** @deprecated Use src/retention/touchpointPools — kept for importers */
 const MICRO_TOUCHES = [
   { id: "touch_water_hu", language: "hu", text: "🫀 Mikor ittál utoljára vizet?" },
   { id: "touch_water_en", language: "en", text: "🫀 When did you last drink water?" },
