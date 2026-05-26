@@ -207,6 +207,19 @@ function applyProgramAtmosphereFinalize(body, lang, session, userId, meta = {}) 
     });
   }
 
+  if (meta.communityPresence !== false) {
+    const { applyCommunityPresenceFinalize } = require("../community/originStoryAtmosphere");
+    const { getTimeSlot } = require("../core/timeContext");
+    out = applyCommunityPresenceFinalize(out, locked, session, userId, {
+      dateKey: meta.dateKey,
+      phase: meta.phase || getTimeSlot(session, meta.now || new Date()),
+      now: meta.now,
+      communityChance: meta.communityChance,
+      communityPresence: meta.communityPresence,
+      maxLinesBeforeCommunity: meta.maxLinesBeforeCommunity
+    });
+  }
+
   return formatPremiumDailyMessage(out, meta.formatOpts);
 }
 

@@ -46,6 +46,8 @@ const DEFAULT_USER_PROFILE = {
   recentEmotionalTones: [],
   /** Hope/presence/support/belonging line ids — anti-repeat */
   recentHopePresenceIds: [],
+  /** Community/origin story line ids — anti-repeat */
+  recentCommunityPresenceIds: [],
   recentChallengeIds: [],
   recentAwarenessIds: [],
   lastMiniChallengeAt: null,

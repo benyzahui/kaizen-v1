@@ -25,6 +25,7 @@ const {
 } = require("../rhythm/rhythmIntelligenceEngine");
 const { maybeHumanMoment } = require("../content/dailyContentEngine");
 const { pickHopePresenceBundle } = require("../presence/hopePresenceEngine");
+const { pickCommunityPresenceBundle } = require("../community/originStoryAtmosphere");
 const {
   maybeLightActivation,
   resolveAwarenessContext
@@ -115,6 +116,14 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       ? maybeHumanMoment(locked, session, userId, dateKey, slot, 0.1)
       : maybeHumanMoment(locked, session, userId, dateKey, slot, 0.06);
   const hopePresence = pickHopePresenceBundle(locked, session, userId, dateKey, phase, now);
+  const communityPresence = pickCommunityPresenceBundle(
+    locked,
+    session,
+    userId,
+    dateKey,
+    phase,
+    now
+  );
 
   let body = "";
 
@@ -144,7 +153,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       lightCheck || "",
       identityWhisper || continuity || "",
       humanMoment || "",
-      hopePresence || ""
+      hopePresence || "",
+      communityPresence || ""
     );
   } else if (phase === "midday") {
     const md = copy.midday;
@@ -168,7 +178,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       lightCheck || "",
       identityWhisper || continuity || "",
       humanMoment || "",
-      hopePresence || ""
+      hopePresence || "",
+      communityPresence || ""
     );
   } else {
     const e = copy.evening;
@@ -193,7 +204,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       lightCheck || "",
       identityWhisper || continuity || "",
       humanMoment || "",
-      hopePresence || ""
+      hopePresence || "",
+      communityPresence || ""
     );
   }
 
