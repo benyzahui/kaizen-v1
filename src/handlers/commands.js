@@ -41,6 +41,7 @@ const { buildGuideReply } = require("./guide");
 const { handlePanelCommand } = require("../panel/protocolPanelEngine");
 const { finalizeOutboundReply } = require("../i18n/hardLanguageLock");
 const { lines } = require("../personality/kaizenVoice");
+const { buildPathCommandReply } = require("../path/dailyPathEngine");
 
 const PROGRAM_WRAP = new Set(["/morning", "/energy", "/evening"]);
 
@@ -210,6 +211,13 @@ async function routeCommandMessage(message, session) {
     case "/weekly": {
       reply = buildWeeklySummary(getSession(uid(message)), lang, uid(message));
       handler = "consistency:weekly";
+      break;
+    }
+    case "/path": {
+      const id = uid(message);
+      const s = getSession(id);
+      reply = buildPathCommandReply({ ...s, userId: id }, lang, text);
+      handler = "path:menu";
       break;
     }
     case "/language": {

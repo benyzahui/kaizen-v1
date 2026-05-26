@@ -18,6 +18,7 @@ const {
   resolveAwarenessContext
 } = require("../challenges/challengeSelector");
 const { formatPremiumDailyMessage } = require("../atmosphere/programAtmosphere");
+const { resolvePrimaryPathId, pickPathCue } = require("../path/dailyPathEngine");
 
 const HYPE_RE =
   /\b(you got this|crush it|beast mode|manifest|10x|unlock your|hajrá|sigma|limitless|motivációs guru)\b/i;
@@ -68,6 +69,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       : copy[slot]?.fallbackMantra || copy.morning.fallbackMantra;
 
   const identity = pickProgramIdentityLine(locked, userId, dateKey);
+  const pathId = resolvePrimaryPathId(session);
+  const pathCue = pickPathCue(pathId, phase, locked, userId, dateKey);
   const micro = selectMicroProtocol(slot, locked, session, userId, dateKey, now);
   let actionBlock = "";
   if (micro) {
@@ -85,6 +88,7 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
     body = lines(
       copy.programTag,
       identity,
+      pathCue || "",
       "",
       m.title,
       "",
@@ -126,6 +130,7 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
     body = lines(
       copy.programTag,
       identity,
+      pathCue || "",
       "",
       e.title,
       "",

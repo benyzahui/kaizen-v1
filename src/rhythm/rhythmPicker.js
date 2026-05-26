@@ -5,40 +5,14 @@
 const { getResponses } = require("../i18n/getResponses");
 const { pickSeeded } = require("../personality/kaizenVoice");
 const { pickUnseenVariant } = require("../conversation/responseVariation");
-const { mapPathToMode } = require("../core/protocolStateEngine");
+const { enrichRhythmContext } = require("../path/dailyPathEngine");
 
 /**
  * @param {object} session
  * @param {'en'|'hu'|'ro'} lang
  */
 function resolveRhythmContext(session, lang) {
-  const energyState =
-    session?.energyState ||
-    session?.protocolState?.energyState ||
-    "stable";
-  const disciplineState =
-    session?.disciplineState ||
-    session?.protocolState?.disciplineState ||
-    "focused";
-  const nervousSystemState =
-    session?.nervousSystemState ||
-    session?.protocolState?.nervousSystemState ||
-    "calm";
-  const activeMode =
-    session?.activeMode ||
-    session?.protocolState?.activeMode ||
-    mapPathToMode(session?.userPrimaryPath) ||
-    "stabilization";
-
-  return {
-    lang,
-    energyState,
-    disciplineState,
-    nervousSystemState,
-    activeMode,
-    userName: session?.userName || null,
-    mission: session?.currentMission?.trim() || session?.sessionTodayFocus || null
-  };
+  return enrichRhythmContext(session, lang);
 }
 
 function resolveSectionPool(sectionBlock, ctx) {

@@ -120,7 +120,8 @@ function processDisciplineOnboarding(userId, text, session, lang) {
     const mode = mapPathToMode(path.legacy);
 
     updateSession(userId, {
-      userPrimaryPath: path.legacy,
+      userPrimaryPath: path.id,
+      activePrimaryPath: path.id,
       activeMode: mode,
       userPurpose: label,
       sessionTodayFocus: label,

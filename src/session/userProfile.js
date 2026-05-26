@@ -14,6 +14,8 @@ const DEFAULT_USER_PROFILE = {
   currentMission: null,
   preferredTrainingStyle: null,
   userPrimaryPath: null,
+  /** Canonical path id: discipline | energy | stabilization | warrior | recovery | trading */
+  activePrimaryPath: null,
   userPrimaryPathNote: null,
   /** @type {'stabilization'|'discipline'|'energy'|'warrior'|'recovery'|'trading'|null} */
   activeMode: null,

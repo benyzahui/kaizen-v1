@@ -130,6 +130,11 @@ function selectMiniChallenge(slot, lang, session, userId, dateKey, now = new Dat
 
   const used = new Set(session?.recentChallengeIds || []);
   let pool = challengesForLang(locked).filter((c) => challengeMatches(c, ctx, slot));
+  const pathCats = rhythm.pathChallengeCategories || [];
+  if (pathCats.length) {
+    const boosted = pool.filter((c) => pathCats.includes(c.category));
+    if (boosted.length) pool = boosted;
+  }
   if (!pool.length) pool = challengesForLang(locked).filter((c) => c.intensity === "low");
 
   let candidates = pool.filter((c) => !used.has(c.id));

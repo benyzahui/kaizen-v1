@@ -13,6 +13,7 @@ const { profileDefaults } = require("./userProfile");
 /** Profile + durable prefs preserved on /clear */
 const PROFILE_AND_LOCK_KEYS = [
   "userPrimaryPath",
+  "activePrimaryPath",
   "userPrimaryPathNote",
   "userGoal30Days",
   "userMainObstacle",

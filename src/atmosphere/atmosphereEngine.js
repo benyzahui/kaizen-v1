@@ -59,7 +59,7 @@ function resolveAtmosphereContext(session, lang, now = new Date()) {
   const tone = resolveTimeAwareTone(session, now);
   const atmosphere = resolveAtmosphereState(session, now);
 
-  const mantraTags = [];
+  const mantraTags = [...(rhythmCtx.pathMantraTags || [])];
   if (atmosphere === "warrior") mantraTags.push("warrior", "focus", "discipline");
   if (atmosphere === "recovery" || atmosphere === "emotional") {
     mantraTags.push("recovery", "let_go", "hope");

@@ -100,6 +100,15 @@ const CATEGORY_META = {
   }
 };
 
+const PATH_TO_CATEGORIES = {
+  discipline: ["discipline", "focus", "activation"],
+  energy: ["movement", "activation", "stabilization"],
+  stabilization: ["stabilization", "overload", "emotional_reset"],
+  warrior: ["warrior", "discipline", "focus"],
+  recovery: ["recovery", "letting_go", "silence"],
+  trading: ["trading", "focus", "discipline"]
+};
+
 const ATMOSPHERE_TO_CATEGORIES = {
   calm: ["activation", "discipline", "focus"],
   warrior: ["warrior", "discipline", "focus"],
@@ -126,6 +135,9 @@ function resolvePreferredCategories(ctx, slot) {
 
   if (ctx.nervousSystemState === "overloaded" || ctx.nervousSystemState === "anxious") {
     return ["overload", "stabilization", ...fromAtm];
+  }
+  if (ctx.primaryPath && PATH_TO_CATEGORIES[ctx.primaryPath]) {
+    return [...new Set([...PATH_TO_CATEGORIES[ctx.primaryPath], ...fromAtm])];
   }
   if (ctx.activeMode === "warrior") {
     return ["warrior", "discipline", ...fromAtm];
