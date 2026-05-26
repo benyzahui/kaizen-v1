@@ -3,12 +3,7 @@
  */
 
 const { pickSeeded } = require("../personality/kaizenVoice");
-const {
-  eveningRecovery,
-  warriorMode,
-  stabilization,
-  emotionalReset
-} = require("./romanianNativePools");
+const { pickRomanianNativeMantra } = require("../i18n/ro/romanianExperienceEngine");
 
 const HU_NATIVE = {
   evening_recovery: [
@@ -81,10 +76,7 @@ function pickNativeMantra(lang, phase, atmosphere, timeSlot) {
   const isMorning = phase === "morning" || timeSlot === "morning";
 
   if (locked === "hu") {
-    if (
-      isEvening &&
-      (atmosphere === "recovery" || atmosphere === "emotional")
-    ) {
+    if (isEvening && (atmosphere === "recovery" || atmosphere === "emotional")) {
       return pickSeeded(HU_NATIVE.evening_recovery, `hu|eve|${atmosphere}`);
     }
     if (isMorning && atmosphere === "warrior") {
@@ -100,22 +92,13 @@ function pickNativeMantra(lang, phase, atmosphere, timeSlot) {
   }
 
   if (locked === "ro") {
-    if (isEvening && (atmosphere === "recovery" || atmosphere === "reflective")) {
-      const e = pickSeeded(eveningRecovery, `ro|eve|${atmosphere}`);
-      return e?.text ? { text: e.text, id: e.id } : null;
-    }
-    if (isMorning && atmosphere === "warrior") {
-      const w = pickSeeded(warriorMode, "ro|war|morning");
-      return w?.text ? { text: w.text, id: w.id } : null;
-    }
-    if (atmosphere === "overloaded") {
-      const s = pickSeeded(stabilization, "ro|stab");
-      return s?.text ? { text: s.text, id: s.id } : null;
-    }
-    if (atmosphere === "emotional") {
-      const em = pickSeeded(emotionalReset, "ro|emo");
-      return em?.text ? { text: em.text, id: em.id } : null;
-    }
+    const native = pickRomanianNativeMantra(
+      phase,
+      atmosphere,
+      timeSlot,
+      `ro|${atmosphere}|${phase}`
+    );
+    if (native?.text) return native;
     return null;
   }
 
@@ -136,8 +119,8 @@ function pickNativeMantra(lang, phase, atmosphere, timeSlot) {
  */
 function pickRomanianGreeting(lang = "ro") {
   if (lang !== "ro") return null;
-  const { greetings } = require("./romanianNativePools");
-  return pickSeeded(greetings, `ro|greet|${Date.now() >> 10}`);
+  const { pickRomanianLine } = require("../i18n/ro/romanianExperienceEngine");
+  return pickRomanianLine("greetings", `ro|greet|${Date.now() >> 10}`);
 }
 
 module.exports = { pickNativeMantra, pickRomanianGreeting, HU_NATIVE };

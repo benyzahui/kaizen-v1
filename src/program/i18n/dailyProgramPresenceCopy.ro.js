@@ -1,4 +1,4 @@
-/** Dragon Blueprint daily program presence — RO (native) */
+/** Dragon Blueprint daily program presence — RO (native, grounded) */
 
 module.exports = {
   programTag: "🐉 Dragon Blueprint — ritm zilnic.",
@@ -6,7 +6,8 @@ module.exports = {
     "Azi ești în program.",
     "Nu vânăm motivație.\nConstruim ritm.",
     "Un pas mic contează.",
-    "⚔ Sistemul se ridică din pași mici."
+    "⚔ Sistemul se ridică din pași mici.",
+    "Mai puțin zgomot.\nMai multă claritate."
   ],
   labels: {
     mantra: "Mantra",
@@ -20,21 +21,27 @@ module.exports = {
     title: "⚔ Activare dimineață",
     lines: [
       "Ziua de azi contează.",
-      "Nu trebuie start perfect.\nDoar prezent."
+      "Nu trebuie start perfect.\nDoar prezent.",
+      "O direcție — nu zece."
     ],
     bodyAnchor: "apă + 5 expirații lente.",
     missionQuestion: "Care e singurul lucru pe care îl duci până la capăt azi?",
-    fallbackMantra: "O direcție. Nu zece."
+    fallbackMantra: "Claritate înainte de zgomot."
   },
   midday: {
-    title: "☀ Revenire la prânz",
-    lines: ["Încă în ritmul tău,", "sau zgomotul conduce deja?"],
-    fallbackMantra: "Nu lăsa energia să se scurgă.",
+    title: "☀ Corecție la prânz",
+    lines: [
+      "Încă în ritmul tău,",
+      "sau zgomotul conduce deja?",
+      "Prea multe cercuri deschise — închide unul."
+    ],
+    fallbackMantra: "Mai puțin zgomot. Mai multă claritate.",
     nowLines: ["apă", "postură", "un focus"]
   },
   evening: {
-    title: "🌘 Eliberare seară",
+    title: "🌘 Recuperare seară",
     lines: [
+      "Nu trebuie să repari tot în seara asta.",
       "Nu mai trebuie să duci ziua.",
       "Recuperarea e parte din program."
     ],
@@ -51,7 +58,7 @@ module.exports = {
     ],
     midday: [
       "bea apă.",
-      "ridică-te — postura dreaptă.",
+      "ridică-te — postură dreaptă.",
       "închide un focus deschis.",
       "mai puțin ecran 10 minute.",
       "mers 5 minute."

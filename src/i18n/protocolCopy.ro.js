@@ -76,7 +76,7 @@ module.exports = {
       "{name} — {path}.",
       "Mod: {mode}.",
       "",
-      "Protejează atenția azi.",
+      "Mai puțin zgomot. Mai multă claritate.",
       "/morning când ești gata."
     ].join("\n")
   },
