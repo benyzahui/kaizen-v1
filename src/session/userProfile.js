@@ -55,6 +55,8 @@ const DEFAULT_USER_PROFILE = {
   lowEnergyLastDateKey: null,
   recentRebuildingLineIds: [],
   lastRebuildingSyncAt: 0,
+  /** Life balance / real-life rhythm line ids */
+  recentLifeBalanceLineIds: [],
   recentChallengeIds: [],
   recentAwarenessIds: [],
   lastMiniChallengeAt: null,

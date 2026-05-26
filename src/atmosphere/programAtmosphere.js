@@ -234,6 +234,20 @@ function applyProgramAtmosphereFinalize(body, lang, session, userId, meta = {}) 
     });
   }
 
+  if (meta.lifeBalance !== false) {
+    const { applyLifeBalanceFinalize } = require("../lifeBalance/lifeBalanceEngine");
+    const { getTimeSlot } = require("../core/timeContext");
+    out = applyLifeBalanceFinalize(out, locked, session, userId, {
+      dateKey: meta.dateKey,
+      phase: meta.phase || getTimeSlot(session, meta.now || new Date()),
+      now: meta.now,
+      inboundText: meta.inboundText,
+      lifeBalanceChance: meta.lifeBalanceChance,
+      lifeBalance: meta.lifeBalance,
+      maxLinesBeforeLifeBalance: meta.maxLinesBeforeLifeBalance
+    });
+  }
+
   return formatPremiumDailyMessage(out, meta.formatOpts);
 }
 

@@ -28,6 +28,8 @@ const { pickHopePresenceBundle } = require("../presence/hopePresenceEngine");
 const { pickCommunityPresenceBundle } = require("../community/originStoryAtmosphere");
 const { syncRebuildingMode } = require("../rebuilding/rebuildingMode");
 const { pickRebuildingBundle } = require("../rebuilding/rebuildingEngine");
+const { shouldReducePressure } = require("../lifeBalance/pressureReduction");
+const { pickLifeBalanceBundle } = require("../lifeBalance/lifeBalanceEngine");
 const {
   maybeLightActivation,
   resolveAwarenessContext
@@ -90,7 +92,7 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
   let actionBlock = "";
   if (micro) {
     recordMicroProtocolUse(micro, userId);
-    actionBlock = formatMicroProtocol(micro);
+    actionBlock = formatMicroProtocol(micro, session);
   } else {
     actionBlock = `${L.todayAction}: ${pickDailyAction(phase, locked, userId, dateKey)}`;
   }
@@ -99,7 +101,17 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
   const rebuildingLine = rebuildingCtx.active
     ? pickRebuildingBundle(locked, session, userId, dateKey, phase, now)
     : null;
-  const touchChance = rhythmProfile.protocolIntensity === "low" ? 0.14 : 0.2;
+  const lifeBalanceLine = pickLifeBalanceBundle(
+    locked,
+    session,
+    userId,
+    dateKey,
+    phase,
+    now
+  );
+  const underPressure = shouldReducePressure(session, "", now);
+  let touchChance = rhythmProfile.protocolIntensity === "low" ? 0.14 : 0.2;
+  if (underPressure) touchChance = 0.08;
   const touch = maybeMicroTouch(locked, session, userId, dateKey, touchChance, now);
   const lightCheck = maybeLightCheckInLine(locked, session, userId, dateKey, phase, 0.1);
   const identityWhisper = maybeIdentityWhisper(locked, session, userId, dateKey, slot, 0.07);
@@ -161,7 +173,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       humanMoment || "",
       hopePresence || "",
       communityPresence || "",
-      rebuildingLine || ""
+      rebuildingLine || "",
+      lifeBalanceLine || ""
     );
   } else if (phase === "midday") {
     const md = copy.midday;
@@ -187,7 +200,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       humanMoment || "",
       hopePresence || "",
       communityPresence || "",
-      rebuildingLine || ""
+      rebuildingLine || "",
+      lifeBalanceLine || ""
     );
   } else {
     const e = copy.evening;
@@ -214,7 +228,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       humanMoment || "",
       hopePresence || "",
       communityPresence || "",
-      rebuildingLine || ""
+      rebuildingLine || "",
+      lifeBalanceLine || ""
     );
   }
 
@@ -225,8 +240,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
     userId,
     dateKey,
     contextKey: resolveAwarenessContext(session),
-    challengeChance: 0.08,
-    awarenessChance: 0.1,
+    challengeChance: underPressure ? 0.04 : 0.08,
+    awarenessChance: underPressure ? 0.05 : 0.1,
     now
   });
   if (activation) {

@@ -66,6 +66,13 @@ function resolveRhythmProfile(session, text = "", now = new Date()) {
     protocolIntensity = "low";
   }
 
+  const { shouldReducePressure } = require("../lifeBalance/pressureReduction");
+  if (shouldReducePressure(session, text, now)) {
+    maxLines = Math.min(maxLines, 4);
+    protocolIntensity = "low";
+    verbosity = "minimal";
+  }
+
   return {
     tone,
     signals,

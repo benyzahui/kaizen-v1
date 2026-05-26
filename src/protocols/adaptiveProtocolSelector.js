@@ -106,11 +106,18 @@ function selectMicroProtocol(slot, lang, session, userId, dateKey, now = new Dat
 
 /**
  * @param {object} proto
+ * @param {object} [session]
+ * @param {string} [inboundText]
  */
-function formatMicroProtocol(proto) {
+function formatMicroProtocol(proto, session = null, inboundText = "") {
   if (!proto) return "";
-  const actionLines = proto.actions.map((a) => `- ${a}`);
-  return lines(proto.title, ...actionLines).trim();
+  let p = proto;
+  if (session) {
+    const { simplifyProtocolForPressure } = require("../lifeBalance/pressureReduction");
+    p = simplifyProtocolForPressure(proto, session, inboundText) || proto;
+  }
+  const actionLines = (p.actions || []).map((a) => `- ${a}`);
+  return lines(p.title, ...actionLines).trim();
 }
 
 /**
