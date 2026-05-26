@@ -3,7 +3,8 @@
  */
 
 const { lines } = require("../personality/kaizenVoice");
-const { MICRO_PROTOCOLS, MICRO_TOUCHES } = require("./microProtocols");
+const { MICRO_PROTOCOLS } = require("./microProtocols");
+const { maybeMicroTouchpoint } = require("../retention/retentionRhythmEngine");
 const { resolveTimeAwareTone } = require("../atmosphere/timeAwareTone");
 const { resolveAtmosphereState } = require("../atmosphere/atmosphereEngine");
 const { resolveRhythmContext } = require("../rhythm/rhythmPicker");
@@ -107,24 +108,10 @@ function recordMicroProtocolUse(proto, userId) {
  * @param {string} dateKey
  * @param {number} [chance] 0–1
  */
-function maybeMicroTouch(lang, session, userId, dateKey, chance = 0.22) {
-  const locked = lang === "hu" || lang === "ro" ? lang : "en";
-  const seed = `${userId}|touch|${dateKey}`;
-  let h = 0;
-  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
-  if (h % 10 > Math.floor(chance * 10)) return null;
-
-  const used = new Set(session?.recentTouchIds || []);
-  const pool = MICRO_TOUCHES.filter(
-    (t) => t.language === locked && !used.has(t.id) && !HYPE_RE.test(t.text)
-  );
-  if (!pool.length) return null;
-
-  const touch = pool[h % pool.length];
-  const recent = [...used];
-  recent.push(touch.id);
-  updateSession(userId, { recentTouchIds: recent.slice(-20) });
-  return touch.text;
+function maybeMicroTouch(lang, session, userId, dateKey, chance = 0.22, now = new Date()) {
+  const tone = resolveTimeAwareTone(session, now);
+  const slot = tone.timeSlot || "midday";
+  return maybeMicroTouchpoint(lang, session, userId, dateKey, slot, chance, now);
 }
 
 /**

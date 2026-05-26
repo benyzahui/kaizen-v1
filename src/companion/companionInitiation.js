@@ -4,6 +4,8 @@
 
 const { pickSeeded } = require("../personality/tone");
 const { getResponses } = require("../i18n/getResponses");
+const { pickLightCheckIn, isPremiumRetentionTone } = require("../retention/retentionRhythmEngine");
+const { LIGHT_CHECK_INS } = require("../retention/lightCheckIns");
 
 const MIN_GAP_MS = 5 * 60 * 60 * 1000;
 const CHECKIN_COOLDOWN_MS = 12 * 60 * 60 * 1000;
@@ -47,8 +49,19 @@ function tryCompanionCheckIn(session, lang, userId, text) {
   if (!trigger) return null;
   if (Math.random() > 0.18) return null;
 
+  const locked = lang === "hu" || lang === "ro" ? lang : "en";
+  const retentionLine = pickLightCheckIn(locked, session, userId, "open", "midday");
+  if (retentionLine) {
+    return { body: retentionLine, category: "companion_checkin" };
+  }
+
   const r = getResponses(lang);
-  const pool = r.naturalCheckIns || r.companionCheckIns || [];
+  const legacy = (r.naturalCheckIns || r.companionCheckIns || []).filter((line) =>
+    isPremiumRetentionTone(line)
+  );
+  const fromPool = LIGHT_CHECK_INS.filter((c) => c.language === locked && c.contexts.includes("open"))
+    .map((c) => c.text);
+  const pool = [...new Set([...legacy, ...fromPool])];
   if (!pool.length) return null;
 
   return {

@@ -35,6 +35,7 @@ const { packOpenReply } = require("./openReply");
 const { resolveNaturalLanguageRequest } = require("../i18n/languageLock");
 const { buildNaturalConversation } = require("../conversation/naturalConversation");
 const { tryCompanionCheckIn } = require("../companion/companionInitiation");
+const { tryRetentionReturn } = require("../retention/retentionRhythmEngine");
 const { tryShortActionReply } = require("../companion/responseDepth");
 const { routeNaturalIntent } = require("../companion/naturalIntentRouter");
 const { tryConversationalFlow } = require("../companion/conversationalFlow");
@@ -86,7 +87,8 @@ const VARY_SKIP = new Set([
   "relational_flow",
   "light_conversation",
   "emotional_reflection",
-  "companion_checkin"
+  "companion_checkin",
+  "retention_return"
 ]);
 
 function maybeVaryReply(session, category, body, r) {
@@ -103,7 +105,8 @@ const CONTINUITY_SKIP = new Set([
   "life_flow",
   "natural_conversation",
   "light_conversation",
-  "casual_greeting"
+  "casual_greeting",
+  "retention_return"
 ]);
 
 function withContinuity(session, category, body, r) {
@@ -514,6 +517,30 @@ async function handleOpenConversation(message, lang, session) {
     const cat = "light_conversation";
     const companionCtx = prepareCompanionContext(userId, text, session, lang, cat);
     return emitOpen(companionCtx, cat, shortAction, r, null);
+  }
+
+  const retentionReturn = tryRetentionReturn(session, lang, userId, text);
+  if (retentionReturn) {
+    const companionCtx = prepareCompanionContext(
+      userId,
+      text,
+      session,
+      lang,
+      retentionReturn.category
+    );
+    logOpen({
+      lang,
+      category: retentionReturn.category,
+      handler: "retention.tryRetentionReturn",
+      textPreview: text.slice(0, 80)
+    });
+    return emitOpen(
+      companionCtx,
+      retentionReturn.category,
+      retentionReturn.body,
+      r,
+      "/morning"
+    );
   }
 
   const checkIn = tryCompanionCheckIn(session, lang, userId, text);

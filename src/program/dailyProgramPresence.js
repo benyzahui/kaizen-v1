@@ -14,6 +14,10 @@ const {
   maybeMicroTouch
 } = require("../protocols/adaptiveProtocolSelector");
 const {
+  maybeLightCheckInLine,
+  maybeIdentityWhisper
+} = require("../retention/retentionRhythmEngine");
+const {
   maybeLightActivation,
   resolveAwarenessContext
 } = require("../challenges/challengeSelector");
@@ -79,7 +83,9 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
   } else {
     actionBlock = `${L.todayAction}: ${pickDailyAction(phase, locked, userId, dateKey)}`;
   }
-  const touch = maybeMicroTouch(locked, session, userId, dateKey, 0.2);
+  const touch = maybeMicroTouch(locked, session, userId, dateKey, 0.2, now);
+  const lightCheck = maybeLightCheckInLine(locked, session, userId, dateKey, phase, 0.1);
+  const identityWhisper = maybeIdentityWhisper(locked, session, userId, dateKey, slot, 0.07);
 
   let body = "";
 
@@ -104,7 +110,9 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       m.missionQuestion,
       "",
       actionBlock,
-      touch || ""
+      touch || "",
+      lightCheck || "",
+      identityWhisper || ""
     );
   } else if (phase === "midday") {
     const md = copy.midday;
@@ -123,7 +131,9 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       md.nowLines.join(", "),
       "",
       actionBlock,
-      touch || ""
+      touch || "",
+      lightCheck || "",
+      identityWhisper || ""
     );
   } else {
     const e = copy.evening;
@@ -143,7 +153,9 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       e.releaseQuestion,
       "",
       actionBlock,
-      touch || ""
+      touch || "",
+      lightCheck || "",
+      identityWhisper || ""
     );
   }
 
