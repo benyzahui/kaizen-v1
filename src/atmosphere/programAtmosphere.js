@@ -175,7 +175,7 @@ function applyProgramAtmosphereFinalize(body, lang, session, userId, meta = {}) 
   if (meta.quietPresence !== false && session?.onboardingCompleted) {
     const { resolveAtmosphereContext } = require("./atmosphereEngine");
     const atm = resolveAtmosphereContext(session, locked);
-    const presence = maybePresenceLine(locked, atm.tone, atm.atmosphere, userId, 0.06);
+    const presence = maybePresenceLine(locked, atm.tone, atm.atmosphere, userId, 0.04);
     if (presence && !out.includes(presence)) {
       const lineCount = out.split(/\n/).filter(Boolean).length;
       if (lineCount < 14) {
@@ -245,6 +245,20 @@ function applyProgramAtmosphereFinalize(body, lang, session, userId, meta = {}) 
       lifeBalanceChance: meta.lifeBalanceChance,
       lifeBalance: meta.lifeBalance,
       maxLinesBeforeLifeBalance: meta.maxLinesBeforeLifeBalance
+    });
+  }
+
+  if (meta.lightPresence !== false) {
+    const { applyLightPresenceFinalize } = require("../presence/lightPresenceEngine");
+    const { getTimeSlot } = require("../core/timeContext");
+    out = applyLightPresenceFinalize(out, locked, session, userId, {
+      dateKey: meta.dateKey,
+      phase: meta.phase || getTimeSlot(session, meta.now || new Date()),
+      now: meta.now,
+      inboundText: meta.inboundText,
+      lightPresenceChance: meta.lightPresenceChance,
+      lightPresence: meta.lightPresence,
+      maxLinesBeforeLight: meta.maxLinesBeforeLight
     });
   }
 

@@ -57,6 +57,7 @@ const DEFAULT_USER_PROFILE = {
   lastRebuildingSyncAt: 0,
   /** Life balance / real-life rhythm line ids */
   recentLifeBalanceLineIds: [],
+  recentLightPresenceIds: [],
   recentChallengeIds: [],
   recentAwarenessIds: [],
   lastMiniChallengeAt: null,
