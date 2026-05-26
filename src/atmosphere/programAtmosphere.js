@@ -194,6 +194,19 @@ function applyProgramAtmosphereFinalize(body, lang, session, userId, meta = {}) 
     }
   }
 
+  if (meta.hopePresence !== false) {
+    const { applyHopePresenceFinalize } = require("../presence/hopePresenceEngine");
+    const { getTimeSlot } = require("../core/timeContext");
+    out = applyHopePresenceFinalize(out, locked, session, userId, {
+      dateKey: meta.dateKey,
+      phase: meta.phase || getTimeSlot(session, meta.now || new Date()),
+      now: meta.now,
+      hopeChance: meta.hopeChance,
+      hopePresence: meta.hopePresence,
+      maxLinesBeforeHope: meta.maxLinesBeforeHope
+    });
+  }
+
   return formatPremiumDailyMessage(out, meta.formatOpts);
 }
 

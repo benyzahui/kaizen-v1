@@ -44,6 +44,8 @@ const DEFAULT_USER_PROFILE = {
   recentContinuityIds: [],
   recentCategoryPromptIds: [],
   recentEmotionalTones: [],
+  /** Hope/presence/support/belonging line ids — anti-repeat */
+  recentHopePresenceIds: [],
   recentChallengeIds: [],
   recentAwarenessIds: [],
   lastMiniChallengeAt: null,
