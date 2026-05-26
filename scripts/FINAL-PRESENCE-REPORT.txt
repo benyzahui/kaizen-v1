@@ -1,0 +1,30 @@
+KAIZEN V1 — FINAL PRESENCE REPORT
+
+Generated: 2026-05-26T07:09:45.755Z
+
+{
+  "days": 14,
+  "phases": 42,
+  "passed": true,
+  "uniqueDailyBodies": 18,
+  "uniqueLightMoments": 9,
+  "lightMomentRate": 0.8333333333333334,
+  "poolSize": 27,
+  "avgPremiumScore": 87,
+  "avgAiTraceScore": 0,
+  "maxChars": 154,
+  "calmRate": 1,
+  "supportRate": 1,
+  "eveningSafeRate": 1,
+  "therapyHits": 0,
+  "overEmpathyHits": 0,
+  "dependencyHits": 0,
+  "hustleHits": 0,
+  "targetFeeling": "The system helps me return to rhythm.",
+  "thresholds": {
+    "minDailyBodies": 10,
+    "minPremium": 55,
+    "maxAiTrace": 35,
+    "maxChars": 1050
+  }
+}
