@@ -48,6 +48,13 @@ const DEFAULT_USER_PROFILE = {
   recentHopePresenceIds: [],
   /** Community/origin story line ids — anti-repeat */
   recentCommunityPresenceIds: [],
+  /** Rebuilding mode — strength after collapse */
+  rebuildingModeActive: false,
+  rebuildingModeReasons: [],
+  lowEnergyStreak: 0,
+  lowEnergyLastDateKey: null,
+  recentRebuildingLineIds: [],
+  lastRebuildingSyncAt: 0,
   recentChallengeIds: [],
   recentAwarenessIds: [],
   lastMiniChallengeAt: null,

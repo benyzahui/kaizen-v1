@@ -220,6 +220,20 @@ function applyProgramAtmosphereFinalize(body, lang, session, userId, meta = {}) 
     });
   }
 
+  if (meta.rebuilding !== false) {
+    const { applyRebuildingFinalize } = require("../rebuilding/rebuildingEngine");
+    const { getTimeSlot } = require("../core/timeContext");
+    out = applyRebuildingFinalize(out, locked, session, userId, {
+      dateKey: meta.dateKey,
+      phase: meta.phase || getTimeSlot(session, meta.now || new Date()),
+      now: meta.now,
+      inboundText: meta.inboundText,
+      rebuildingChance: meta.rebuildingChance,
+      rebuilding: meta.rebuilding,
+      maxLinesBeforeRebuild: meta.maxLinesBeforeRebuild
+    });
+  }
+
   return formatPremiumDailyMessage(out, meta.formatOpts);
 }
 

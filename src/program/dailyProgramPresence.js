@@ -26,6 +26,8 @@ const {
 const { maybeHumanMoment } = require("../content/dailyContentEngine");
 const { pickHopePresenceBundle } = require("../presence/hopePresenceEngine");
 const { pickCommunityPresenceBundle } = require("../community/originStoryAtmosphere");
+const { syncRebuildingMode } = require("../rebuilding/rebuildingMode");
+const { pickRebuildingBundle } = require("../rebuilding/rebuildingEngine");
 const {
   maybeLightActivation,
   resolveAwarenessContext
@@ -93,6 +95,10 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
     actionBlock = `${L.todayAction}: ${pickDailyAction(phase, locked, userId, dateKey)}`;
   }
   const rhythmProfile = resolveRhythmProfile(session, "", now);
+  const rebuildingCtx = syncRebuildingMode(session, "", now, userId, dateKey);
+  const rebuildingLine = rebuildingCtx.active
+    ? pickRebuildingBundle(locked, session, userId, dateKey, phase, now)
+    : null;
   const touchChance = rhythmProfile.protocolIntensity === "low" ? 0.14 : 0.2;
   const touch = maybeMicroTouch(locked, session, userId, dateKey, touchChance, now);
   const lightCheck = maybeLightCheckInLine(locked, session, userId, dateKey, phase, 0.1);
@@ -154,7 +160,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       identityWhisper || continuity || "",
       humanMoment || "",
       hopePresence || "",
-      communityPresence || ""
+      communityPresence || "",
+      rebuildingLine || ""
     );
   } else if (phase === "midday") {
     const md = copy.midday;
@@ -179,7 +186,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       identityWhisper || continuity || "",
       humanMoment || "",
       hopePresence || "",
-      communityPresence || ""
+      communityPresence || "",
+      rebuildingLine || ""
     );
   } else {
     const e = copy.evening;
@@ -205,7 +213,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       identityWhisper || continuity || "",
       humanMoment || "",
       hopePresence || "",
-      communityPresence || ""
+      communityPresence || "",
+      rebuildingLine || ""
     );
   }
 

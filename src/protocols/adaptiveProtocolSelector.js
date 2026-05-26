@@ -63,6 +63,22 @@ function protocolsForLang(lang) {
  * @param {Date} [now]
  */
 function selectMicroProtocol(slot, lang, session, userId, dateKey, now = new Date()) {
+  const { syncRebuildingMode } = require("../rebuilding/rebuildingMode");
+  const {
+    selectRebuildingMicroProtocol
+  } = require("../rebuilding/rebuildingEngine");
+
+  syncRebuildingMode(session, "", now, userId, dateKey);
+  const recoveryProto = selectRebuildingMicroProtocol(
+    slot,
+    lang,
+    session,
+    userId,
+    dateKey,
+    now
+  );
+  if (recoveryProto) return recoveryProto;
+
   const locked = lang === "hu" || lang === "ro" ? lang : "en";
   const rhythm = resolveRhythmContext(session, locked);
   const atmosphere = resolveAtmosphereState(session, now);

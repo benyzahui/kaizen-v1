@@ -36,6 +36,7 @@ const { resolveNaturalLanguageRequest } = require("../i18n/languageLock");
 const { buildNaturalConversation } = require("../conversation/naturalConversation");
 const { tryCompanionCheckIn } = require("../companion/companionInitiation");
 const { tryRetentionReturn } = require("../retention/retentionRhythmEngine");
+const { tryRebuildingComeback } = require("../rebuilding/rebuildingEngine");
 const { trySmartPresenceOpen } = require("../rhythm/rhythmIntelligenceEngine");
 const { tryShortActionReply } = require("../companion/responseDepth");
 const { routeNaturalIntent } = require("../companion/naturalIntentRouter");
@@ -538,6 +539,30 @@ async function handleOpenConversation(message, lang, session) {
       textPreview: text.slice(0, 80)
     });
     return emitOpen(companionCtx, smartPresence.category, smartPresence.body, r, null);
+  }
+
+  const rebuildingReturn = tryRebuildingComeback(session, lang, userId, text);
+  if (rebuildingReturn) {
+    const companionCtx = prepareCompanionContext(
+      userId,
+      text,
+      session,
+      lang,
+      rebuildingReturn.category
+    );
+    logOpen({
+      lang,
+      category: rebuildingReturn.category,
+      handler: "rebuilding.tryRebuildingComeback",
+      textPreview: text.slice(0, 80)
+    });
+    return emitOpen(
+      companionCtx,
+      rebuildingReturn.category,
+      rebuildingReturn.body,
+      r,
+      "/morning"
+    );
   }
 
   const retentionReturn = tryRetentionReturn(session, lang, userId, text);
