@@ -6,6 +6,10 @@ const { lines } = require("../personality/kaizenVoice");
 const { MINI_CHALLENGES } = require("./miniChallenges");
 const { AWARENESS_PROMPTS } = require("./awarenessPrompts");
 const { resolveRhythmContext } = require("../rhythm/rhythmPicker");
+const {
+  selectAwareness: pickAwarenessFromCatalog,
+  recordContentUse
+} = require("../content/dailyContentEngine");
 const { resolveAtmosphereState } = require("../atmosphere/atmosphereEngine");
 const { resolveTimeAwareTone } = require("../atmosphere/timeAwareTone");
 const { updateSession, getSession } = require("../session/sessionStore");
@@ -174,6 +178,24 @@ function selectAwarenessPrompt(
     atmosphere: resolveAtmosphereState(session, now)
   };
 
+  const catalogPick = pickAwarenessFromCatalog(locked, ctx, session, userId, dateKey, slot);
+  if (catalogPick?.text) {
+    const legacyShape = {
+      id: catalogPick.id,
+      language: locked,
+      category: catalogPick.category || "awareness",
+      text: catalogPick.text,
+      energy: catalogPick.energy,
+      phases: catalogPick.phases,
+      contexts: catalogPick.contexts || ["default"],
+      modes: catalogPick.modes
+    };
+    if (awarenessMatches(legacyShape, ctx, contextKey, slot)) {
+      recordContentUse(userId, "awareness", catalogPick.id);
+      return legacyShape;
+    }
+  }
+
   const used = new Set(session?.recentAwarenessIds || []);
   let pool = promptsForLang(locked).filter((p) => awarenessMatches(p, ctx, contextKey, slot));
   if (contextKey === "trading") {
@@ -181,7 +203,7 @@ function selectAwarenessPrompt(
     if (tradeOnly.length) pool = tradeOnly;
   }
   if (!pool.length) {
-    pool = promptsForLang(locked).filter((p) => p.contexts.includes("default"));
+    pool = promptsForLang(locked).filter((p) => p.contexts?.includes("default"));
   }
 
   let candidates = pool.filter((p) => !used.has(p.id));

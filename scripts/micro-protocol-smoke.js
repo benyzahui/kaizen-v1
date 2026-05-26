@@ -157,7 +157,7 @@ function run() {
   assert(!/\b(Beginner:|the |your morning)\b/i.test(roBlock), "RO no EN");
 
   const touch = maybeMicroTouch("hu", baseSession(), uid, "touch_test", 1);
-  assert(touch && /vizet|lélegzés|kör|lépés|húzni/i.test(touch), "HU micro touch");
+  assert(touch && /vizet|Víz|lélegzés|kör|lépés|húzni|pohár|lassú/i.test(touch), "HU micro touch");
 
   console.log("✓ micro-protocol-smoke passed");
   console.log(`  Expanded mantras: ${totalExpandedCount()}`);

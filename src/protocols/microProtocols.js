@@ -2,7 +2,8 @@
  * Micro protocols — 1–4 short actions, instantly practical.
  */
 
-const MICRO_PROTOCOLS = [
+/** Legacy inline protocols — merged into catalog export */
+const LEGACY_MICRO_PROTOCOLS = [
   {
     id: "mini_reset_hu",
     language: "hu",
@@ -222,4 +223,11 @@ const MICRO_TOUCHES = [
   { id: "touch_breath_ro", language: "ro", text: "🌊 Cinci expirații lente acum." }
 ];
 
-module.exports = { MICRO_PROTOCOLS, MICRO_TOUCHES };
+const {
+  mergeWithLegacy,
+  EXPANDED_MICRO_PROTOCOLS
+} = require("../content/contentCatalog");
+
+const MICRO_PROTOCOLS = mergeWithLegacy(LEGACY_MICRO_PROTOCOLS, EXPANDED_MICRO_PROTOCOLS);
+
+module.exports = { MICRO_PROTOCOLS, MICRO_TOUCHES, LEGACY_MICRO_PROTOCOLS };

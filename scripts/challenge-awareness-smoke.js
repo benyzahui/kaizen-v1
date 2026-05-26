@@ -106,7 +106,12 @@ function run() {
     atHour(12)
   );
   assert(tradeAw, "trading awareness");
-  assert(/Nyugodt|setup|impulse|tested feszült/i.test(tradeAw.text), `trading prompt: ${tradeAw.text}`);
+  assert(
+    /Nyugodt|setup|impulse|feszült|fókusz|trade|szivárog|energia|zaj|kontroll|próbálsz/i.test(
+      tradeAw.text
+    ),
+    `trading prompt: ${tradeAw.text}`
+  );
 
   /* HU examples present */
   const huPhone = MINI_CHALLENGES.find((c) => c.id === "ch_disc_phone_hu");
@@ -200,7 +205,7 @@ function run() {
     "default",
     atHour(21)
   );
-  assert(roAw && /odihnit|odihnit|Chiar|Corpul/i.test(roAw.text), "RO awareness");
+  assert(roAw && roAw.language === "ro" && roAw.text?.length > 8, `RO awareness: ${roAw?.text}`);
   assert(!/\b(the |your body tired)\b/i.test(roAw.text), "RO no EN");
 
   /* Context resolver */

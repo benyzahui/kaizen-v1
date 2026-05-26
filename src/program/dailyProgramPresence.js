@@ -23,6 +23,7 @@ const {
   maybeContinuityWhisper,
   resolveRhythmProfile
 } = require("../rhythm/rhythmIntelligenceEngine");
+const { maybeHumanMoment } = require("../content/dailyContentEngine");
 const {
   maybeLightActivation,
   resolveAwarenessContext
@@ -108,6 +109,10 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       ? maybeOneThingForSession(locked, session, userId, dateKey, "", now)
       : null;
   const continuity = maybeContinuityWhisper(locked, session, userId, dateKey, 0.06);
+  const humanMoment =
+    phase === "evening"
+      ? maybeHumanMoment(locked, session, userId, dateKey, slot, 0.1)
+      : maybeHumanMoment(locked, session, userId, dateKey, slot, 0.06);
 
   let body = "";
 
@@ -135,7 +140,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       smartPresence || oneThing || "",
       touch || "",
       lightCheck || "",
-      identityWhisper || continuity || ""
+      identityWhisper || continuity || "",
+      humanMoment || ""
     );
   } else if (phase === "midday") {
     const md = copy.midday;
@@ -157,7 +163,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       smartPresence || oneThing || "",
       touch || "",
       lightCheck || "",
-      identityWhisper || continuity || ""
+      identityWhisper || continuity || "",
+      humanMoment || ""
     );
   } else {
     const e = copy.evening;
@@ -180,7 +187,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       smartPresence || oneThing || "",
       touch || "",
       lightCheck || "",
-      identityWhisper || continuity || ""
+      identityWhisper || continuity || "",
+      humanMoment || ""
     );
   }
 

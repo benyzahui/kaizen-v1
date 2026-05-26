@@ -42,6 +42,8 @@ const DEFAULT_USER_PROFILE = {
   lastReturnNudgeAt: 0,
   recentContextPresenceIds: [],
   recentContinuityIds: [],
+  recentCategoryPromptIds: [],
+  recentEmotionalTones: [],
   recentChallengeIds: [],
   recentAwarenessIds: [],
   lastMiniChallengeAt: null,

@@ -11,7 +11,7 @@ const PROMPT_CATEGORIES = [
   "nervous_system"
 ];
 
-const AWARENESS_PROMPTS = [
+const LEGACY_AWARENESS_PROMPTS = [
   {
     id: "aw_body_mind_hu",
     language: "hu",
@@ -239,4 +239,11 @@ const AWARENESS_PROMPTS = [
   }
 ];
 
-module.exports = { PROMPT_CATEGORIES, AWARENESS_PROMPTS };
+const {
+  mergeWithLegacy,
+  EXPANDED_AWARENESS
+} = require("../content/contentCatalog");
+
+const AWARENESS_PROMPTS = mergeWithLegacy(LEGACY_AWARENESS_PROMPTS, EXPANDED_AWARENESS);
+
+module.exports = { PROMPT_CATEGORIES, AWARENESS_PROMPTS, LEGACY_AWARENESS_PROMPTS };

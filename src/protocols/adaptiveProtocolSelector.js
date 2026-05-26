@@ -4,6 +4,10 @@
 
 const { lines } = require("../personality/kaizenVoice");
 const { MICRO_PROTOCOLS } = require("./microProtocols");
+const {
+  selectMicroProtocol: pickMicroFromCatalog,
+  recordContentUse
+} = require("../content/dailyContentEngine");
 const { maybeMicroTouchpoint } = require("../retention/retentionRhythmEngine");
 const { resolveTimeAwareTone } = require("../atmosphere/timeAwareTone");
 const { resolveAtmosphereState } = require("../atmosphere/atmosphereEngine");
@@ -68,13 +72,16 @@ function selectMicroProtocol(slot, lang, session, userId, dateKey, now = new Dat
     timeSlot: resolveTimeAwareTone(session, now).timeSlot
   };
 
+  const picked = pickMicroFromCatalog(locked, ctx, session, userId, dateKey, slot);
+  if (picked?.id) recordContentUse(userId, "micro_protocol", picked.id);
+
+  if (picked) return picked;
+
   const used = new Set(session?.recentMicroProtocolIds || []);
   let pool = protocolsForLang(locked).filter((p) => protocolMatches(p, ctx, slot));
   if (!pool.length) pool = protocolsForLang(locked);
-
   let candidates = pool.filter((p) => !used.has(p.id));
   if (!candidates.length) candidates = pool;
-
   const seed = `${userId}|micro|${dateKey}|${slot}`;
   let h = 0;
   for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
