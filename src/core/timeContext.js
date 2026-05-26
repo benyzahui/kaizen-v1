@@ -38,10 +38,10 @@ function localHour(session, now = new Date()) {
  */
 function getTimeSlot(session, now = new Date()) {
   const h = localHour(session, now);
-  if (h >= 5 && h < 11) return "morning";
-  if (h >= 11 && h < 17) return "midday";
-  if (h >= 17 && h < 22) return "evening";
-  if (h >= 22 || h < 5) return "late_night";
+  if (h >= 6 && h < 10) return "morning";
+  if (h >= 10 && h < 16) return "midday";
+  if (h >= 16 && h < 21) return "evening";
+  if (h >= 21 || h < 6) return "late_night";
   return "late_night";
 }
 

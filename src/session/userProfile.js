@@ -40,6 +40,8 @@ const DEFAULT_USER_PROFILE = {
   recentIdentityWhisperIds: [],
   lastLightCheckInAt: 0,
   lastReturnNudgeAt: 0,
+  recentContextPresenceIds: [],
+  recentContinuityIds: [],
   recentChallengeIds: [],
   recentAwarenessIds: [],
   lastMiniChallengeAt: null,

@@ -9,29 +9,33 @@ const BANDS = {
     clarity: "high",
     softness: "low",
     pacing: "activate",
-    maxLines: 6,
+    rhythmMode: "activate",
+    maxLines: 5,
     presenceChance: 0.04
   },
   midday: {
     clarity: "high",
     softness: "medium",
-    pacing: "steady",
+    pacing: "execute",
+    rhythmMode: "execute",
     maxLines: 5,
     presenceChance: 0.05
   },
   evening: {
     clarity: "medium",
     softness: "high",
-    pacing: "reflect",
-    maxLines: 5,
-    presenceChance: 0.08
+    pacing: "stabilize",
+    rhythmMode: "stabilize",
+    maxLines: 4,
+    presenceChance: 0.07
   },
   late_night: {
     clarity: "low",
     softness: "high",
-    pacing: "slow",
-    maxLines: 4,
-    presenceChance: 0.12
+    pacing: "recover",
+    rhythmMode: "recover",
+    maxLines: 3,
+    presenceChance: 0.1
   }
 };
 

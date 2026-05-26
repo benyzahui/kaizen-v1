@@ -162,7 +162,15 @@ function maybeProgramWhisper(lang, userId, dateKey, chance = 0.07) {
  */
 function applyProgramAtmosphereFinalize(body, lang, session, userId, meta = {}) {
   const locked = lang === "hu" || lang === "ro" ? lang : "en";
-  let out = formatPremiumDailyMessage(body, meta.formatOpts);
+  const { applyRhythmIntelligenceFinalize } = require("../rhythm/rhythmIntelligenceEngine");
+  let pre = body;
+  if (session?.onboardingCompleted && meta.rhythmIntelligence !== false) {
+    pre = applyRhythmIntelligenceFinalize(pre, locked, session, userId, meta);
+    if (meta._rhythmFormatOpts) {
+      meta.formatOpts = { ...(meta.formatOpts || {}), ...meta._rhythmFormatOpts };
+    }
+  }
+  let out = formatPremiumDailyMessage(pre, meta.formatOpts);
 
   if (meta.quietPresence !== false && session?.onboardingCompleted) {
     const { resolveAtmosphereContext } = require("./atmosphereEngine");

@@ -18,6 +18,12 @@ const {
   maybeIdentityWhisper
 } = require("../retention/retentionRhythmEngine");
 const {
+  maybeContextualPresence,
+  maybeOneThingForSession,
+  maybeContinuityWhisper,
+  resolveRhythmProfile
+} = require("../rhythm/rhythmIntelligenceEngine");
+const {
   maybeLightActivation,
   resolveAwarenessContext
 } = require("../challenges/challengeSelector");
@@ -83,9 +89,25 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
   } else {
     actionBlock = `${L.todayAction}: ${pickDailyAction(phase, locked, userId, dateKey)}`;
   }
-  const touch = maybeMicroTouch(locked, session, userId, dateKey, 0.2, now);
+  const rhythmProfile = resolveRhythmProfile(session, "", now);
+  const touchChance = rhythmProfile.protocolIntensity === "low" ? 0.14 : 0.2;
+  const touch = maybeMicroTouch(locked, session, userId, dateKey, touchChance, now);
   const lightCheck = maybeLightCheckInLine(locked, session, userId, dateKey, phase, 0.1);
   const identityWhisper = maybeIdentityWhisper(locked, session, userId, dateKey, slot, 0.07);
+  const smartPresence = maybeContextualPresence(
+    locked,
+    session,
+    userId,
+    dateKey,
+    "",
+    rhythmProfile.signals.overloaded ? 0.16 : 0.1,
+    now
+  );
+  const oneThing =
+    rhythmProfile.signals.overloaded || rhythmProfile.signals.chaotic
+      ? maybeOneThingForSession(locked, session, userId, dateKey, "", now)
+      : null;
+  const continuity = maybeContinuityWhisper(locked, session, userId, dateKey, 0.06);
 
   let body = "";
 
@@ -110,9 +132,10 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       m.missionQuestion,
       "",
       actionBlock,
+      smartPresence || oneThing || "",
       touch || "",
       lightCheck || "",
-      identityWhisper || ""
+      identityWhisper || continuity || ""
     );
   } else if (phase === "midday") {
     const md = copy.midday;
@@ -131,9 +154,10 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       md.nowLines.join(", "),
       "",
       actionBlock,
+      smartPresence || oneThing || "",
       touch || "",
       lightCheck || "",
-      identityWhisper || ""
+      identityWhisper || continuity || ""
     );
   } else {
     const e = copy.evening;
@@ -153,9 +177,10 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       e.releaseQuestion,
       "",
       actionBlock,
+      smartPresence || oneThing || "",
       touch || "",
       lightCheck || "",
-      identityWhisper || ""
+      identityWhisper || continuity || ""
     );
   }
 
@@ -183,7 +208,14 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
     body = body.split("\n").slice(0, 18).join("\n");
   }
 
-  return formatPremiumDailyMessage(body, { maxLines: 17, maxChars: MAX_PHASE_CHARS });
+  const maxLines =
+    rhythmProfile.verbosity === "minimal"
+      ? Math.min(12, rhythmProfile.maxLines + 4)
+      : 17;
+  return formatPremiumDailyMessage(body, {
+    maxLines,
+    maxChars: rhythmProfile.verbosity === "minimal" ? 620 : MAX_PHASE_CHARS
+  });
 }
 
 module.exports = {

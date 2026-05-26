@@ -36,6 +36,7 @@ const { resolveNaturalLanguageRequest } = require("../i18n/languageLock");
 const { buildNaturalConversation } = require("../conversation/naturalConversation");
 const { tryCompanionCheckIn } = require("../companion/companionInitiation");
 const { tryRetentionReturn } = require("../retention/retentionRhythmEngine");
+const { trySmartPresenceOpen } = require("../rhythm/rhythmIntelligenceEngine");
 const { tryShortActionReply } = require("../companion/responseDepth");
 const { routeNaturalIntent } = require("../companion/naturalIntentRouter");
 const { tryConversationalFlow } = require("../companion/conversationalFlow");
@@ -88,7 +89,8 @@ const VARY_SKIP = new Set([
   "light_conversation",
   "emotional_reflection",
   "companion_checkin",
-  "retention_return"
+  "retention_return",
+  "rhythm_presence"
 ]);
 
 function maybeVaryReply(session, category, body, r) {
@@ -106,7 +108,8 @@ const CONTINUITY_SKIP = new Set([
   "natural_conversation",
   "light_conversation",
   "casual_greeting",
-  "retention_return"
+  "retention_return",
+  "rhythm_presence"
 ]);
 
 function withContinuity(session, category, body, r) {
@@ -517,6 +520,24 @@ async function handleOpenConversation(message, lang, session) {
     const cat = "light_conversation";
     const companionCtx = prepareCompanionContext(userId, text, session, lang, cat);
     return emitOpen(companionCtx, cat, shortAction, r, null);
+  }
+
+  const smartPresence = trySmartPresenceOpen(session, lang, userId, text);
+  if (smartPresence) {
+    const companionCtx = prepareCompanionContext(
+      userId,
+      text,
+      session,
+      lang,
+      smartPresence.category
+    );
+    logOpen({
+      lang,
+      category: smartPresence.category,
+      handler: "rhythm.trySmartPresenceOpen",
+      textPreview: text.slice(0, 80)
+    });
+    return emitOpen(companionCtx, smartPresence.category, smartPresence.body, r, null);
   }
 
   const retentionReturn = tryRetentionReturn(session, lang, userId, text);

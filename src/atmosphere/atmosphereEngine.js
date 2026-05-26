@@ -57,6 +57,8 @@ function resolveAtmosphereContext(session, lang, now = new Date()) {
   const locked = lang === "hu" || lang === "ro" ? lang : "en";
   const rhythmCtx = resolveRhythmContext(session, locked);
   const tone = resolveTimeAwareTone(session, now);
+  const { resolveRhythmProfile } = require("../rhythm/rhythmIntelligenceEngine");
+  const rhythmProfile = resolveRhythmProfile(session, "", now);
   const atmosphere = resolveAtmosphereState(session, now);
 
   const mantraTags = [...(rhythmCtx.pathMantraTags || [])];
@@ -78,9 +80,12 @@ function resolveAtmosphereContext(session, lang, now = new Date()) {
       timeSlot: tone.timeSlot
     },
     mantraTags,
-    maxLines: tone.maxLines,
+    maxLines: rhythmProfile.maxLines ?? tone.maxLines,
     pacing: tone.pacing,
-    softness: tone.softness
+    softness: tone.softness,
+    rhythmMode: rhythmProfile.rhythmMode,
+    protocolIntensity: rhythmProfile.protocolIntensity,
+    behaviorSignals: rhythmProfile.signals
   };
 }
 
