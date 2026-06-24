@@ -42,6 +42,11 @@ const { handlePanelCommand } = require("../panel/protocolPanelEngine");
 const { finalizeOutboundReply } = require("../i18n/hardLanguageLock");
 const { lines } = require("../personality/kaizenVoice");
 const { buildPathCommandReply } = require("../path/dailyPathEngine");
+const {
+  buildTodayCommand,
+  buildReflectionCommand,
+  buildChallengeCommand
+} = require("../knowledgeCore/dragonBlueprintCommands");
 
 const PROGRAM_WRAP = new Set(["/morning", "/energy", "/evening"]);
 
@@ -218,6 +223,24 @@ async function routeCommandMessage(message, session) {
       const s = getSession(id);
       reply = buildPathCommandReply({ ...s, userId: id }, lang, text);
       handler = "path:menu";
+      break;
+    }
+    case "/today": {
+      const id = uid(message);
+      reply = buildTodayCommand(id, getSession(id), lang);
+      handler = "dragon:today";
+      break;
+    }
+    case "/reflection": {
+      const id = uid(message);
+      reply = buildReflectionCommand(id, getSession(id), lang);
+      handler = "dragon:reflection";
+      break;
+    }
+    case "/challenge": {
+      const id = uid(message);
+      reply = buildChallengeCommand(id, getSession(id), lang);
+      handler = "dragon:challenge";
       break;
     }
     case "/language": {

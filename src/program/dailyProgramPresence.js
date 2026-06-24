@@ -30,6 +30,7 @@ const { syncRebuildingMode } = require("../rebuilding/rebuildingMode");
 const { pickRebuildingBundle } = require("../rebuilding/rebuildingEngine");
 const { shouldReducePressure } = require("../lifeBalance/pressureReduction");
 const { pickLifeBalanceBundle } = require("../lifeBalance/lifeBalanceEngine");
+const { maybeDragonBlueprintCompanion } = require("../knowledgeCore/dragonBlueprintCompanion");
 const {
   maybeLightActivation,
   resolveAwarenessContext
@@ -109,6 +110,7 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
     phase,
     now
   );
+  const blueprintCompanion = maybeDragonBlueprintCompanion(locked, phase, userId, dateKey, 0.1);
   const underPressure = shouldReducePressure(session, "", now);
   let touchChance = rhythmProfile.protocolIntensity === "low" ? 0.14 : 0.2;
   if (underPressure) touchChance = 0.08;
@@ -174,7 +176,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       hopePresence || "",
       communityPresence || "",
       rebuildingLine || "",
-      lifeBalanceLine || ""
+      lifeBalanceLine || "",
+      blueprintCompanion || ""
     );
   } else if (phase === "midday") {
     const md = copy.midday;
@@ -201,7 +204,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       hopePresence || "",
       communityPresence || "",
       rebuildingLine || "",
-      lifeBalanceLine || ""
+      lifeBalanceLine || "",
+      blueprintCompanion || ""
     );
   } else {
     const e = copy.evening;
@@ -229,7 +233,8 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
       hopePresence || "",
       communityPresence || "",
       rebuildingLine || "",
-      lifeBalanceLine || ""
+      lifeBalanceLine || "",
+      blueprintCompanion || ""
     );
   }
 

@@ -96,6 +96,19 @@ function pickAdaptiveMantra(slot, lang, session, userId, dateKey, now = new Date
   const ctx = resolveAtmosphereContext(session, lang, now);
   const phase = slot === "late_night" ? "evening" : slot;
 
+  const { pickKnowledgeMantra } = require("../knowledgeCore/knowledgeSelector");
+  const knowledge = pickKnowledgeMantra(
+    phase,
+    ctx.lang,
+    session,
+    userId,
+    dateKey,
+    ctx.rhythmCtx
+  );
+  if (knowledge?.id?.startsWith("morning_") || knowledge?.id?.startsWith("midday_") || knowledge?.id?.startsWith("evening_")) {
+    return knowledge;
+  }
+
   const expanded = pickExpandedMantra(
     phase,
     ctx.lang,

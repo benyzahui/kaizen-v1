@@ -3,7 +3,7 @@
  */
 
 const TIME_OF_DAY = ["morning", "midday", "evening", "late_night"];
-const ENERGY_STATES = ["exhausted", "low", "stable", "high"];
+const ENERGY_STATES = ["exhausted", "low", "stable", "high", "overstimulated"];
 const ACTIVE_PATHS = [
   "discipline",
   "energy",
@@ -62,7 +62,9 @@ function contentMatches(entry, ctx, phase) {
 
   const energy = ctx.energyState || "stable";
   if (entry.energy?.length && !entry.energy.includes(energy)) {
-    if (entry.intensity !== "low") return false;
+    if (energy === "overstimulated" && (entry.energy.includes("high") || entry.energy.includes("stable"))) {
+      // allow stabilization for overstimulated
+    } else if (entry.intensity !== "low") return false;
   }
 
   if (entry.modes?.length && ctx.activeMode) {

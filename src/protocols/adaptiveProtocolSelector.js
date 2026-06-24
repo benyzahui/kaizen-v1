@@ -79,8 +79,24 @@ function selectMicroProtocol(slot, lang, session, userId, dateKey, now = new Dat
   );
   if (recoveryProto) return recoveryProto;
 
+  const { pickKnowledgeProtocol } = require("../knowledgeCore/knowledgeSelector");
   const locked = lang === "hu" || lang === "ro" ? lang : "en";
   const rhythm = resolveRhythmContext(session, locked);
+  const kbProto = pickKnowledgeProtocol(slot, lang, session, userId, dateKey, rhythm);
+  if (kbProto?.actions?.length) {
+    return {
+      id: kbProto.id,
+      language: locked,
+      category: "recovery",
+      intensity: kbProto.intensity || "low",
+      phases: [slot === "late_night" ? "evening" : slot],
+      energy: rhythm.energyState ? [rhythm.energyState] : ["stable"],
+      modes: ["recovery", "discipline", "stabilization"],
+      title: kbProto.title || kbProto.text,
+      actions: kbProto.actions
+    };
+  }
+
   const atmosphere = resolveAtmosphereState(session, now);
   const ctx = {
     ...rhythm,

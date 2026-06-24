@@ -58,6 +58,8 @@ const DEFAULT_USER_PROFILE = {
   /** Life balance / real-life rhythm line ids */
   recentLifeBalanceLineIds: [],
   recentLightPresenceIds: [],
+  /** Knowledge Core entry ids — anti-repeat */
+  recentKnowledgeIds: [],
   recentChallengeIds: [],
   recentAwarenessIds: [],
   lastMiniChallengeAt: null,

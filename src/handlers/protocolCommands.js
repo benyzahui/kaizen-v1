@@ -30,7 +30,10 @@ const ALLOWED_COMMANDS = new Set([
   "/resume",
   "/stop",
   "/weekly",
-  "/path"
+  "/path",
+  "/today",
+  "/reflection",
+  "/challenge"
 ]);
 
 const ONBOARDING_SAFE = new Set(["/start", "/language", "/skip"]);
