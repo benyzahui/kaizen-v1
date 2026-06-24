@@ -125,6 +125,16 @@ function recordCheckInCompletion(userId, flow, lang, daily, session) {
     lastStreakUpdate: today
   });
 
+  const milestones = [7, 14, 21];
+  if (milestones.includes(rhythmRec.current)) {
+    try {
+      const { stageGifForContext } = require("../media/gifSelector");
+      stageGifForContext(userId, session, "streak_milestone", { force: true });
+    } catch {
+      // gif optional
+    }
+  }
+
   const parts = [
     copy.close[flow],
     copy.streakLine(rhythmRec.current),

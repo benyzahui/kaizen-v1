@@ -46,12 +46,12 @@ function startOnboarding(userId) {
 function getStartReply(lang, session) {
   const step = Number(session.onboardingStep);
   if (step === OB_LANG || step === undefined || Number.isNaN(step)) {
-    return getDisciplineStartReply(lang);
+    return getDisciplineStartReply(lang, session);
   }
   const r = getResponses(session.preferredLanguage || lang);
   if (step === 1) return r.protocolOnboarding?.askName || r.fcAskName;
   if (step === 2) return r.protocolOnboarding?.askPath || r.fcAskFocus;
-  return getDisciplineStartReply(lang);
+  return getDisciplineStartReply(lang, session);
 }
 
 function parsePathToken(raw) {

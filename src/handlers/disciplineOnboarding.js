@@ -3,7 +3,7 @@
  */
 
 const { lines } = require("../personality/kaizenVoice");
-const { buildWelcomeScreen } = require("../personality/v2/welcomeScreen");
+const { buildWelcomeScreen, buildLanguageLockConfirm } = require("../personality/v2/welcomeScreen");
 const { getResponses } = require("../i18n/getResponses");
 const { updateSession, getSession } = require("../session/sessionStore");
 const { mapPathToMode } = require("../core/protocolStateEngine");
@@ -47,8 +47,11 @@ function parsePathChoice(raw) {
 /**
  * @param {'en'|'hu'|'ro'} lang
  */
-function getDisciplineStartReply(lang) {
-  return buildWelcomeScreen(lang);
+function getDisciplineStartReply(lang, session) {
+  const noLang =
+    !session?.preferredLanguage ||
+    !(session.preferredLanguage === "en" || session.preferredLanguage === "hu" || session.preferredLanguage === "ro");
+  return buildWelcomeScreen(lang, { noLangSelected: noLang });
 }
 
 /**
@@ -81,7 +84,7 @@ function processDisciplineOnboarding(userId, text, session, lang) {
   if (step === OB_LANG) {
     const picked = parseLanguageChoice(raw);
     if (!picked) {
-      return { reply: buildWelcomeScreen(lang) };
+      return { reply: buildWelcomeScreen(lang, { noLangSelected: true }) };
     }
     updateSession(userId, {
       preferredLanguage: picked,
@@ -89,8 +92,12 @@ function processDisciplineOnboarding(userId, text, session, lang) {
       languageLocked: true,
       onboardingStep: OB_NAME
     });
+    const { stageGifForContext } = require("../media/gifSelector");
+    stageGifForContext(userId, getSession(userId), "first_welcome", { force: true });
     const r2 = getResponses(picked);
-    return { reply: r2.protocolOnboarding?.askName || r2.fcAskName };
+    const lockConfirm = buildLanguageLockConfirm(picked);
+    const askName = r2.protocolOnboarding?.askName || r2.fcAskName;
+    return { reply: lines(lockConfirm, "", askName) };
   }
 
   if (step === OB_NAME) {

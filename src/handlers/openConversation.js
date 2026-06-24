@@ -148,6 +148,31 @@ async function handleOpenConversation(message, lang, session) {
   }
 
   if (session.onboardingCompleted) {
+    const { tryEmotionalPresenceReply } = require("../presence/emotionalPresenceLayer");
+    const emotional = tryEmotionalPresenceReply(text, lang, session, userId);
+    if (emotional) {
+      const companionCtxEmo = prepareCompanionContext(
+        userId,
+        text,
+        session,
+        lang,
+        emotional.category
+      );
+      logOpen({
+        lang,
+        category: emotional.category,
+        handler: "emotionalPresenceLayer",
+        textPreview: text.slice(0, 80)
+      });
+      return emitOpen(
+        companionCtxEmo,
+        emotional.category,
+        emotional.body,
+        r,
+        emotional.suggestedAction
+      );
+    }
+
     const { classifyMessage: classifyQuick } = require("../conversation/classify");
     const { buildProtocolOpenResult } = require("../core/protocolEngine");
     const { protocolStatePatch } = require("../core/protocolStateEngine");

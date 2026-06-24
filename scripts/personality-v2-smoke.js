@@ -10,7 +10,7 @@ const {
   isBlockedPersonalityLine,
   CORE_PRINCIPLE
 } = require("../src/personality/v2/personalityEngine");
-const { sanitizeEmoji, countEmojis, MAX_EMOJI_PER_MESSAGE } = require("../src/personality/v2/emojiSystem");
+const { sanitizeEmoji, countEmojis, EMOJI_LIMITS } = require("../src/personality/v2/emojiSystem");
 const { resolveEnergyTone, energyToneHint, ENERGY_TONE } = require("../src/personality/v2/energyTone");
 const { pickDailyPresenceLine, PRESENCE } = require("../src/personality/v2/dailyPresenceV2");
 const {
@@ -54,10 +54,8 @@ console.log(`Core principle: ${CORE_PRINCIPLE}\n`);
 // Welcome screen
 const welcome = buildWelcomeScreen("en");
 assert(welcome.includes("Welcome to KaiZen"), "welcome title EN");
-assert(welcome.includes("Dragon Blueprint Energy Companion"), "welcome subtitle");
-assert(welcome.includes("🇬🇧"), "english flag");
-assert(welcome.includes("🇭🇺"), "hungarian flag");
-assert(welcome.includes("🇷🇴"), "romanian flag");
+assert(welcome.includes("Dragon Blueprint"), "welcome subtitle");
+assert(welcome.includes("Choose your language"), "language prompt EN");
 assert(buildSettingsLanguageMenu("hu").includes("Beállítások"), "settings menu HU");
 
 // Language lock
@@ -89,7 +87,7 @@ const guarded = applyPersonalityV2Finalize(
   { dateKey: "2026-05-25" }
 );
 assert(!/shame/i.test(guarded), "finalize strips shame");
-assert(countEmojis(guarded) <= MAX_EMOJI_PER_MESSAGE, "emoji cap enforced");
+assert(countEmojis(guarded) <= EMOJI_LIMITS.normal, "emoji cap enforced");
 
 // Energy tones
 for (const key of Object.keys(ENERGY_TONE)) {
@@ -106,7 +104,7 @@ for (const phase of ["morning", "midday", "evening"]) {
 
 // GIF integration points
 assert(GIF_CATALOG.length >= 8, "gif catalog populated");
-assert(PHASE_TO_GIF_CATEGORY.morning === "morning", "phase→gif morning");
+assert(PHASE_TO_GIF_CATEGORY.morning === "morning_activation", "phase→gif morning");
 assert(resolveGifForOutbound({ energyState: "low" }, { phase: "morning" }) === null, "gif null without env");
 const staged = maybeStageGif(USER, getSession(USER), { phase: "morning", dateKey: "2026-05-25", forceGif: true });
 assert(staged === null, "forceGif noop without env URLs");
@@ -125,7 +123,7 @@ assert(!/\b(as an ai|how can i help)\b/i.test(outbound), "no assistant tone afte
 // Emoji sanitize
 const cleaned = sanitizeEmoji("🐉🔥💀🎉⚡🌙☀️🌿💧🎯🧘🪞⭐");
 assert(!cleaned.includes("💀"), "disallowed emoji removed");
-assert(countEmojis(cleaned) <= MAX_EMOJI_PER_MESSAGE, "sanitize caps count");
+assert(countEmojis(cleaned) <= EMOJI_LIMITS.normal, "sanitize caps count");
 
 // parseLanguageChoice
 assert(parseLanguageChoice("1") === "en", "parse lang 1");

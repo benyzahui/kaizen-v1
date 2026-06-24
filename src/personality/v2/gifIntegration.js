@@ -1,14 +1,13 @@
 /**
- * GIF outbound hook — rare, context-matched animations.
+ * GIF outbound hook — delegates to media/gifSelector.
  */
 
-const { pickGifForCategory } = require("./gifCatalog");
-const { updateSession } = require("../../session/sessionStore");
+const { selectGif, stageGifForContext, clearPendingGif } = require("../../media/gifSelector");
 
 const PHASE_TO_GIF_CATEGORY = {
-  morning: "morning",
+  morning: "morning_activation",
   midday: "discipline",
-  evening: "recovery",
+  evening: "evening_reset",
   late_night: "recovery"
 };
 
@@ -22,15 +21,19 @@ function resolveGifForOutbound(session, meta = {}) {
   if (session?.pendingGifUrl) return session.pendingGifUrl;
 
   const phase = meta.phase || session?.protocolState?.phase;
-  const category =
-    meta.gifCategory ||
-    PHASE_TO_GIF_CATEGORY[phase] ||
+  const context =
+    meta.gifContext ||
+    (phase ? PHASE_TO_GIF_CATEGORY[phase] : null) ||
     (meta.category === "celebration" ? "celebration" : null);
 
-  if (!category) return null;
+  if (!context) return null;
 
-  const energy = session?.energyState || session?.protocolState?.energyState;
-  const picked = pickGifForCategory(category, energy);
+  const userId = meta.userId || session?.userId || "0";
+  const picked = selectGif(context, userId, session, {
+    category: meta.gifCategory,
+    dateKey: meta.dateKey,
+    force: meta.forceGif
+  });
   return picked?.url || null;
 }
 
@@ -40,14 +43,15 @@ function resolveGifForOutbound(session, meta = {}) {
  */
 function stagePendingGif(userId, url) {
   if (!url) return;
+  const { updateSession } = require("../../session/sessionStore");
   updateSession(userId, { pendingGifUrl: url });
 }
 
 /**
  * @param {string|number} userId
  */
-function clearPendingGif(userId) {
-  updateSession(userId, { pendingGifUrl: null });
+function clearPendingGifHook(userId) {
+  clearPendingGif(userId);
 }
 
 /**
@@ -57,25 +61,27 @@ function clearPendingGif(userId) {
  */
 function maybeStageGif(userId, session, meta = {}, chance = 0.08) {
   if (meta.forceGif) {
-    const url = resolveGifForOutbound(session, meta);
-    if (url) stagePendingGif(userId, url);
+    const url = resolveGifForOutbound(session, { ...meta, userId, forceGif: true });
+    if (url) {
+      const { updateSession } = require("../../session/sessionStore");
+      updateSession(userId, { pendingGifUrl: url });
+    }
     return url;
   }
 
-  const seed = `${userId}|gif|${meta.dateKey || ""}|${meta.phase || ""}`;
-  let h = 0;
-  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
-  if (h % 25 >= Math.floor(chance * 25)) return null;
-
-  const url = resolveGifForOutbound(session, meta);
-  if (url) stagePendingGif(userId, url);
-  return url;
+  const phase = meta.phase || session?.protocolState?.phase;
+  const context = phase ? PHASE_TO_GIF_CATEGORY[phase] : "recovery_encouragement";
+  const picked = stageGifForContext(userId, session, context, {
+    dateKey: meta.dateKey,
+    chance
+  });
+  return picked?.url || null;
 }
 
 module.exports = {
   resolveGifForOutbound,
   stagePendingGif,
-  clearPendingGif,
+  clearPendingGif: clearPendingGifHook,
   maybeStageGif,
   PHASE_TO_GIF_CATEGORY
 };

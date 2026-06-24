@@ -1,86 +1,58 @@
 /**
- * Dragon Blueprint Daily Path menu.
+ * Dragon Blueprint Daily Path menu — calm hub, not a command dump.
  */
 
 const { lines } = require("../personality/kaizenVoice");
-const { dragonTierName, evaluateDragonProgression } = require("./dragonProgression");
-const { getNextProgramCommand } = require("../program/dailyProgramEngine");
 
 const MENU = {
   en: {
     title: "🐉 Daily Path",
+    subtitle: "Choose where you want to return today:",
     items: [
-      "🐉 Daily Path — /program",
-      "⚡ Energy Check — /midday",
-      "🧘 Breathwork — /breath",
-      "📖 Dragon Wisdom — /today",
-      "🎯 Challenge — /challenge",
-      "🪞 Reflection — /reflection",
-      "⚙️ Settings — /language"
+      "⚡ Energy Check",
+      "🧘 Breathwork",
+      "📖 Dragon Wisdom",
+      "🎯 Challenge",
+      "🪞 Reflection",
+      "⚙️ Settings"
     ],
-    tier: "Dragon tier:",
-    next: "Next step:"
+    hints: ["/midday", "/breath", "/today", "/challenge", "/reflection", "/language"]
   },
   hu: {
     title: "🐉 Napi Út",
+    subtitle: "Válaszd ki, hova térsz vissza ma:",
     items: [
-      "🐉 Napi Út — /program",
-      "⚡ Energia — /midday",
-      "🧘 Légzés — /breath",
-      "📖 Dragon Bölcsesség — /today",
-      "🎯 Kihívás — /challenge",
-      "🪞 Reflexió — /reflection",
-      "⚙️ Beállítások — /language"
+      "⚡ Energia ellenőrzés",
+      "🧘 Légzés",
+      "📖 Sárkány bölcsesség",
+      "🎯 Kihívás",
+      "🪞 Reflexió",
+      "⚙️ Beállítások"
     ],
-    tier: "Sárkány szint:",
-    next: "Következő lépés:"
+    hints: ["/midday", "/breath", "/today", "/challenge", "/reflection", "/language"]
   },
   ro: {
     title: "🐉 Calea Zilnică",
+    subtitle: "Alege unde revii astăzi:",
     items: [
-      "🐉 Calea Zilnică — /program",
-      "⚡ Energie — /midday",
-      "🧘 Respirație — /breath",
-      "📖 Înțelepciune Dragon — /today",
-      "🎯 Provocare — /challenge",
-      "🪞 Reflecție — /reflection",
-      "⚙️ Setări — /language"
+      "⚡ Verificare energie",
+      "🧘 Respirație",
+      "📖 Înțelepciunea Dragonului",
+      "🎯 Provocare",
+      "🪞 Reflecție",
+      "⚙️ Setări"
     ],
-    tier: "Nivel Dragon:",
-    next: "Următorul pas:"
+    hints: ["/midday", "/breath", "/today", "/challenge", "/reflection", "/language"]
   }
 };
 
 /**
  * @param {'en'|'hu'|'ro'} lang
- * @param {object} session
  */
-function buildDailyPathMenu(lang, session) {
+function buildDailyPathMenu(lang) {
   const locked = lang === "hu" || lang === "ro" ? lang : "en";
   const M = MENU[locked] || MENU.en;
-  const tier = dragonTierName(session, locked);
-  const { promote, nextTier } = evaluateDragonProgression(session);
-  const next = getNextProgramCommand(session);
-
-  const promo =
-    promote && nextTier
-      ? locked === "hu"
-        ? `⭐ Közeledés: ${nextTier.names.hu}`
-        : locked === "ro"
-          ? `⭐ Progres: ${nextTier.names.ro}`
-          : `⭐ Approaching: ${nextTier.names.en}`
-      : "";
-
-  return lines(
-    M.title,
-    "",
-    `${M.tier} ${tier}`,
-    promo,
-    "",
-    ...M.items,
-    "",
-    `${M.next} ${next}`
-  );
+  return lines(M.title, "", M.subtitle, "", ...M.items);
 }
 
 module.exports = { MENU, buildDailyPathMenu };

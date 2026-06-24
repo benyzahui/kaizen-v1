@@ -81,10 +81,10 @@ clearSession(UID);
 updateSession(UID, baseSession({ dragonLevel: 6 }));
 assert(dragonTierName(getSession(UID), "en") === "Golden Dragon", "golden dragon advanced");
 
-const menu = buildDailyPathMenu("en", baseSession());
+const menu = buildDailyPathMenu("en");
 assert(menu.includes("Daily Path"), "menu title");
-assert(menu.includes("/challenge"), "menu challenge");
-assert(menu.includes("/breath"), "menu breathwork");
+assert(menu.includes("Energy Check"), "menu energy check");
+assert(menu.includes("Breathwork"), "menu breathwork");
 
 console.log("\n7-day journey simulation:\n");
 const journey = [];

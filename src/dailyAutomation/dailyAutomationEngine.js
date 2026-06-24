@@ -68,11 +68,19 @@ function buildDailyAutomationMessage(phase, session, userId, dateKey, now = new 
 
   if (!body) return null;
 
+  const { stageGifForContext } = require("../media/gifSelector");
+  if (phase === "morning") {
+    stageGifForContext(userId, session, "morning_activation", { dateKey: dk });
+  } else if (phase === "evening") {
+    stageGifForContext(userId, session, "evening_reset", { dateKey: dk });
+  }
+
   return finalizeOutboundReply(body, lang, session, userId, {
     dateKey: dk,
     phase,
     openingId: `auto_${phase}_${dk}`,
     automation: true,
+    scheduled: true,
     dailyPresenceV2: false,
     quietPresence: false,
     programWhisper: false,

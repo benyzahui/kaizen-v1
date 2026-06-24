@@ -14,7 +14,7 @@ const {
   AI_ASSISTANT_RE,
   VOICE
 } = require("./dragonIdentity");
-const { sanitizeEmoji } = require("./emojiSystem");
+const { sanitizeEmoji, resolveEmojiCap } = require("./emojiSystem");
 const { energyToneHint } = require("./energyTone");
 const { maybeDailyPresenceOpener } = require("./dailyPresenceV2");
 const { maybeStageGif } = require("./gifIntegration");
@@ -93,7 +93,7 @@ function applyPersonalityV2Finalize(body, lang, session, userId, meta = {}) {
   if (!meta.automation && !String(meta.openingId || "").startsWith("auto_")) {
     out = capVerbosity(out);
   }
-  out = sanitizeEmoji(out);
+  out = sanitizeEmoji(out, resolveEmojiCap(meta));
 
   const dateKey = meta.dateKey || new Date().toISOString().slice(0, 10);
   const phase =

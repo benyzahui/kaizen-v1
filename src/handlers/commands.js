@@ -119,6 +119,8 @@ async function routeCommandMessage(message, session) {
         break;
       }
       startOnboarding(id);
+      const { stageGifForContext } = require("../media/gifSelector");
+      stageGifForContext(id, getSession(id), "welcome", { force: true });
       reply = getStartReply(lang, getSession(id));
       break;
     }
@@ -227,7 +229,7 @@ async function routeCommandMessage(message, session) {
       break;
     }
     case "/menu": {
-      reply = buildDailyPathMenu(lang, getSession(uid(message)));
+      reply = buildDailyPathMenu(lang);
       handler = "daily:menu";
       break;
     }

@@ -1,5 +1,5 @@
 /**
- * V2 emoji system — allowed set, max 3–5 per message.
+ * V2 emoji system — premium Dragon Blueprint signaling only.
  */
 
 const ALLOWED_EMOJI = new Set([
@@ -13,16 +13,29 @@ const ALLOWED_EMOJI = new Set([
   "🎯",
   "🧘",
   "🪞",
-  "⭐",
-  "⚔",
-  "🌘",
-  "🫀",
-  "🌱",
-  "🌊"
+  "⭐"
 ]);
 
-const MAX_EMOJI_PER_MESSAGE = 5;
+const BLOCKED_EMOJI = new Set(["🤣", "😂", "🤪", "💀", "🤡", "😭", "🥵", "😈"]);
+
+const EMOJI_LIMITS = {
+  normal: 3,
+  scheduled: 5,
+  celebration: 6
+};
+
 const EMOJI_CHAR_RE = /[\u{1F300}-\u{1FAFF}\u2600-\u27BF]/gu;
+
+/**
+ * @param {object} [meta]
+ */
+function resolveEmojiCap(meta = {}) {
+  if (meta.celebration) return EMOJI_LIMITS.celebration;
+  if (meta.automation || meta.scheduled || String(meta.openingId || "").startsWith("auto_")) {
+    return EMOJI_LIMITS.scheduled;
+  }
+  return EMOJI_LIMITS.normal;
+}
 
 /**
  * @param {string} text
@@ -33,16 +46,19 @@ function countEmojis(text) {
 }
 
 /**
- * Remove disallowed emoji; cap total count.
  * @param {string} body
+ * @param {number} [max]
  */
-function sanitizeEmoji(body) {
+function sanitizeEmoji(body, max = EMOJI_LIMITS.normal) {
   let text = String(body || "");
-  text = text.replace(EMOJI_CHAR_RE, (m) => (ALLOWED_EMOJI.has(m) ? m : ""));
+  text = text.replace(EMOJI_CHAR_RE, (m) => {
+    if (BLOCKED_EMOJI.has(m)) return "";
+    return ALLOWED_EMOJI.has(m) ? m : "";
+  });
   let total = 0;
   return text
     .replace(EMOJI_CHAR_RE, (m) => {
-      if (total >= MAX_EMOJI_PER_MESSAGE) return "";
+      if (total >= max) return "";
       total += 1;
       return m;
     })
@@ -51,7 +67,10 @@ function sanitizeEmoji(body) {
 
 module.exports = {
   ALLOWED_EMOJI,
-  MAX_EMOJI_PER_MESSAGE,
+  BLOCKED_EMOJI,
+  EMOJI_LIMITS,
+  EMOJI_CHAR_RE,
+  resolveEmojiCap,
   countEmojis,
   sanitizeEmoji
 };
