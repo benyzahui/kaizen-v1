@@ -1,6 +1,6 @@
 KAIZEN V1 — FINAL PRESENCE REPORT
 
-Generated: 2026-05-26T07:09:45.755Z
+Generated: 2026-06-24T07:00:32.870Z
 
 {
   "days": 14,
@@ -8,11 +8,11 @@ Generated: 2026-05-26T07:09:45.755Z
   "passed": true,
   "uniqueDailyBodies": 18,
   "uniqueLightMoments": 9,
-  "lightMomentRate": 0.8333333333333334,
+  "lightMomentRate": 0.7619047619047619,
   "poolSize": 27,
   "avgPremiumScore": 87,
   "avgAiTraceScore": 0,
-  "maxChars": 154,
+  "maxChars": 153,
   "calmRate": 1,
   "supportRate": 1,
   "eveningSafeRate": 1,
