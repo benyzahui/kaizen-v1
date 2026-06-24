@@ -41,6 +41,7 @@ const {
 } = require("../companion/onboardingGate");
 const { tryConsumeFocusReply } = require("../handlers/planTracking");
 const { tryConsumeDailyCheckInReply } = require("../tracking/dailyCheckInFlow");
+const { tryConsumeMiddayEnergyReply } = require("../dailyAutomation/middayEnergyFlow");
 const { conversation: logConversation } = require("../logging/log");
 
 function userIdFrom(message) {
@@ -132,6 +133,24 @@ async function processIncomingMessage(message) {
     };
   }
   const lang = langReq.lang;
+
+  const middayEnergy = tryConsumeMiddayEnergyReply(userId, trimmed, lang, session);
+  if (middayEnergy) {
+    const finalized = finalizeOutboundReply(
+      middayEnergy,
+      lang,
+      getSession(userId),
+      userId,
+      { openingId: "midday_energy", phase: "midday", dateKey: new Date().toISOString().slice(0, 10) }
+    );
+    return {
+      reply: finalized,
+      branch: "midday_energy",
+      lang,
+      category: "midday_energy",
+      command: null
+    };
+  }
 
   const checkIn = tryConsumeDailyCheckInReply(userId, trimmed, lang, session);
   if (checkIn) {

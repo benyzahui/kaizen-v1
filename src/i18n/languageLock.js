@@ -22,7 +22,10 @@ function resolveNaturalLanguageRequest(userId, text, session, activeLang) {
   const r = getResponses(activeLang);
   const pref = session?.preferredLanguage;
 
-  if (session?.onboardingCompleted && (pref === "en" || pref === "hu" || pref === "ro")) {
+  if (
+    (session?.languageLocked || session?.onboardingCompleted) &&
+    (pref === "en" || pref === "hu" || pref === "ro")
+  ) {
     if (sw.lang === pref) {
       return {
         reply: r.langAlreadyActive,

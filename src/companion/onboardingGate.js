@@ -47,6 +47,10 @@ function isSafeOnboardingCommand(command) {
  */
 function lockLanguageFromFirstMessage(userId, text, session) {
   if (isOnboardingComplete(session)) return null;
+  if (session?.languageLocked) {
+    const locked = session?.preferredLanguage;
+    return locked === "hu" || locked === "ro" || locked === "en" ? locked : null;
+  }
   const pref = session?.preferredLanguage;
   if (pref === "hu" || pref === "ro" || pref === "en") return pref;
 

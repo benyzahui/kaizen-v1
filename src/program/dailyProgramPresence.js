@@ -2,6 +2,7 @@
  * Daily program presence — Dragon Blueprint rhythm, one action, no spam.
  */
 
+const { pickDailyPresenceLine } = require("../personality/v2/dailyPresenceV2");
 const { lines } = require("../personality/kaizenVoice");
 const { pickSeeded } = require("../personality/kaizenVoice");
 const { pickAdaptiveMantra } = require("../atmosphere/atmosphereEngine");
@@ -145,12 +146,15 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
     now
   );
 
+  const v2Presence = pickDailyPresenceLine(locked, phase, userId, dateKey, session).split("\n")[0];
+
   let body = "";
 
   if (phase === "morning") {
     const m = copy.morning;
     body = lines(
       copy.programTag,
+      v2Presence,
       identity,
       pathCue || "",
       "",
@@ -183,6 +187,7 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
     const md = copy.midday;
     body = lines(
       copy.programTag,
+      v2Presence,
       identity,
       "",
       md.title,
@@ -211,6 +216,7 @@ function buildDailyPhasePresence(phase, lang, session, userId, dateKey, now = ne
     const e = copy.evening;
     body = lines(
       copy.programTag,
+      v2Presence,
       identity,
       pathCue || "",
       "",

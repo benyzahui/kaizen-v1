@@ -10,10 +10,13 @@
  */
 
 const { getSession, updateSession } = require("../session/sessionStore");
-const { buildDailyPhasePresence } = require("../program/dailyProgramPresence");
 const { finalizeOutboundReply } = require("../i18n/hardLanguageLock");
 const { requireLockedLanguage } = require("../i18n/hardLanguageLock");
-const { shouldSendScheduledPush } = require("../program/dailyProgramEngine");
+const {
+  buildDailyAutomationMessage,
+  sendDailyAutomation,
+  simulateDailyAutomationDay
+} = require("../dailyAutomation/dailyAutomationEngine");
 
 const DEFAULT_TZ = "Europe/Bucharest";
 
@@ -31,51 +34,21 @@ function resolveSchedulerLang(session) {
  * @param {object} session
  * @param {string|number} userId
  * @param {string} [dateKey]
- */
-/**
- * @param {'morning'|'midday'|'evening'} phase
- * @param {object} session
- * @param {string|number} userId
- * @param {string} [dateKey]
  * @param {Date} [now]
  */
 function buildScheduledRhythmMessage(phase, session, userId, dateKey, now = new Date()) {
-  const lang = resolveSchedulerLang(session);
-  if (!lang) return null;
-
-  const dk = dateKey || new Date().toISOString().slice(0, 10);
-  const body = buildDailyPhasePresence(phase, lang, session, userId, dk, now);
-  if (!body) return null;
-
-  return finalizeOutboundReply(body, lang, session, userId, {
-    dateKey: dk,
-    openingId: `sched_${phase}_${dk}`,
-    quietPresence: true,
-    programWhisper: true
-  });
+  return buildDailyAutomationMessage(phase, session, userId, dateKey, now);
 }
 
 /**
  * @param {string|number} userId
  * @param {object} [opts]
- * @returns {{ sent: boolean, preview: string|null, lang: string|null }}
  */
 function sendMorningActivation(userId, opts = {}) {
   const session = opts.sessionOverride
     ? { ...getSession(userId), ...opts.sessionOverride }
     : getSession(userId);
-  if (!opts.force && !shouldSendScheduledPush(session)) {
-    return { sent: false, preview: null, lang: null, error: "scheduler_not_eligible" };
-  }
-  const lang = resolveSchedulerLang(session);
-  if (!lang) {
-    return { sent: false, preview: null, lang: null, error: "language_not_set" };
-  }
-  const text = buildScheduledRhythmMessage("morning", session, userId, opts.dateKey);
-  if (!text) return { sent: false, preview: null, lang, error: "build_failed" };
-  updateSession(userId, { lastScheduledMorning: Date.now() });
-  if (opts.sendFn) opts.sendFn(userId, text);
-  return { sent: Boolean(opts.sendFn), preview: text, lang };
+  return sendDailyAutomation("morning", userId, { ...opts, session });
 }
 
 /**
@@ -86,18 +59,7 @@ function sendMiddayStabilization(userId, opts = {}) {
   const session = opts.sessionOverride
     ? { ...getSession(userId), ...opts.sessionOverride }
     : getSession(userId);
-  if (!opts.force && !shouldSendScheduledPush(session)) {
-    return { sent: false, preview: null, lang: null, error: "scheduler_not_eligible" };
-  }
-  const lang = resolveSchedulerLang(session);
-  if (!lang) {
-    return { sent: false, preview: null, lang: null, error: "language_not_set" };
-  }
-  const text = buildScheduledRhythmMessage("midday", session, userId, opts.dateKey);
-  if (!text) return { sent: false, preview: null, lang, error: "build_failed" };
-  updateSession(userId, { lastScheduledMidday: Date.now() });
-  if (opts.sendFn) opts.sendFn(userId, text);
-  return { sent: Boolean(opts.sendFn), preview: text, lang };
+  return sendDailyAutomation("midday", userId, { ...opts, session });
 }
 
 /**
@@ -108,31 +70,14 @@ function sendEveningReset(userId, opts = {}) {
   const session = opts.sessionOverride
     ? { ...getSession(userId), ...opts.sessionOverride }
     : getSession(userId);
-  if (!opts.force && !shouldSendScheduledPush(session)) {
-    return { sent: false, preview: null, lang: null, error: "scheduler_not_eligible" };
-  }
-  const lang = resolveSchedulerLang(session);
-  if (!lang) {
-    return { sent: false, preview: null, lang: null, error: "language_not_set" };
-  }
-  const text = buildScheduledRhythmMessage("evening", session, userId, opts.dateKey);
-  if (!text) return { sent: false, preview: null, lang, error: "build_failed" };
-  updateSession(userId, { lastScheduledEvening: Date.now() });
-  if (opts.sendFn) opts.sendFn(userId, text);
-  return { sent: Boolean(opts.sendFn), preview: text, lang };
+  return sendDailyAutomation("evening", userId, { ...opts, session });
 }
 
 /**
- * Run all three slots for one user (simulation / manual test).
  * @param {string|number} userId
  */
 function simulateDailyRhythmDay(userId) {
-  const dk = new Date().toISOString().slice(0, 10);
-  return {
-    morning: sendMorningActivation(userId, { dateKey: dk }),
-    midday: sendMiddayStabilization(userId, { dateKey: dk }),
-    evening: sendEveningReset(userId, { dateKey: dk })
-  };
+  return simulateDailyAutomationDay(userId, { force: true });
 }
 
 module.exports = {

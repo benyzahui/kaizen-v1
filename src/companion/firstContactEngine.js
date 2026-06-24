@@ -76,6 +76,10 @@ function lockedLang(session, fallback) {
 }
 
 function detectAndLockLanguage(userId, text, session) {
+  if (session?.languageLocked) {
+    const p = session?.preferredLanguage;
+    if (p === "hu" || p === "ro" || p === "en") return p;
+  }
   const detected = detectLanguage(text);
   const hu = scoreHungarian(text);
   const ro = scoreRomanian(text);

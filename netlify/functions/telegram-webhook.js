@@ -9,7 +9,7 @@
  *   use logs for real failures.
  */
 
-const { sendMessage } = require("../../src/telegram");
+const { sendMessage, sendAnimation } = require("../../src/telegram");
 const { extractCommand, isCommandText } = require("../../src/handlers/commands");
 const { resolveLanguageWithSession } = require("../../src/i18n/languageDetect");
 const { getResponses } = require("../../src/i18n/getResponses");
@@ -128,6 +128,17 @@ exports.handler = async (event) => {
         message.chat.id,
         String(reply || "").trim() || "Send a short line when you can."
       );
+      const after = getSession(uid);
+      const gifUrl = after?.pendingGifUrl;
+      if (gifUrl) {
+        try {
+          await sendAnimation(message.chat.id, gifUrl);
+          const { clearPendingGif } = require("../../src/personality/v2/gifIntegration");
+          clearPendingGif(uid);
+        } catch (gifErr) {
+          log.recovery("sendAnimation failed", { message: gifErr.message });
+        }
+      }
     } catch (sendErr) {
       log.recovery("sendMessage failed", { message: sendErr.message });
       try {

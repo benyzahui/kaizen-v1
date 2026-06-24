@@ -31,6 +31,7 @@ const ALLOWED_COMMANDS = new Set([
   "/stop",
   "/weekly",
   "/path",
+  "/menu",
   "/today",
   "/reflection",
   "/challenge"

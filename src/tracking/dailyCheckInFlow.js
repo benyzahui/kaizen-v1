@@ -14,7 +14,8 @@ const {
 const { buildDailyStatusSnapshot } = require("./statusEngine");
 const { advancePhaseAfterCheckIn, isProgramActive } = require("../program/dailyProgramEngine");
 const { recordCheckInCompletion } = require("../consistency/streakEngine");
-const { buildDailyPhasePresence } = require("../program/dailyProgramPresence");
+const { buildDailyAutomationMessage } = require("../dailyAutomation/dailyAutomationEngine");
+const { armMiddayEnergyCheck } = require("../dailyAutomation/middayStabilization");
 
 function buildCheckInCompleteReply(userId, flow, lang, daily, session) {
   const streakBlock = recordCheckInCompletion(userId, flow, lang, daily, session);
@@ -81,6 +82,11 @@ function startCheckIn(userId, session, flow, lang) {
 function buildCheckInPrompt(lang, flow, session, userId, now = new Date()) {
   const locked = lang === "hu" || lang === "ro" ? lang : "en";
   const dk = todayKey(now);
+  const body = buildDailyAutomationMessage(flow, session, userId, dk, now, {
+    armMiddayEnergy: flow === "midday"
+  });
+  if (body) return body;
+  const { buildDailyPhasePresence } = require("../program/dailyProgramPresence");
   return buildDailyPhasePresence(flow, locked, session, userId, dk, now);
 }
 
@@ -101,6 +107,8 @@ function buildMorningCheckInCommand(userId, session, lang) {
 
 function buildMiddayCheckInCommand(userId, session, lang) {
   startCheckIn(userId, session, "midday", lang);
+  const dk = todayKey();
+  armMiddayEnergyCheck(userId, lang, dk);
   return buildCheckInPrompt(lang, "midday", session, userId);
 }
 

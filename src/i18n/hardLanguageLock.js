@@ -104,7 +104,31 @@ function finalizeOutboundReply(body, lang, session, userId, meta = {}) {
     dateKey: meta.dateKey,
     quietPresence: meta.quietPresence,
     programWhisper: meta.programWhisper,
-    formatOpts: meta.formatOpts
+    formatOpts: meta.formatOpts,
+    phase: meta.phase,
+    hopePresence: meta.hopePresence,
+    communityPresence: meta.communityPresence,
+    rebuilding: meta.rebuilding,
+    lifeBalance: meta.lifeBalance,
+    lightPresence: meta.lightPresence,
+    rhythmIntelligence: meta.rhythmIntelligence,
+    now: meta.now,
+    inboundText: meta.inboundText
+  });
+
+  const { applyPersonalityV2Finalize } = require("../personality/v2/personalityEngine");
+  const phaseFromCmd =
+    meta.openingId === "cmd_/morning"
+      ? "morning"
+      : meta.openingId === "cmd_/midday"
+        ? "midday"
+        : meta.openingId === "cmd_/evening"
+          ? "evening"
+          : meta.phase;
+  out = applyPersonalityV2Finalize(out, locked, session, userId, {
+    ...meta,
+    phase: phaseFromCmd,
+    dailyPresenceV2: Boolean(phaseFromCmd)
   });
 
   const { recordOutboundReply } = require("../memory/recentReplyMemory");

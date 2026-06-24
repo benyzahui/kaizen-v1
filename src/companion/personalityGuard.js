@@ -10,6 +10,15 @@ const { HYPE_RE } = require("./atmospherePresence");
 const BREAKS_IDENTITY_RE =
   /\b(as an AI|language model|I cannot feel|I don't have feelings|motivation guru|alpha male|sigma grind|manifest the universe|you got this king|queen energy)\b/i;
 
+const {
+  SHAME_RE,
+  JUDGE_RE,
+  ARGUE_RE,
+  LECTURE_RE,
+  THERAPY_RE,
+  AI_ASSISTANT_RE
+} = require("../personality/v2/dragonIdentity");
+
 const JUDGMENT_RE =
   /\b(you failed|failed your discipline|no excuses|weakness is|te vagy gyenge|kudarcot vallottál|lipsă de disciplină)\b/i;
 
@@ -30,7 +39,9 @@ function applyPersonalityGuard(body, lang, category) {
     if (!l) return true;
     if (BREAKS_IDENTITY_RE.test(l)) return false;
     if (HYPE_RE.test(l) && category !== "onboarding") return false;
-    if (JUDGMENT_RE.test(l)) return false;
+    if (JUDGMENT_RE.test(l) || SHAME_RE.test(l) || JUDGE_RE.test(l)) return false;
+    if (ARGUE_RE.test(l) || LECTURE_RE.test(l) || THERAPY_RE.test(l)) return false;
+    if (AI_ASSISTANT_RE.test(l)) return false;
     if (WISDOM_RE.test(l) && category !== "onboarding") return false;
     if (isDragonCringe(l) && category !== "onboarding") return false;
     return true;

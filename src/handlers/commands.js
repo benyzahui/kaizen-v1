@@ -47,6 +47,7 @@ const {
   buildReflectionCommand,
   buildChallengeCommand
 } = require("../knowledgeCore/dragonBlueprintCommands");
+const { buildDailyPathMenu } = require("../dailyAutomation/dailyPathMenu");
 
 const PROGRAM_WRAP = new Set(["/morning", "/energy", "/evening"]);
 
@@ -225,6 +226,11 @@ async function routeCommandMessage(message, session) {
       handler = "path:menu";
       break;
     }
+    case "/menu": {
+      reply = buildDailyPathMenu(lang, getSession(uid(message)));
+      handler = "daily:menu";
+      break;
+    }
     case "/today": {
       const id = uid(message);
       reply = buildTodayCommand(id, getSession(id), lang);
@@ -244,10 +250,11 @@ async function routeCommandMessage(message, session) {
       break;
     }
     case "/language": {
+      const { buildSettingsLanguageMenu } = require("../personality/v2/welcomeScreen");
       const parts = String(text).trim().split(/\s+/);
       const arg = parts[1];
       if (!arg) {
-        reply = r.cmdLanguageMenu;
+        reply = buildSettingsLanguageMenu(lang);
         break;
       }
       const n = parseInt(arg, 10);
@@ -257,7 +264,7 @@ async function routeCommandMessage(message, session) {
         reply = r.cmdLanguageInvalid;
         break;
       }
-      updateSession(uid(message), { preferredLanguage: sel, lang: sel });
+      updateSession(uid(message), { preferredLanguage: sel, lang: sel, languageLocked: true });
       const r2 = getResponses(sel);
       reply = r2.cmdLanguageConfirm(sel);
       break;

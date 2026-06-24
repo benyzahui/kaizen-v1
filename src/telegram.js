@@ -50,4 +50,45 @@ async function sendMessage(chatId, text) {
   return JSON.parse(bodyText);
 }
 
-module.exports = { sendMessage };
+async function sendAnimation(chatId, animation) {
+  const url = `${getApiBase()}/sendAnimation`;
+  const controller = new AbortController();
+  const kill = setTimeout(() => controller.abort(), SEND_TIMEOUT_MS);
+  const payload = { chat_id: chatId };
+  if (String(animation).startsWith("http")) {
+    payload.animation = animation;
+  } else {
+    payload.animation = animation;
+  }
+  let response;
+  try {
+    response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+  } catch (err) {
+    logRecovery("telegram animation fetch failed", {
+      name: err.name,
+      message: err.message
+    });
+    throw err;
+  } finally {
+    clearTimeout(kill);
+  }
+
+  const bodyText = await response.text();
+  logRecovery("telegram.sendAnimation", {
+    status: response.status,
+    preview: bodyText.slice(0, 200)
+  });
+
+  if (!response.ok) {
+    throw new Error(`Telegram sendAnimation ${response.status}: ${bodyText}`);
+  }
+
+  return JSON.parse(bodyText);
+}
+
+module.exports = { sendMessage, sendAnimation };

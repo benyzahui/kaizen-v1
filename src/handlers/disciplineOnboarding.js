@@ -3,6 +3,7 @@
  */
 
 const { lines } = require("../personality/kaizenVoice");
+const { buildWelcomeScreen } = require("../personality/v2/welcomeScreen");
 const { getResponses } = require("../i18n/getResponses");
 const { updateSession, getSession } = require("../session/sessionStore");
 const { mapPathToMode } = require("../core/protocolStateEngine");
@@ -47,8 +48,7 @@ function parsePathChoice(raw) {
  * @param {'en'|'hu'|'ro'} lang
  */
 function getDisciplineStartReply(lang) {
-  const r = getResponses(lang);
-  return r.protocolOnboarding?.start || r.fcActivation || "KaiZen.\nDigital discipline companion.";
+  return buildWelcomeScreen(lang);
 }
 
 /**
@@ -81,11 +81,12 @@ function processDisciplineOnboarding(userId, text, session, lang) {
   if (step === OB_LANG) {
     const picked = parseLanguageChoice(raw);
     if (!picked) {
-      return { reply: r.protocolOnboarding?.askLanguage || r.fcAskLanguage };
+      return { reply: buildWelcomeScreen(lang) };
     }
     updateSession(userId, {
       preferredLanguage: picked,
       lang: picked,
+      languageLocked: true,
       onboardingStep: OB_NAME
     });
     const r2 = getResponses(picked);
@@ -130,6 +131,7 @@ function processDisciplineOnboarding(userId, text, session, lang) {
       onboardingActive: false,
       onboardingSkipped: false,
       onboardingStep: OB_DONE,
+      languageLocked: true,
       protocolState: {
         energyState: "stable",
         disciplineState: "focused",
