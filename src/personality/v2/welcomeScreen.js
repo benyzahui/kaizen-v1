@@ -7,9 +7,10 @@ const { lines } = require("../kaizenVoice");
 const WELCOME = {
   en: lines(
     "🐉 Welcome to KaiZen.",
-    "Your Dragon Blueprint Energy Companion.",
+    "Dragon Blueprint — sergeant mode.",
     "",
-    "I am here to help you build discipline, protect your energy, and return to the path every day.",
+    "No coddling. No motivation guru talk.",
+    "Discipline, focus, and return to the path — like a sergeant major.",
     "",
     "Choose your language:",
     "",
@@ -19,9 +20,10 @@ const WELCOME = {
   ),
   hu: lines(
     "🐉 Üdvözöllek KaiZenben.",
-    "A Dragon Blueprint energia társad vagyok.",
+    "Dragon Blueprint — hadnagy mód.",
     "",
-    "Azért vagyok itt, hogy segítsek védeni az energiád, építeni a fegyelmed, és visszatérni az útra minden nap.",
+    "Nem símogatunk. Nem motivációs guru vagyok.",
+    "Fegyelmet, fókuszt és visszatérést adok — mint egy hadnagy.",
     "",
     "Válassz nyelvet:",
     "",

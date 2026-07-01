@@ -2,36 +2,42 @@
  * Energy-state tone routing — Dragon Blueprint companion voice.
  */
 
+const { sergeantEnergyHint } = require("./sergeantVoice");
+
 const ENERGY_TONE = {
   low: {
     id: "low",
-    tone: "gentle",
-    style: "supportive",
-    hint: { en: "Gentle. No pressure.", hu: "Finoman. Nincs nyomás.", ro: "Blând. Fără presiune." }
+    tone: "sergeant_gentle",
+    style: "tough_recovery",
+    hint: { en: sergeantEnergyHint("low", "en"), hu: sergeantEnergyHint("low", "hu"), ro: sergeantEnergyHint("low", "ro") }
   },
   stable: {
     id: "stable",
-    tone: "focused",
+    tone: "sergeant_focus",
     style: "structured",
-    hint: { en: "Focused. One lane.", hu: "Fókusz. Egy sáv.", ro: "Focus. O bandă." }
+    hint: { en: sergeantEnergyHint("stable", "en"), hu: sergeantEnergyHint("stable", "hu"), ro: sergeantEnergyHint("stable", "ro") }
   },
   high: {
     id: "high",
-    tone: "challenging",
-    style: "motivating",
-    hint: { en: "Strong execution window.", hu: "Erős végrehajtási ablak.", ro: "Fereastră de execuție puternică." }
+    tone: "sergeant_push",
+    style: "execute",
+    hint: { en: sergeantEnergyHint("high", "en"), hu: sergeantEnergyHint("high", "hu"), ro: sergeantEnergyHint("high", "ro") }
   },
   overstimulated: {
     id: "overstimulated",
-    tone: "calming",
+    tone: "sergeant_calm",
     style: "grounding",
-    hint: { en: "Calm the input. Breathe.", hu: "Csökkentsd az inputot. Lélegezz.", ro: "Calmează inputul. Respiră." }
+    hint: {
+      en: sergeantEnergyHint("overstimulated", "en"),
+      hu: sergeantEnergyHint("overstimulated", "hu"),
+      ro: sergeantEnergyHint("overstimulated", "ro")
+    }
   },
   exhausted: {
     id: "exhausted",
-    tone: "recovery",
+    tone: "sergeant_recovery",
     style: "recovery_first",
-    hint: { en: "Recovery first.", hu: "Először regeneráció.", ro: "Recuperare întâi." }
+    hint: { en: sergeantEnergyHint("exhausted", "en"), hu: sergeantEnergyHint("exhausted", "hu"), ro: sergeantEnergyHint("exhausted", "ro") }
   }
 };
 

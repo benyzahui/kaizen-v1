@@ -17,6 +17,7 @@ const {
   detectEmotionalState
 } = require("../src/presence/emotionalPresenceLayer");
 const { selectGif, stageGifForContext } = require("../src/media/gifSelector");
+const { matchGifKeywords } = require("../src/media/gifKeywordEngine");
 const { GIF_REGISTRY } = require("../src/media/gifRegistry");
 const { sanitizeEmoji, EMOJI_LIMITS, countEmojis } = require("../src/personality/v2/emojiSystem");
 const { buildDailyAutomationMessage } = require("../src/dailyAutomation/dailyAutomationEngine");
@@ -78,23 +79,37 @@ assert(menuEn.includes("Daily Path") && menuEn.includes("Energy Check"), "menu E
 assert(!menuEn.includes("/midday"), "menu EN no command dump");
 
 const menuHu = buildDailyPathMenu("hu");
-assert(menuHu.includes("Napi Út") && menuHu.includes("Energia ellenőrzés"), "menu HU");
+assert(menuHu.includes("Hadnagy") || menuHu.includes("hova térsz"), "menu HU sergeant");
 
 const menuRo = buildDailyPathMenu("ro");
 assert(menuRo.includes("Calea Zilnică") && menuRo.includes("Verificare energie"), "menu RO");
 
 // Emotional responses
 const tiredHu = tryEmotionalPresenceReply("nagyon fáradt vagyok ma", "hu", {}, UID);
-assert(tiredHu?.body?.includes("Itt vagyok"), "tired user HU");
-assert(tiredHu?.body?.includes("Ez is haladás"), "tired HU hope close");
+assert(tiredHu?.body?.includes("Hadnagy") || tiredHu?.body?.includes("kimerült"), "tired user HU");
+assert(tiredHu?.body?.includes("kanapé") || tiredHu?.body?.includes("couch"), "tired HU humor");
 
 const failedEn = tryEmotionalPresenceReply("I skipped everything today, I failed", "en", {}, UID);
-assert(failedEn?.body?.includes("The return does"), "failed/skipped EN no shame");
+assert(failedEn?.body?.includes("return decides") || failedEn?.body?.includes("return does"), "failed/skipped EN no shame");
 assert(!/shame|loser|weak/i.test(failedEn.body), "no shame language EN");
 
 const motivatedRo = tryEmotionalPresenceReply("sunt motivat și gata", "ro", {}, UID);
 assert(motivatedRo?.body?.includes("Bine"), "motivated RO");
 assert(detectEmotionalState("kimerült vagyok") === "tired", "detect tired HU");
+
+// Keyword mirror engine
+const lazyMatch = matchGifKeywords("majd holnap, lusta vagyok", "hu");
+assert(lazyMatch?.id === "lazy_excuse", "keyword lazy HU");
+assert(lazyMatch?.mirrorLine?.includes("Tükör"), "mirror line HU");
+
+const phoneMatch = matchGifKeywords("túl sokat scrollolok a telefonon", "hu");
+assert(phoneMatch?.id === "phone_scroll", "keyword phone scroll");
+
+const streakMatch = matchGifKeywords("finished my streak today", "en");
+assert(streakMatch?.id === "streak_win", "keyword streak win");
+
+assert(GIF_REGISTRY.some((g) => g.category === "mirror"), "mirror gif category exists");
+assert(GIF_REGISTRY.length >= 16, "gif registry with mirror entries");
 
 // Emoji limits
 const emojiNorm = sanitizeEmoji("🐉🔥⚡🌙☀️🌿", EMOJI_LIMITS.normal);
@@ -142,10 +157,12 @@ const report = [
   "",
   "## GIF Integration Status",
   "",
-  "- Registry: `src/media/gifRegistry.js` (11 entries, 5 categories)",
-  "- Selector: `src/media/gifSelector.js` (context-aware, silent fallback)",
+  "- Registry: `src/media/gifRegistry.js` (mirror + celebration categories)",
+  "- Keyword engine: `src/media/gifKeywordEngine.js` (HU/EN/RO → ironic mirror GIF)",
+  "- Selector: `src/media/gifSelector.js` (tag-scored picks, keyword staging)",
   "- Webhook: sends `pendingGifUrl` after text via `sendAnimation`",
-  "- Triggers: welcome, first language lock, streak 7/14/21, emotional recovery, morning/evening automation (rare)",
+  "- Triggers: welcome, language lock, streak, emotional presence, keyword open-text mirror, morning/evening",
+  "- Mirror line: 🪞 ironic one-liner appended when keyword GIF matches",
   "- Configure via `KAIZEN_GIF_*` env vars — skips silently when unset",
   "",
   "## Language Lock",

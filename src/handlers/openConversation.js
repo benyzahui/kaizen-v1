@@ -32,6 +32,7 @@ const {
 } = require("../core/seriousnessEngine");
 const { prepareCompanionContext } = require("../companion/companionCore");
 const { packOpenReply } = require("./openReply");
+const { stageKeywordMirrorGif } = require("../media/gifSelector");
 const { resolveNaturalLanguageRequest } = require("../i18n/languageLock");
 const { buildNaturalConversation } = require("../conversation/naturalConversation");
 const { tryCompanionCheckIn } = require("../companion/companionInitiation");
@@ -172,6 +173,8 @@ async function handleOpenConversation(message, lang, session) {
         emotional.suggestedAction
       );
     }
+
+    stageKeywordMirrorGif(userId, session, text, lang);
 
     const { classifyMessage: classifyQuick } = require("../conversation/classify");
     const { buildProtocolOpenResult } = require("../core/protocolEngine");

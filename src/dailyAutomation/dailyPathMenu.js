@@ -7,7 +7,7 @@ const { lines } = require("../personality/kaizenVoice");
 const MENU = {
   en: {
     title: "🐉 Daily Path",
-    subtitle: "Choose where you want to return today:",
+    subtitle: "Sergeant asks: where do you return today?",
     items: [
       "⚡ Energy Check",
       "🧘 Breathwork",
@@ -20,7 +20,7 @@ const MENU = {
   },
   hu: {
     title: "🐉 Napi Út",
-    subtitle: "Válaszd ki, hova térsz vissza ma:",
+    subtitle: "Hadnagy kérdése: hova térsz vissza ma?",
     items: [
       "⚡ Energia ellenőrzés",
       "🧘 Légzés",

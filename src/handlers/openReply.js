@@ -5,6 +5,8 @@
 const { finalizeCompanionReply } = require("../companion/companionCore");
 const { SKIP_PRESENCE } = require("../companion/presenceSystem");
 const { resolveCommandHint } = require("../companion/commandPresence");
+const { appendMirrorLine } = require("../media/gifSelector");
+const { updateSession, getSession } = require("../session/sessionStore");
 
 /**
  * @param {object} p
@@ -58,8 +60,16 @@ function packOpenReply(p) {
     }
   );
 
+  const fresh = getSession(companionCtx.userId) || session;
+  const mirrorLine = fresh.pendingMirrorLine;
+  let finalReply = reply;
+  if (mirrorLine && companionCtx?.userId) {
+    finalReply = appendMirrorLine(reply, mirrorLine);
+    updateSession(companionCtx.userId, { pendingMirrorLine: null });
+  }
+
   return {
-    reply,
+    reply: finalReply,
     category,
     suggestedAction: hint
   };

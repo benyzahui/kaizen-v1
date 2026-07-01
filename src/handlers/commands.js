@@ -48,6 +48,7 @@ const {
   buildChallengeCommand
 } = require("../knowledgeCore/dragonBlueprintCommands");
 const { buildDailyPathMenu } = require("../dailyAutomation/dailyPathMenu");
+const { buildReturningStartReply } = require("../presence/welcomeMantra");
 
 const PROGRAM_WRAP = new Set(["/morning", "/energy", "/evening"]);
 
@@ -115,12 +116,16 @@ async function routeCommandMessage(message, session) {
       const id = uid(message);
       const s0 = getSession(id);
       if (s0.onboardingCompleted) {
-        reply = r.protocolOnboarding?.startReturning || r.protocolCommandsList;
+        const { stageGifForContext } = require("../media/gifSelector");
+        stageGifForContext(id, s0, "welcome", { chance: 0.25 });
+        reply = buildReturningStartReply(lang, s0, id);
         break;
       }
-      startOnboarding(id);
-      const { stageGifForContext } = require("../media/gifSelector");
-      stageGifForContext(id, getSession(id), "welcome", { force: true });
+      if (!s0.onboardingActive) {
+        startOnboarding(id);
+        const { stageGifForContext } = require("../media/gifSelector");
+        stageGifForContext(id, getSession(id), "welcome", { force: true });
+      }
       reply = getStartReply(lang, getSession(id));
       break;
     }
@@ -285,12 +290,26 @@ async function routeCommandMessage(message, session) {
   });
 
   if (reply) {
+    const startMeta =
+      command === "/start"
+        ? {
+            automation: true,
+            rhythmIntelligence: false,
+            hopePresence: false,
+            communityPresence: false,
+            rebuilding: false,
+            lifeBalance: false,
+            lightPresence: false,
+            programWhisper: false,
+            formatOpts: { maxLines: 16, maxChars: 680 }
+          }
+        : {};
     reply = finalizeOutboundReply(
       reply,
       lang,
       getSession(uid(message)),
       uid(message),
-      { openingId: `cmd_${command}` }
+      { openingId: `cmd_${command}`, ...startMeta }
     );
   }
   return reply;

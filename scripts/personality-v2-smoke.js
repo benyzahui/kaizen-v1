@@ -94,7 +94,7 @@ for (const key of Object.keys(ENERGY_TONE)) {
   const tone = resolveEnergyTone({ energyState: key });
   assert(tone.id === key, `energy tone ${key}`);
 }
-assert(energyToneHint({ energyState: "exhausted" }, "en").includes("Recovery"), "exhausted hint EN");
+assert(energyToneHint({ energyState: "exhausted" }, "en").includes("Recovery") || energyToneHint({ energyState: "exhausted" }, "en").includes("vanish"), "exhausted hint EN");
 
 // Daily presence
 for (const phase of ["morning", "midday", "evening"]) {

@@ -8,7 +8,8 @@ const GIF_CATEGORIES = {
   morning: ["sunrise", "warrior_training", "dragon_energy"],
   discipline: ["samurai_focus", "training", "fire_discipline"],
   recovery: ["nature_calm", "water", "breathing", "meditation"],
-  celebration: ["dragon", "victory", "progress", "achievement"]
+  celebration: ["dragon", "victory", "progress", "achievement"],
+  mirror: ["mirror", "irony", "reflection", "wake_up", "comeback"]
 };
 
 const BLOCKED_TAGS = ["meme", "politic", "sexual", "cringe", "violent", "cartoon"];
@@ -25,7 +26,13 @@ const GIF_REGISTRY = [
   { id: "recovery_nature", category: "recovery", tags: ["nature_calm", "water"], urlEnv: "KAIZEN_GIF_RECOVERY_NATURE" },
   { id: "recovery_breath", category: "recovery", tags: ["breathing", "meditation"], urlEnv: "KAIZEN_GIF_RECOVERY_BREATH" },
   { id: "celebration_dragon", category: "celebration", tags: ["dragon", "victory"], urlEnv: "KAIZEN_GIF_CELEBRATION_DRAGON" },
-  { id: "celebration_growth", category: "celebration", tags: ["progress", "achievement"], urlEnv: "KAIZEN_GIF_CELEBRATION_GROWTH" }
+  { id: "celebration_growth", category: "celebration", tags: ["progress", "achievement"], urlEnv: "KAIZEN_GIF_CELEBRATION_GROWTH" },
+  { id: "mirror_wake", category: "mirror", tags: ["mirror", "wake_up", "irony"], urlEnv: "KAIZEN_GIF_MIRROR_WAKE" },
+  { id: "mirror_lazy", category: "mirror", tags: ["mirror", "lazy_irony", "discipline"], urlEnv: "KAIZEN_GIF_MIRROR_LAZY" },
+  { id: "mirror_phone", category: "mirror", tags: ["mirror", "phone_irony", "discipline"], urlEnv: "KAIZEN_GIF_MIRROR_PHONE" },
+  { id: "mirror_comeback", category: "mirror", tags: ["mirror", "comeback", "warrior_training"], urlEnv: "KAIZEN_GIF_MIRROR_COMEBACK" },
+  { id: "mirror_irony_humor", category: "mirror", tags: ["mirror", "irony_humor", "celebration"], urlEnv: "KAIZEN_GIF_MIRROR_HUMOR" },
+  { id: "mirror_reflection", category: "mirror", tags: ["mirror", "reflection", "meditation"], urlEnv: "KAIZEN_GIF_MIRROR_REFLECTION" }
 ];
 
 /**
@@ -33,7 +40,9 @@ const GIF_REGISTRY = [
  */
 function resolveGifUrl(entry) {
   if (!entry?.urlEnv) return null;
-  return process.env[entry.urlEnv] || null;
+  const specific = process.env[entry.urlEnv];
+  if (specific) return specific;
+  return process.env.KAIZEN_GIF_FALLBACK_URL || null;
 }
 
 /**

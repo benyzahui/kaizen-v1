@@ -4,24 +4,9 @@
 
 const { pickSeeded } = require("../kaizenVoice");
 const { energyToneHint } = require("./energyTone");
+const { DAILY_PRESENCE } = require("./sergeantVoice");
 
-const PRESENCE = {
-  hu: {
-    morning: ["☀️ Jó reggelt. Vissza az útra.", "🐉 Reggel. Egy lépés elég.", "💧 Víz. Légzés. Kezdés."],
-    midday: ["🎯 Dél. Egy stabil blokk.", "⚡ Újra fókusz. Egy sáv.", "🌿 Recenter. Egy irány."],
-    evening: ["🌙 Este. Engedd el a napot.", "🪞 Lezárás. Holnap új kör.", "🧘 Pihenj. Elég volt mára."]
-  },
-  en: {
-    morning: ["☀️ Good morning. Back to the path.", "🐉 Morning. One step is enough.", "💧 Water. Breath. Begin."],
-    midday: ["🎯 Midday. One stable block.", "⚡ Recenter. One lane.", "🌿 Back to structure."],
-    evening: ["🌙 Evening. Release the day.", "🪞 Close the loop. Tomorrow is new.", "🧘 Rest. Enough for today."]
-  },
-  ro: {
-    morning: ["☀️ Bună dimineața. Înapoi pe drum.", "🐉 Dimineață. Un pas e suficient.", "💧 Apă. Respirație. Start."],
-    midday: ["🎯 Amiază. Un bloc stabil.", "⚡ Recenter. O bandă.", "🌿 Înapoi la structură."],
-    evening: ["🌙 Seară. Lasă ziua.", "🪞 Închide ciclul. Mâine e nou.", "🧘 Odihnește. Destul pentru azi."]
-  }
-};
+const PRESENCE = DAILY_PRESENCE;
 
 /**
  * @param {'en'|'hu'|'ro'} lang

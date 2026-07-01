@@ -1,10 +1,15 @@
 /**
- * Lightweight emotional presence — hope, strength, return to path.
- * No therapy tone. No shame. No overwhelm.
+ * Lightweight emotional presence — hadnagy hang: durva, vicces, motiváló.
+ * GIF: kulcsszó-tükör, ironia — nem símogat.
  */
 
-const { lines } = require("../personality/kaizenVoice");
-const { stageGifForContext } = require("../media/gifSelector");
+const {
+  stageGifForContext,
+  stageKeywordMirrorGif,
+  appendMirrorLine
+} = require("../media/gifSelector");
+const { updateSession } = require("../session/sessionStore");
+const { EMOTIONAL } = require("../personality/v2/sergeantVoice");
 
 const TIRED_RE =
   /\b(tired|exhausted|kimerült|kimerult|epuizat|burned out|overwhelm|túl sok|tul sok|nem bírom|nem birom|fáradt|faradt|low energy|no energy|drained)\b/i;
@@ -13,109 +18,9 @@ const MOTIVATED_RE =
   /\b(motivated|ready|strong|focused|kész vagyok|kesz vagyok|erős|eros|pumped|locked in|let's go|let's do|indulhat|start now|gata)\b/i;
 
 const ASHAMED_RE =
-  /\b(failed|skipped|ashamed|guilty|kihagytam|elrontottam|rusine|rușinat|rusinat|didn't do|did not|missed|lazy|weak|gyenge vagyok|lipsă de)\b/i;
+  /\b(failed|skipped|ashamed|guilty|kihagytam|elrontottam|rusine|rușinat|rusinat|didn't do|did not|missed|lazy|lipsă de)\b/i;
 
-const RESPONSES = {
-  tired: {
-    en: lines(
-      "🐉 I'm here.",
-      "",
-      "No forcing today.",
-      "We return to basics.",
-      "",
-      "💧 Water.",
-      "🧘 5 slow breaths.",
-      "🌿 A short walk.",
-      "",
-      "This is still progress."
-    ),
-    hu: lines(
-      "🐉 Itt vagyok.",
-      "",
-      "Ma nem kell erőltetni.",
-      "Ma visszatérünk az alapokhoz.",
-      "",
-      "💧 Víz.",
-      "🧘 5 lassú légzés.",
-      "🌿 Egy rövid séta.",
-      "",
-      "Ez is haladás."
-    ),
-    ro: lines(
-      "🐉 Sunt aici.",
-      "",
-      "Azi nu forțăm.",
-      "Revenim la bază.",
-      "",
-      "💧 Apă.",
-      "🧘 5 respirații lente.",
-      "🌿 O scurtă plimbare.",
-      "",
-      "Și asta e progres."
-    ),
-    suggestedAction: "/breath",
-    gifContext: "recovery_encouragement"
-  },
-  motivated: {
-    en: lines(
-      "🐉 Good.",
-      "",
-      "Channel it — one lane.",
-      "One block. One finish.",
-      "",
-      "🔥 Execute with calm.",
-      "🎯 Return to the path."
-    ),
-    hu: lines(
-      "🐉 Jó.",
-      "",
-      "Irányítsd — egy sáv.",
-      "Egy blokk. Egy lezárás.",
-      "",
-      "🔥 Nyugodt végrehajtás.",
-      "🎯 Vissza az útra."
-    ),
-    ro: lines(
-      "🐉 Bine.",
-      "",
-      "Canalizează — o bandă.",
-      "Un bloc. O închidere.",
-      "",
-      "🔥 Execuție calmă.",
-      "🎯 Înapoi pe drum."
-    ),
-    suggestedAction: "/challenge",
-    gifContext: "discipline"
-  },
-  ashamed: {
-    en: lines(
-      "🐉 Okay.",
-      "",
-      "The skip doesn't decide.",
-      "The return does.",
-      "",
-      "One small step is enough today."
-    ),
-    hu: lines(
-      "🐉 Rendben.",
-      "",
-      "Nem a kihagyás dönt.",
-      "A visszatérés dönt.",
-      "",
-      "Ma egy kis lépés elég."
-    ),
-    ro: lines(
-      "🐉 Bine.",
-      "",
-      "Nu omisiunea decide.",
-      "Revenirea decide.",
-      "",
-      "Un pas mic e suficient azi."
-    ),
-    suggestedAction: "/program",
-    gifContext: "recovery_encouragement"
-  }
-};
+const RESPONSES = EMOTIONAL;
 
 /**
  * @param {string} text
@@ -142,10 +47,14 @@ function tryEmotionalPresenceReply(text, lang, session, userId) {
 
   const locked = lang === "hu" || lang === "ro" ? lang : "en";
   const pack = RESPONSES[state];
-  const body = pack[locked] || pack.en;
+  let body = pack[locked] || pack.en;
 
-  if (pack.gifContext) {
-    stageGifForContext(userId, session, pack.gifContext, { chance: 0.2 });
+  const mirror = stageKeywordMirrorGif(userId, session, text, locked);
+  if (mirror?.mirrorLine) {
+    body = appendMirrorLine(body, mirror.mirrorLine);
+    updateSession(userId, { pendingMirrorLine: null });
+  } else if (pack.gifContext) {
+    stageGifForContext(userId, session, pack.gifContext, { chance: 0.45 });
   }
 
   return {

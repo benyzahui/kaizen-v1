@@ -43,7 +43,16 @@ const EPHEMERAL_KEYS = [
   "consistencyTitle",
   "lastStreakUpdate",
   "relapseRisk",
-  "lastRelapseCheck"
+  "lastRelapseCheck",
+  "pendingGifUrl",
+  "pendingMirrorLine",
+  "lastGifContext",
+  "lastGifKeywordId",
+  "recentGifKeywordIds",
+  "middayEnergyPending",
+  "middayEnergyDateKey",
+  "middayEnergyLang",
+  "recentWarriorMantraIds"
 ];
 
 /**

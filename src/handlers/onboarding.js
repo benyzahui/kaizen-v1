@@ -13,6 +13,7 @@ const {
   processDisciplineOnboarding,
   OB_LANG
 } = require("./disciplineOnboarding");
+const { buildWelcomeScreen } = require("../personality/v2/welcomeScreen");
 const {
   resolveOnboardingLang,
   ensureOnboardingActive,
@@ -25,6 +26,9 @@ function resetProfileFields(userId) {
 
 function startOnboarding(userId) {
   const cur = getSession(userId);
+  if (cur.onboardingActive && !cur.onboardingCompleted) {
+    return;
+  }
   const prevLane = cur.programLane || "free";
   resetProfileFields(userId);
   updateSession(userId, {
@@ -256,7 +260,7 @@ function processOnboardingReply(userId, text, session, lang) {
   session = getSession(userId);
   const step = Number(session.onboardingStep);
   if (step === OB_LANG) {
-    return { reply: r.protocolOnboarding?.askLanguage || r.fcAskLanguage };
+    return { reply: buildWelcomeScreen(locked, { noLangSelected: !session.preferredLanguage }) };
   }
   if (step === 1) {
     return { reply: r.protocolOnboarding?.askName || r.fcAskName };

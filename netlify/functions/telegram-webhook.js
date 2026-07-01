@@ -118,22 +118,26 @@ exports.handler = async (event) => {
   );
 
   try {
-    const reply = await buildTelegramReplyWithBudget(message);
+    const outbound = await buildTelegramReplyWithBudget(message);
+    const reply =
+      outbound && typeof outbound === "object" ? outbound.reply : outbound;
+    const gifUrl =
+      (outbound && typeof outbound === "object" ? outbound.gifUrl : null) ||
+      getSession(uid)?.pendingGifUrl;
     log.kaizen("reply", {
       length: reply?.length,
-      preview: String(reply || "").slice(0, 100)
+      preview: String(reply || "").slice(0, 100),
+      hasGif: Boolean(gifUrl)
     });
     try {
       await sendMessage(
         message.chat.id,
         String(reply || "").trim() || "Send a short line when you can."
       );
-      const after = getSession(uid);
-      const gifUrl = after?.pendingGifUrl;
       if (gifUrl) {
         try {
           await sendAnimation(message.chat.id, gifUrl);
-          const { clearPendingGif } = require("../../src/personality/v2/gifIntegration");
+          const { clearPendingGif } = require("../../src/media/gifSelector");
           clearPendingGif(uid);
         } catch (gifErr) {
           log.recovery("sendAnimation failed", { message: gifErr.message });

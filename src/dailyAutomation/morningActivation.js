@@ -6,6 +6,7 @@ const { lines } = require("../personality/kaizenVoice");
 const { pickDailyPresenceLine } = require("../personality/v2/dailyPresenceV2");
 const { dragonTierName } = require("./dragonProgression");
 const { pickDailyFocus, pickPhaseMantra, pickPhaseChallenge } = require("./contentRouter");
+const { pickWarriorMantra } = require("../mantras/dragonWarriorMantraBank");
 
 const LABELS = {
   en: {
@@ -38,8 +39,10 @@ function buildMorningActivation(lang, session, userId, dateKey, now = new Date()
   const greeting = pickDailyPresenceLine(locked, "morning", userId, dateKey, session).split("\n")[0];
   const tier = dragonTierName(session, locked);
 
-  const mantraPick = pickPhaseMantra("morning", locked, session, userId, dateKey);
-  const mantra = mantraPick?.text || (locked === "hu" ? "A fegyelem szabadságot ad." : locked === "ro" ? "Disciplina creează libertate." : "Discipline creates freedom.");
+  const mantraPick = pickWarriorMantra(locked, session, userId, dateKey, "morning");
+  const mantra =
+    mantraPick ||
+    pickPhaseMantra("morning", locked, session, userId, dateKey)?.text || (locked === "hu" ? "A fegyelem szabadságot ad." : locked === "ro" ? "Disciplina creează libertate." : "Discipline creates freedom.");
   const focus = pickDailyFocus(locked, session, userId, dateKey);
   const challenge =
     pickPhaseChallenge("morning", locked, session, userId, dateKey) ||

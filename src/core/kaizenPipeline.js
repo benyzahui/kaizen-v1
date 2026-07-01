@@ -108,7 +108,18 @@ async function processIncomingMessage(message) {
       lang,
       getSession(userId),
       userId,
-      { openingId: "onboarding" }
+      {
+        openingId: "onboarding",
+        automation: true,
+        rhythmIntelligence: false,
+        hopePresence: false,
+        communityPresence: false,
+        rebuilding: false,
+        lifeBalance: false,
+        lightPresence: false,
+        programWhisper: false,
+        formatOpts: { maxLines: 18, maxChars: 720 }
+      }
     );
     return {
       reply: obReply,
@@ -245,7 +256,8 @@ async function processAndRecordMessage(message) {
   );
 
   await persistToSupabase(userId, message);
-  return result.reply;
+  const gifUrl = getSession(userId)?.pendingGifUrl || null;
+  return { reply: result.reply, gifUrl };
 }
 
 /**
@@ -263,7 +275,7 @@ async function processWithHydration(message, budgetMs = 9000) {
 
   let timer;
   try {
-    return await Promise.race([
+    const result = await Promise.race([
       processAndRecordMessage(message),
       new Promise((_, reject) => {
         timer = setTimeout(
@@ -273,9 +285,13 @@ async function processWithHydration(message, budgetMs = 9000) {
         );
       })
     ]);
+    if (result && typeof result === "object" && result.reply != null) {
+      return result;
+    }
+    return { reply: String(result || ""), gifUrl: null };
   } catch (err) {
     if (err && err.code === "TIMEOUT") {
-      return r.recoveryTimeoutReply;
+      return { reply: r.recoveryTimeoutReply, gifUrl: null };
     }
     throw err;
   } finally {

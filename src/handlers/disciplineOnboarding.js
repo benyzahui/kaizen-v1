@@ -97,7 +97,9 @@ function processDisciplineOnboarding(userId, text, session, lang) {
     const r2 = getResponses(picked);
     const lockConfirm = buildLanguageLockConfirm(picked);
     const askName = r2.protocolOnboarding?.askName || r2.fcAskName;
-    return { reply: lines(lockConfirm, "", askName) };
+    const { buildWelcomeWithMantra } = require("../presence/welcomeMantra");
+    const mantraLine = buildWelcomeWithMantra(picked, getSession(userId), userId);
+    return { reply: lines(lockConfirm, "", mantraLine, "", askName) };
   }
 
   if (step === OB_NAME) {
